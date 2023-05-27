@@ -1,0 +1,16 @@
+name: Enforce Approvals
+on:
+  pull_request_review:
+    types:
+      - submitted
+
+jobs:
+  enforce_approvals:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Approver
+        run: |
+          if [ "${{ github.event.review.user.login }}" != "LitterPic" ]; then
+            echo "Only your approvals are allowed. Exiting..."
+            exit 1
+          fi
