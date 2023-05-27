@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Footer from "../components/Footer";
 
 const Layout = ({ children }) => {
   return (
@@ -13,6 +14,7 @@ const Layout = ({ children }) => {
         <Link href="/stories">Stories</Link>
       </nav>
       <main>{children}</main>
+      <Footer />
     </div>
   );
 };

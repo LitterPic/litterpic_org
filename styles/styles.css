@@ -1,0 +1,11 @@
+/* styles.css */
+
+nav {
+  background-color: #015e41;
+  padding: 1rem;
+}
+
+footer {
+  background-color: lightgray;
+  padding: 1rem;
+}
