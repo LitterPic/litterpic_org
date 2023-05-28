@@ -16,6 +16,7 @@ const Layout = ({children}) => {
                 <Navlink href="/about">About</Navlink>
                 <Navlink href="/contact">Contact</Navlink>
             </nav>
+            <hr className="line"/>
             <main>{children}</main>
             <Footer/>
         </div>
