@@ -98,21 +98,20 @@ li {
 }
 
 .banner {
-    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     height: 250px;
+    width: 100%;
     overflow: hidden;
-    position: relative;
 }
 
-.banner-image {
+.banner img {
+    height: 100%;
     width: 100%;
-    height: auto;
-    object-fit: scale-down;
-    object-position: top center;
-    position: absolute;
-    top: 15%;
-    left: 50%;
-    transform: translate(-50%, -75%);
+    object-fit: contain;
+    object-position: center;
+    position: relative;
 }
 
 main {
@@ -127,7 +126,25 @@ main {
     margin-bottom: 40px;
 }
 
+.content {
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
 /*Community Service Hours*/
 .community_service_heading_text {
     text-align: center;
+}
+
+/*Privacy*/
+.privacy_heading_text {
+    text-align: center;
+}
+
+.line {
+    width: 90%;
+    margin: 0 auto;
+    border: none;
+    border-top: 1px solid black;
+    padding-bottom: 20px;
 }
