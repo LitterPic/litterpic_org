@@ -1,11 +1,94 @@
 /* styles.css */
 
 nav {
-  background-color: #015e41;
-  padding: 1rem;
+    display: flex;
+    justify-content: center;
+    height: 70px;
+    align-items: center;
+    padding-top: 10px;
+    padding-bottom: 20px;
 }
 
-footer {
-  background-color: lightgray;
-  padding: 1rem;
+nav a {
+    color: #000;
+    font-weight: bold;
+    font-size: 40px;
+    margin: 0 45px;
+    text-decoration: none;
+    transition: color 0.5s ease;
+    text-transform: uppercase;
+}
+
+nav button {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+}
+
+nav button:hover {
+    color: #02c14d;
+}
+
+nav button.active {
+    color: #02c14d;
+}
+
+body {
+    background-color: #fff;
+}
+
+.logo-bar img {
+    width: 50px;
+    height: auto;
+}
+
+.logo-bar {
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+}
+
+.logo-content {
+    margin-right: 10px;
+}
+
+.logo {
+    font-size: 25px;
+    padding-bottom: .1rem;
+}
+
+.tagline {
+    color: #015e41;
+    font-style: italic;
+    font-size: 20px;
+}
+
+.text-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.logo-bar p {
+    margin: 0;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    align-items: center;
+    text-align: center;
+}
+
+.address-link {
+    cursor: pointer;
+}
+
+.address-link:hover {
+    cursor: pointer;
 }
