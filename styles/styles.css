@@ -111,14 +111,17 @@ nav button {
     font: inherit;
     cursor: pointer;
     outline: inherit;
+    color: rgb(0, 0, 0);
 }
 
 nav button:hover {
-    color: #189E6E;
+    color: #015e41;
 }
 
 nav button.active {
-    color: #189E6E;
+    color: #015e41;
+    border: 2px solid #015e41;
+    padding: 5px;
 }
 
 /*banner*/
@@ -210,5 +213,37 @@ nav button.active {
 .memberContainer:nth-child(odd) .memberImage {
     margin-left: 110px;
 }
+
+/*donate*/
+.legal_donorbox_container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.legal {
+    margin-right: 40px;
+}
+
+.donorbox_container {
+    margin-top: 20px;
+    flex: 0 0 auto;
+
+}
+
+.image_container {
+    display: flex;
+    justify-content: left;
+    margin: 30px 30px;
+}
+
+.image_container img {
+    margin: 0 5px; /* Adjust the margin value as needed */
+    max-width: 100%;
+}
+
+
+
+
 
 
