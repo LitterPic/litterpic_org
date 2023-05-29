@@ -16,7 +16,7 @@ jobs:
 
       - name: Delete merged branch
         env:
-          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           # Get the branch name from the event payload
           branch="${GITHUB_REF#refs/heads/}"
