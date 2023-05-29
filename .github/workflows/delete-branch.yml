@@ -14,6 +14,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Add exception for repository directory
+        run: |
+          git config --global --add safe.directory /__w/litterpic_org/litterpic_org
+
       - name: Delete merged branch
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
