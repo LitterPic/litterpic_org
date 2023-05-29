@@ -3,7 +3,7 @@ name: Delete Branch
 on:
   push:
     branches:
-      - master  # Replace with your main branch name or the branch you want to trigger the deletion
+      - master
 
 jobs:
   delete-branch:
@@ -18,8 +18,6 @@ jobs:
         run: |
           # Get the branch name from the event payload
           branch=${{ github.ref }}
-          branch=${{ branch#refs/heads/ }}
-
+          branch=${{ branch/refs\/heads\// }}
           # Delete the branch
           git push origin --delete $branch
-
