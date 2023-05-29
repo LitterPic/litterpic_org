@@ -1,4 +1,4 @@
-name: Delete dev branch after merge
+name: Delete branch after merge
 
 on:
   pull_request:
@@ -8,11 +8,14 @@ on:
 jobs:
   delete_branch:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true && github.event.pull_request.head.ref == 'dev'
+    if: github.event.pull_request.merged == true && github.event.pull_request.head.ref != 'master' && github.event.pull_request.head.ref != 'main'
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
       - name: Delete merged branch
-        uses: dev-drprasad/delete-branch@v1.0.0
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.event.pull_request.head.ref }}
+        run: |
+          git push origin --delete ${GITHUB_HEAD_REF}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
