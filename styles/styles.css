@@ -1,5 +1,90 @@
 /* styles.css */
 
+/*General Formatting*/
+main {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    flex-grow: 1;
+}
+
+body {
+    background-color: #fff;
+}
+
+p {
+    line-height: 1.5;
+    font-size: 18px;
+}
+
+li {
+    margin-bottom: 15px;
+}
+
+.blank-space {
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.content {
+    margin-left: 60px;
+    margin-right: 60px;
+}
+
+.line {
+    width: 90%;
+    margin: 0 auto;
+    border: none;
+    border-top: 1px solid black;
+    padding-bottom: 20px;
+}
+
+/*logo bar*/
+.logo-bar img {
+    width: 50px;
+    height: auto;
+    padding-top: 5px;
+}
+
+.logo-bar {
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    padding-top: 30px;
+}
+
+.logo-bar p {
+    line-height: 1;
+}
+
+.logo-content {
+    margin-right: 10px;
+}
+
+.logo {
+    font-size: 25px;
+    margin-right: 5px;
+}
+
+.tagline {
+    color: #015e41;
+    font-style: italic;
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.text-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.logo-bar p {
+    margin: 0;
+    padding: 0;
+}
+
+/*nav bar*/
 nav {
     display: flex;
     justify-content: center;
@@ -29,60 +114,31 @@ nav button {
 }
 
 nav button:hover {
-    color: #02c14d;
+    color: #189E6E;
 }
 
 nav button.active {
-    color: #02c14d;
+    color: #189E6E;
 }
 
-body {
-    background-color: #fff;
-}
-
-p {
-    line-height: 1.25;
-}
-
-li {
-    margin-bottom: 15px;
-}
-
-.logo-bar img {
-    width: 50px;
-    height: auto;
-}
-
-.logo-bar {
+/*banner*/
+.banner {
     display: flex;
     align-items: center;
-    padding-left: 20px;
-}
-
-.logo-content {
-    margin-right: 10px;
-}
-
-.logo {
-    font-size: 25px;
-    padding-bottom: .1rem;
-}
-
-.tagline {
-    color: #015e41;
-    font-style: italic;
-    font-size: 20px;
-}
-
-.text-content {
-    display: flex;
-    flex-direction: column;
-}
-
-.logo-bar p {
+    justify-content: center;
+    height: 250px;
+    width: 100%;
     margin: 0;
+    padding: 0;
 }
 
+.banner img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+/*footer*/
 .footer {
     padding: 20px;
     align-items: center;
@@ -97,39 +153,6 @@ li {
     cursor: pointer;
 }
 
-.banner {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 250px;
-    width: 100%;
-    overflow: hidden;
-}
-
-.banner img {
-    height: 100%;
-    width: 100%;
-    object-fit: contain;
-    object-position: center;
-    position: relative;
-}
-
-main {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    flex-grow: 1;
-}
-
-.blank-space {
-    margin-top: 40px;
-    margin-bottom: 40px;
-}
-
-.content {
-    margin-left: 30px;
-    margin-right: 30px;
-}
 
 /*Community Service Hours*/
 .community_service_heading_text {
@@ -141,10 +164,51 @@ main {
     text-align: center;
 }
 
-.line {
-    width: 90%;
-    margin: 0 auto;
-    border: none;
-    border-top: 1px solid black;
-    padding-bottom: 20px;
+/*About Us*/
+.about_heading_text {
+    text-align: center;
+    margin-bottom: 20px;
 }
+
+.directors_heading_text {
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+
+.about_content {
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+.memberContainer {
+    display: flex;
+    margin-bottom: 70px;
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
+.memberImage {
+    width: 115px;
+    height: 125px;
+    margin-right: 20px;
+}
+
+.memberContent {
+    flex: 1;
+}
+
+.memberContent h3 {
+    margin-top: 0;
+}
+
+.memberContainer:nth-child(odd) .memberImage {
+    margin-left: 110px;
+}
+
+
