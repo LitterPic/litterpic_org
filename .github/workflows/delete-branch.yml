@@ -1,28 +1,18 @@
-name: Delete Branch
+name: Delete dev branch after merge
 
 on:
-  push:
-    branches:
-      - master
+  pull_request:
+    types:
+      - closed
 
 jobs:
-  delete-branch:
+  delete_branch:
     runs-on: ubuntu-latest
-    container:
-      image: node:16
+    if: github.event.pull_request.merged == true && github.event.pull_request.head.ref == 'dev'
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Add exception for repository directory
-        run: |
-          git config --global --add safe.directory /__w/litterpic_org/litterpic_org
-
       - name: Delete merged branch
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          # Get the branch name from the event payload
-          branch="${GITHUB_REF#refs/heads/}"
-          # Delete the branch
-          git push origin --delete $branch
+        uses: dev-drprasad/delete-branch@v1.0.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.event.pull_request.head.ref }}
