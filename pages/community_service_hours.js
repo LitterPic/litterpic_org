@@ -4,7 +4,7 @@ const Community_Service_Hours = () => {
     return (
         <div>
             <div className="banner">
-                <img src="/images/litter_road.webp" alt="Banner Image"/>
+                <img src="/images/AboutUsBanner.webp" alt="Banner Image"/>
             </div>
 
             <div className="content">

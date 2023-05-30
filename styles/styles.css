@@ -126,13 +126,9 @@ nav button.active {
 
 /*banner*/
 .banner {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background-size: cover;
+    background-position: center;
     height: 250px;
-    width: 100%;
-    margin: 0;
-    padding: 0;
 }
 
 .banner img {
@@ -241,6 +237,103 @@ nav button.active {
     margin: 0 5px; /* Adjust the margin value as needed */
     max-width: 100%;
 }
+
+/*contact*/
+.contact-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
+    padding-top: 20px;
+}
+
+.contact-container {
+    width: 70%;
+    border-radius: 10px;
+    background: linear-gradient(to bottom, #015e41, #000000);
+    color: #fff;
+    padding: 40px;
+}
+
+.contact-container h1 {
+    text-align: center;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-container label {
+    margin-bottom: 5px;
+}
+
+.input-container input {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: none;
+    max-width: 25%;
+    text-align: left;
+}
+
+.input-container textarea {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: none;
+    max-width: 50%;
+    height: 5em;
+    text-align: left;
+}
+
+.contact-input {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: none;
+    width: 35%;
+    text-align: left;
+}
+
+.contact-textarea {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: none;
+    width: 50%;
+    height: 7em;
+    text-align: left;
+}
+
+button {
+    padding: 20px;
+    border-radius: 5px;
+    border: none;
+    background-color: #015e41;
+    color: #fff;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.contact_button_div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 20px;
+}
+
+label {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+
 
 
 
