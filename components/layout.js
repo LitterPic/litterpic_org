@@ -1,7 +1,7 @@
 import React from "react";
 import Navlink from "./navlink";
-import Logobar from '../components/logobar';
-import Footer from "../components/footer";
+import Logobar from './logobar';
+import Footer from "./footer";
 
 const Layout = ({children}) => {
     return (
@@ -9,7 +9,6 @@ const Layout = ({children}) => {
             <Logobar/>
             <nav>
                 <Navlink href="/">Home</Navlink>
-                <Navlink href="/stories">Stories</Navlink>
                 <Navlink href="/volunteer">Volunteer Events</Navlink>
                 <Navlink href="/community_service_hours">Community Service Hours</Navlink>
                 <Navlink href="/donate">Donate</Navlink>
