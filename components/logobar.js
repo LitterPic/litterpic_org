@@ -1,6 +1,5 @@
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 
 const Logobar = () => {
     return (
@@ -8,7 +7,7 @@ const Logobar = () => {
             <div className="logo-content">
                 <Link href="/">
                     <div className="logo-link">
-                        <Image src="/images/LitterPicLogo.png" alt="LitterPic logo" width={100} height={100}/>
+                        <img src="/images/litter_pic_logo.png" alt="LitterPic logo" width={100} height={100}/>
                     </div>
                 </Link>
             </div>
