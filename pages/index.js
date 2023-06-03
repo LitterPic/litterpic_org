@@ -1,8 +1,10 @@
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {collection, query, orderBy, limit, getDocs} from 'firebase/firestore';
 import {getDownloadURL, ref} from 'firebase/storage';
-import {db, storage} from '../lib/firebase';
+import {storage} from '../lib/firebase';
+import {db} from '../lib/firebase';
 import ImageRow from '../components/imagerow';
+import 'firebase/firestore';
 
 async function fetchRecentPosts() {
     const postsQuery = query(
@@ -16,12 +18,12 @@ async function fetchRecentPosts() {
 
     for (const postDoc of postsSnapshot.docs) {
         const postData = postDoc.data();
-        const photos = []; // Array to store the photos
+        const photos = [];
 
         if (Array.isArray(postData.postPhotos)) {
             for (const pictureRef of postData.postPhotos) {
                 const pictureUrl = await getDownloadURL(ref(storage, pictureRef));
-                photos.push(pictureUrl); // Add each photo to the photos array
+                photos.push(pictureUrl);
             }
         }
 
@@ -38,6 +40,7 @@ async function fetchRecentPosts() {
 export default function Index() {
     const [recentPosts, setRecentPosts] = useState([]);
     const [images, setImages] = useState([]);
+    const [totalWeight, setTotalWeight] = useState(0);
 
     useEffect(() => {
         const fetchPosts = async () => {
@@ -49,12 +52,34 @@ export default function Index() {
     }, []);
 
     useEffect(() => {
-        const allImages = recentPosts.flatMap(post => post.photos);
+        const allImages = recentPosts.flatMap((post) => post.photos);
         setImages(allImages);
     }, [recentPosts]);
 
+    useEffect(() => {
+        const fetchTotalWeight = async () => {
+            try {
+                const userPostsCol = collection(db, 'userPosts');
+                const snapshot = await getDocs(userPostsCol);
+                let sum = 0;
+
+                snapshot.forEach((doc) => {
+                    const post = doc.data();
+                    if (post.litterWeight) {
+                        sum += post.litterWeight;
+                    }
+                });
+
+                setTotalWeight(sum);
+            } catch (error) {
+                console.error('Error fetching total weight:', error);
+            }
+        };
+
+        fetchTotalWeight();
+    }, []);
+
     const swipeLeft = () => {
-        // Remove the first image and add it to the end
         if (images.length > 0) {
             const firstImage = images.shift();
             images.push(firstImage);
@@ -63,7 +88,6 @@ export default function Index() {
     };
 
     const swipeRight = () => {
-        // Remove the last image and add it to the start
         if (images.length > 0) {
             const lastImage = images.pop();
             images.unshift(lastImage);
@@ -73,11 +97,18 @@ export default function Index() {
 
     return (
         <div>
-            <ImageRow images={images} onSwipeLeft={swipeLeft} onSwipeRight={swipeRight}/>
-
+            <div className="banner">
+                <img src="/images/homeBanner.webp" alt="Banner Image"/>
+                <div className="overlay">
+                    <div className="weight-box">
+                        <p className="litter-weight">{parseInt(totalWeight).toLocaleString()}<span
+                            className="pounds-text"> pounds of litter collected</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
             <div className="content">
                 <h1 className="about_heading_text">Inspire Change</h1>
-
                 <div className="about_content">
                     <p>
                         At LitterPic Inc., our vision is bold and unwavering: a world free of litter. We refuse to
@@ -122,8 +153,14 @@ export default function Index() {
                         more beautiful planet for all.
                     </p>
                 </div>
+                <h2 className="heading_text">Recent Posts Photos</h2>
+                <ImageRow images={images} onSwipeLeft={swipeLeft} onSwipeRight={swipeRight}/>
             </div>
         </div>
     );
 }
+
+
+
+
 

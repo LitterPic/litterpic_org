@@ -8,7 +8,7 @@ const Community_Service_Hours = () => {
             </div>
 
             <div className="content">
-                <h1 className="community_service_heading_text">Community Service Hours</h1>
+                <h1 className="heading_text">Community Service Hours</h1>
                 <p>
                     At LitterPic, we extend our deepest gratitude to all volunteers who have chosen us as their
                     nonprofit
