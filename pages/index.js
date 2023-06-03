@@ -1,8 +1,8 @@
 import {useEffect, useState} from 'react';
-import {collection, query, orderBy, limit, getDocs, getDoc} from 'firebase/firestore';
+import {collection, query, orderBy, limit, getDocs} from 'firebase/firestore';
 import {getDownloadURL, ref} from 'firebase/storage';
 import {db, storage} from '../lib/firebase';
-import ImageRow from '../components/ImageRow';
+import ImageRow from '../components/imagerow';
 
 async function fetchRecentPosts() {
     const postsQuery = query(
