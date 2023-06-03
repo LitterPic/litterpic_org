@@ -389,38 +389,33 @@ img {
 }
 
 /* Volunteer Calendar */
-.calendar {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 1rem;
-    position: relative;
+.event-background {
+    white-space: normal;
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.react-calendar__tile,
-.react-calendar__tile.react-calendar__month-view__days__day--weekend {
-    color: green;
-}
-
-.react-calendar__navigation__arrow,
-.react-calendar__navigation__prev-button,
-.react-calendar__navigation__label,
-.react-calendar abbr[aria-label] {
-    color: black;
-}
-
-.react-calendar__tile.react-calendar__tile--now {
-    background: #4CAF50;
-}
-
-.react-calendar__tile:hover {
+div.rbc-event,
+div.rbc-event.rbc-event-selected,
+.rbc-day-slot .rbc-selected.rbc-background-event {
     background-color: #015e41 !important;
 }
 
-.react-calendar__tile--range {
-    background-color: inherit !important;
-    color: inherit !important;
+.rbc-event-content {
+    font-size: 10px;
 }
 
+.calendar {
+    display: flex;
+    justify-content: center;
+}
+
+.rbc-calendar {
+    display: flex;
+    width: 40%;
+    margin-bottom: 30px;
+}
 
 /*Volunteer Events Table*/
 .table {
