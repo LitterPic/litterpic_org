@@ -333,10 +333,22 @@ label {
     padding-bottom: 5px;
 }
 
+/*Image-Row*/
+.image-row {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+}
 
+.image {
+    flex: 0 0 auto;
+    margin-right: 10px;
+    max-width: 100%;
+}
 
-
-
-
-
-
+img {
+    width: 400px;
+    height: 400px;
+    object-fit: fill;
+    margin-right: 5px;
+}
