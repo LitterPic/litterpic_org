@@ -152,16 +152,51 @@ nav button.active {
     cursor: pointer;
 }
 
+/*Home*/
+.banner {
+    position: relative;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.weight-box {
+    background-color: #E5E5E4;
+    padding: 10px;
+    border-radius: 15px;
+    font-weight: bold;
+    height: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #015e41;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    font-family: 'Arial', serif;
+}
+
+.litter-weight {
+    font-size: 38px;
+    color: #015e41;
+}
+
+.pounds-text {
+    color: black;
+}
 
 /*Community Service Hours*/
-.community_service_heading_text {
+.heading_text {
     text-align: center;
 }
 
 /*Privacy*/
-.privacy_heading_text {
-    text-align: center;
-}
 
 /*About Us*/
 .about_heading_text {
@@ -351,4 +386,58 @@ img {
     height: 400px;
     object-fit: fill;
     margin-right: 5px;
+}
+
+/* Volunteer Calendar */
+.calendar {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.react-calendar__tile,
+.react-calendar__tile.react-calendar__month-view__days__day--weekend {
+    color: green;
+}
+
+.react-calendar__navigation__arrow,
+.react-calendar__navigation__prev-button,
+.react-calendar__navigation__label,
+.react-calendar abbr[aria-label] {
+    color: black;
+}
+
+.react-calendar__tile.react-calendar__tile--now {
+    background: #4CAF50;
+}
+
+.react-calendar__tile:hover {
+    background-color: #015e41 !important;
+}
+
+.react-calendar__tile--range {
+    background-color: inherit !important;
+    color: inherit !important;
+}
+
+
+/*Volunteer Events Table*/
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table td, .table th {
+    border: 1px solid #ddd;
+    padding: 16px;
+}
+
+.highlight {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.start-time-column {
+    width: 60px; /* Adjust the width as needed */
 }
