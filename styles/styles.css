@@ -40,6 +40,12 @@ li {
 }
 
 /*logo bar*/
+.logo-bar-left-content {
+    display: flex;
+    align-items: center;
+}
+
+/*logo bar*/
 .logo-bar img {
     width: 50px;
     height: auto;
@@ -49,8 +55,10 @@ li {
 .logo-bar {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     padding-left: 20px;
     padding-top: 30px;
+    position: relative;
 }
 
 .logo-bar p {
@@ -83,6 +91,50 @@ li {
     margin: 0;
     padding: 0;
 }
+
+/* dropdown menu */
+.dropdown-menu {
+    position: relative;
+}
+
+.dropbtn {
+    background-color: transparent;
+    color: black;
+    font-size: 36px;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 100px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    right: 30px;
+    top: 60px;
+}
+
+.dropdown-content button {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+}
+
+.dropdown-content button:hover {
+    background-color: #ddd;
+}
+
+.dropdown-menu:hover .dropdown-content {
+    display: block;
+}
+
 
 /*nav bar*/
 nav {
@@ -436,3 +488,5 @@ div.rbc-event.rbc-event-selected,
 .start-time-column {
     width: 60px; /* Adjust the width as needed */
 }
+
+
