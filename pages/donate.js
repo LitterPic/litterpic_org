@@ -7,8 +7,8 @@ const Donate = () => {
         <div className="content">
             <div className="donate">
                 <div className="image_container">
-                    <img src="/images/501(c)(3).webp" alt="501(c)(3)"/>
-                    <img src="/images/nonprofit_seal.webp" alt="Nonprofit Seal"/>
+                    <img className="donate-image" src="/images/501(c)(3).webp" alt="501(c)(3)"/>
+                    <img className="donate-image" src="/images/nonprofit_seal.webp" alt="Nonprofit Seal"/>
                 </div>
 
                 <div className="legal_donorbox_container">
