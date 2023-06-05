@@ -39,6 +39,13 @@ li {
     padding-bottom: 20px;
 }
 
+.bottom-line {
+    width: 90%;
+    border: none;
+    border-top: 1px solid black;
+    margin-top: 40px;
+}
+
 /*logo bar*/
 .logo-bar-left-content {
     display: flex;
@@ -191,7 +198,7 @@ nav button.active {
 
 /*footer*/
 .footer {
-    padding: 20px;
+    /*padding: 10px;*/
     align-items: center;
     text-align: center;
 }
@@ -514,7 +521,7 @@ div.rbc-event.rbc-event-selected,
         margin-right: 5px;
     }
 
-    .line {
+    .line, .bottom-line {
         width: 80%;
     }
 
@@ -540,6 +547,10 @@ div.rbc-event.rbc-event-selected,
         top: 50px;
     }
 
+    .dropdown-content button {
+        font-size: 12px;
+    }
+
     .dropbtn {
         font-size: 28px;
     }
@@ -556,6 +567,7 @@ div.rbc-event.rbc-event-selected,
         display: inline-block;
         font-size: 12px;
         margin: 10px 5px;
+        overflow-block: hidden;
     }
 
     .banner {
@@ -629,11 +641,13 @@ div.rbc-event.rbc-event-selected,
     }
 
     .rbc-calendar {
-        display: flex;
         width: 90%;
-        align-items: center;
-        justify-content: space-around;
+        margin: auto auto 20px;
 
+    }
+
+    .calendar {
+        width: 102%;
     }
 
     .rbc-toolbar button {
@@ -654,5 +668,196 @@ div.rbc-event.rbc-event-selected,
 
     .privacy_heading_text {
         text-align: center;
+    }
+
+}
+
+
+@media (max-width: 1024px) and (orientation: landscape) {
+    .logo-bar, nav {
+        width: 100%;
+    }
+
+    body {
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    main {
+        padding: 0 10px;
+    }
+
+    p, li {
+        font-size: 14px;
+    }
+
+    .content {
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+    .line, .bottom-line {
+        width: 80%;
+    }
+
+    .logo-bar img {
+        width: 40px;
+    }
+
+    .logo-bar {
+        padding-left: 10px;
+        padding-top: 15px;
+    }
+
+    .logo {
+        font-size: 20px;
+    }
+
+    .tagline {
+        font-size: 16px;
+    }
+
+    .dropdown-content {
+        right: 10px;
+        top: 50px;
+    }
+
+    .dropdown-content button {
+        font-size: 12px;
+    }
+
+    .dropbtn {
+        font-size: 28px;
+    }
+
+    nav {
+        height: 50px;
+        padding-top: 5px;
+        padding-bottom: 10px;
+        overflow-x: auto;
+    }
+
+    nav a,
+    nav button {
+        display: inline-block;
+        font-size: 20px;
+        margin: 10px 5px;
+        overflow-block: hidden;
+    }
+
+    .banner {
+        height: 125px;
+    }
+
+    .weight-box {
+        height: 15%;
+    }
+
+    .litter-weight {
+        font-size: 24px;
+    }
+
+    .about_content, .memberContainer {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .memberImage {
+        width: 85px;
+        height: 95px;
+    }
+
+    .memberContainer:nth-child(odd) .memberImage {
+        margin-left: 0;
+    }
+
+    .donorbox_container {
+        margin-top: 10px;
+    }
+
+    .legal_donorbox_container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .image_container {
+        margin: 10px 10px;
+    }
+
+    .image-row__item {
+        width: 150px;
+        height: auto;
+    }
+
+    .donate-image {
+        width: 30%;
+        height: auto;
+        justify-content: left;
+    }
+
+    .contact-container {
+        width: 80%;
+        padding: 10px;
+    }
+
+    .contact-container h1 {
+        font-size: 24px;
+    }
+
+    .contact-container button {
+        padding: 5px;
+    }
+
+    .contact-wrapper {
+        margin-bottom: 20px;
+    }
+
+    .input-container input, .contact-input {
+        max-width: 100%;
+    }
+
+    .input-container textarea, .contact-textarea {
+        max-width: 100%;
+    }
+
+    img {
+        width: 50%;
+        height: auto;
+    }
+
+    .rbc-calendar {
+        width: 90%;
+        margin: auto auto 20px;
+
+    }
+
+    .calendar {
+        width: 102%;
+    }
+
+    .rbc-toolbar button {
+        font-size: 12px;
+    }
+
+    .rbc-toolbar-label {
+        font-size: 12px;
+    }
+
+    .table td, .table th {
+        padding: 8px;
+    }
+
+    .start-time-column {
+        width: 40px;
+    }
+
+    .privacy_heading_text {
+        text-align: center;
+    }
+
+    .footer {
+        margin-top: 20px;
     }
 }
