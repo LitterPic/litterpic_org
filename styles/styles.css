@@ -496,6 +496,32 @@ div.rbc-event.rbc-event-selected,
     width: 60px; /* Adjust the width as needed */
 }
 
+.post-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: 10px;
+}
+
+.post {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid black;
+    padding: 10px;
+}
+
+.post-carousel {
+    display: flex;
+    align-items: center;
+}
+
+.post-carousel img {
+    max-width: 200px;
+    height: auto;
+    margin: 0 10px;
+}
+
 /* Media Query for Mobile Devices */
 @media (max-width: 768px) {
 
@@ -560,6 +586,7 @@ div.rbc-event.rbc-event-selected,
         padding-top: 5px;
         padding-bottom: 10px;
         overflow-x: auto;
+        overflow-y: hidden;
     }
 
     nav a,
@@ -567,7 +594,6 @@ div.rbc-event.rbc-event-selected,
         display: inline-block;
         font-size: 12px;
         margin: 10px 5px;
-        overflow-block: hidden;
     }
 
     .banner {
@@ -735,6 +761,7 @@ div.rbc-event.rbc-event-selected,
         padding-top: 5px;
         padding-bottom: 10px;
         overflow-x: auto;
+        overflow-y: hidden;
     }
 
     nav a,
@@ -742,7 +769,6 @@ div.rbc-event.rbc-event-selected,
         display: inline-block;
         font-size: 20px;
         margin: 10px 5px;
-        overflow-block: hidden;
     }
 
     .banner {
@@ -860,4 +886,5 @@ div.rbc-event.rbc-event-selected,
     .footer {
         margin-top: 20px;
     }
+
 }
