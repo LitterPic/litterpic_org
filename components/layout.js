@@ -16,6 +16,7 @@ const Layout = ({children}) => {
             </nav>
             <hr className="line"/>
             <main>{children}</main>
+            <hr className="bottom-line"/>
             <Footer/>
         </div>
     );
