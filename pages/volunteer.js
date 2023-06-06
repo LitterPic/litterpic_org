@@ -11,6 +11,10 @@ const Volunteer = () => {
     const [events, setEvents] = useState([]);
     const [selectedDate, setSelectedDate] = useState(null);
 
+    const handleButtonClick = () => {
+        window.location.href = "/community_service_hours"; // Replace with the desired URL or route path
+    };
+
     useEffect(() => {
         const fetchData = async () => {
             const eventCollection = collection(db, "events");
@@ -50,51 +54,69 @@ const Volunteer = () => {
 
     return (
         <div>
-            <div className="calendar">
-                <Calendar
-                    localizer={localizer}
-                    events={events}
-                    startAccessor="start"
-                    endAccessor="end"
-                    style={{height: 500}}
-                    onSelectEvent={onEventSelect}
-                    views={['month']}
-                    components={{
-                        event: EventComponent,
-                    }}
-                />
+            <div className="banner">
+                <img src="/images/volunteer_banner.webp" alt="Banner Image"/>
             </div>
 
-            <table className="table">
-                <thead>
-                <tr>
-                    <th>Event</th>
-                    <th>Description</th>
-                    <th>Date</th>
-                    <th>Location</th>
-                    <th className="start-time-column">Start Time</th>
-                </tr>
-                </thead>
-                <tbody>
-                {events.map((event, index) => (
-                    <tr key={index}
-                        className={event.start.toISOString().split('T')[0] === selectedDate ? 'highlight' : ''}>
-                        <td>{event.event_title}</td>
-                        <td>{event.description}</td>
-                        <td>{event.start.toLocaleDateString()}</td>
-                        <td>{event.location}</td>
-                        <td className="start-time-column">{event.eventStartTime?.toDate().toLocaleTimeString([], {
-                            hour: 'numeric',
-                            minute: '2-digit',
-                            hour12: true
-                        })}</td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
+            <div className="content">
+                <h1 className="volunteer-heading">Volunteer</h1>
+                <div className="volunteer-content">
+                    LitterPic encourages everyone to play their part in our Environmental Protection Movement. The only
+                    way we succeed is when the change comes from within, and we want to empower you to take an active
+                    role. Register for volunteering events to lend your support or create a volunteering event for your
+                    community. To create a volunteering event, simply utilize the interactive calendar below. Click on
+                    the plus sign located at the upper right-hand corner of the calendar or select the desired day for
+                    your event.
+                </div>
+                <button className="community-service-button" onClick={handleButtonClick}>Community Service</button>
+
+                <div>
+                    <div className="calendar">
+                        <Calendar
+                            localizer={localizer}
+                            events={events}
+                            startAccessor="start"
+                            endAccessor="end"
+                            style={{height: 500}}
+                            onSelectEvent={onEventSelect}
+                            views={['month']}
+                            components={{
+                                event: EventComponent,
+                            }}
+                        />
+                    </div>
+
+                    <table className="table">
+                        <thead>
+                        <tr>
+                            <th>Event</th>
+                            <th>Description</th>
+                            <th>Date</th>
+                            <th>Location</th>
+                            <th className="start-time-column">Start Time</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {events.map((event, index) => (
+                            <tr key={index}
+                                className={event.start.toISOString().split('T')[0] === selectedDate ? 'highlight' : ''}>
+                                <td>{event.event_title}</td>
+                                <td>{event.description}</td>
+                                <td>{event.start.toLocaleDateString()}</td>
+                                <td>{event.location}</td>
+                                <td className="start-time-column">{event.eventStartTime?.toDate().toLocaleTimeString([], {
+                                    hour: 'numeric',
+                                    minute: '2-digit',
+                                    hour12: true
+                                })}</td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-    )
-        ;
+    );
 };
 
 export default Volunteer;
