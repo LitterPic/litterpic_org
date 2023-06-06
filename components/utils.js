@@ -1,13 +1,24 @@
-import {collection, getDocs, orderBy, query, limit} from 'firebase/firestore';
+import {collection, getDocs, limit, orderBy, query, startAfter} from 'firebase/firestore';
 import {db, storage} from '../lib/firebase';
-import {getDownloadURL, ref} from "firebase/storage";
+import {getDownloadURL, ref} from 'firebase/storage';
 
-export async function fetchPosts() {
-    const postQuery = query(
+export async function fetchPosts(page, postsPerPage) {
+    let postQuery = query(
         collection(db, 'userPosts'),
         orderBy('timePosted', 'desc'),
-        limit(30)
+        limit(postsPerPage)
     );
+
+    if (page > 1) {
+        const lastVisiblePost = await getLastVisiblePost(page - 1, postsPerPage);
+        postQuery = query(
+            collection(db, 'userPosts'),
+            orderBy('timePosted', 'desc'),
+            startAfter(lastVisiblePost),
+            limit(postsPerPage)
+        );
+    }
+
     const querySnapshot = await getDocs(postQuery);
 
     const posts = [];
@@ -35,4 +46,16 @@ export async function fetchPosts() {
     }
 
     return posts;
+}
+
+async function getLastVisiblePost(page, postsPerPage) {
+    const startIndex = (page - 1) * postsPerPage;
+    const postQuery = query(
+        collection(db, 'userPosts'),
+        orderBy('timePosted', 'desc'),
+        limit(startIndex + 1)
+    );
+
+    const querySnapshot = await getDocs(postQuery);
+    return querySnapshot.docs[startIndex];
 }
