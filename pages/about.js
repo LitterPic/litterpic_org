@@ -50,17 +50,19 @@ const About = () => {
                 <img src="/images/AboutUsBanner.webp" alt="Banner Image"/>
             </div>
 
-            <div className="content">
-                <h1 className="about_heading_text">LitterPic Inc. Board of Directors</h1>
-                {boardMembers.map((member, index) => (
-                    <div className="memberContainer" key={index}>
-                        <img className="memberImage" src={member.image} alt={member.name}/>
-                        <div className="memberContent">
-                            <h3>{member.name}</h3>
-                            <p>{member.content}</p>
+            <div className="page">
+                <div className="content">
+                    <h1 className="heading-text">LitterPic Inc. Board of Directors</h1>
+                    {boardMembers.map((member, index) => (
+                        <div className="memberContainer" key={index}>
+                            <img className="memberImage" src={member.image} alt={member.name}/>
+                            <div className="memberContent">
+                                <h3>{member.name}</h3>
+                                <p>{member.content}</p>
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
         </div>
     );

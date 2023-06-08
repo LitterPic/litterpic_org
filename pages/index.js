@@ -99,6 +99,7 @@ export default function Index() {
         <div>
             <div className="banner">
                 <img src="/images/homeBanner.webp" alt="Banner Image"/>
+
                 <div className="overlay">
                     <div className="weight-box">
                         <p className="litter-weight">{parseInt(totalWeight).toLocaleString()}<span
@@ -107,9 +108,10 @@ export default function Index() {
                     </div>
                 </div>
             </div>
-            <div className="content">
-                <h1 className="about_heading_text">Inspire Change</h1>
-                <div className="about_content">
+
+            <div className="page">
+                <div className="content">
+                    <h1 className="heading-text">Inspire Change</h1>
                     <p>
                         At LitterPic Inc., our vision is bold and unwavering: a world free of litter. We refuse to
                         accept a
@@ -152,9 +154,9 @@ export default function Index() {
                         and
                         more beautiful planet for all.
                     </p>
+                    <h2 className="heading_text">Recent Posts Photos</h2>
+                    <ImageRow images={images} onSwipeLeft={swipeLeft} onSwipeRight={swipeRight}/>
                 </div>
-                <h2 className="heading_text">Recent Posts Photos</h2>
-                <ImageRow images={images} onSwipeLeft={swipeLeft} onSwipeRight={swipeRight}/>
             </div>
         </div>
     );

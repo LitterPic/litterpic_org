@@ -2,25 +2,25 @@
 
 /*General Formatting*/
 main {
-    display: flex;
-    flex-direction: column;
     min-height: 100vh;
-    flex-grow: 1;
-    line-height: 1.5;
-}
-
-body {
-    background-color: #fff;
 }
 
 p {
-    line-height: 1.5;
+    line-height: 1.75;
     font-size: 18px;
 }
 
-li {
-    margin-bottom: 15px;
+body {
+    background-color: #D3D3D3;
 }
+
+.page {
+    padding-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 
 .blank-space {
     margin-top: 40px;
@@ -28,11 +28,20 @@ li {
 }
 
 .content {
-    margin-left: 60px;
-    margin-right: 60px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    background-color: #fff;
+    width: calc(100% - 200px);
+    margin: auto;
 }
 
-.line {
+div {
+    margin: 0;
+    padding: 0;
+}
+
+.line,
+.bottom-line {
     width: 90%;
     margin: 0 auto;
     border: none;
@@ -41,10 +50,7 @@ li {
 }
 
 .bottom-line {
-    width: 90%;
-    border: none;
-    border-top: 1px solid black;
-    margin-top: 40px;
+    margin-top: 20px;
 }
 
 /*logo bar*/
@@ -100,50 +106,6 @@ li {
     padding: 0;
 }
 
-/* dropdown menu */
-.dropdown-menu {
-    position: relative;
-}
-
-.dropbtn {
-    background-color: transparent;
-    color: black;
-    font-size: 36px;
-    border: none;
-    cursor: pointer;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f1f1f1;
-    min-width: 100px;
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-    z-index: 1;
-    right: 30px;
-    top: 60px;
-}
-
-.dropdown-content button {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    border: none;
-    background: none;
-    width: 100%;
-    text-align: left;
-}
-
-.dropdown-content button:hover {
-    background-color: #ddd;
-}
-
-.dropdown-menu:hover .dropdown-content {
-    display: block;
-}
-
-
 /*nav bar*/
 nav {
     display: flex;
@@ -197,19 +159,10 @@ nav button.active {
     object-fit: cover;
 }
 
-/*footer*/
-.footer {
-    /*padding: 10px;*/
-    align-items: center;
-    text-align: center;
-}
-
-.address-link {
-    cursor: pointer;
-}
 
 .address-link:hover {
     cursor: pointer;
+    color: blue;
 }
 
 /*Home*/
@@ -222,7 +175,7 @@ nav button.active {
     top: 0;
     left: 0;
     width: 100%;
-    height: 70%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -252,24 +205,16 @@ nav button.active {
 }
 
 /*Community Service Hours*/
-.heading_text {
+.heading-text {
     text-align: center;
+    color: #015e41;
 }
 
-/*Privacy*/
-
-/*About Us*/
-.about_heading_text {
-    text-align: center;
-    margin-bottom: 20px;
+li {
+    margin-bottom: 15px;
 }
 
-.directors_heading_text {
-    text-align: center;
-    margin-top: 50px;
-    margin-bottom: 20px;
-}
-
+/*Directors*/
 .about_content {
     margin-left: 100px;
     margin-right: 100px;
@@ -278,6 +223,7 @@ nav button.active {
 .container {
     display: flex;
     flex-direction: column;
+
 }
 
 .memberContainer {
@@ -316,22 +262,29 @@ nav button.active {
     margin-right: 40px;
 }
 
+.donorbox-images-container {
+    display: flex;
+    flex-direction: row;
+}
+
 .donorbox_container {
     margin-top: 20px;
     flex: 0 0 auto;
-
 }
 
 .image_container {
     display: flex;
+    flex-direction: column;
     justify-content: left;
-    margin: 30px 30px;
 }
 
 .image_container img {
-    margin: 0 5px; /* Adjust the margin value as needed */
-    max-width: 100%;
+    width: 150px;
+    height: auto;
+    margin: 50px 50px 0 5px;
+    padding-left: 40px;
 }
+
 
 /*contact*/
 .contact-wrapper {
@@ -525,18 +478,6 @@ div.rbc-event.rbc-event-selected,
 }
 
 /*Volunteer*/
-.volunteer-heading {
-    text-align: center;
-    color: #015e41;
-}
-
-.volunteer-content {
-    text-align: center;
-    margin-bottom: 30px;
-    margin-left: 25%;
-    margin-right: 25%;
-}
-
 .community-service-button {
     display: block;
     margin: 0 auto 40px;
@@ -544,38 +485,87 @@ div.rbc-event.rbc-event-selected,
     padding: 10px;
 }
 
+/*Footer*/
+.footer-columns {
+    display: flex;
+    justify-content: center;
+}
+
+
+.footer-column-1,
+.footer-column-2,
+.footer-column-3 {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.footer-column-2 {
+    padding-top: 50px;
+}
+
+.footer-links {;
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+    padding: 0;
+    text-align: left;
+}
+
+.footer-column-3 a {
+    text-decoration: none;
+    color: black;
+    line-height: 1.5;
+    font-size: 18px;
+}
+
+.footer-column-3 a:hover {
+    color: blue;
+}
+
+.footer {
+    position: relative;
+}
+
+.footer p {
+    line-height: 0;
+}
 
 /* Media Query for Mobile Devices */
 @media (max-width: 768px) {
+    .page {
+        padding-top: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    p, li, a {
+        line-height: 1.5;
+        font-size: 12px;
+    }
+
+    .content {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        padding: 10px;
+        background-color: #fff;
+        width: calc(100% - 20px);
+        margin: auto;
+    }
+
+    div {
+        margin: 0;
+        padding: 0;
+    }
 
     .logo-bar, nav {
         width: 100%;
     }
 
-    body {
-        width: 100%;
-        margin: 0 auto;
-    }
-
-    main {
-        padding: 0 10px;
-    }
-
-    p, li {
-        font-size: 14px;
-    }
-
-    .content {
-        margin-left: 5px;
-        margin-right: 5px;
-    }
-
     .line, .bottom-line {
         width: 80%;
-    }
-
-    .logo-bar img {
-        width: 40px;
     }
 
     .logo-bar {
@@ -589,19 +579,6 @@ div.rbc-event.rbc-event-selected,
 
     .tagline {
         font-size: 16px;
-    }
-
-    .dropdown-content {
-        right: 10px;
-        top: 50px;
-    }
-
-    .dropdown-content button {
-        font-size: 12px;
-    }
-
-    .dropbtn {
-        font-size: 28px;
     }
 
     nav {
@@ -631,7 +608,7 @@ div.rbc-event.rbc-event-selected,
         font-size: 18px;
     }
 
-    .about_content, .memberContainer {
+    .memberContainer {
         margin-left: 10px;
         margin-right: 10px;
     }
@@ -645,30 +622,45 @@ div.rbc-event.rbc-event-selected,
         margin-left: 0;
     }
 
-    .donorbox_container {
-        margin-top: 10px;
-    }
 
+    /*Donate*/
     .legal_donorbox_container {
         display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+    }
+
+    .legal {
+        margin-right: 40px;
+    }
+
+    .donorbox-images-container {
+        display: flex;
         flex-direction: column;
-        align-items: center;
-        justify-content: center;
+    }
+
+    .donorbox_container {
+        margin-top: 20px;
+        flex: 0 0 auto;
     }
 
     .image_container {
-        margin: 10px 10px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
     }
 
+    .image_container img {
+        width: 100px;
+        height: auto;
+        margin: 50px 50px 0 5px;
+    }
+
+
+    /*Image Row*/
     .image-row__item {
         width: 90px;
         height: auto;
-    }
-
-    .donate-image {
-        width: 30%;
-        height: auto;
-        justify-content: left;
     }
 
     .contact-container {
@@ -708,7 +700,8 @@ div.rbc-event.rbc-event-selected,
     }
 
     .table td, .table th {
-        padding: 8px;
+        padding: 1px;
+        font-size: 10px;
     }
 
     .start-time-column {
@@ -717,13 +710,6 @@ div.rbc-event.rbc-event-selected,
 
     .privacy_heading_text {
         text-align: center;
-    }
-
-    .volunteer-content {
-        text-align: center;
-        margin-bottom: 30px;
-        margin-left: 5%;
-        margin-right: 5%;
     }
 
     .post-grid {
@@ -754,6 +740,11 @@ div.rbc-event.rbc-event-selected,
         margin: 0 10px;
     }
 
+    /*Footer*/
+    .footer-column-3 a {
+        font-size: 12px;
+    }
+
 }
 
 
@@ -778,6 +769,7 @@ div.rbc-event.rbc-event-selected,
     .content {
         margin-left: 5px;
         margin-right: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
     }
 
     .line, .bottom-line {
@@ -799,19 +791,6 @@ div.rbc-event.rbc-event-selected,
 
     .tagline {
         font-size: 16px;
-    }
-
-    .dropdown-content {
-        right: 10px;
-        top: 50px;
-    }
-
-    .dropdown-content button {
-        font-size: 12px;
-    }
-
-    .dropbtn {
-        font-size: 28px;
     }
 
     nav {
@@ -939,17 +918,6 @@ div.rbc-event.rbc-event-selected,
 
     .privacy_heading_text {
         text-align: center;
-    }
-
-    .footer {
-        margin-top: 20px;
-    }
-
-    .volunteer-content {
-        text-align: center;
-        margin-bottom: 30px;
-        margin-left: 5%;
-        margin-right: 5%;
     }
 
     .post-grid {
