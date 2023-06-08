@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {db} from '../lib/firebase'; // Assuming the db object is exported from your firebase.js file
 import {collection, getDocs, query, where} from 'firebase/firestore';
 
@@ -152,78 +152,81 @@ const ReportsPage = () => {
         }
     };
 
-    // const handleReset = () => {
-    //     setSelectedCountry('');
-    //     setSelectedState('');
-    //     setSelectedCity('');
-    // };
-
     return (
         <div>
-            <h1>Reports Page</h1>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    Country:
-                    <select
-                        value={selectedCountry}
-                        onChange={(e) => setSelectedCountry(e.target.value)}
-                    >
-                        <option value="">Select a country</option>
-                        {countries.map((country) => (
-                            <option key={country} value={country}>
-                                {country}
-                            </option>
-                        ))}
-                    </select>
-                </label>
-                <br/>
-                <label>
-                    State:
-                    <select
-                        value={selectedState}
-                        onChange={(e) => setSelectedState(e.target.value)}
-                        disabled={!selectedCountry}
-                    >
-                        <option value="">Select a state</option>
-                        {states.map((state) => (
-                            <option key={state} value={state}>
-                                {state}
-                            </option>
-                        ))}
-                    </select>
-                </label>
-                <br/>
-                <label>
-                    City:
-                    <select
-                        value={selectedCity}
-                        onChange={(e) => setSelectedCity(e.target.value)}
-                        disabled={!selectedState}
-                    >
-                        <option value="">Select a city</option>
-                        {cities.map((city) => (
-                            <option key={city} value={city}>
-                                {city}
-                            </option>
-                        ))}
-                    </select>
-                </label>
-                <br/>
-                <button type="submit">Submit</button>
-                {/*<button type="button" onClick={handleReset}>*/}
-                {/*    Reset*/}
-                {/*</button>*/}
-            </form>
-            <div>
-                <p>Total Weight: {totalWeight}</p>
-                <h2>City Weights</h2>
-                <ul>
-                    {cityWeights.map(([key, weight]) => (
-                        <li key={key}>
-                            {key}: {weight} lbs
-                        </li>
-                    ))}
-                </ul>
+
+            <div className="banner">
+                <img src="/images/reports_banner.webp" alt="Banner Image"/>
+            </div>
+
+            <div className="page">
+                <div className="content">
+                    <h1 className="heading-text">Reports</h1>
+                    <form onSubmit={handleSubmit}>
+                        <label>
+                            Country:
+                            <select
+                                value={selectedCountry}
+                                onChange={(e) => setSelectedCountry(e.target.value)}
+                            >
+                                <option value="">Select a country</option>
+                                {countries.map((country) => (
+                                    <option key={country} value={country}>
+                                        {country}
+                                    </option>
+                                ))}
+                            </select>
+                        </label>
+                        <br/>
+                        <label>
+                            State:
+                            <select
+                                value={selectedState}
+                                onChange={(e) => setSelectedState(e.target.value)}
+                                disabled={!selectedCountry}
+                            >
+                                <option value="">Select a state</option>
+                                {states.map((state) => (
+                                    <option key={state} value={state}>
+                                        {state}
+                                    </option>
+                                ))}
+                            </select>
+                        </label>
+                        <br/>
+                        <label>
+                            City:
+                            <select
+                                value={selectedCity}
+                                onChange={(e) => setSelectedCity(e.target.value)}
+                                disabled={!selectedState}
+                            >
+                                <option value="">Select a city</option>
+                                {cities.map((city) => (
+                                    <option key={city} value={city}>
+                                        {city}
+                                    </option>
+                                ))}
+                            </select>
+                        </label>
+                        <br/>
+                        <button type="submit">Submit</button>
+                        {/*<button type="button" onClick={handleReset}>*/}
+                        {/*    Reset*/}
+                        {/*</button>*/}
+                    </form>
+                    <div>
+                        <p>Total Weight: {totalWeight}</p>
+                        <h2>City Weights</h2>
+                        <ul>
+                            {cityWeights.map(([key, weight]) => (
+                                <li key={key}>
+                                    {key}: {weight} lbs
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     );

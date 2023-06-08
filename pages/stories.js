@@ -70,16 +70,20 @@ function Stories() {
     };
 
     return (
-        <div>
-            <div className="post-grid">
-                {posts.map((post, index) => (
-                    <Post key={post.id} post={post}/>
-                ))}
+        <div className="page">
+            <div className="content">
+                <div>
+                    <div className="post-grid">
+                        {posts.map((post, index) => (
+                            <Post key={post.id} post={post}/>
+                        ))}
+                    </div>
+                    {isLoading && <div>Loading more posts...</div>}
+                    {!isLoading && hasMorePosts && (
+                        <div id="end-of-posts" style={{marginTop: '20px'}}></div>
+                    )}
+                </div>
             </div>
-            {isLoading && <div>Loading more posts...</div>}
-            {!isLoading && hasMorePosts && (
-                <div id="end-of-posts" style={{marginTop: '20px'}}></div>
-            )}
         </div>
     );
 }

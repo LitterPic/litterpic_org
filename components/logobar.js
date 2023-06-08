@@ -24,18 +24,6 @@ const Logobar = () => {
                     <p className="tagline">Inspire Change</p>
                 </div>
             </div>
-            <div className="dropdown-menu">
-                <button className="dropbtn" onClick={toggleDropdown}>
-                    &#9776; {/* hamburger icon */}
-                </button>
-                {isOpen && (
-                    <div className="dropdown-content">
-                        <button onClick={() => handleNavigation('/reports')}>Reports</button>
-                        <button onClick={() => handleNavigation('/about')}>Directors</button>
-                        <button onClick={() => handleNavigation('/privacy')}>Privacy</button>
-                    </div>
-                )}
-            </div>
         </div>
     );
 };
