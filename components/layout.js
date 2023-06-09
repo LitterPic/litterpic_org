@@ -14,9 +14,7 @@ const Layout = ({children}) => {
                 <Navlink href="/donate">Donate</Navlink>
                 <Navlink href="/contact">Contact</Navlink>
             </nav>
-            <hr className="line"/>
             <main>{children}</main>
-            <hr className="bottom-line"/>
             <Footer/>
         </div>
     );

@@ -1,4 +1,4 @@
-import {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import Post from '../components/post';
 import {fetchPosts} from '../components/utils';
 
@@ -71,17 +71,20 @@ function Stories() {
 
     return (
         <div className="page">
-            <div className="content">
+            <div className="stories-content">
+                <h1 className="heading-text">User Posts</h1>
                 <div>
-                    <div className="post-grid">
-                        {posts.map((post, index) => (
-                            <Post key={post.id} post={post}/>
-                        ))}
+                    <div className="story-posts">
+                        <div className="post-grid">
+                            {posts.map((post, index) => (
+                                <Post key={post.id} post={post}/>
+                            ))}
+                        </div>
+                        {!isLoading && hasMorePosts && (
+                            <div id="end-of-posts" style={{marginTop: '20px'}}></div>
+                        )}
                     </div>
                     {isLoading && <div>Loading more posts...</div>}
-                    {!isLoading && hasMorePosts && (
-                        <div id="end-of-posts" style={{marginTop: '20px'}}></div>
-                    )}
                 </div>
             </div>
         </div>
