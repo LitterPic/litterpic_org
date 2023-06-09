@@ -22,6 +22,7 @@ const Logobar = () => {
                 <div className="text-content">
                     <p className="logo">LitterPic</p>
                     <p className="tagline">Inspire Change</p>
+                    <hr className="line"/>
                 </div>
             </div>
         </div>

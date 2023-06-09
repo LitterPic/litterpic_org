@@ -1,13 +1,15 @@
 import React, {useState} from 'react';
 
 const Contact = () => {
-    const [name, setName] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
-    const [subject, setSubject] = useState("I'd like more information please");
     const [message, setMessage] = useState('');
 
     const handleEmailLink = (e) => {
         e.preventDefault();
+
+        const subject = "LitterPic.org inquiry";
 
         const emailBody = `${message}`;
         window.location.href = `mailto:contact@litterpic.org?subject=${encodeURIComponent(
@@ -18,35 +20,47 @@ const Contact = () => {
     return (
         <div>
             <div className="banner">
-                <img src="/images/AboutUsBanner.webp" alt="Banner Image"/>
+                <img src="/images/contact_us_banner.webp" alt="Banner Image"/>
             </div>
 
             <div className="page">
                 <div className="content">
+                    <h1 className="heading-text">Contact</h1>
                     <div className="contact-wrapper">
                         <div className="contact-container">
-                            <h1>Contact Us</h1>
                             <form onSubmit={handleEmailLink}>
                                 <div className="form-group">
-                                    <label htmlFor="name">Name</label>
+                                    <label htmlFor="firstName">First Name</label>
                                     <input
                                         className="contact-input"
                                         type="text"
-                                        id="name"
-                                        value={name}
-                                        onChange={(e) => setName(e.target.value)}
+                                        id="firstName"
+                                        value={firstName}
+                                        onChange={(e) => setFirstName(e.target.value)}
                                         required
                                     />
                                 </div>
 
                                 <div className="form-group">
-                                    <label htmlFor="subject">Subject</label>
+                                    <label htmlFor="lastName">Last Name</label>
                                     <input
                                         className="contact-input"
                                         type="text"
-                                        id="subject"
-                                        value={subject}
-                                        onChange={(e) => setSubject(e.target.value)}
+                                        id="lastName"
+                                        value={lastName}
+                                        onChange={(e) => setLastName(e.target.value)}
+                                        required
+                                    />
+                                </div>
+
+                                <div className="form-group">
+                                    <label htmlFor="email">Email</label>
+                                    <input
+                                        className="contact-input"
+                                        type="email"
+                                        id="email"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
                                         required
                                     />
                                 </div>

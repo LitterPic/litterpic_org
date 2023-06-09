@@ -53,9 +53,9 @@ async function getLastVisiblePost(page, postsPerPage) {
     const postQuery = query(
         collection(db, 'userPosts'),
         orderBy('timePosted', 'desc'),
-        limit(startIndex + 1)
+        limit(startIndex + postsPerPage)
     );
 
     const querySnapshot = await getDocs(postQuery);
-    return querySnapshot.docs[startIndex];
+    return querySnapshot.docs[querySnapshot.docs.length - 1];
 }
