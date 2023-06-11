@@ -2,9 +2,14 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
-/*General Formatting*/
+/* General Formatting */
+body {
+    background-color: white;
+}
+
 main {
     min-height: 100vh;
 }
@@ -14,14 +19,8 @@ p {
     font-size: 18px;
 }
 
-body {
-    background-color: white;
-    width: 100%;
-}
-
 .page {
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -30,10 +29,11 @@ body {
 
 .content {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    padding: 10px;
+    padding: 30px;
     background-color: #fff;
-    width: calc(100% - 200px);
-    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
+    width: 85vw;
 }
 
 div {
@@ -41,35 +41,32 @@ div {
     padding: 0;
 }
 
-.line,
-.bottom-line {
-    width: 90%;
-    margin: 0 auto;
-    border: none;
-    border-top: 1px solid black;
+h1.heading-text {
+    text-align: center;
+    color: #015e41;
+    margin-bottom: 40px;
 }
 
-/*logo bar*/
-.logo-bar-left-content {
+h2.heading-text {
+    text-align: center;
+    color: #015e41;
+    margin-top: 40px;
+    margin-bottom: 5px;
+}
+
+/* Logo Bar */
+.logo-bar {
     display: flex;
-    align-items: center;
+    justify-content: space-between;
+    padding-left: 80px;
+    padding-top: 30px;
+    background-color: white;
 }
 
-/*logo bar*/
 .logo-bar img {
     width: 50px;
     height: auto;
     padding-top: 5px;
-}
-
-.logo-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-left: 20px;
-    padding-top: 30px;
-    position: relative;
-    background-color: white;
 }
 
 .logo-bar p {
@@ -77,6 +74,8 @@ div {
 }
 
 .logo-content {
+    display: flex;
+    flex-direction: row;
     margin-right: 10px;
 }
 
@@ -89,62 +88,48 @@ div {
     color: #015e41;
     font-style: italic;
     font-size: 18px;
-    margin-top: 0;
-    margin-bottom: 0;
 }
 
-.text-content {
+.logo-text {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    margin-left: 8px;
 }
 
-.logo-bar p {
-    margin: 0;
-    padding: 0;
-}
-
-/*nav bar*/
+/* Nav Bar */
 nav {
     display: flex;
     justify-content: center;
     height: 70px;
+    font-size: 30px;
+    font-weight: bold;
     align-items: center;
-    padding-top: 10px;
-    padding-bottom: 20px;
     background-color: white;
 }
 
 nav a {
-    color: #000;
-    font-weight: bold;
-    font-size: 30px;
-    margin: 0 45px;
     text-decoration: none;
     transition: color 0.5s ease;
-    text-transform: uppercase;
 }
 
 nav button {
+    margin: 0 15px;
     background: none;
-    border: none;
-    padding: 0;
     font: inherit;
-    cursor: pointer;
-    outline: inherit;
-    color: rgb(0, 0, 0);
+    color: black;
 }
 
 nav button:hover {
-    color: #015e41;
+    color: #479079;
 }
 
 nav button.active {
-    color: #015e41;
-    border: 2px solid #015e41;
+    color: #479079;
     padding: 5px;
 }
 
-/*banner*/
+/* Banner */
 .banner {
     background-size: cover;
     background-position: center;
@@ -158,12 +143,7 @@ nav button.active {
 }
 
 
-.address-link:hover {
-    cursor: pointer;
-    color: blue;
-}
-
-/*Home*/
+/* Home */
 .banner {
     position: relative;
 }
@@ -202,13 +182,7 @@ nav button.active {
     color: black;
 }
 
-/*Community Service Hours*/
-.heading-text {
-    text-align: center;
-    color: #015e41;
-    margin-bottom: 20px;
-}
-
+/* Community Service Hours */
 li {
     margin-bottom: 15px;
 }
@@ -217,7 +191,7 @@ ol {
     margin-left: 40px;
 }
 
-/*Directors*/
+/* Directors */
 .about_content {
     margin-left: 100px;
     margin-right: 100px;
@@ -226,7 +200,6 @@ ol {
 .container {
     display: flex;
     flex-direction: column;
-
 }
 
 .memberContainer {
@@ -254,14 +227,8 @@ ol {
     margin-left: 110px;
 }
 
-/*donate*/
-.legal_donorbox_container {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-}
-
-.legal {
+/* Donate */
+.donate-legal-text {
     margin-right: 40px;
 }
 
@@ -275,31 +242,25 @@ ol {
     flex: 0 0 auto;
 }
 
-.image_container {
+.donate-image-container {
     display: flex;
     flex-direction: column;
-    justify-content: left;
+    margin-left: 20px;
+    margin-right: 40px;
+    margin-bottom: 40px;
 }
 
-.image_container img {
-    width: 150px;
-    height: auto;
-    margin: 50px 50px 0 5px;
-    padding-left: 40px;
-}
-
-
-/*contact*/
+/* Contact */
 .contact-wrapper {
     display: flex;
     justify-content: center;
-    align-items: flex-start;
-    height: 80vh;
-    padding-top: 20px;
+    align-items: center;
+    height: 90vh;
 }
 
 .contact-container {
-    width: 70%;
+    width: 75vw;
+    height: 70vh;
     border-radius: 10px;
     background: linear-gradient(to bottom, #015e41, #000000);
     color: #fff;
@@ -321,45 +282,27 @@ ol {
 }
 
 .input-container label {
-    margin-bottom: 5px;
-}
-
-.input-container input {
-    padding: 10px;
     margin-bottom: 10px;
-    border-radius: 5px;
-    border: none;
-    max-width: 25%;
-    text-align: left;
 }
 
+.input-container input,
 .input-container textarea {
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 5px;
     border: none;
-    max-width: 50%;
-    height: 5em;
     text-align: left;
 }
 
 .contact-input {
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    border: none;
-    width: 35%;
-    text-align: left;
+    width: 25em;
+    height: 3em;
+    font-size: 18px;
 }
 
 .contact-textarea {
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    border: none;
     width: 50%;
-    height: 7em;
-    text-align: left;
+    height: 15em;
 }
 
 button {
@@ -384,30 +327,20 @@ label {
     padding-bottom: 5px;
 }
 
-/*Image-Row*/
+/* Image Row */
 .image-row {
     display: flex;
     overflow-x: auto;
-    white-space: nowrap;
+    height: 40vh;
 }
 
-.image {
-    flex: 0 0 auto;
-    margin-right: 10px;
-    max-width: 100%;
-}
-
-img {
-    width: 400px;
-    height: 400px;
-    object-fit: fill;
-    margin-right: 5px;
+.image-row__item {
+    margin: 2px;
 }
 
 /* Volunteer Calendar */
 .event-background {
     white-space: normal;
-    max-width: 100px;
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -419,7 +352,8 @@ div.rbc-event.rbc-event-selected,
 }
 
 .rbc-event-content {
-    font-size: 10px;
+    font-size: 14px;
+    height: 20px;
 }
 
 .calendar {
@@ -429,17 +363,18 @@ div.rbc-event.rbc-event-selected,
 
 .rbc-calendar {
     display: flex;
-    width: 40%;
+    width: 80%;
     margin-bottom: 30px;
 }
 
-/*Volunteer Events Table*/
+/* Volunteer Events Table */
 .table {
     width: 100%;
     border-collapse: collapse;
 }
 
-.table td, .table th {
+.table td,
+.table th {
     border: 1px solid #ddd;
     padding: 16px;
 }
@@ -455,53 +390,116 @@ div.rbc-event.rbc-event-selected,
 
 /* User Posts */
 .stories-content {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
+    padding: 30px;
     background-color: #fff;
-    width: 55vw;
-    margin: auto;
+    width: 75vw;
+}
+
+.story-posts {
+    display: flex;
+    justify-content: space-around;
 }
 
 .post-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
+    grid-template-columns: 450px 450px;
+    gap: 70px;
+    row-gap: 20px;
     grid-auto-flow: row;
     width: 50%;
     justify-content: center;
-    margin: 0 auto;
     align-items: center;
 }
 
 .post {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid #015e41;
+    border: solid #015e41;
     border-radius: 25px;
-    width: 20vw; /* roughly half the viewport width */
-    height: 85vh; /* 85% of the viewport height */
+    height: auto;
+    min-height: 700px;
+    width: 500px;
     overflow: hidden;
-    padding: 40px;
+    padding-top: 20px;
+}
+
+.post p {
+    text-align: center;
 }
 
 .post-carousel {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    position: relative;
 }
 
-.post-carousel img {
-    width: 80%;
-    height: auto;
-    object-fit: contain;
+.carousel-image {
+    width: 500px;
+    height: 500px;
+    object-fit: cover;
+    overflow: hidden;
+}
+
+.carousel-chevron {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    color: white;
+    background-color: #015e41;
+    height: 30px;
+}
+
+.carousel-chevron-left {
+    left: 0;
+}
+
+.carousel-chevron-right {
+    right: 0;
+}
+
+.carousel-chevron:hover {
+    transform: translateY(-50%) scale(1.1);
+    color: #015e41;
+    background-color: white;
+}
+
+.post-user-name {
+    margin-left: 45px;;
+    font-weight: normal;
+    font-family: Helvetica, serif;
+
+}
+
+.post-title {
+    margin-top: 20px;
+    margin-left: 15px;
+    font-size: 1.5em;
+    font-weight: bolder;
+}
+
+.post-location {
+    margin-top: 20px;
+    margin-left: 15px;
+    font-family: Helvetica, serif;
+    font-size: 15px;
+    color: blue;
+}
+
+.post-litter-weight-collected {
+    text-align: center;
+    font-weight: bold;
+    margin-top: 20px;
     margin-bottom: 8px;
 }
 
+.post-description {
+    width: 400px;
+    font-size: 22px;
+    font-family: inherit;
+    margin: 5px auto 15px;
+}
 
-/*Volunteer*/
+/* Volunteer */
 .community-service-button {
     display: block;
     margin: 30px auto 40px;
@@ -509,13 +507,17 @@ div.rbc-event.rbc-event-selected,
     padding: 10px;
 }
 
-/*Footer*/
+/* Footer */
+.address-link:hover {
+    cursor: pointer;
+    color: blue;
+}
+
 .footer-columns {
     display: flex;
     justify-content: center;
     background-color: #D3D3D3;
 }
-
 
 .footer-column-1,
 .footer-column-2,
@@ -528,12 +530,11 @@ div.rbc-event.rbc-event-selected,
     align-content: center;
 }
 
-
 .footer-column-2 {
-    padding-top: 50px;
+    padding-top: 55px;
 }
 
-.footer-links {;
+.footer-links {
     display: flex;
     flex-direction: column;
     list-style-type: none;
@@ -561,17 +562,20 @@ div.rbc-event.rbc-event-selected,
     * {
         margin: 0;
         padding: 0;
+        box-sizing: border-box;
     }
 
     .page {
-        padding-top: 20px;
+        padding: 20px;
         display: flex;
         justify-content: center;
         align-items: center;
         width: 100vw;
     }
 
-    p, li, a {
+    p,
+    li,
+    a {
         line-height: 1.5;
         font-size: 12px;
     }
@@ -583,17 +587,9 @@ div.rbc-event.rbc-event-selected,
         margin: auto;
     }
 
-    div {
-        margin: 0;
-        padding: 0;
-    }
-
-    .logo-bar, nav {
+    .logo-bar,
+    nav {
         width: 100%;
-    }
-
-    .line, .bottom-line {
-        width: 80%;
     }
 
     .logo-bar {
@@ -650,14 +646,7 @@ div.rbc-event.rbc-event-selected,
         margin-left: 0;
     }
 
-
-    /*Donate*/
-    .legal_donorbox_container {
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-    }
-
+    /* Donate */
     .legal {
         margin-right: 40px;
     }
@@ -678,41 +667,25 @@ div.rbc-event.rbc-event-selected,
         justify-content: center;
     }
 
-    .image_container img {
-        width: 100px;
-        height: auto;
-        margin: 50px 50px 0 5px;
-    }
-
-
-    /*Image Row*/
-    .image-row__item {
-        width: 130px;
-        height: auto;
-    }
-
+    /* Image Row */
     .contact-container {
         width: 90%;
         padding: 20px;
     }
 
-    .input-container input, .contact-input {
+    .input-container input,
+    .contact-input {
         max-width: 100%;
     }
 
-    .input-container textarea, .contact-textarea {
+    .input-container textarea,
+    .contact-textarea {
         max-width: 100%;
-    }
-
-    img {
-        width: 50%;
-        height: auto;
     }
 
     .rbc-calendar {
         width: 90%;
         margin: auto auto 20px;
-
     }
 
     .calendar {
@@ -727,7 +700,8 @@ div.rbc-event.rbc-event-selected,
         font-size: 12px;
     }
 
-    .table td, .table th {
+    .table td,
+    .table th {
         padding: 1px;
         font-size: 10px;
     }
@@ -735,7 +709,6 @@ div.rbc-event.rbc-event-selected,
     .start-time-column {
         width: 40px;
     }
-
 
     .post-grid {
         display: grid;
@@ -767,7 +740,7 @@ div.rbc-event.rbc-event-selected,
         margin: 0 10px;
     }
 
-    /*Footer*/
+    /* Footer */
     .footer-column-3 a {
         font-size: 12px;
     }
@@ -775,17 +748,18 @@ div.rbc-event.rbc-event-selected,
     .contact-wrapper {
         height: 70vh;
     }
-
 }
 
-
+/* Media Query for Landscape */
 @media (max-width: 1024px) and (orientation: landscape) {
     * {
         margin: 0;
         padding: 0;
+        box-sizing: border-box;
     }
 
-    .logo-bar, nav {
+    .logo-bar,
+    nav {
         width: 100vw;
     }
 
@@ -793,7 +767,8 @@ div.rbc-event.rbc-event-selected,
         margin: 0 auto;
     }
 
-    p, li {
+    p,
+    li {
         font-size: 14px;
     }
 
@@ -847,7 +822,8 @@ div.rbc-event.rbc-event-selected,
         font-size: 24px;
     }
 
-    .about_content, .memberContainer {
+    .about_content,
+    .memberContainer {
         margin-left: 10px;
         margin-right: 10px;
     }
@@ -865,20 +841,8 @@ div.rbc-event.rbc-event-selected,
         margin-top: 10px;
     }
 
-    .legal_donorbox_container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-
     .image_container {
         margin: 10px 10px;
-    }
-
-    .image-row__item {
-        width: 130px;
-        height: auto;
     }
 
     .donate-image {
@@ -904,23 +868,19 @@ div.rbc-event.rbc-event-selected,
         margin-bottom: 65vh;
     }
 
-    .input-container input, .contact-input {
+    .input-container input,
+    .contact-input {
         max-width: 100%;
     }
 
-    .input-container textarea, .contact-textarea {
+    .input-container textarea,
+    .contact-textarea {
         max-width: 100%;
-    }
-
-    img {
-        width: 50%;
-        height: auto;
     }
 
     .rbc-calendar {
         width: 90%;
         margin: auto auto 20px;
-
     }
 
     .calendar {
@@ -935,7 +895,8 @@ div.rbc-event.rbc-event-selected,
         font-size: 12px;
     }
 
-    .table td, .table th {
+    .table td,
+    .table th {
         padding: 8px;
     }
 
@@ -971,5 +932,4 @@ div.rbc-event.rbc-event-selected,
         object-fit: cover;
         margin: 0 10px;
     }
-
 }

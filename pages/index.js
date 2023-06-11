@@ -154,7 +154,7 @@ export default function Index() {
                         and
                         more beautiful planet for all.
                     </p>
-                    <h2 className="heading_text">Recent Posts Photos</h2>
+                    <h2 className="heading-text">Recent Posts Photos</h2>
                     <ImageRow images={images} onSwipeLeft={swipeLeft} onSwipeRight={swipeRight}/>
                 </div>
             </div>
