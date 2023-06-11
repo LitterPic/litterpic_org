@@ -1,4 +1,4 @@
-import {collection, getDocs, limit, orderBy, query, startAfter} from 'firebase/firestore';
+import {collection, getDocs, limit, orderBy, query, startAfter, where} from 'firebase/firestore';
 import {db, storage} from '../lib/firebase';
 import {getDownloadURL, ref} from 'firebase/storage';
 
@@ -34,18 +34,34 @@ export async function fetchPosts(page, postsPerPage) {
             }
         }
 
+        // Fetch user data
+        const userId = postData.postUser;
+        const userData = await getUserData(userId);
+
         posts.push({
             id: postDoc.id,
-            user: postData.postUser,
+            user: userData,
             photos: photos,
             dateCreated: postData.timePosted.toDate(),
             location: postData.location,
             description: postData.postDescription,
             litterWeight: postData.litterWeight,
+            title: postData.postTitle,
         });
     }
 
     return posts;
+}
+
+async function getUserData(userId) {
+    const userQuery = query(collection(db, 'users'), where('__name__', '==', userId));
+    const userSnapshot = await getDocs(userQuery);
+
+    if (userSnapshot.empty) {
+        return null;
+    }
+
+    return userSnapshot.docs[0].data();
 }
 
 async function getLastVisiblePost(page, postsPerPage) {
