@@ -11,8 +11,8 @@ const Layout = ({children}) => {
                 <Navlink href="/">Home</Navlink>
                 <Navlink href="/stories">User Posts</Navlink>
                 <Navlink href="/volunteer">Volunteer Events</Navlink>
-                <Navlink href="/donate">Donate</Navlink>
                 <Navlink href="/contact">Contact</Navlink>
+                <Navlink href="/donate">Donate</Navlink>
             </nav>
             <main>{children}</main>
             <Footer/>

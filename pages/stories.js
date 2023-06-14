@@ -71,7 +71,7 @@ function Stories() {
 
     return (
         <div className="page">
-            <div className="stories-content">
+            <div className="content">
                 <h1 className="heading-text">User Posts</h1>
                 <div>
                     <div className="story-posts">

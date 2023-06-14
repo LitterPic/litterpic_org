@@ -211,21 +211,24 @@ const ReportsPage = () => {
                         </label>
                         <br/>
                         <button type="submit">Submit</button>
-                        {/*<button type="button" onClick={handleReset}>*/}
-                        {/*    Reset*/}
-                        {/*</button>*/}
                     </form>
                     <div>
-                        <p>Total Weight: {totalWeight}</p>
-                        <h2>City Weights</h2>
-                        <ul>
-                            {cityWeights.map(([key, weight]) => (
-                                <li key={key}>
-                                    {key}: {weight} lbs
-                                </li>
-                            ))}
-                        </ul>
+
+                        {cityWeights.length > 0 && (
+                            <div>
+                                <h2>Total Weight: {totalWeight}</h2>
+                                <h3>Litter Weight By City</h3>
+                                <ul>
+                                    {cityWeights.map(([key, weight]) => (
+                                        <li key={key}>
+                                            {key}: {weight} lbs
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
                     </div>
+
                 </div>
             </div>
         </div>
