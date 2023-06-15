@@ -86,6 +86,7 @@ h2.heading-text {
     justify-content: space-between;
     padding-left: 80px;
     padding-top: 30px;
+    padding-right: 30px;
     background-color: white;
 }
 
@@ -97,6 +98,13 @@ h2.heading-text {
 
 .logo-bar p {
     line-height: 1;
+}
+
+div.logo-bar-right-content {
+    display: flex;
+    flex-direction: column;
+    border-color: black;
+    border-width: 1px;
 }
 
 .logo-content {
@@ -117,6 +125,15 @@ h2.heading-text {
     margin-left: 8px;
 }
 
+.logo-bar button {
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 5px;
+    width: 100px;
+    border-radius: 15%;
+    font-size: 15px;
+}
+
 .tagline {
     color: #015e41;
     font-style: italic;
@@ -126,12 +143,15 @@ h2.heading-text {
 /* Nav Bar */
 nav {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+    width: 73%;
     height: 70px;
     font-size: 30px;
     font-weight: bold;
-    align-items: center;
     background-color: white;
+    padding: 10px;
 }
 
 nav a {
@@ -140,7 +160,9 @@ nav a {
 }
 
 nav button {
-    margin: 0 15px;
+    display: flex;
+    justify-content: space-evenly;
+    align-content: center;
     background: none;
     font: inherit;
     color: black;
@@ -204,6 +226,34 @@ nav button.active {
     color: black;
 }
 
+/* Login */
+.sign-in-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.sign-in-email {
+    width: 250px;
+    font-size: 18px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.sign-in-password {
+    width: 250px;
+    font-size: 18px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.sign-in-button {
+    width: 100px;
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 15%;
+}
 
 /* Directors */
 .about_content {
@@ -261,6 +311,7 @@ nav button.active {
 .donorbox-images-container {
     display: flex;
     flex-direction: row;
+    justify-content: center;
 }
 
 .donorbox_container {
@@ -270,10 +321,15 @@ nav button.active {
 
 .donate-image-container {
     display: flex;
-    flex-direction: column;
-    margin-left: 20px;
-    margin-right: 40px;
-    margin-bottom: 40px;
+    flex-direction: row;
+    gap: 80px;
+}
+
+.donorbox-widget {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+
 }
 
 /* Contact */
@@ -287,7 +343,7 @@ nav button.active {
 .contact-container {
     width: 75%;
     height: 70%;
-    border-radius: 10px;
+    border-radius: 15px;
     background: linear-gradient(to bottom, #015e41, #000000);
     color: #fff;
     padding: 40px;
@@ -411,7 +467,7 @@ div.rbc-event.rbc-event-selected,
     display: flex;
     flex-direction: column;
     border: solid #015e41;
-    border-radius: 25px;
+    border-radius: 15px;
     height: auto;
     padding-top: 10px;
 }
@@ -614,9 +670,10 @@ div.rbc-event.rbc-event-selected,
 
     nav a,
     nav button {
-        display: inline-block;
-        font-size: 12px;
-        margin: 10px 0;
+        display: flex;
+        justify-content: center;
+        font-size: 14px;
+        width: 19%;
     }
 
     .banner {
@@ -664,12 +721,26 @@ div.rbc-event.rbc-event-selected,
 
     .donorbox-images-container {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
     }
 
     .donorbox_container {
         margin-top: 20px;
         flex: 0 0 auto;
+    }
+
+    .donate-image-container {
+        display: flex;
+        flex-direction: row;
+        margin-top: 20px;
+        gap: 40px;
+        justify-content: center;
+    }
+
+    .donate-image {
+        display: flex;
+        width: 25%;
+        height: auto;
     }
 
     .image_container {
@@ -855,6 +926,8 @@ div.rbc-event.rbc-event-selected,
     }
 
     nav {
+        display: flex;
+        justify-content: space-evenly;
         height: 50px;
         padding-top: 5px;
         padding-bottom: 10px;
@@ -864,9 +937,12 @@ div.rbc-event.rbc-event-selected,
 
     nav a,
     nav button {
-        display: inline-block;
-        font-size: 20px;
-        margin: 10px 5px;
+        display: flex;
+        justify-content: space-evenly;
+        font-size: 17px;
+        width: 19%;
+        margin-left: 8px;
+
     }
 
     .banner {
