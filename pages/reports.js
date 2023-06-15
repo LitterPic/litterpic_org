@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {db} from '../lib/firebase'; // Assuming the db object is exported from your firebase.js file
 import {collection, getDocs, query, where} from 'firebase/firestore';
+import withAuth from '../components/withAuth';
 
 const ReportsPage = () => {
     const [countries, setCountries] = useState([]);
@@ -223,4 +224,4 @@ const ReportsPage = () => {
     );
 };
 
-export default ReportsPage;
+export default withAuth(ReportsPage);

@@ -13,11 +13,7 @@ const Donate = () => {
                 <div className="content">
                     <h1 className="heading-text">Donate</h1>
                     <div className="donate">
-                        <div className="donorbox-images-container">
-                            <div className="donate-image-container">
-                                <img className="donate-image" src="/images/501(c)(3).webp" alt="501(c)(3)"/>
-                                <img className="donate-image" src="/images/nonprofit_seal.webp" alt="Nonprofit Seal"/>
-                            </div>
+                        <div className="donorbox-widget">
                             <div className="donorbox_container">
                                 <DonorBox/>
                             </div>
@@ -87,6 +83,12 @@ const Donate = () => {
                                 and
                                 well-being of our planet.
                             </p>
+                        </div>
+                        <div className="donorbox-images-container">
+                            <div className="donate-image-container">
+                                <img className="donate-image" src="/images/501(c)(3).webp" alt="501(c)(3)"/>
+                                <img className="donate-image" src="/images/nonprofit_seal.webp" alt="Nonprofit Seal"/>
+                            </div>
                         </div>
                     </div>
                 </div>
