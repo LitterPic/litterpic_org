@@ -1,11 +1,38 @@
 import React, {useEffect, useState} from "react";
 import {collection, getDocs} from "firebase/firestore";
 import {db} from "../lib/firebase";
-import {Calendar, momentLocalizer} from 'react-big-calendar';
+import {Calendar, momentLocalizer, Navigate} from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import {FaChevronLeft, FaChevronRight} from "react-icons/fa";
 
 const localizer = momentLocalizer(moment);
+
+class CustomToolbar extends React.Component {
+    navigate = action => {
+        this.props.onNavigate(action);
+    };
+
+    render() {
+        return (
+            <div className="rbc-toolbar">
+        <span className="rbc-btn-group">
+          <button type="button" onClick={() => this.navigate(Navigate.PREVIOUS)}>
+            {/* replace with your own back icon */}
+              <FaChevronLeft className="calendar-chevron-left"/>
+          </button>
+        </span>
+                <span className="rbc-toolbar-label">{this.props.label}</span>
+                <span className="rbc-btn-group">
+          <button type="button" onClick={() => this.navigate(Navigate.NEXT)}>
+            {/* replace with your own next icon */}
+              <FaChevronRight className="calendar-chevron-right"/>
+          </button>
+        </span>
+            </div>
+        );
+    }
+}
 
 const Volunteer = () => {
     const [events, setEvents] = useState([]);
@@ -80,6 +107,7 @@ const Volunteer = () => {
                             views={['month']}
                             components={{
                                 event: EventComponent,
+                                toolbar: CustomToolbar,  // Use your custom toolbar
                             }}
                         />
                     </div>

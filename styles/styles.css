@@ -63,7 +63,7 @@ input, select, textarea {
     background-color: #fff;
     margin-left: auto;
     margin-right: auto;
-    width: 85%;
+    width: 70%;
 }
 
 h1.heading-text {
@@ -351,6 +351,11 @@ div.rbc-event.rbc-event-selected,
     height: 20px;
 }
 
+.rbc-toolbar-label {
+    font-size: 26px;
+    font-family: Arial, serif;
+}
+
 .calendar {
     display: flex;
     justify-content: center;
@@ -358,8 +363,14 @@ div.rbc-event.rbc-event-selected,
 
 .rbc-calendar {
     display: flex;
-    width: 80%;
+    width: 100%;
     margin-bottom: 30px;
+}
+
+.calendar-chevron-left,
+.calendar-chevron-right {
+    color: black;
+    font-size: 20px;
 }
 
 /* Volunteer Events Table */
@@ -392,12 +403,8 @@ div.rbc-event.rbc-event-selected,
 .post-grid {
     display: grid;
     grid-template-columns: 450px 450px;
-    gap: 70px;
-    row-gap: 15px;
+    gap: 5px;
     grid-auto-flow: row;
-    width: 50%;
-    justify-content: center;
-    align-items: center;
 }
 
 .post {
@@ -406,10 +413,7 @@ div.rbc-event.rbc-event-selected,
     border: solid #015e41;
     border-radius: 25px;
     height: auto;
-    min-height: 700px;
-    width: 500px;
-    overflow: hidden;
-    padding-top: 20px;
+    padding-top: 10px;
 }
 
 .post p {
@@ -418,37 +422,35 @@ div.rbc-event.rbc-event-selected,
 
 .post-carousel {
     position: relative;
+    display: flex;
+    justify-content: center;
 }
 
 .carousel-image {
-    width: 500px;
-    height: 500px;
+    width: 350px;
+    height: 350px;
     object-fit: cover;
     overflow: hidden;
 }
 
 .carousel-chevron {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+    position: relative;
     z-index: 1;
-    color: white;
-    background-color: #015e41;
-    height: 30px;
+    color: #015e41;
+    background-color: white;
+    height: 350px;
 }
 
 .carousel-chevron-left {
-    left: 0;
+    padding-right: 5px;
 }
 
 .carousel-chevron-right {
-    right: 0;
+    padding-left: 5px;
 }
 
 .carousel-chevron:hover {
-    transform: translateY(-50%) scale(1.1);
-    color: #015e41;
-    background-color: white;
+    color: black;
 }
 
 .post-user-name {
@@ -490,7 +492,7 @@ div.rbc-event.rbc-event-selected,
 .community-service-button {
     display: block;
     margin: 30px auto 40px;
-    border-radius: 20px;
+    border-radius: 15px;
     padding: 10px;
 }
 
@@ -692,12 +694,12 @@ div.rbc-event.rbc-event-selected,
     }
 
     .rbc-calendar {
-        width: 90%;
+        width: 100%;
         margin: auto auto 20px;
     }
 
     .calendar {
-        width: 102%;
+        width: 100%;
     }
 
     .rbc-toolbar button {
@@ -705,7 +707,7 @@ div.rbc-event.rbc-event-selected,
     }
 
     .rbc-toolbar-label {
-        font-size: 12px;
+        font-size: 24px;
     }
 
     .table td,
@@ -937,12 +939,12 @@ div.rbc-event.rbc-event-selected,
     }
 
     .rbc-calendar {
-        width: 90%;
+        width: 100%;
         margin: auto auto 20px;
     }
 
     .calendar {
-        width: 102%;
+        width: 100%;
     }
 
     .rbc-toolbar button {
@@ -950,7 +952,7 @@ div.rbc-event.rbc-event-selected,
     }
 
     .rbc-toolbar-label {
-        font-size: 12px;
+        font-size: 28px;
     }
 
     .table td,
