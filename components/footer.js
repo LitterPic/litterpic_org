@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 const Footer = () => {
     const email = 'contact@litterpic.org';
-    const address = 'Wells, ME, 04090';
+    const address = 'Wells, ME 04090';
     const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
         address
     )}`;

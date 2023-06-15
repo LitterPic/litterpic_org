@@ -16,8 +16,6 @@ const ReportsPage = () => {
         const fetchData = async () => {
             try {
                 const userPostsRef = collection(db, 'userPosts');
-
-                // Fetch distinct countries from Firebase
                 const countriesQuery = query(userPostsRef);
                 const countriesSnapshot = await getDocs(countriesQuery);
                 const countrySet = new Set();
@@ -30,7 +28,6 @@ const ReportsPage = () => {
                 console.error('Error fetching data:', error);
             }
         };
-
         fetchData();
     }, []);
 
@@ -44,7 +41,9 @@ const ReportsPage = () => {
                 const statesSnapshot = await getDocs(statesQuery);
                 const stateSet = new Set();
                 statesSnapshot.forEach((doc) => {
-                    stateSet.add(doc.data().State);
+                    if (doc.data().State) {
+                        stateSet.add(doc.data().State);
+                    }
                 });
                 const stateList = Array.from(stateSet);
                 setStates(stateList);
@@ -78,7 +77,9 @@ const ReportsPage = () => {
                 const citiesSnapshot = await getDocs(citiesQuery);
                 const citySet = new Set();
                 citiesSnapshot.forEach((doc) => {
-                    citySet.add(doc.data().City);
+                    if (doc.data().City) {
+                        citySet.add(doc.data().City);
+                    }
                 });
                 const cityList = Array.from(citySet);
                 setCities(cityList);
@@ -97,10 +98,8 @@ const ReportsPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         try {
             let weightQuery = query(collection(db, 'userPosts'));
-
             if (selectedCountry) {
                 weightQuery = query(
                     weightQuery,
@@ -119,9 +118,7 @@ const ReportsPage = () => {
                     where('City', '==', selectedCity)
                 );
             }
-
             const weightSnapshot = await getDocs(weightQuery);
-
             let total = 0;
             const cityWeightMap = new Map();
             weightSnapshot.forEach((doc) => {
@@ -129,14 +126,10 @@ const ReportsPage = () => {
                 const state = doc.data().State;
                 const country = doc.data().Country;
                 const litterWeight = doc.data().litterWeight;
-
                 total += litterWeight;
 
                 if (!selectedCity || city === selectedCity) {
-                    const key = selectedCity
-                        ? `${city}, ${state}, ${country}`
-                        : `${city}, ${state ? state + ',' : ''} ${country}`;
-
+                    const key = `${city ? city + ',' : ''} ${state ? state + ',' : ''} ${country}`;
                     if (cityWeightMap.has(key)) {
                         cityWeightMap.set(key, cityWeightMap.get(key) + litterWeight);
                     } else {
@@ -144,7 +137,6 @@ const ReportsPage = () => {
                     }
                 }
             });
-
             setTotalWeight(total);
             setCityWeights(Array.from(cityWeightMap.entries()));
         } catch (error) {
@@ -154,11 +146,9 @@ const ReportsPage = () => {
 
     return (
         <div>
-
             <div className="banner">
                 <img src="/images/reports_banner.webp" alt="Banner Image"/>
             </div>
-
             <div className="page">
                 <div className="content">
                     <h1 className="heading-text">Reports</h1>
@@ -213,7 +203,6 @@ const ReportsPage = () => {
                         <button type="submit">Submit</button>
                     </form>
                     <div>
-
                         {cityWeights.length > 0 && (
                             <div>
                                 <h2>Total Weight: {totalWeight}</h2>
@@ -228,7 +217,6 @@ const ReportsPage = () => {
                             </div>
                         )}
                     </div>
-
                 </div>
             </div>
         </div>

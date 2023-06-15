@@ -70,21 +70,27 @@ function Stories() {
     };
 
     return (
-        <div className="page">
-            <div className="content">
-                <h1 className="heading-text">User Posts</h1>
-                <div>
-                    <div className="story-posts">
-                        <div className="post-grid">
-                            {posts.map((post, index) => (
-                                <Post key={post.id} post={post}/>
-                            ))}
+        <div>
+            <div className="banner">
+                <img src="/images/user_posts_banner.webp" alt="Banner Image"/>
+            </div>
+
+            <div className="page">
+                <div className="content">
+                    <h1 className="heading-text">User Posts</h1>
+                    <div>
+                        <div className="story-posts">
+                            <div className="post-grid">
+                                {posts.map((post, index) => (
+                                    <Post key={post.id} post={post}/>
+                                ))}
+                            </div>
+                            {!isLoading && hasMorePosts && (
+                                <div id="end-of-posts" style={{marginTop: '20px'}}></div>
+                            )}
                         </div>
-                        {!isLoading && hasMorePosts && (
-                            <div id="end-of-posts" style={{marginTop: '20px'}}></div>
-                        )}
+                        {isLoading && <div>Loading more posts...</div>}
                     </div>
-                    {isLoading && <div>Loading more posts...</div>}
                 </div>
             </div>
         </div>
