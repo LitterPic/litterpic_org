@@ -5,16 +5,40 @@ const Contact = () => {
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
 
-    const handleEmailLink = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const subject = "LitterPic.org inquiry";
+        const formData = {
+            firstName,
+            lastName,
+            email,
+            message,
+        };
 
-        const emailBody = `${message}`;
-        window.location.href = `mailto:contact@litterpic.org?subject=${encodeURIComponent(
-            subject
-        )}&body=${encodeURIComponent(emailBody)}`;
+        try {
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (response.ok) {
+                setSuccessMessage(`Thanks for submitting, ${firstName}!`);
+                setFirstName('');
+                setLastName('');
+                setEmail('');
+                setMessage('');
+            } else {
+                setSuccessMessage('Failed to send email. Please try again later.');
+            }
+        } catch (error) {
+            console.error(error);
+            setSuccessMessage('An error occurred. Please try again later.');
+        }
     };
 
     return (
@@ -28,62 +52,90 @@ const Contact = () => {
                     <h1 className="heading-text">Contact</h1>
                     <div className="contact-wrapper">
                         <div className="contact-container">
-                            <form onSubmit={handleEmailLink}>
-                                <div className="form-group">
-                                    <label htmlFor="firstName">First Name</label>
-                                    <input
-                                        className="contact-input"
-                                        type="text"
-                                        id="firstName"
-                                        value={firstName}
-                                        onChange={(e) => setFirstName(e.target.value)}
-                                        required
-                                    />
+                            <div className="contact-lets-chat">Let's Chat</div>
+                            <div className="contact-phone-email-social">
+                                <div className="contact-phone">
+                                    <p className="contact-heading">Phone</p>
+                                    <p>(207) 807-1496</p>
                                 </div>
-
-                                <div className="form-group">
-                                    <label htmlFor="lastName">Last Name</label>
-                                    <input
-                                        className="contact-input"
-                                        type="text"
-                                        id="lastName"
-                                        value={lastName}
-                                        onChange={(e) => setLastName(e.target.value)}
-                                        required
-                                    />
+                                <div className="contact-email">
+                                    <p className="contact-heading">Email</p>
+                                    <p>contact@litterpic.org</p>
                                 </div>
-
-                                <div className="form-group">
-                                    <label htmlFor="email">Email</label>
-                                    <input
-                                        className="contact-input"
-                                        type="email"
-                                        id="email"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        required
-                                    />
+                                <div className="contact-social">
+                                    <p className="contact-heading">Social Media</p>
+                                    <div className="social-icons">
+                                        <a href="https://www.facebook.com/LitterPic/" target="_blank"
+                                           rel="noopener noreferrer">
+                                            <i className="fab fa-facebook-f facebook-icon"></i>
+                                        </a>
+                                        <a href="https://www.instagram.com/littrpic/" target="_blank"
+                                           rel="noopener noreferrer">
+                                            <i className="fab fa-instagram instagram-icon"></i>
+                                        </a>
+                                        <a href="https://www.linkedin.com/company/litterpic" target="_blank"
+                                           rel="noopener noreferrer">
+                                            <i className="fab fa-linkedin linkedin-icon"></i>
+                                        </a>
+                                    </div>
                                 </div>
-
+                            </div>
+                            <form onSubmit={handleSubmit} className="contact-form">
+                                <div className="form-row">
+                                    <div className="form-group">
+                                        <label htmlFor="firstName">
+                                            First Name <sup className="required">*</sup>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="firstName"
+                                            value={firstName}
+                                            onChange={(e) => setFirstName(e.target.value)}
+                                            required
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="lastName">
+                                            Last Name <sup className="required">*</sup>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="lastName"
+                                            value={lastName}
+                                            onChange={(e) => setLastName(e.target.value)}
+                                            required
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="email">
+                                            Email <sup className="required">*</sup>
+                                        </label>
+                                        <input
+                                            type="email"
+                                            id="email"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            required
+                                        />
+                                    </div>
+                                </div>
                                 <div className="form-group">
                                     <label htmlFor="message">Message</label>
                                     <textarea
-                                        className="contact-textarea"
                                         id="message"
                                         value={message}
                                         onChange={(e) => setMessage(e.target.value)}
                                         required
                                     ></textarea>
                                 </div>
-
-                                <div className="contact-submit-button">
-                                    <button type="submit">Submit</button>
-                                </div>
+                                <button id="contact-submit-button" type="submit">Send</button>
+                                {successMessage && <p className="contact-submit-response">{successMessage}</p>}
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
     );
 };

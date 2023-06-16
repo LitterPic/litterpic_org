@@ -1,3 +1,7 @@
+/* Font Awesome */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
+
+
 /* styles.css */
 * {
     margin: 0;
@@ -346,7 +350,9 @@ nav button.active {
     border-radius: 15px;
     background: linear-gradient(to bottom, #015e41, #000000);
     color: #fff;
-    padding: 40px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
 }
 
 .contact-container h1 {
@@ -356,6 +362,20 @@ nav button.active {
 .form-group {
     display: flex;
     flex-direction: column;
+    margin-right: 60px;
+}
+
+.form-group label {
+    margin-bottom: 5px;
+}
+
+.required {
+    vertical-align: super;
+    font-size: smaller;
+}
+
+#message {
+    height: 60px;
 }
 
 .contact-input {
@@ -369,10 +389,62 @@ nav button.active {
     height: 15em;
 }
 
-.contact-submit-button {
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    align-items: center;
+}
+
+.contact-phone-email-social {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    align-items: center;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+.contact-lets-chat {
+    font-weight: bold;
+    font-size: 40px;
+    margin-left: 10px;
+}
+
+.social-icons {
     display: flex;
-    justify-content: center;
-    padding-top: 20px;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 30px;
+}
+
+.contact-heading {
+    font-weight: bold;
+}
+
+#contact-submit-button {
+    margin-top: 10px;
+    margin-left: 83%;
+}
+
+.contact-submit-response {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+
+.facebook-icon {
+    color: #4267B2; /* Facebook blue */
+}
+
+.instagram-icon {
+    color: #C13584; /* Instagram pink */
+}
+
+.linkedin-icon {
+    color: #0A66C2; /* LinkedIn blue */
 }
 
 /* Image Row */
