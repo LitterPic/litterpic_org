@@ -9,9 +9,8 @@ function Post({post}) {
     useEffect(() => {
         // Fetch user name
         const fetchUserName = async () => {
-            // Replace 'name' with the field from the user object that contains the user name
             const {display_name} = post.user;
-            setUserName(display_name); // Update this line with the correct field name
+            setUserName(display_name);
         };
 
         fetchUserName();
