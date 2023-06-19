@@ -1,6 +1,7 @@
 import React, {useEffect, useState, useRef} from 'react';
 import Post from '../components/post';
 import {fetchPosts} from '../components/utils';
+import Link from 'next/link';
 
 function Stories() {
     const [posts, setPosts] = useState([]);
@@ -9,6 +10,7 @@ function Stories() {
     const [page, setPage] = useState(1);
     const [renderedPostIds, setRenderedPostIds] = useState([]);
     const observer = useRef();
+
 
     useEffect(() => {
         const fetchAndSetPosts = async () => {
@@ -77,7 +79,13 @@ function Stories() {
 
             <div className="page">
                 <div className="content">
-                    <h1 className="heading-text">User Posts</h1>
+                    <div className="stories-top-bar">
+                        <h1 className="heading-text">User Posts</h1>
+                        <Link className="create-post-button" href="/createpost">
+                            <button>Create Post</button>
+                        </Link>
+                    </div>
+
                     <div>
                         <div className="story-posts">
                             <div className="post-grid">

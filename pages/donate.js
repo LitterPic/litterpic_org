@@ -14,7 +14,7 @@ const Donate = () => {
                     <h1 className="heading-text">Donate</h1>
                     <div className="donate">
                         <div className="donorbox-widget">
-                            <div className="donorbox_container">
+                            <div className="donorbox-container">
                                 <DonorBox/>
                             </div>
                         </div>
