@@ -4,16 +4,20 @@
   "description": "A Next.js website for LitterPic.org",
   "main": "index.js",
   "scripts": {
-    "dev": "next dev",
+    "dev": "sass styles/styles.scss styles/styles.css --watch & next dev",
     "build": "next build",
     "start": "next start",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "export": "next export"
+    "export": "next export",
+    "lint": "sass-lint -v",
+    "lint:fix": "sass-lint-auto-fix",
+    "clean": "rm -rf out & npm ci"
   },
   "keywords": [],
   "author": "Your Name",
   "license": "ISC",
   "dependencies": {
+    "@react-google-maps/api": "^2.18.1",
     "@sendgrid/mail": "^7.7.0",
     "axios": "^1.4.0",
     "cors": "^2.8.5",
@@ -29,5 +33,9 @@
     "react-slick": "^0.29.0",
     "react-swipeable": "^7.0.1",
     "slick-carousel": "^1.8.1"
+  },
+  "devDependencies": {
+    "sass": "^1.63.4",
+    "sass-lint-auto-fix": "^0.21.2"
   }
 }

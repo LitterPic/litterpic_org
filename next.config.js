@@ -1,4 +1,5 @@
 module.exports = {
-    // other configurations
-
+    sassOptions: {
+        includePaths: [],
+    },
 };

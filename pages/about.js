@@ -86,9 +86,9 @@ const About = () => {
 
                     <div className="directors-text">LitterPic Inc. Board of Directors</div>
                     {boardMembers.map((member, index) => (
-                        <div className="memberContainer" key={index}>
-                            <img className="memberImage" src={member.image} alt={member.name}/>
-                            <div className="memberContent">
+                        <div className="member-container" key={index}>
+                            <img className="member-image" src={member.image} alt={member.name}/>
+                            <div className="member-content">
                                 <h3>{member.name}</h3>
                                 <p>{member.content}</p>
                             </div>
