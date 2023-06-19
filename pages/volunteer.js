@@ -18,8 +18,7 @@ class CustomToolbar extends React.Component {
             <div className="rbc-toolbar">
         <span className="rbc-btn-group">
           <button type="button" onClick={() => this.navigate(Navigate.PREVIOUS)}>
-            {/* replace with your own back icon */}
-              <FaChevronLeft className="calendar-chevron-left"/>
+            <FaChevronLeft className="calendar-chevron-left"/>
           </button>
         </span>
                 <span className="rbc-toolbar-label">{this.props.label}</span>
@@ -34,12 +33,26 @@ class CustomToolbar extends React.Component {
     }
 }
 
+const EventComponent = ({event}) => {
+    const currentDate = new Date();
+    const eventDate = event.start.toISOString().split("T")[0];
+    const isPastEvent = new Date(eventDate) < currentDate;
+
+    return (
+        <span
+            className={`${isPastEvent ? "volunteer-past-event" : "volunteer-future-event"}`}
+        >
+      <strong>{event.event_title}</strong>
+    </span>
+    );
+};
+
 const Volunteer = () => {
     const [events, setEvents] = useState([]);
     const [selectedDate, setSelectedDate] = useState(null);
 
     const handleButtonClick = () => {
-        window.location.href = "/community_service_hours"; // Replace with the desired URL or route path
+        window.location.href = "/community_service_hours";
     };
 
     useEffect(() => {
@@ -52,11 +65,6 @@ const Volunteer = () => {
                 start: doc.data().date.toDate(),
                 end: doc.data().date.toDate()
             }));
-
-            const currentDate = new Date();
-            eventList = eventList.filter(
-                (event) => event.start.getTime() >= currentDate.getTime()
-            );
 
             eventList = eventList.sort(
                 (a, b) => a.start.getTime() - b.start.getTime()
@@ -71,12 +79,23 @@ const Volunteer = () => {
         setSelectedDate(event.start.toISOString().split('T')[0]);
     };
 
-    const EventComponent = ({event}) => {
-        return (
-            <span className="event-background">
-                <strong>{event.event_title}</strong>
-            </span>
-        )
+    const eventStyleGetter = (event, start, end, isSelected) => {
+        const currentDate = new Date();
+        const eventDate = new Date(event.start);
+        const isPastEvent = eventDate < currentDate;
+
+        let style = {
+            backgroundColor: isPastEvent ? '#E6E6E6' : '#015e41',
+            borderRadius: '0px',
+            opacity: 0.8,
+            color: isPastEvent ? 'darkgrey' : 'white', // change this line
+            border: '0px',
+            display: 'block'
+        };
+
+        return {
+            style: style
+        };
     };
 
     return (
@@ -107,8 +126,9 @@ const Volunteer = () => {
                             views={['month']}
                             components={{
                                 event: EventComponent,
-                                toolbar: CustomToolbar,  // Use your custom toolbar
+                                toolbar: CustomToolbar,
                             }}
+                            eventPropGetter={eventStyleGetter}
                         />
                     </div>
 
@@ -124,7 +144,7 @@ const Volunteer = () => {
                             </tr>
                             </thead>
                             <tbody>
-                            {events.map((event, index) => (
+                            {events.filter(event => new Date(event.start.toISOString().split('T')[0]) >= new Date()).map((event, index) => (
                                 <tr key={index}
                                     className={event.start.toISOString().split('T')[0] === selectedDate ? 'highlight' : ''}>
                                     <td>{event.event_title}</td>
