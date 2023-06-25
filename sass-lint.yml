@@ -11,3 +11,8 @@ rules:
     - convention:
         hyphenated_lowercase: true
         ignore: image-row__item
+  nesting-depth:
+    - 2
+    - max-depth: 3
+      ignore: |
+        .rbc-calendar .rbc-month-view .rbc-day-bg.rbc-today

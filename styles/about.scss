@@ -1,0 +1,97 @@
+// Common Colors
+@import 'colors';
+
+// About
+.about-us-content {
+  margin-bottom: 1.25rem;
+}
+
+.directors-text {
+  font-size: 1.75rem;
+  font-weight: bold;
+  margin-bottom: 1.25rem;
+  margin-left: 6.25rem;
+  margin-top: 1.875rem;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.member-container {
+  display: flex;
+  margin-bottom: 4.375rem;
+  margin-left: 6.25rem;
+  margin-right: 6.25rem;
+
+  &:nth-child(even) {
+    .member-image {
+      margin-left: 6.9rem;
+    }
+  }
+}
+
+.member-image {
+  height: 7.8rem;
+  margin-right: 1.25rem;
+  width: 7.2rem;
+}
+
+.member-content {
+  flex: 1;
+
+  h3 {
+    margin-top: 0;
+  }
+}
+
+
+@media (max-width: 76.5rem) {
+  .about-us-content {
+    margin-bottom: 1.25rem;
+  }
+
+  .directors-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1.25rem;
+    margin-left: .6rem;
+    margin-top: 1.875rem;
+  }
+
+  .member-container {
+    margin-left: .6rem;
+    margin-right: .6rem;
+
+    &:nth-child(even) {
+      .member-image {
+        margin-left: 0;
+      }
+    }
+  }
+
+  .member-image {
+    height: 9.3rem;
+    width: 8.3rem;
+  }
+}
+
+@media (max-width: 102.25rem) and (orientation: landscape) {
+
+  .member-container {
+    margin-left: .6rem;
+    margin-right: .6rem;
+
+    &:nth-child(odd) {
+      .member-image {
+        margin-left: 0;
+      }
+    }
+  }
+
+  .member-image {
+    height: 9.3rem;
+    width: 8.3rem;
+  }
+}

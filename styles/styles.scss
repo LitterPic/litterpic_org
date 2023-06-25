@@ -1,17 +1,17 @@
-// Common Colors
-$litterpic-green: #015e41;
-$nav-green: #479079;
-$table-highlight-green: #4caf50;
-$black: #000;
-$white: #fff;
-$gray: #d3d3d3;
-$light-gray: #e5e5e4;
-$table-gray: #ddd;
-$dark-blue: #00f;
-$facebook-blue: #4267b2;
-$instagram-pink: #c13584;
-$linkedin-blue: #0a66c2;
-$translucent-black: rgba(0, 0, 0, .4);
+// Component and Page Styles
+@import 'about';
+@import 'banner';
+@import 'colors';
+@import 'contact';
+@import 'dontate';
+@import 'footer';
+@import 'home';
+@import 'homeimagerow';
+@import 'login';
+@import 'logobar';
+@import 'navbar';
+@import 'userpost';
+@import 'volunteer';
 
 //Font Awesome
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
@@ -23,7 +23,6 @@ $translucent-black: rgba(0, 0, 0, .4);
   padding: 0;
 }
 
-// General Formatting
 body {
   background-color: $white;
 }
@@ -36,8 +35,8 @@ main {
 h1 {
   &.heading-text {
     color: $litterpic-green;
-    font-size: 48px;
-    margin-bottom: 40px;
+    font-size: 3rem;
+    margin-bottom: 2.5rem;
     text-align: start;
   }
 }
@@ -45,23 +44,23 @@ h1 {
 h2 {
   &.heading-text {
     color: $litterpic-green;
-    margin-bottom: 5px;
-    margin-top: 40px;
+    margin-bottom: .3rem;
+    margin-top: 2.5rem;
     text-align: center;
   }
 }
 
 p {
-  font-size: 18px;
+  font-size: 1.2rem;
   line-height: 1.75;
 }
 
 li {
-  margin-bottom: 15px;
+  margin-bottom: 1rem;
 }
 
 ol {
-  margin-left: 40px;
+  margin-left: 2.5rem;
 }
 
 button {
@@ -69,23 +68,23 @@ button {
   border: 0;
   color: $white;
   cursor: pointer;
-  font-size: 18px;
-  padding: 20px;
+  font-size: 1.2rem;
+  padding: .5rem;
 }
 
 label {
-  padding-bottom: 5px;
-  padding-top: 5px;
+  padding-bottom: .3rem;
+  padding-top: .3rem;
 }
 
 form {
-  padding: 10px;
+  padding: .7rem;
 }
 
 input,
 select,
 textarea {
-  margin-bottom: 15px;
+  margin-bottom: 1rem;
 }
 
 .page {
@@ -93,648 +92,25 @@ textarea {
   background-color: $gray;
   display: flex;
   justify-content: center;
-  padding: 20px;
+  padding: 1.5rem;
 }
 
 .content {
   background-color: $white;
-  box-shadow: 0 2px 4px $translucent-black;
+  box-shadow: 0 .125rem .25rem $translucent-black;
   margin-left: auto;
   margin-right: auto;
-  padding: 30px;
+  padding: 1.5rem;
   width: 70%;
-}
 
-
-// Logo Bar
-.logo-bar {
-  background-color: $white;
-  display: flex;
-  justify-content: space-between;
-  padding-left: 80px;
-  padding-right: 30px;
-  padding-top: 30px;
-
-  img {
-    height: auto;
-    padding-top: 5px;
-    width: 50px;
-  }
-
-  p {
-    line-height: 1;
-  }
-
-  button {
-    border-radius: 15%;
-    font-size: 15px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 5px;
-    width: 100px;
+  ul {
+    padding: 3rem;
   }
 }
 
-.logo-bar-right-content {
-  border-color: $black;
-  border-width: 1px;
-  display: flex;
-  flex-direction: column;
-}
-
-.logo-content {
-  display: flex;
-  flex-direction: row;
-  margin-right: 10px;
-}
-
-.logo {
-  font-size: 25px;
-  margin-right: 5px;
-}
-
-.logo-text {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-left: 8px;
-}
-
-.tagline {
-  color: $litterpic-green;
-  font-size: 18px;
-  font-style: italic;
-}
-
-// Nav Bar
-nav {
-  align-items: center;
-  background-color: $white;
-  display: flex;
-  font-size: 30px;
-  font-weight: bold;
-  height: 70px;
-  justify-content: space-between;
-  margin: 0 auto;
-  padding: 10px;
-  width: 73%;
-
-  a {
-    text-decoration: none;
-    transition: color .5s ease;
-  }
-
-  button {
-    align-content: center;
-    background: none;
-    color: $black;
-    display: flex;
-    font: inherit;
-    justify-content: space-evenly;
-
-    &:hover {
-      color: $nav-green;
-    }
-
-    &.active {
-      color: $nav-green;
-    }
-  }
-}
-
-
-// Banner
-.banner {
-  background-position: center;
-  background-size: cover;
-  height: 300px;
-  position: relative;
-
-  img {
-    height: 100%;
-    object-fit: cover;
-    width: 100%;
-  }
-}
-
-
-// Home
-.overlay {
-  align-items: center;
-  display: flex;
-  height: 100%;
-  justify-content: center;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 100%;
-}
-
-.weight-box {
-  align-items: center;
-  background-color: $light-gray;
-  border: 1px solid $litterpic-green;
-  border-radius: 15px;
-  box-shadow: 5px 5px 10px $translucent-black;
-  display: flex;
-  font-family: 'Arial', serif;
-  font-weight: bold;
-  height: 20%;
-  justify-content: center;
-  padding: 10px;
-}
-
-.litter-weight {
-  color: $litterpic-green;
-  font-size: 38px;
-}
-
-.pounds-text {
-  color: $black;
-}
-
-// Login
-.sign-in-form {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.sign-in-email {
-  font-size: 18px;
-  margin-left: auto;
-  margin-right: auto;
-  width: 250px;
-}
-
-.sign-in-password {
-  font-size: 18px;
-  margin-left: auto;
-  margin-right: auto;
-  width: 250px;
-}
-
-.sign-in-button {
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 30px;
-  width: 100px;
-}
-
-// Directors
-.about-us-content {
-  margin-bottom: 20px;
-}
-
-.directors-text {
-  font-size: 28px;
-  font-weight: bold;
-  margin-bottom: 20px;
-  margin-left: 100px;
-  margin-top: 30px;
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
-}
-
-.member-container {
-  display: flex;
-  margin-bottom: 70px;
-  margin-left: 100px;
-  margin-right: 100px;
-
-  &:nth-child(even) {
-    .member-image {
-      margin-left: 110px;
-    }
-  }
-}
-
-.member-image {
-  height: 125px;
-  margin-right: 20px;
-  width: 115px;
-}
-
-.member-content {
-  flex: 1;
-
-  h3 {
-    margin-top: 0;
-  }
-}
-
-
-// Donate
-.donate-legal-text {
-  margin-right: 40px;
-}
-
-.donorbox-images-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-
-.donorbox-container {
-  flex: 0 0 auto;
-  margin-top: 20px;
-}
-
-.donate-image-container {
-  column-gap: 80px;
-  display: flex;
-  flex-direction: row;
-}
-
-.donorbox-widget {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-
-}
-
-.contact-wrapper {
-  align-items: center;
-  display: flex;
-  height: 90%;
-  justify-content: center;
-}
-
-.contact-container {
-  background: linear-gradient(to bottom, $litterpic-green, $black);
-  border-radius: 15px;
-  color: $white;
-  display: flex;
-  flex-direction: column;
-  height: 70%;
-  padding: 10px;
-  width: 100%;
-
-  h1 {
-    text-align: center;
-  }
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  margin-right: 60px;
-
-  label {
-    margin-bottom: 5px;
-  }
-}
-
-.required {
-  font-size: smaller;
-  vertical-align: super;
-}
-
-#message {
-  height: 60px;
-}
-
-.contact-input {
-  font-size: 18px;
-  height: 3em;
-  width: 25em;
-}
-
-.contact-textarea {
-  height: 15em;
-  width: 50%;
-}
-
-.form-row {
-  align-items: center;
-  column-gap: 10px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-}
-
-.contact-phone-email-social {
-  align-items: center;
-  column-gap: 10px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  margin-left: 10px;
-  margin-top: 10px;
-}
-
-.contact-lets-chat {
-  font-size: 40px;
-  font-weight: bold;
-  margin-left: 10px;
-}
-
-.social-icons {
-  align-items: center;
-  column-gap: 25px;
-  display: flex;
-  justify-content: flex-start;
-
-  a {
-    font-size: 21px;
-  }
-}
-
-.contact-heading {
-  font-weight: bold;
-}
-
-#contact-submit-button {
-  display: flex;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 10px;
-}
-
-.contact-submit-response {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  margin-top: 20px;
-}
-
-.facebook-icon {
-  color: $facebook-blue;
-  display: flex;
-  height: 30%;
-}
-
-.instagram-icon {
-  color: $instagram-pink;
-}
-
-.linkedin-icon {
-  color: $linkedin-blue;
-}
-
-// Image Row
-.image-row {
-  overflow-x: auto;
-  white-space: nowrap; // Prevent images from wrapping to the next line
-
-  .image-row__item {
-    display: inline-block; // Display images in a row
-    height: 300px;
-    margin: 2px;
-    object-fit: cover;
-    width: 300px;
-  }
-}
-
-// Volunteer Calendar
-.event-background {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: normal;
-}
-
-.rbc-calendar .rbc-month-view .rbc-day-bg.rbc-today {
-  background-color: #baceba;
-  border-color: $litterpic-green;
-  border-width: 4px;
-}
-
-.rbc-event-content {
-  font-size: 14px;
-  height: 20px;
-}
-
-.rbc-toolbar-label {
-  font-family: Arial, serif;
-  font-size: 26px;
-}
-
-.calendar {
-  display: flex;
-  justify-content: center;
-}
-
-.rbc-calendar {
-  display: flex;
-  margin-bottom: 30px;
-  width: 100%;
-}
-
-.calendar-chevron-left,
-.calendar-chevron-right {
-  color: $black;
-  font-size: 20px;
-}
-
-
-// Volunteer Events Table
-.table {
-  border-collapse: collapse;
-  width: 100%;
-
-  td,
-  th {
-    border: 1px solid $table-gray;
-    padding: 16px;
-  }
-}
-
-.highlight {
-  background-color: $table-highlight-green;
-  color: $white;
-}
-
-.start-time-column {
-  width: 60px;
-}
-
-// User Posts
-.stories-top-bar {
-  display: flex;
-  justify-content: space-between;
-}
-
-.create-post-button {
-  button {
-    align-self: flex-end;
-    border-radius: 8%;
-    margin-bottom: 40px;
-  }
-}
-
-
-.story-posts {
-  display: flex;
-  justify-content: space-around;
-}
-
-.post-grid {
-  display: grid;
-  gap: 5px;
-  grid-auto-flow: row;
-  grid-template-columns: 450px 450px;
-}
-
-.post {
-  border: solid $litterpic-green;
-  border-radius: 15px;
-  display: flex;
-  flex-direction: column;
-  height: auto;
-  padding-top: 10px;
-
-  p {
-    text-align: center;
-  }
-}
-
-.post-carousel {
-  display: flex;
-  justify-content: center;
-  position: relative;
-}
-
-.carousel-image {
-  height: 350px;
-  object-fit: cover;
-  overflow: hidden;
-  width: 350px;
-}
-
-.carousel-chevron {
-  background-color: $white;
-  color: $litterpic-green;
-  height: 350px;
-  position: relative;
-  z-index: 1;
-
-  &:hover {
-    color: $black;
-  }
-}
-
-.carousel-chevron-left {
-  padding-right: 5px;
-}
-
-.carousel-chevron-right {
-  padding-left: 5px;
-}
-
-.post-user-name {
-  font-family: Helvetica, serif;
-  font-weight: normal;
-  margin-left: 45px;
-}
-
-.post-title {
-  font-size: 1.5em;
-  font-weight: bolder;
-  margin-left: 15px;
-  margin-top: 20px;
-}
-
-.post-location {
-  color: $dark-blue;
-  font-family: Helvetica, serif;
-  font-size: 15px;
-  margin-left: 15px;
-  margin-top: 20px;
-}
-
-.post-litter-weight-collected {
-  font-weight: bold;
-  margin-bottom: 8px;
-  margin-top: 20px;
-  text-align: center;
-}
-
-.post-description {
-  font-family: inherit;
-  font-size: 22px;
-  margin: 5px auto 15px;
-  width: 400px;
-}
-
-// Create Post
-.create-post-content {
-  display: flex;
-  justify-content: center;
-
-  button {
-    border-radius: 8%;
-  }
-}
-
-
-// Volunteer
-.community-service-button {
-  border-radius: 15px;
-  display: block;
-  margin: 30px auto 40px;
-  padding: 10px;
-}
-
-// Footer
-.address-link {
-  &:hover {
-    color: $dark-blue;
-    cursor: pointer;
-  }
-}
-
-.footer-columns {
-  background-color: $gray;
-  display: flex;
-  justify-content: center;
-  padding-bottom: 20px;
-  padding-top: 10px;
-}
-
-.footer-column-1,
-.footer-column-2,
-.footer-column-3 {
-  align-content: center;
-  align-items: center;
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.footer-column-2 {
-  padding-top: 50px;
-}
-
-.footer-links {
-  display: flex;
-  flex-direction: column;
-  list-style-type: none;
-  padding: 0;
-  text-align: left;
-}
-
-.footer-column-3 {
-  a {
-    color: $black;
-    font-size: 18px;
-    line-height: 1.5;
-    text-decoration: none;
-
-    &:hover {
-      color: $dark-blue;
-    }
-  }
-}
-
-
-.footer {
-  position: relative;
-}
 
 // Media Query for Mobile Devices
-@media (max-width: 768px) {
+@media (max-width: 76.5rem) {
   * {
     box-sizing: border-box;
     margin: 0;
@@ -745,405 +121,49 @@ nav {
     align-items: center;
     display: flex;
     justify-content: center;
-    padding: 10px 0 0;
+    padding: .6rem 0 0;
     width: 100%;
   }
 
-  p,
+  p {
+    font-size: 1.125rem;
+    line-height: 1.5;
+  }
+
   li,
   a {
-    font-size: 12px;
+    font-size: 1.125rem;
     line-height: 1.5;
   }
 
   h1 {
     &.heading-text {
       color: $litterpic-green;
-      font-size: 30px;
-      margin-bottom: 40px;
+      font-size: 1.875rem;
+      margin-bottom: 2.5rem;
       text-align: start;
     }
   }
 
-
   .content {
     background-color: $white;
-    box-shadow: 0 2px 4px $translucent-black;
+    box-shadow: 0 .125rem .25rem $translucent-black;
     margin: 0;
-    padding: 5px;
+    padding: .3rem;
     width: 90%;
   }
 
-  .logo-bar,
-  nav {
-    width: 100%;
-  }
-
-  .logo-bar {
-    padding-left: 10px;
-    padding-top: 15px;
-  }
-
-  .logo {
-    font-size: 20px;
-  }
-
-  .tagline {
-    font-size: 16px;
-  }
-
-  nav {
-    height: 50px;
-    overflow-x: auto;
-    overflow-y: hidden;
-    padding-bottom: 10px;
-    padding-top: 5px;
-
-    a,
-    button {
-      display: flex;
-      font-size: 14px;
-      justify-content: center;
-      width: 19%;
-    }
-  }
-
-  .banner {
-    height: 100px;
-  }
-
-  .weight-box {
-    height: 15%;
-  }
-
-  .litter-weight {
-    font-size: 18px;
-  }
-
-  .about-us-content {
-    margin-bottom: 20px;
-  }
-
-  .directors-text {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    margin-left: 10px;
-    margin-top: 30px;
-  }
-
-  .member-container {
-    margin-left: 10px;
-    margin-right: 10px;
-
-    &:nth-child(even) {
-      .member-image {
-        margin-left: 0;
-      }
-    }
-  }
-
-  .member-image {
-    height: 95px;
-    width: 85px;
-  }
-
-  // Donate
-  .legal {
-    margin-right: 40px;
-  }
-
-  .donorbox-images-container {
-    display: flex;
-    flex-direction: row;
-  }
-
-  .donorbox-container {
-    flex: 0 0 auto;
-    margin-top: 20px;
-  }
-
-  .donate-image-container {
-    column-gap: 40px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    margin-top: 20px;
-  }
-
-  .donate-image {
-    display: flex;
-    height: auto;
-    width: 25%;
-  }
-
-  .image-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-  }
-
-
-  #firstName,
-  #lastName,
-  #email {
-    width: 60%;
-  }
-
-  .rbc-calendar {
-    margin: auto auto 20px;
-    width: 100%;
-  }
-
-  .calendar {
-    width: 100%;
-  }
-
-  .rbc-toolbar {
-    button {
-      font-size: 12px;
-    }
-  }
-
-  .rbc-toolbar-label {
-    font-size: 24px;
-  }
-
-  .table {
-    td,
-    th {
-      font-size: 10px;
-      padding: 1px;
-    }
-  }
-
-
-  .start-time-column {
-    width: 40px;
-  }
-
-  .story-posts {
-    width: 100%;
-  }
-
-  .post-grid {
-    display: inline-flex;
-    flex-direction: column;
-    height: 80%;
-    padding: 0;
-    width: 100%;
-  }
-
-  .post {
-    border: 1px solid $black;
-    min-height: unset;
-    padding: 10px;
-    width: 100%;
-  }
-
-  .post-carousel {
-    justify-content: center;
-    margin-bottom: 10px;
-    margin-left: auto;
-    margin-right: auto;
-    object-fit: cover;
-    width: auto;
-
-    img {
-      height: auto;
-      margin: auto;
-      max-width: 100%;
-      object-fit: cover;
-    }
-  }
-
-  .post-user-name {
-    font-family: Helvetica, serif;
-    font-weight: normal;
-    margin-left: 5px;
-  }
-
-  .post-title {
-    font-size: 1.5em;
-    font-weight: bolder;
-    margin-left: 5px;
-    margin-top: 20px;
-  }
-
-  .post-location {
-    color: $dark-blue;
-    font-family: Helvetica, serif;
-    font-size: 15px;
-    margin-left: 5px;
-    margin-top: 20px;
-  }
-
-  .post-litter-weight-collected {
-    font-weight: bold;
-    margin-bottom: 8px;
-    margin-top: 20px;
-    text-align: center;
-  }
-
-  .post-description {
-    font-family: inherit;
-    font-size: 18px;
-    margin: 0;
-    width: 300px;
-  }
-
-  // Contact
-  .contact-wrapper {
-    align-items: center;
-    display: flex;
-    height: 70%;
-    justify-content: center;
-  }
-
-
-  .contact-container {
-    background: linear-gradient(to bottom, $litterpic-green, $black);
-    border-radius: 15px;
-    color: $white;
-    display: flex;
-    flex-direction: column;
-    font-family: Times, serif;
-    font-size: 17px;
-    font-weight: bold;
-    height: 70%;
-    padding: 10px;
-    width: 100%;
-
-    p {
-      font-size: 16px;
-    }
-
-    h1 {
-      text-align: center;
-    }
-
-    label {
-      font-family: Times, serif;
-      font-size: 17px;
-      font-weight: bold;
-    }
-  }
-
-
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    margin-right: 0;
-
-    label {
-      margin-bottom: 5px;
-    }
-  }
-
-  .required {
-    font-size: smaller;
-    vertical-align: super;
-  }
-
-  #message {
-    height: 60px;
-    width: 100%;
-  }
-
-  .contact-input {
-    font-size: 18px;
-    height: 3em;
-    width: 25em;
-  }
-
-  .contact-textarea {
-    height: 15em;
-    width: 50%;
-  }
-
-  .form-row {
-    align-items: center;
-    column-gap: 0;
-    display: grid;
-    grid-template-columns: 1fr;
-  }
-
-  .contact-phone-email-social {
-    align-items: center;
-    display: grid;
-    grid-template-columns: 1fr;
-    margin-left: 10px;
-    margin-top: 10px;
-    row-gap: 10px;
-  }
-
-  .contact-lets-chat {
-    font-size: 40px;
-    font-weight: normal;
-    margin-left: 10px;
-  }
-
-  .social-icons {
-    align-items: center;
-    column-gap: 16px;
-    display: flex;
-    justify-content: flex-start;
-
-    a {
-      font-size: 24px;
-    }
-  }
-
-
-  .contact-heading {
-    p {
-      font-family: Times, serif;
-      font-size: 17px;
-      font-weight: normal;
-    }
-  }
-
-  #contact-submit-button {
-    display: flex;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 10px;
-  }
-
-  .contact-submit-response {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    margin-top: 20px;
-  }
-
-  // Footer
-  .footer-columns {
-    padding-top: 20px;
-  }
-
-  .footer-column-2 {
-    padding-top: 38px;
-  }
-
-  .footer-column-3 {
-    a {
-      font-size: 12px;
-    }
+  button {
+    padding: .25rem;
   }
 }
 
 // Media Query for Landscape
-@media (max-width: 1024px) and (orientation: landscape) {
+@media (max-width: 102.25rem) and (orientation: landscape) {
   * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-  }
-
-  .logo-bar,
-  nav {
-    width: 100%;
   }
 
   body {
@@ -1152,194 +172,11 @@ nav {
 
   p,
   li {
-    font-size: 14px;
+    font-size: .9rem;
   }
-
 
   .content {
-    box-shadow: 0 4px 8px $translucent-black;
+    box-shadow: 0 .25rem .5rem $translucent-black;
     margin: 0;
-  }
-
-
-  .logo-bar {
-    padding-left: 10px;
-    padding-top: 15px;
-
-    img {
-      width: 40px;
-    }
-  }
-
-  .logo {
-    font-size: 20px;
-  }
-
-  .tagline {
-    font-size: 16px;
-  }
-
-  nav {
-    display: flex;
-    height: 50px;
-    justify-content: space-evenly;
-    overflow-x: auto;
-    overflow-y: hidden;
-    padding-bottom: 10px;
-    padding-top: 5px;
-
-    a,
-    button {
-      display: flex;
-      font-size: 17px;
-      justify-content: space-evenly;
-      margin-left: 8px;
-      width: 19%;
-    }
-  }
-
-  .banner {
-    height: 125px;
-  }
-
-  .weight-box {
-    height: 15%;
-  }
-
-  .litter-weight {
-    font-size: 24px;
-  }
-
-  .member-container {
-    margin-left: 10px;
-    margin-right: 10px;
-
-    &:nth-child(odd) {
-      .member-image {
-        margin-left: 0;
-      }
-    }
-  }
-
-  .member-image {
-    height: 95px;
-    width: 85px;
-  }
-
-  .donorbox-container {
-    margin-top: 10px;
-  }
-
-  .image-container {
-    margin: 10px;
-  }
-
-  .donate-image {
-    height: auto;
-    justify-content: left;
-    width: 30%;
-  }
-
-  .contact-container {
-    height: 100%;
-    padding: 10px;
-    width: 100%;
-
-    h1 {
-      font-size: 24px;
-    }
-
-    button {
-      padding: 5px;
-    }
-  }
-
-  .contact-wrapper {
-    margin-bottom: 65%;
-  }
-
-  #firstName,
-  #lastName,
-  #email {
-    width: 60%;
-  }
-
-  #message {
-    width: 100%;
-  }
-
-  .rbc-calendar {
-    margin: auto auto 20px;
-    width: 100%;
-  }
-
-  .calendar {
-    width: 100%;
-  }
-
-  .rbc-toolbar {
-    button {
-      font-size: 12px;
-    }
-  }
-
-  .rbc-toolbar-label {
-    font-size: 28px;
-  }
-
-  .table {
-    td,
-    th {
-      padding: 8px;
-    }
-  }
-
-  .start-time-column {
-    width: 40px;
-  }
-
-  .post-grid {
-    display: inline-flex;
-    flex-direction: column;
-    grid-template-columns: 1fr 1fr;
-    padding: 10px;
-  }
-
-  .post {
-    border: 1px solid $black;
-    min-height: 100px;
-    padding: 10px;
-    width: 100%;
-  }
-
-  .post-carousel {
-    justify-content: center;
-    margin-left: auto;
-    margin-right: auto;
-    object-fit: cover;
-
-    img {
-      height: auto;
-      justify-content: center;
-      margin-left: auto;
-      margin-right: auto;
-      max-width: 100%;
-      object-fit: fill;
-    }
-  }
-
-  .post-description {
-    width: 100%;
-  }
-
-  .footer-columns {
-    padding-top: 30px;
-  }
-
-  #contact-submit-button {
-    display: flex;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 10px;
   }
 }

@@ -5,15 +5,17 @@ import Footer from "./footer";
 
 const Layout = ({children}) => {
     return (
-        <div>
+        <div className="nav-grid-container">
             <Logobar/>
-            <nav>
-                <Navlink href="/">Home</Navlink>
-                <Navlink href="/stories">User Posts</Navlink>
-                <Navlink href="/volunteer">Volunteer Events</Navlink>
-                <Navlink href="/contact">Contact</Navlink>
-                <Navlink href="/donate">Donate</Navlink>
-            </nav>
+            <div className="grid-content">
+                <nav className="nav-column">
+                    <Navlink href="/">Home</Navlink>
+                    <Navlink href="/about">About Us</Navlink>
+                    <Navlink href="/volunteer">Volunteer</Navlink>
+                    <Navlink href="/stories">User Stories</Navlink>
+                    <Navlink href="/contact">Contact</Navlink>
+                </nav>
+            </div>
             <main>{children}</main>
             <Footer/>
         </div>

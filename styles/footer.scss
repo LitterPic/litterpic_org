@@ -1,0 +1,60 @@
+// Common Colors
+@import 'colors';
+
+// Footer
+.address-link {
+  &:hover {
+    color: $dark-blue;
+    cursor: pointer;
+  }
+}
+
+.footer {
+  align-items: end;
+  background-color: $gray;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding-bottom: .5rem;
+
+  &-column-1,
+  &-column-2,
+  &-column-3 {
+    justify-self: center;
+
+    p {
+      text-align: center;
+    }
+  }
+
+  &-column-3 {
+    align-self: start;
+
+    a {
+      align-self: start;
+
+      &:link {
+        text-decoration: none;
+      }
+    }
+  }
+
+  &-links {
+    display: flex;
+    flex-direction: column;
+
+    a {
+      text-align: center;
+    }
+  }
+}
+
+
+@media (max-width: 76.5rem) {
+  .footer {
+    padding-top: 1rem;
+  }
+}
+
+@media (max-width: 102.25rem) and (orientation: landscape) {
+  // Mobile Support
+}

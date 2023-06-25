@@ -1,0 +1,290 @@
+// Common Colors
+@import 'colors';
+
+.contact-wrapper {
+  align-items: center;
+  display: flex;
+  height: 90%;
+  justify-content: center;
+}
+
+.contact-container {
+  background: linear-gradient(to bottom, $litterpic-green, $black);
+  border-radius: .5rem;
+  color: $white;
+  display: flex;
+  flex-direction: column;
+  height: 70%;
+  padding: .6rem;
+  width: 100%;
+
+  h1 {
+    text-align: center;
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-right: 3.75rem;
+
+  label {
+    margin-bottom: .3rem;
+  }
+}
+
+.required {
+  font-size: smaller;
+  vertical-align: super;
+}
+
+#message {
+  height: 3.75rem;
+}
+
+.contact-input {
+  font-size: 1.1rem;
+  height: 3rem;
+  width: 25rem;
+}
+
+.contact-textarea {
+  height: 15rem;
+  width: 50%;
+}
+
+.form-row {
+  align-items: center;
+  column-gap: .6rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.contact-phone-email-social {
+  align-items: center;
+  column-gap: .6rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-left: .6rem;
+  margin-top: .6rem;
+}
+
+.contact-lets-chat {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-left: .6rem;
+}
+
+.social-icons {
+  align-items: center;
+  column-gap: 1.6rem;
+  display: flex;
+  justify-content: flex-start;
+
+  a {
+    font-size: 1.3rem;
+  }
+}
+
+.contact-heading {
+  font-weight: bold;
+}
+
+#contact-submit-button {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: .6rem;
+}
+
+.contact-submit-response {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 1.25rem;
+}
+
+.facebook-icon {
+  color: $facebook-blue;
+  display: flex;
+  height: 30%;
+}
+
+.instagram-icon {
+  color: $instagram-pink;
+}
+
+.linkedin-icon {
+  color: $linkedin-blue;
+}
+
+
+@media (max-width: 76.5rem) {
+  // Contact
+  .contact-wrapper {
+    align-items: center;
+    display: flex;
+    height: 70%;
+    justify-content: center;
+  }
+
+
+  .contact-container {
+    background: linear-gradient(to bottom, $litterpic-green, $black);
+    border-radius: .5rem;
+    color: $white;
+    display: flex;
+    flex-direction: column;
+    font-family: Times, serif;
+    font-size: 1rem;
+    font-weight: bold;
+    height: 70%;
+    padding: .6rem;
+    width: 100%;
+
+    p {
+      font-size: 1rem;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    label {
+      font-family: Times, serif;
+      font-size: 1rem;
+      font-weight: bold;
+    }
+  }
+
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-right: 0;
+
+    label {
+      margin-bottom: .3rem;
+    }
+  }
+
+  .required {
+    font-size: smaller;
+    vertical-align: super;
+  }
+
+  #message {
+    height: 3.75rem;
+    width: 100%;
+  }
+
+  .contact-input {
+    font-size: 1.5rem;
+    height: 3rem;
+    width: 25rem;
+  }
+
+  .contact-textarea {
+    height: 15rem;
+    width: 50%;
+  }
+
+  .form-row {
+    align-items: center;
+    column-gap: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .contact-phone-email-social {
+    align-items: center;
+    display: grid;
+    grid-template-columns: 1fr;
+    margin-left: .6rem;
+    margin-top: .6rem;
+    row-gap: .6rem;
+  }
+
+  .contact-lets-chat {
+    font-size: 2.5rem;
+    font-weight: normal;
+    margin-left: .6rem;
+  }
+
+  .social-icons {
+    align-items: center;
+    column-gap: 1rem;
+    display: flex;
+    justify-content: flex-start;
+
+    a {
+      font-size: 2.25rem;
+    }
+  }
+
+
+  .contact-heading {
+    p {
+      font-family: Times, serif;
+      font-size: 1rem;
+      font-weight: normal;
+    }
+  }
+
+  #contact-submit-button {
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: .6rem;
+  }
+
+  .contact-submit-response {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 1.25rem;
+  }
+
+  #firstName,
+  #lastName,
+  #email {
+    width: 60%;
+  }
+}
+
+@media (max-width: 102.25rem) and (orientation: landscape) {
+  .contact-container {
+    height: 100%;
+    padding: .6rem;
+    width: 100%;
+
+    h1 {
+      font-size: 2.25rem;
+    }
+
+    button {
+      padding: .3rem;
+    }
+  }
+
+  .contact-wrapper {
+    margin-bottom: 65%;
+  }
+
+  #firstName,
+  #lastName,
+  #email {
+    width: 60%;
+  }
+
+  #message {
+    width: 100%;
+  }
+
+  #contact-submit-button {
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: .6rem;
+  }
+}

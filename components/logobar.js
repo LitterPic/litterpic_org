@@ -1,15 +1,32 @@
 import {useRouter} from 'next/router';
 import React, {useEffect, useState} from 'react';
 import {onAuthStateChanged, signOut} from 'firebase/auth';
-import {auth} from '../lib/firebase';
+import {auth, db} from '../lib/firebase';
+import {doc, getDoc} from 'firebase/firestore';
+import CustomButton from "./CustomButton";
 
 const Logobar = () => {
     const [user, setUser] = useState(null);
+    const [userDetails, setUserDetails] = useState(null);
     const router = useRouter();
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, user => {
+        const unsubscribe = onAuthStateChanged(auth, async user => {
             setUser(user);
+
+            // Retrieve additional user details from Firestore
+            if (user) {
+                const docRef = doc(db, 'users', user.uid);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    setUserDetails(docSnap.data());
+                } else {
+                    console.log('No such document!');
+                }
+            } else {
+                setUserDetails(null);
+            }
         });
 
         return () => unsubscribe();
@@ -37,10 +54,14 @@ const Logobar = () => {
                     </div>
                 </div>
             </div>
+            <div className="nav-button-column">
+                <CustomButton href="/donate">Donate</CustomButton>
+            </div>
             {user ? (
                 <div className="logo-bar-right-content">
-                    <span>Welcome, {user.displayName || user.email}</span>
-                    <button onClick={handleSignOut}>Sign Out</button>
+                    <button onClick={handleSignOut}><span>Hi, {userDetails?.display_name || user.email}!</span> Sign
+                        Out?
+                    </button>
                 </div>
             ) : (
                 router.pathname !== '/login' && (

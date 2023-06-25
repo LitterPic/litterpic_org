@@ -1,0 +1,28 @@
+// Common Colors
+@import 'colors';
+
+// Banner
+.banner {
+  background-position: center;
+  background-size: cover;
+  height: 18.75rem;
+  position: relative;
+
+  img {
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
+  }
+}
+
+@media (max-width: 76.5rem) {
+  .banner {
+    height: 6.25rem;
+  }
+}
+
+@media (max-width: 102.25rem) and (orientation: landscape) {
+  .banner {
+    height: 11.6rem;
+  }
+}
