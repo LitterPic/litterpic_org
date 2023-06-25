@@ -1,0 +1,145 @@
+// Common Colors
+@import 'colors';
+
+// Volunteer
+.community-service-button {
+  border-radius: .5em;
+  display: block;
+  margin: 1.875rem auto 2.5rem;
+  padding: .6rem;
+}
+
+// Volunteer Calendar
+.event-background {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+}
+
+.rbc-calendar {
+
+  display: flex;
+  margin-bottom: 1.875rem;
+  width: 100%;
+
+  .rbc-month-view {
+    .rbc-day-bg {
+      &.rbc-today {
+        background-color: $light-green-dull;
+        border-color: $litterpic-green;
+        border-width: .25rem;
+      }
+    }
+  }
+}
+
+
+.rbc-event-content {
+  font-size: .9rem;
+  height: 1.25rem;
+}
+
+.rbc-toolbar-label {
+  font-family: Arial, serif;
+  font-size: 1.625rem;
+}
+
+.calendar {
+  display: flex;
+  justify-content: center;
+}
+
+
+.calendar-chevron-left,
+.calendar-chevron-right {
+  color: $black;
+  font-size: 1.25rem;
+}
+
+
+// Volunteer Events Table
+.table {
+  border-collapse: collapse;
+  width: 100%;
+
+  td,
+  th {
+    border: .06rem solid $table-gray;
+    padding: 1rem;
+  }
+}
+
+.highlight {
+  background-color: $table-highlight-green;
+  color: $white;
+}
+
+.start-time-column {
+  width: 3.75rem;
+}
+
+@media (max-width: 76.5rem) {
+  .start-time-column {
+    width: 2.5rem;
+  }
+
+  .rbc-calendar {
+    margin: auto auto 1.25rem;
+    width: 100%;
+  }
+
+  .calendar {
+    width: 100%;
+  }
+
+  .rbc-toolbar {
+    button {
+      font-size: 1.125rem;
+    }
+  }
+
+  .rbc-toolbar-label {
+    font-size: 2.25rem;
+  }
+
+  .table {
+    td,
+    th {
+      font-size: .6rem;
+      padding: .06rem;
+    }
+  }
+}
+
+@media (max-width: 102.25rem) and (orientation: landscape) {
+
+  .start-time-column {
+    width: 2.5rem;
+  }
+
+  .rbc-calendar {
+    margin: auto auto 1.25rem;
+    width: 100%;
+  }
+
+  .calendar {
+    width: 100%;
+  }
+
+  .rbc-toolbar {
+    button {
+      font-size: 1.125rem;
+    }
+  }
+
+  .rbc-toolbar-label {
+    font-size: 2.5rem;
+  }
+
+  .table {
+    td,
+    th {
+      padding: .5rem;
+    }
+  }
+}

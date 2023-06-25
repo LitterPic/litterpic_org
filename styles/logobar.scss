@@ -1,0 +1,151 @@
+// Common Colors
+@import 'colors';
+
+// Logo Bar
+.logo-bar {
+  background-color: $white;
+  display: flex;
+  justify-content: space-between;
+  padding-left: 5rem;
+  padding-right: 1rem;
+  padding-top: 1rem;
+
+  img {
+    height: 4rem;
+    padding-top: .3rem;
+    width: auto;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  p {
+    line-height: 1.3;
+  }
+
+  button {
+    align-items: center;
+    border-radius: .5rem;
+    display: flex;
+    flex-direction: column;
+    font-size: .75rem;
+    line-height: 1.25;
+    margin: .25rem;
+    padding: .25rem;
+    width: auto;
+  }
+
+  .tagline {
+    color: $litterpic-green;
+    font-size: 1.1rem;
+    font-style: italic;
+  }
+}
+
+.logo-bar-right-content {
+  border-color: $black;
+  border-width: .06rem;
+  display: flex;
+  flex-direction: column;
+  width: auto;
+}
+
+.logo-content {
+  display: flex;
+  flex-direction: row;
+  margin-right: .6rem;
+}
+
+.logo {
+  font-size: 1.75rem;
+  margin-right: .3rem;
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: .5rem;
+}
+
+.donate-button {
+  background-color: $linkedin-blue;
+  border: 0;
+  border-radius: .5rem;
+  color: $white;
+  cursor: pointer;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: auto;
+  padding: .3rem;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color .5s ease;
+
+  &:hover {
+    background-color: $nav-green;
+    color: $litterpic-green;
+  }
+}
+
+@media (max-width: 76.5rem) {
+  .logo-bar {
+    padding-left: .6rem;
+    padding-top: 1rem;
+
+    img {
+      height: 3rem;
+      padding-top: .2rem;
+      width: auto;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    .logo {
+      font-size: 1rem;
+    }
+
+    .tagline {
+      font-size: .75rem;
+    }
+
+  }
+
+
+  .donate-button {
+    font-size: 1rem;
+    margin-right: 1rem;
+    padding: .2rem;
+  }
+
+}
+
+@media (max-width: 102.25rem) and (orientation: landscape) {
+
+  .logo-bar {
+    padding-left: .6rem;
+    padding-top: 1rem;
+    width: 100%;
+
+    img {
+      width: 2.5rem;
+    }
+
+    .logo {
+      font-size: 1.25rem;
+    }
+
+    .tagline {
+      font-size: 1rem;
+    }
+  }
+
+
+  .donate-button {
+    font-size: 1.5rem;
+    padding: .3rem;
+  }
+}

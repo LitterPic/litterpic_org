@@ -1,0 +1,25 @@
+// Common Colors
+@import 'colors';
+
+// Image Row
+.image-row {
+  overflow-x: auto;
+  white-space: nowrap; // Prevent images from wrapping to the next line
+
+  .image-row__item {
+    display: inline-block; // Display images in a row
+    height: 18.75rem;
+    margin: .125rem;
+    object-fit: cover;
+    width: 18.75rem;
+  }
+}
+
+
+@media (max-width: 76.5rem) {
+  // Mobile Support
+}
+
+@media (max-width: 102.25rem) and (orientation: landscape) {
+  // Mobile Support
+}

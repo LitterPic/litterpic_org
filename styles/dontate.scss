@@ -1,0 +1,77 @@
+// Common Colors
+@import 'colors';
+
+// Donate
+.donate-legal-text {
+  margin-right: 2.5rem;
+}
+
+.donorbox-images-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.donorbox-container {
+  flex: 0 0 auto;
+  margin-top: 1.25rem;
+}
+
+.donate-image-container {
+  column-gap: 5rem;
+  display: flex;
+  flex-direction: row;
+}
+
+.donorbox-widget {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+
+}
+
+
+@media (max-width: 76.5rem) {
+  .donorbox-images-container {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .donorbox-container {
+    flex: 0 0 auto;
+    margin-top: 1.25rem;
+  }
+
+  .donate-image-container {
+    column-gap: 2.5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 1.25rem;
+  }
+
+  .donate-image {
+    display: flex;
+    height: auto;
+    width: 25%;
+  }
+
+  .legal {
+    margin-right: 2.5rem;
+  }
+
+}
+
+@media (max-width: 102.25rem) and (orientation: landscape) {
+
+  .donorbox-container {
+    margin-top: .6rem;
+  }
+
+
+  .donate-image {
+    height: auto;
+    justify-content: left;
+    width: 30%;
+  }
+}

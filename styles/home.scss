@@ -1,0 +1,70 @@
+// Common Colors
+@import 'colors';
+
+// Home
+.overlay {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.weight-box {
+  align-items: center;
+  background-color: $light-gray;
+  border: .06rem solid $litterpic-green;
+  border-radius: .5rem;
+  box-shadow: .3rem .3rem .6rem $translucent-black;
+  display: flex;
+  font-family: 'Arial', serif;
+  font-weight: bold;
+  height: auto;
+  justify-content: center;
+}
+
+.pounds-text {
+  color: $black;
+  font-size: 2rem;
+}
+
+p {
+  &.litter-weight {
+    color: $litterpic-green;
+    font-size: 2rem;
+    padding: 1rem;
+  }
+}
+
+
+@media (max-width: 76.5rem) {
+  .pounds-text {
+    color: $black;
+    font-size: 1rem;
+  }
+
+  p {
+    &.litter-weight {
+      color: $litterpic-green;
+      font-size: 1rem;
+      padding: 1rem;
+    }
+  }
+}
+
+@media (max-width: 102.25rem) and (orientation: landscape) {
+  .pounds-text {
+    color: $black;
+    font-size: 1.75rem;
+  }
+
+  p {
+    &.litter-weight {
+      font-size: 1.75rem;
+      padding: 1rem;
+    }
+  }
+}

@@ -1,0 +1,96 @@
+// Common Colors
+@import 'colors';
+
+// Nav Bar
+nav {
+  display: flex;
+  font-size: 2rem;
+  font-weight: bolder;
+  height: auto;
+  justify-content: space-evenly;
+  padding-bottom: .6rem;
+  padding-top: .3rem;
+  width: 100%;
+
+  a {
+    text-decoration: none;
+    transition: color .5s ease;
+  }
+
+  button {
+    align-content: center;
+    background: none;
+    color: $black;
+    display: flex;
+    font: inherit;
+    justify-content: space-evenly;
+
+    &:hover {
+      color: $nav-green;
+    }
+
+    &.active {
+      color: $nav-green;
+    }
+  }
+}
+
+
+@media (max-width: 76.5rem) {
+  nav {
+    font-size: .5rem;
+    height: 3.125rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: .6rem;
+    padding-top: .3rem;
+    width: 100%;
+
+    a,
+    button {
+      display: flex;
+      font-size: .9rem;
+      justify-content: center;
+      width: auto;
+    }
+  }
+
+  .grid-content {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+
+    .nav-column {
+      display: flex;
+      grid-column: 0;
+      justify-content: space-evenly;
+    }
+
+    .nav-button-column {
+      display: flex;
+      grid-column: 2;
+      margin-right: .5rem;
+    }
+  }
+}
+
+@media (max-width: 102.25rem) and (orientation: landscape) {
+  nav {
+    display: flex;
+    height: 3.125rem;
+    justify-content: space-evenly;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: .6rem;
+    padding-top: .3rem;
+    width: 100%;
+
+    a,
+    button {
+      display: flex;
+      font-size: 1rem;
+      justify-content: space-evenly;
+      margin-left: .5rem;
+      width: auto;
+    }
+  }
+}
