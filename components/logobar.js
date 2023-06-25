@@ -63,13 +63,12 @@ const Logobar = () => {
                         Out?
                     </button>
                 </div>
-            ) : (
-                router.pathname !== '/login' && (
-                    <div className="logo-bar-right-content">
-                        <button onClick={() => router.push('/login')}>Login</button>
-                    </div>
-                )
-            )}
+            ) : ((
+                <div className="logo-bar-right-content">
+                    <button onClick={() => router.push('/login')}>Login</button>
+                </div>
+            ))}
+
         </div>
     );
 };

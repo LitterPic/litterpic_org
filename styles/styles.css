@@ -1,4 +1,32 @@
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css");
+@import url("https://fonts.googleapis.com/css2?family=Ropa+Sans&family=Rubik:wght@500&display=swap");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css");
+@import url("https://fonts.googleapis.com/css2?family=Ropa+Sans&family=Rubik:wght@500&display=swap");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css");
+@import url("https://fonts.googleapis.com/css2?family=Ropa+Sans&family=Rubik:wght@500&display=swap");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css");
+@import url("https://fonts.googleapis.com/css2?family=Ropa+Sans&family=Rubik:wght@500&display=swap");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css");
+@import url("https://fonts.googleapis.com/css2?family=Ropa+Sans&family=Rubik:wght@500&display=swap");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css");
+@import url("https://fonts.googleapis.com/css2?family=Ropa+Sans&family=Rubik:wght@500&display=swap");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css");
+@import url("https://fonts.googleapis.com/css2?family=Ropa+Sans&family=Rubik:wght@500&display=swap");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css");
+@import url("https://fonts.googleapis.com/css2?family=Ropa+Sans&family=Rubik:wght@500&display=swap");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css");
+@import url("https://fonts.googleapis.com/css2?family=Ropa+Sans&family=Rubik:wght@500&display=swap");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css");
+@import url("https://fonts.googleapis.com/css2?family=Ropa+Sans&family=Rubik:wght@500&display=swap");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css");
+@import url("https://fonts.googleapis.com/css2?family=Ropa+Sans&family=Rubik:wght@500&display=swap");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css");
+@import url("https://fonts.googleapis.com/css2?family=Ropa+Sans&family=Rubik:wght@500&display=swap");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css");
+@import url("https://fonts.googleapis.com/css2?family=Ropa+Sans&family=Rubik:wght@500&display=swap");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css");
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@500&display=swap");
 .about-us-content {
   margin-bottom: 1.25rem;
 }
@@ -569,10 +597,10 @@ p.litter-weight {
   border-radius: 0.5rem;
   display: flex;
   flex-direction: column;
-  font-size: 0.75rem;
+  font-size: 1rem;
   line-height: 1.25;
-  margin: 0.25rem;
-  padding: 0.25rem;
+  margin: 0.4rem;
+  padding: 0.5rem;
   width: auto;
 }
 .logo-bar .tagline {
@@ -646,9 +674,9 @@ p.litter-weight {
     font-size: 0.75rem;
   }
   .donate-button {
-    font-size: 1rem;
+    font-size: 1.25rem;
     margin-right: 1rem;
-    padding: 0.2rem;
+    padding: 0.4rem;
   }
 }
 @media (max-width: 102.25rem) and (orientation: landscape) {
@@ -673,6 +701,7 @@ p.litter-weight {
 }
 nav {
   display: flex;
+  font-family: Rubik, Times, sans-serif;
   font-size: 2rem;
   font-weight: bolder;
   height: auto;
@@ -1071,12 +1100,17 @@ nav button.active {
 
 body {
   background-color: #fff;
+  font-family: RopaSans, sans-serif;
 }
 
 main {
+  font-family: RopaSans, sans-serif;
   min-height: 100%;
 }
 
+h1 {
+  font-family: Rubik, Times, sans-serif;
+}
 h1.heading-text {
   color: #015e41;
   font-size: 3rem;
@@ -1084,6 +1118,9 @@ h1.heading-text {
   text-align: start;
 }
 
+h2 {
+  font-family: Rubik, Times, sans-serif;
+}
 h2.heading-text {
   color: #015e41;
   margin-bottom: 0.3rem;
@@ -1092,15 +1129,18 @@ h2.heading-text {
 }
 
 p {
+  font-family: RopaSans, sans-serif;
   font-size: 1.2rem;
   line-height: 1.75;
 }
 
 li {
+  font-family: RopaSans, sans-serif;
   margin-bottom: 1rem;
 }
 
 ol {
+  font-family: RopaSans, sans-serif;
   margin-left: 2.5rem;
 }
 
@@ -1119,12 +1159,14 @@ label {
 }
 
 form {
+  font-family: RopaSans, sans-serif;
   padding: 0.7rem;
 }
 
 input,
 select,
 textarea {
+  font-family: RopaSans, sans-serif;
   margin-bottom: 1rem;
 }
 
@@ -1132,6 +1174,7 @@ textarea {
   align-items: center;
   background-color: #d3d3d3;
   display: flex;
+  font-family: RopaSans, sans-serif;
   justify-content: center;
   padding: 1.5rem;
 }
@@ -1139,6 +1182,7 @@ textarea {
 .content {
   background-color: #fff;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.4);
+  font-family: RopaSans, sans-serif;
   margin-left: auto;
   margin-right: auto;
   padding: 1.5rem;

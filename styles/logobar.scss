@@ -1,5 +1,5 @@
-// Common Colors
 @import 'colors';
+@import 'fonts';
 
 // Logo Bar
 .logo-bar {
@@ -29,10 +29,10 @@
     border-radius: .5rem;
     display: flex;
     flex-direction: column;
-    font-size: .75rem;
+    font-size: 1rem;
     line-height: 1.25;
-    margin: .25rem;
-    padding: .25rem;
+    margin: .4rem;
+    padding: .5rem;
     width: auto;
   }
 
@@ -116,9 +116,9 @@
 
 
   .donate-button {
-    font-size: 1rem;
+    font-size: 1.25rem;
     margin-right: 1rem;
-    padding: .2rem;
+    padding: .4rem;
   }
 
 }
