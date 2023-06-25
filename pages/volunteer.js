@@ -24,7 +24,6 @@ class CustomToolbar extends React.Component {
                 <span className="rbc-toolbar-label">{this.props.label}</span>
                 <span className="rbc-btn-group">
           <button type="button" onClick={() => this.navigate(Navigate.NEXT)}>
-            {/* replace with your own next icon */}
               <FaChevronRight className="calendar-chevron-right"/>
           </button>
         </span>
@@ -141,6 +140,7 @@ const Volunteer = () => {
                                 <th>Date</th>
                                 <th>Location</th>
                                 <th className="start-time-column">Start Time</th>
+                                <th>RSVP</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -156,6 +156,7 @@ const Volunteer = () => {
                                         minute: '2-digit',
                                         hour12: true
                                     })}</td>
+                                    <td>RSVP</td>
                                 </tr>
                             ))}
                             </tbody>

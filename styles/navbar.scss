@@ -1,9 +1,10 @@
-// Common Colors
 @import 'colors';
+@import 'fonts';
 
 // Nav Bar
 nav {
   display: flex;
+  font-family: Rubik, Times, sans-serif;
   font-size: 2rem;
   font-weight: bolder;
   height: auto;
