@@ -34,7 +34,6 @@ body {
 }
 
 main {
-  font-family: RopaSans, sans-serif;
   min-height: 100%;
 }
 
@@ -62,18 +61,15 @@ h2 {
 }
 
 p {
-  font-family: RopaSans, sans-serif;
   font-size: 1.2rem;
   line-height: 1.75;
 }
 
 li {
-  font-family: RopaSans, sans-serif;
   margin-bottom: 1rem;
 }
 
 ol {
-  font-family: RopaSans, sans-serif;
   margin-left: 2.5rem;
 }
 
@@ -92,14 +88,12 @@ label {
 }
 
 form {
-  font-family: RopaSans, sans-serif;
   padding: .7rem;
 }
 
 input,
 select,
 textarea {
-  font-family: RopaSans, sans-serif;
   margin-bottom: 1rem;
 }
 
@@ -107,7 +101,6 @@ textarea {
   align-items: center;
   background-color: $gray;
   display: flex;
-  font-family: RopaSans, sans-serif;
   justify-content: center;
   padding: 1.5rem;
 }
@@ -115,7 +108,6 @@ textarea {
 .content {
   background-color: $white;
   box-shadow: 0 .125rem .25rem $translucent-black;
-  font-family: RopaSans, sans-serif;
   margin-left: auto;
   margin-right: auto;
   padding: 1.5rem;
