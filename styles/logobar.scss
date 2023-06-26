@@ -6,7 +6,7 @@
   background-color: $white;
   display: flex;
   justify-content: space-between;
-  padding-left: 5rem;
+  padding-left: 1rem;
   padding-right: 1rem;
   padding-top: 1rem;
 
@@ -29,6 +29,7 @@
     border-radius: .5rem;
     display: flex;
     flex-direction: column;
+    font-family: RopaSans, sans-serif;
     font-size: 1rem;
     line-height: 1.25;
     margin: .4rem;

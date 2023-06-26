@@ -32,6 +32,7 @@
 }
 
 .directors-text {
+  font-family: Rubik, Times, sans-serif;
   font-size: 1.75rem;
   font-weight: bold;
   margin-bottom: 1.25rem;
@@ -509,6 +510,7 @@
 
 p.litter-weight {
   color: #015e41;
+  font-family: RopaSans, sans-serif;
   font-size: 2rem;
   padding: 1rem;
 }
@@ -567,6 +569,7 @@ p.litter-weight {
 }
 
 .sign-in-button {
+  font-family: RopaSans, sans-serif;
   margin-left: auto;
   margin-right: auto;
   margin-top: 1.9rem;
@@ -577,7 +580,7 @@ p.litter-weight {
   background-color: #fff;
   display: flex;
   justify-content: space-between;
-  padding-left: 5rem;
+  padding-left: 1rem;
   padding-right: 1rem;
   padding-top: 1rem;
 }
@@ -597,6 +600,7 @@ p.litter-weight {
   border-radius: 0.5rem;
   display: flex;
   flex-direction: column;
+  font-family: RopaSans, sans-serif;
   font-size: 1rem;
   line-height: 1.25;
   margin: 0.4rem;
@@ -849,7 +853,6 @@ nav button.active {
 }
 
 .post-user-name {
-  font-family: Helvetica, serif;
   font-weight: normal;
   margin-left: 4.3rem;
 }
@@ -863,7 +866,6 @@ nav button.active {
 
 .post-location {
   color: #00f;
-  font-family: Helvetica, serif;
   font-size: 1rem;
   margin-left: 1rem;
   margin-top: 1.25rem;
@@ -1104,7 +1106,6 @@ body {
 }
 
 main {
-  font-family: RopaSans, sans-serif;
   min-height: 100%;
 }
 
@@ -1129,18 +1130,15 @@ h2.heading-text {
 }
 
 p {
-  font-family: RopaSans, sans-serif;
   font-size: 1.2rem;
   line-height: 1.75;
 }
 
 li {
-  font-family: RopaSans, sans-serif;
   margin-bottom: 1rem;
 }
 
 ol {
-  font-family: RopaSans, sans-serif;
   margin-left: 2.5rem;
 }
 
@@ -1159,14 +1157,12 @@ label {
 }
 
 form {
-  font-family: RopaSans, sans-serif;
   padding: 0.7rem;
 }
 
 input,
 select,
 textarea {
-  font-family: RopaSans, sans-serif;
   margin-bottom: 1rem;
 }
 
@@ -1174,7 +1170,6 @@ textarea {
   align-items: center;
   background-color: #d3d3d3;
   display: flex;
-  font-family: RopaSans, sans-serif;
   justify-content: center;
   padding: 1.5rem;
 }
@@ -1182,7 +1177,6 @@ textarea {
 .content {
   background-color: #fff;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.4);
-  font-family: RopaSans, sans-serif;
   margin-left: auto;
   margin-right: auto;
   padding: 1.5rem;
