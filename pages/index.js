@@ -120,7 +120,7 @@ export default function Index() {
                                 encourage and inspire others to join in the fight against it. A cleaner and healthier
                                 environment is vital to enhancing everyone's quality of life. Let's collaborate and make
                                 a constructive difference in creating a better tomorrow. Share your stories and photos
-                                and Inspire Change.</p>
+                                and <span className="index-inspire-change-text">Inspire Change</span>.</p>
                         </div>
                         <div className="index-column-two-row-one">
                             <ul>
