@@ -514,6 +514,11 @@ p.litter-weight {
   font-size: 2rem;
   padding: 1rem;
 }
+p .index-inspire-change-text {
+  color: #015e41;
+  font-style: italic;
+  font-weight: bold;
+}
 
 .index-wrapper {
   column-gap: 5rem;
