@@ -515,6 +515,45 @@ p.litter-weight {
   padding: 1rem;
 }
 
+.index-wrapper {
+  column-gap: 5rem;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+}
+.index-wrapper p {
+  font-size: 1rem;
+}
+.index-wrapper .index-starting-text {
+  color: #015e41;
+  font-size: 2.15rem;
+  font-weight: bolder;
+}
+.index-wrapper .index-column-two-row-one {
+  display: grid;
+  grid-template-rows: auto;
+}
+.index-wrapper .index-column-two-row-one ul {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+.index-wrapper .index-column-two-row-one li {
+  flex: 1;
+  margin: 0;
+  margin-bottom: 2rem;
+}
+
+.image-row {
+  margin-bottom: 2rem;
+}
+
+.index-more-stories-button {
+  padding-left: 1rem;
+}
+.index-more-stories-button button {
+  border-radius: 0.5rem;
+}
+
 @media (max-width: 76.5rem) {
   .pounds-text {
     color: #000;
@@ -645,7 +684,7 @@ p.litter-weight {
   border-radius: 0.5rem;
   color: #fff;
   cursor: pointer;
-  font-size: 1.5rem;
+  font-size: 2.5rem;
   font-weight: bold;
   margin-bottom: auto;
   padding: 0.3rem;
