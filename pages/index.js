@@ -5,6 +5,7 @@ import {storage} from '../lib/firebase';
 import {db} from '../lib/firebase';
 import ImageRow from '../components/imagerow';
 import 'firebase/firestore';
+import CustomButton from "../components/CustomButton";
 
 async function fetchRecentPosts() {
     const postsQuery = query(
@@ -112,36 +113,62 @@ export default function Index() {
             <div className="page">
                 <div className="content">
                     <h1 className="heading-text">Inspire Change</h1>
-                    <p>
-                        At LitterPic Inc., our vision is bold and unwavering: a world free of litter. We refuse to
-                        accept a reality where trash litters our streets, pollutes our waterways, and endangers our
-                        wildlife.
-                        We believe that every person has the power to make a difference, and our mission is to inspire
-                        and empower individuals worldwide to act against litter. By uniting our efforts, we can create a
-                        cleaner,
-                        safer, and healthier planet for ourselves and future generations.
-                        At LitterPic, we're not just dreaming of a better world but actively working to make it a
-                        reality. We're harnessing the power of technology to connect people, facilitate litter cleanups,
-                        and share
-                        inspiring stories of individuals who are making a difference.
-                        In addition to our efforts to inspire and empower individuals to act against litter, we are also
-                        leveraging technology to make it easier for people to participate. Our team is developing a
-                        mobile app
-                        that will enable users to connect with other volunteers, organize litter cleanups, and share
-                        their
-                        progress and impact.
-                        Our long-term goal is to create a fleet of self-driving vacuum trucks that can efficiently and
-                        effectively clean up litter in even the busiest urban areas.
-                        Through the power of technology and community, we are determined to make our vision of a world
-                        free
-                        of
-                        litter a reality. Join us in the fight against litter, and together, we can create a cleaner,
-                        safer,
-                        and
-                        more beautiful planet for all.
-                    </p>
+                    <div className="index-wrapper">
+                        <div className="index-column-one-row-one">
+                            <h1 className="index-starting-text">Starting with LitterPic is a breeze.</h1>
+                            <p>It's crucial that we come together and do something about litter. Our goal should be to
+                                encourage and inspire others to join in the fight against it. A cleaner and healthier
+                                environment is vital to enhancing everyone's quality of life. Let's collaborate and make
+                                a constructive difference in creating a better tomorrow. Share your stories and photos
+                                and Inspire Change.</p>
+                        </div>
+                        <div className="index-column-two-row-one">
+                            <ul>
+
+                                <li>To begin, pick a time and place you want to clean. You do not need to seek
+                                    sponsorship
+                                    from the city, but if you need any resources or support, feel free to contact them.
+                                    Consult our Events Calendar for any local events already scheduled in your area.
+                                </li>
+
+
+                                <li>It's more enjoyable to pick with others! Spread the word by sharing your picking
+                                    plans
+                                    on social media. Reach out to local environmental groups to invite them to
+                                    participate
+                                    with you.
+                                </li>
+
+
+                                <li>Stay safe by wearing fluorescent safety gear available at your local hardware store.
+                                    Get
+                                    your hands on our LitterPic branded fluorescent t-shirts and safety vests by
+                                    donating to
+                                    support the LitterPic initiative. Contact us via email to learn more about how you
+                                    can
+                                    score some branded merchandise.
+                                </li>
+
+
+                                <li>Please take a picture before you start and then another after you finish, and post
+                                    them
+                                    on this site to share your efforts and inspire others to join the fight for a
+                                    healthier,
+                                    cleaner planet.
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
                     <h2 className="heading-text">Recent Posts Photos</h2>
-                    <ImageRow images={images} onSwipeLeft={swipeLeft} onSwipeRight={swipeRight}/>
+                    <ImageRow className="image-row" images={images} onSwipeLeft={swipeLeft} onSwipeRight={swipeRight}/>
+
+                    <h2>Take a look at all of our volunteer's stories and get inspired by more!
+                        <a className="index-more-stories-button" href="/stories">
+                            <button type="button">User Stories</button>
+                        </a>
+                    </h2>
+
                 </div>
             </div>
         </div>

@@ -40,6 +40,51 @@ p {
   }
 }
 
+.index-wrapper {
+  column-gap: 5rem;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+
+  p {
+    font-size: 1rem;
+  }
+
+  .index-starting-text {
+    color: $litterpic-green;
+    font-size: 2.15rem;
+    font-weight: bolder;
+  }
+
+  .index-column-two-row-one {
+    display: grid;
+    grid-template-rows: auto;
+
+    ul {
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+    }
+
+    li {
+      flex: 1;
+      margin: 0;
+      margin-bottom: 2rem;
+    }
+  }
+}
+
+.image-row {
+  margin-bottom: 2rem;
+}
+
+.index-more-stories-button {
+  padding-left: 1rem;
+
+  button {
+    border-radius: .5rem;
+  }
+}
+
 
 @media (max-width: 76.5rem) {
   .pounds-text {
