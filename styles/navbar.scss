@@ -3,6 +3,7 @@
 
 // Nav Bar
 nav {
+  align-items: center;
   display: flex;
   font-family: Rubik, Times, sans-serif;
   font-size: 2rem;
@@ -16,6 +17,11 @@ nav {
   a {
     text-decoration: none;
     transition: color .5s ease;
+  }
+
+  &.nav-column {
+    margin: 0 auto;
+    max-width: 55%;
   }
 
   button {
@@ -33,6 +39,7 @@ nav {
     &.active {
       color: $nav-green;
     }
+
   }
 }
 

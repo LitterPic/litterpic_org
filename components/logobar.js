@@ -54,17 +54,16 @@ const Logobar = () => {
                     </div>
                 </div>
             </div>
-            <div className="nav-button-column">
-                <CustomButton href="/donate">Donate</CustomButton>
-            </div>
             {user ? (
                 <div className="logo-bar-right-content">
+                    <CustomButton href="/donate">Donate</CustomButton>
                     <button onClick={handleSignOut}><span>Hi, {userDetails?.display_name || user.email}!</span> Sign
                         Out?
                     </button>
                 </div>
             ) : ((
                 <div className="logo-bar-right-content">
+                    <CustomButton href="/donate">Donate</CustomButton>
                     <button onClick={() => router.push('/login')}>Login</button>
                 </div>
             ))}

@@ -80,7 +80,7 @@ function Stories() {
             <div className="page">
                 <div className="content">
                     <div className="stories-top-bar">
-                        <h1 className="heading-text">User Posts</h1>
+                        <h1 className="heading-text">User Stories</h1>
                         <Link className="create-post-button" href="/createpost">
                             <button>Create Post</button>
                         </Link>
