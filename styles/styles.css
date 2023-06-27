@@ -621,6 +621,7 @@ p .index-inspire-change-text {
 }
 
 .logo-bar {
+  align-items: center;
   background-color: #fff;
   display: flex;
   justify-content: space-between;
@@ -629,8 +630,7 @@ p .index-inspire-change-text {
   padding-top: 1rem;
 }
 .logo-bar img {
-  height: 4rem;
-  padding-top: 0.3rem;
+  height: 3.5rem;
   width: auto;
 }
 .logo-bar img:hover {
@@ -646,10 +646,35 @@ p .index-inspire-change-text {
   flex-direction: column;
   font-family: RopaSans, sans-serif;
   font-size: 1rem;
+  height: 4rem;
+  justify-content: center;
   line-height: 1.25;
-  margin: 0.4rem;
-  padding: 0.5rem;
+  margin: 0;
+  padding: 0 1rem;
   width: auto;
+}
+.logo-bar .donate-button {
+  align-items: center;
+  background-color: #0a66c2;
+  border: 0;
+  border-radius: 0.5rem;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  font-size: 1rem;
+  font-weight: bold;
+  height: 4rem;
+  justify-content: center;
+  margin-bottom: auto;
+  padding: 0 1rem;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.5s ease;
+  width: auto;
+}
+.logo-bar .donate-button:hover {
+  background-color: #479079;
+  color: #015e41;
 }
 .logo-bar .tagline {
   color: #015e41;
@@ -660,15 +685,16 @@ p .index-inspire-change-text {
 .logo-bar-right-content {
   border-color: #000;
   border-width: 0.06rem;
-  display: flex;
-  flex-direction: column;
+  column-gap: 1rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   width: auto;
 }
 
 .logo-content {
+  align-items: center;
   display: flex;
   flex-direction: row;
-  margin-right: 0.6rem;
 }
 
 .logo {
@@ -681,25 +707,6 @@ p .index-inspire-change-text {
   flex-direction: column;
   justify-content: center;
   margin-left: 0.5rem;
-}
-
-.donate-button {
-  background-color: #0a66c2;
-  border: 0;
-  border-radius: 0.5rem;
-  color: #fff;
-  cursor: pointer;
-  font-size: 2.5rem;
-  font-weight: bold;
-  margin-bottom: auto;
-  padding: 0.3rem;
-  text-align: center;
-  text-decoration: none;
-  transition: background-color 0.5s ease;
-}
-.donate-button:hover {
-  background-color: #479079;
-  color: #015e41;
 }
 
 @media (max-width: 76.5rem) {
@@ -748,6 +755,7 @@ p .index-inspire-change-text {
   }
 }
 nav {
+  align-items: center;
   display: flex;
   font-family: Rubik, Times, sans-serif;
   font-size: 2rem;
@@ -761,6 +769,10 @@ nav {
 nav a {
   text-decoration: none;
   transition: color 0.5s ease;
+}
+nav.nav-column {
+  margin: 0 auto;
+  max-width: 55%;
 }
 nav button {
   align-content: center;
