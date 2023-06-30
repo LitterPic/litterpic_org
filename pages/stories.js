@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import Post from '../components/Post';
+import Post from '../components/post';
 import {fetchPosts} from '../components/utils';
 import Link from 'next/link';
 import Masonry from 'react-masonry-css';
@@ -84,7 +84,7 @@ function Stories() {
                         >
                             {posts.map((post) => (
                                 <div key={post.id}
-                                     className="post"> 
+                                     className="post">
                                     <Post post={post}/>
                                 </div>
                             ))}
