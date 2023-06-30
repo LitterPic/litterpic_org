@@ -1,7 +1,8 @@
-import React, {useEffect, useState, useRef} from 'react';
-import Post from '../components/post';
+import React, {useEffect, useState} from 'react';
+import Post from '../components/Post';
 import {fetchPosts} from '../components/utils';
 import Link from 'next/link';
+import Masonry from 'react-masonry-css';
 
 function Stories() {
     const [posts, setPosts] = useState([]);
@@ -9,47 +10,37 @@ function Stories() {
     const [hasMorePosts, setHasMorePosts] = useState(true);
     const [page, setPage] = useState(1);
     const [renderedPostIds, setRenderedPostIds] = useState([]);
-    const observer = useRef();
-
 
     useEffect(() => {
         const fetchAndSetPosts = async () => {
             setIsLoading(true);
-            const fetchedPosts = await fetchPosts(page, 4);
-            if (fetchedPosts.length === 0) {
-                setHasMorePosts(false);
-            } else {
-                const uniquePosts = filterUniquePosts(fetchedPosts);
-                setPosts((prevPosts) => [...prevPosts, ...uniquePosts]);
+            try {
+                const fetchedPosts = await fetchPosts(page, 4);
+                console.log('Fetched Posts:', fetchedPosts); // Log the fetched posts
+                if (fetchedPosts.length === 0) {
+                    setHasMorePosts(false);
+                } else {
+                    const uniquePosts = filterUniquePosts(fetchedPosts);
+                    setPosts((prevPosts) => [...prevPosts, ...uniquePosts]);
+                    setPage((prevPage) => prevPage + 1); // Increment the page number
+                }
+            } catch (error) {
+                console.error('Error fetching posts:', error); // Log the error, if any
             }
             setIsLoading(false);
         };
 
         fetchAndSetPosts();
-    }, [page]);
+    }, [page, renderedPostIds]); // Include renderedPostIds in the dependency array
 
-    useEffect(() => {
-        const handleObserver = (entries) => {
-            const target = entries[0];
-            if (target.isIntersecting && hasMorePosts && !isLoading) {
-                fetchMorePosts();
-            }
-        };
-
-        observer.current = new IntersectionObserver(handleObserver);
-        if (observer.current && !isLoading) {
-            const targetNode = document.getElementById('end-of-posts');
-            if (targetNode) {
-                observer.current.observe(targetNode);
-            }
-        }
-
-        return () => {
-            if (observer.current) {
-                observer.current.disconnect();
-            }
-        };
-    }, [hasMorePosts, isLoading]);
+    const filterUniquePosts = (newPosts) => {
+        const newPostIds = newPosts.map((post) => post.id);
+        console.log('New Post IDs:', newPostIds); // Log the new post IDs
+        const uniquePosts = newPosts.filter((post) => !renderedPostIds.includes(post.id));
+        console.log('Unique Posts:', uniquePosts); // Log the unique posts
+        setRenderedPostIds((prevIds) => [...prevIds, ...newPostIds]);
+        return uniquePosts;
+    };
 
     const fetchMorePosts = async () => {
         setIsLoading(true);
@@ -65,12 +56,6 @@ function Stories() {
         setIsLoading(false);
     };
 
-    const filterUniquePosts = (newPosts) => {
-        const uniquePosts = newPosts.filter((post) => !renderedPostIds.includes(post.id));
-        setRenderedPostIds((prevIds) => [...prevIds, ...uniquePosts.map((post) => post.id)]);
-        return uniquePosts;
-    };
-
     return (
         <div>
             <div className="banner">
@@ -81,24 +66,32 @@ function Stories() {
                 <div className="content">
                     <div className="stories-top-bar">
                         <h1 className="heading-text">User Stories</h1>
-                        <Link className="create-post-button" href="/createpost">
-                            <button>Create Post</button>
+                        <Link href="/createpost">
+                            <button className="create-post-button">Create Post</button>
                         </Link>
                     </div>
-
-                    <div>
-                        <div className="story-posts">
-                            <div className="post-grid">
-                                {posts.map((post, index) => (
-                                    <Post key={post.id} post={post}/>
-                                ))}
-                            </div>
-                            {!isLoading && hasMorePosts && (
-                                <div id="end-of-posts" style={{marginTop: '20px'}}></div>
-                            )}
-                        </div>
-                        {isLoading && <div>Loading more posts...</div>}
+                    <div className="stories-about-us">
+                        Explore the inspiring posts shared by our volunteers on our website, showcasing the positive
+                        impact they have
+                        made. Join our volunteer community today and contribute your own unique story to the collection!
                     </div>
+
+                    <div className="story-posts">
+                        <Masonry
+                            breakpointCols={{default: 2, 700: 1}}
+                            className="post-grid"
+                            columnClassName="post-grid-column"
+                        >
+                            {posts.map((post) => (
+                                <div key={post.id}
+                                     className="post"> 
+                                    <Post post={post}/>
+                                </div>
+                            ))}
+                        </Masonry>
+                        {!isLoading && hasMorePosts && <div id="end-of-posts"></div>}
+                    </div>
+                    {isLoading && <div>Loading more posts...</div>}
                 </div>
             </div>
         </div>

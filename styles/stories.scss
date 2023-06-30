@@ -1,0 +1,134 @@
+@import 'colors';
+@import 'fonts';
+
+.stories-top-bar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.create-post-button {
+  border-radius: .5rem;
+
+  button {
+    align-self: flex-end;
+    margin-bottom: 2.5rem;
+  }
+}
+
+.stories-about-us {
+  font-size: 1.25rem;
+  margin-bottom: 3rem;
+}
+
+.post-grid {
+  display: flex;
+  gap: 2rem;
+}
+
+.post {
+  border: .01rem solid $litterpic-green;
+  border-radius: .5rem;
+  margin-bottom: 2rem;
+
+  &:not(:last-child) {
+    border-bottom: 0;
+  }
+}
+
+.post-carousel {
+  border: 1px $litterpic-green;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.carousel-image {
+  height: 350px;
+  object-fit: cover;
+  overflow: hidden;
+  width: 500px;
+}
+
+.carousel-chevron {
+  background-color: $white;
+  color: $litterpic-green;
+  height: auto;
+  position: relative;
+  z-index: 1;
+
+  &:hover {
+    color: $black;
+  }
+}
+
+.carousel-chevron-left {
+  padding-right: .3rem;
+}
+
+.carousel-chevron-right {
+  padding-left: .3rem;
+}
+
+.post-username-location {
+  display: grid;
+  grid-template-columns: 10% 40% 50%;
+  justify-content: space-between;
+  padding-left: 2rem;
+  padding-top: 1rem;
+}
+
+.profile-image {
+  img {
+    border-radius: 50%;
+    height: 40px;
+    object-fit: fill;
+    width: 40px;
+  }
+}
+
+
+.post-user-name {
+  align-items: center;
+  display: flex;
+  font-weight: normal;
+
+}
+
+.post-location {
+  align-items: center;
+  color: $dark-blue;
+  display: flex;
+  font-size: 1rem;
+  justify-self: end;
+  padding-right: 1rem;
+}
+
+.post-title {
+  font-size: 1.5em;
+  font-weight: bolder;
+  margin-left: 1rem;
+  margin-top: 1.25rem;
+}
+
+.post-litter-weight-collected {
+  font-weight: bold;
+  margin-bottom: .5rem;
+  margin-top: 1.25rem;
+  text-align: center;
+}
+
+.post-description {
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 1rem 2rem;
+  width: auto;
+}
+
+.create-post-content {
+  display: flex;
+  justify-content: center;
+
+  button {
+    border-radius: .5em;
+  }
+}
