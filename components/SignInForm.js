@@ -27,12 +27,15 @@ export default function SignInForm() {
 
     return (
         <form className="sign-in-form" onSubmit={handleSubmit}>
+            <div className="sign-in-new-user-heading">
+                New to LitterPic? <a className="sign-in-sign-up-link" href="/signup">Sign Up</a>
+            </div>
             <input className="sign-in-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)}
                    placeholder="Email" required/>
             <input className="sign-in-password" type="password" value={password}
                    onChange={(e) => setPassword(e.target.value)} placeholder="Password"
                    required/>
-            <button className="sign-in-button" type="submit">Sign in</button>
+            <button className="sign-in-button" type="submit">Login</button>
         </form>
     );
 }

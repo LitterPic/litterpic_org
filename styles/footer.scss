@@ -16,12 +16,17 @@
   grid-template-columns: repeat(3, 1fr);
   padding-bottom: .5rem;
 
+  &-column-1 {
+    padding-left: 3rem;
+  }
+
   &-column-1,
   &-column-2,
   &-column-3 {
     justify-self: center;
 
     p {
+      font-size: 16px;
       text-align: center;
     }
   }
@@ -31,8 +36,11 @@
 
     a {
       align-self: start;
+      font-size: 16px;
+      line-height: 1.75;
 
       &:link {
+        font-size: 16px;
         text-decoration: none;
       }
     }

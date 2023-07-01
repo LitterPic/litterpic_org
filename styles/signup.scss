@@ -1,0 +1,79 @@
+@import 'colors';
+@import 'fonts';
+
+// Login
+.signup-form {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.signup-email,
+.signup-password,
+.signup-confirm-password {
+  background-color: $input;
+  //border: 0;
+  font-size: 1.1rem;
+  margin: .5rem auto;
+  position: relative;
+  width: 15.6rem;
+}
+
+.signup-password-container {
+  display: flex;
+  position: relative;
+
+  .signup-password-toggle-icon {
+    color: $litterpic-green;
+    cursor: pointer;
+    position: absolute;
+    right: .5rem;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+.signup-button {
+  border-radius: .5rem;
+  font-family: RopaSans, sans-serif;
+  margin: 1.9rem auto 0;
+  width: 6.25rem;
+}
+
+.error-container {
+  align-items: center;
+  display: flex;
+  margin-top: .5rem;
+}
+
+.error-message {
+  color: $red;
+  font-size: 1.5rem;
+  font-weight: bolder;
+  margin-right: 8px;
+}
+
+.error-clear-icon {
+  cursor: pointer;
+}
+
+.signup-legal {
+  font-size: .65rem;
+  font-style: italic;
+  padding-top: .75rem;
+
+  a {
+    font-size: .65rem;
+    font-style: italic;
+  }
+}
+
+
+@media (max-width: 76.5rem) {
+  // Mobile Support
+}
+
+@media (max-width: 102.25rem) and (orientation: landscape) {
+  // Mobile Support
+}
