@@ -24,11 +24,14 @@ export default function SignInForm() {
 
         try {
             await createUserWithEmailAndPassword(auth, email, password);
-            if (router.query.redirectTo) {
-                router.push(router.query.redirectTo);
-            } else {
-                router.push('/');
-            }
+
+            // After creating the user, update the user's display name
+            await updateUserProfile(auth.currentUser, {
+                displayName: 'Your Display Name', // Set the initial display name here
+            });
+
+            // Redirect the user to the edit profile page
+            router.push('/edit-profile');
         } catch (error) {
             if (error.code === 'auth/email-already-in-use') {
                 setError('User already exists');
@@ -40,6 +43,7 @@ export default function SignInForm() {
             }
         }
     };
+
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -93,7 +97,9 @@ export default function SignInForm() {
                 Sign Up
             </button>
             <p className="signup-legal">By signing up, you expressly acknowledge, consent to, and agree to be
-                bound by the privacy policy of LitterPic Inc. <a href="/privacy" target="_blank">privacy policy</a></p>
+                bound by the privacy policy of LitterPic Inc.
+                <a href="/privacy" target="_blank">privacy policy</a>
+            </p>
             {error && (
                 <div className="error-container">
                     <p className="error-message">{error}</p>

@@ -1,0 +1,69 @@
+@import 'colors';
+@import 'fonts';
+
+.profile-content {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.profile-picture {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  grid-column: 2 / 3;
+  justify-content: start;
+
+  img {
+    border: 2px solid $litterpic-green;
+    border-radius: 50%;
+    height: 10rem;
+    object-fit: cover;
+    width: 10rem;
+  }
+}
+
+.edit-profile-button {
+  background-color: $litterpic-green;
+  border: 0;
+  border-radius: .5rem;
+  color: $white;
+  cursor: pointer;
+  display: inline-block;
+  margin-top: .5rem;
+  padding: .5rem 1rem;
+  text-decoration: none;
+
+  &:hover {
+    background-color: $nav-green;
+    transition: background-color .5s ease;
+  }
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  grid-column: 1 / 2;
+  padding-left: 4rem;
+}
+
+.profile-item {
+  color: $profile-text-gray;
+  font-weight: bold;
+
+  &:not(:first-child) {
+    padding-top: 1rem;
+  }
+}
+
+.profile-value {
+  padding-left: .5rem;
+}
+
+@media (max-width: 76.5rem) {
+  // Mobile Support
+}
+
+@media (max-width: 102.25rem) and (orientation: landscape) {
+  // Mobile Support
+}
