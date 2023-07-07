@@ -117,21 +117,40 @@
     }
 
     .logo {
-      font-size: 1rem;
-    }
-
-    .tagline {
       font-size: .75rem;
     }
 
+    .tagline {
+      font-size: .5rem;
+    }
+
   }
 
 
-  .donate-button {
-    font-size: 1.25rem;
-    margin-right: 1rem;
-    padding: .4rem;
+  .logo-bar-right-content {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+
+
+    .login-button {
+      font-size: .75rem;
+      font-weight: normal;
+      height: 2rem;
+      margin: 0 5px;
+      padding: .5rem;
+    }
+
+    .donate-button {
+      font-size: .75rem;
+      font-weight: normal;
+      height: 2rem;
+      margin: 0 5px;
+      padding: .5rem;
+    }
   }
+
 
 }
 
@@ -156,8 +175,18 @@
   }
 
 
-  .donate-button {
-    font-size: 1.5rem;
-    padding: .3rem;
+  .logo-bar-right-content {
+    .login-button {
+      font-size: .75rem;
+      font-weight: normal;
+      height: 2rem;
+      padding: 1.25rem;
+    }
+
+    .donate-button {
+      font-size: .75rem;
+      padding: 1.25rem;
+    }
   }
+
 }

@@ -91,7 +91,6 @@
   align-items: center;
   display: flex;
   font-weight: normal;
-
 }
 
 .post-location {
@@ -131,4 +130,122 @@
   button {
     border-radius: .5em;
   }
+}
+
+@media (max-width: 76.5rem) {
+  .post-username-location {
+    display: grid;
+    grid-template-columns: 20% 40% 40%;
+    justify-content: space-between;
+    padding-left: .5rem;
+    padding-right: .5rem;
+    padding-top: 1rem;
+  }
+
+  .post-user-name {
+    align-items: start;
+  }
+
+  .post-location {
+    a {
+      font-size: .75rem;
+    }
+  }
+
+  .post {
+    border: .01rem solid $litterpic-green;
+    border-radius: .5rem;
+    margin-bottom: .5rem;
+
+    &:not(:last-child) {
+      border-bottom: 0;
+    }
+  }
+
+  .carousel-chevron {
+    background-color: $white;
+    color: $litterpic-green;
+    height: auto;
+    position: relative;
+    z-index: 1;
+
+    &:hover {
+      color: $black;
+    }
+  }
+
+  .carousel-chevron-left {
+    padding-right: .01rem;
+  }
+
+  .carousel-chevron-right {
+    padding-left: .01rem;
+  }
+
+  .carousel-image {
+    height: auto;
+    object-fit: fill;
+    overflow: hidden;
+    width: 400px;
+  }
+}
+
+
+@media (max-width: 102.25rem) and (orientation: landscape) {
+  .post-username-location {
+    display: grid;
+    grid-template-columns: 20% 40% 40%;
+    justify-content: space-between;
+    padding-left: .5rem;
+    padding-right: .5rem;
+    padding-top: 1rem;
+  }
+
+  .post-user-name {
+    align-items: start;
+  }
+
+  .post-location {
+    a {
+      font-size: .75rem;
+    }
+  }
+
+  .post {
+    border: .01rem solid $litterpic-green;
+    border-radius: .5rem;
+    margin-bottom: .5rem;
+
+    &:not(:last-child) {
+      border-bottom: 0;
+    }
+  }
+
+  .carousel-chevron {
+    background-color: $white;
+    color: $litterpic-green;
+    height: auto;
+    position: relative;
+    z-index: 1;
+
+    &:hover {
+      color: $black;
+    }
+  }
+
+  .carousel-chevron-left {
+    padding-right: .01rem;
+  }
+
+  .carousel-chevron-right {
+    padding-left: .01rem;
+  }
+
+  .carousel-image {
+    height: auto;
+    object-fit: fill;
+    overflow: hidden;
+    width: 300px;
+  }
+
 }

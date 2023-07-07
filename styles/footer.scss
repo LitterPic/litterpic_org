@@ -59,7 +59,31 @@
 
 @media (max-width: 76.5rem) {
   .footer {
-    padding-top: 1rem;
+    align-items: end;
+    padding-bottom: .5rem;
+    padding-top: .5rem;
+
+    &-column-1 {
+      padding-left: 2rem;
+    }
+
+    &-column-1,
+    &-column-2,
+    &-column-3 {
+      p {
+        font-size: .75rem;
+      }
+    }
+
+    &-column-3 {
+      a {
+        line-height: 1.5;
+
+        &:link {
+          font-size: .75rem;
+        }
+      }
+    }
   }
 }
 
