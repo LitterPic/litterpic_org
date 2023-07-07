@@ -1,5 +1,5 @@
 import SignInForm from '../components/SignInForm';
-import React from "react"; // adjust path according to your file structure
+import React from "react";
 
 export default function LoginPage() {
     return (

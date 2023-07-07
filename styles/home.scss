@@ -49,7 +49,7 @@ p {
 .index-wrapper {
   column-gap: 5rem;
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 1.25fr 1.75fr;
 
   p {
     font-size: 1rem;
@@ -64,6 +64,7 @@ p {
   .index-column-two-row-one {
     display: grid;
     grid-template-rows: auto;
+    margin-right: 1rem;
 
     ul {
       display: flex;
@@ -73,8 +74,6 @@ p {
 
     li {
       flex: 1;
-      margin: 0;
-      margin-bottom: 2rem;
     }
   }
 }
@@ -93,6 +92,50 @@ p {
 
 
 @media (max-width: 76.5rem) {
+  .index-wrapper {
+    column-gap: 5rem;
+    display: flex;
+    flex-direction: column;
+
+    p {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .index-starting-text {
+      color: $litterpic-green;
+      font-size: 1.5rem;
+      font-weight: bolder;
+    }
+
+    .index-column-two-row-one {
+      display: flex;
+      flex-direction: column;
+      margin-right: 1rem;
+
+      ul {
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+      }
+
+      li {
+        flex: 1;
+        margin-left: 1rem;
+      }
+    }
+  }
+
+  .index-more-stories-button {
+    display: flex;
+    justify-content: center;
+
+    button {
+      margin-bottom: 1rem;
+      margin-top: 1rem;
+    }
+  }
+
   .pounds-text {
     color: $black;
     font-size: 1rem;

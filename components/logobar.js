@@ -57,7 +57,8 @@ const Logobar = () => {
             {user ? (
                 <div className="logo-bar-right-content">
                     <CustomButton href="/donate">Donate</CustomButton>
-                    <button onClick={handleSignOut}><span>Hi, {userDetails?.display_name || user.email}!</span> Log
+                    <button className="login-button" onClick={handleSignOut}>
+                        <span>Hi, {userDetails?.display_name || user.email}!</span> Log
                         Out?
                     </button>
                 </div>
