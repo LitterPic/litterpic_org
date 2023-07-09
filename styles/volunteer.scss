@@ -2,6 +2,10 @@
 @import 'fonts';
 
 // Volunteer
+.volunteer-top-paragraph {
+  line-height: 2;
+}
+
 .community-service-button {
   border-radius: .5em;
   display: block;
@@ -9,6 +13,7 @@
   margin: 1.875rem auto 2.5rem;
   padding: .6rem;
 }
+
 
 // Volunteer Calendar
 .event-background {

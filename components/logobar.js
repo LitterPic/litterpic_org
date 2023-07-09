@@ -1,53 +1,75 @@
 import {useRouter} from 'next/router';
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {onAuthStateChanged, signOut} from 'firebase/auth';
 import {auth, db} from '../lib/firebase';
 import {doc, getDoc} from 'firebase/firestore';
-import CustomButton from "./CustomButton";
+import CustomButton from './CustomButton';
+import {faCaretDown} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 const Logobar = () => {
     const [user, setUser] = useState(null);
-    const [userDetails, setUserDetails] = useState(null);
+    const [userPhoto, setUserPhoto] = useState('');
+    const [displayName, setDisplayName] = useState('');
     const router = useRouter();
+    const [showDropdown, setShowDropdown] = useState(false); // Track dropdown visibility
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, async user => {
+        const unsubscribe = onAuthStateChanged(auth, async (user) => {
             setUser(user);
 
             // Retrieve additional user details from Firestore
             if (user) {
-                const docRef = doc(db, 'users', user.uid);
-                const docSnap = await getDoc(docRef);
+                const userRef = doc(db, `users/${user.uid}`);
+                const userDoc = await getDoc(userRef);
 
-                if (docSnap.exists()) {
-                    setUserDetails(docSnap.data());
+                if (userDoc.exists()) {
+                    const userData = userDoc.data();
+                    setUserPhoto(userData.photo_url);
+                    setDisplayName(userData.display_name);
                 } else {
                     console.log('No such document!');
                 }
             } else {
-                setUserDetails(null);
+                setUserPhoto(null);
+                setDisplayName('');
             }
         });
 
         return () => unsubscribe();
-    }, [auth]);
+    }, []);
 
     const handleSignOut = async () => {
         try {
             await signOut(auth);
             setUser(null);
             router.push('/login');
+            setShowDropdown(false);
         } catch (error) {
             console.error('Error signing out:', error);
         }
+    };
+
+    const handleProfileClick = async () => {
+        router.push('/profile');
+        setShowDropdown(false);
+    }
+
+    const toggleDropdown = () => {
+        setShowDropdown((prevState) => !prevState);
     };
 
     return (
         <div className="logo-bar">
             <div className="logo-bar-left-content">
                 <div className="logo-content">
-                    <img src="/images/litter_pic_logo.png" alt="LitterPic logo" width={100} height={100}
-                         onClick={() => router.push('/')}/>
+                    <img
+                        src="/images/litter_pic_logo.png"
+                        alt="LitterPic logo"
+                        width={100}
+                        height={100}
+                        onClick={() => router.push('/')}
+                    />
                     <div className="logo-text">
                         <p className="logo">LitterPic</p>
                         <p className="tagline">Inspire Change</p>
@@ -57,18 +79,29 @@ const Logobar = () => {
             {user ? (
                 <div className="logo-bar-right-content">
                     <CustomButton href="/donate">Donate</CustomButton>
-                    <button className="login-button" onClick={handleSignOut}>
-                        <span>Hi, {userDetails?.display_name || user.email}!</span> Log
-                        Out?
-                    </button>
+                    <div className="profile-dropdown">
+                        <div className="profile-picture-wrapper" onClick={toggleDropdown}>
+                            <img src={userPhoto} alt={displayName} className="profile-picture"/>
+                            <FontAwesomeIcon
+                                icon={faCaretDown}
+                                className={`dropdown-icon ${showDropdown ? 'rotate' : ''}`}
+                            />
+                        </div>
+                        {showDropdown && (
+                            <div className="dropdown-menu">
+                                <button className="logo-profile-menu-button" onClick={handleProfileClick}>Profile
+                                </button>
+                                <button className="signout-profile-menu-button" onClick={handleSignOut}>Log Out</button>
+                            </div>
+                        )}
+                    </div>
                 </div>
-            ) : ((
+            ) : (
                 <div className="logo-bar-right-content">
                     <CustomButton href="/donate">Donate</CustomButton>
-                    <button onClick={() => router.push('/login')}>Login</button>
+                    <button className="login-button" onClick={() => router.push('/login')}>Login</button>
                 </div>
-            ))}
-
+            )}
         </div>
     );
 };
