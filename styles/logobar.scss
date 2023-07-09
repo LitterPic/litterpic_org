@@ -135,7 +135,6 @@
 
     img {
       height: 3rem;
-      padding-top: .2rem;
     }
   }
 
@@ -207,9 +206,21 @@
     padding-top: 1rem;
     width: 100%;
 
-    img {
-      width: 2.5rem;
-    }
+    //img {
+    //  width: 50px;
+    //  height: 50px;
+    //  object-fit: cover;
+    //}
+  }
+
+  .profile-picture {
+    border-radius: 50%;
+    border-style: solid;
+    border-width: 1px;
+    height: 50px;
+    margin-right: 1rem;
+    object-fit: cover;
+    width: 50px;
   }
 
   .logo {
