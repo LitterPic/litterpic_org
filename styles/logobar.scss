@@ -177,6 +177,7 @@
   .logo-bar-right-content {
     align-items: center;
     display: flex;
+    flex-direction: column;
     height: 100%;
     justify-content: center;
   }
@@ -186,17 +187,23 @@
     font-size: .75rem;
     font-weight: normal;
     height: 2rem;
+    margin-right: 5rem;
     padding: .5rem;
   }
+
 
   .profile-picture {
     border-radius: 50%;
     border-style: solid;
     border-width: 1px;
     height: 50px;
-    margin-right: .5rem;
+    margin-left: 5.5rem;
     object-fit: cover;
     width: 50px;
+  }
+
+  .profile-dropdown {
+    display: none;
   }
 }
 
@@ -205,12 +212,6 @@
     padding-left: .6rem;
     padding-top: 1rem;
     width: 100%;
-
-    //img {
-    //  width: 50px;
-    //  height: 50px;
-    //  object-fit: cover;
-    //}
   }
 
   .profile-picture {
@@ -243,5 +244,9 @@
       font-size: .75rem;
       padding: 1.25rem;
     }
+  }
+
+  .profile-dropdown {
+    display: none;
   }
 }

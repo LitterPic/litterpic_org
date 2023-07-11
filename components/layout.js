@@ -1,16 +1,48 @@
 import React, {useState, useEffect} from "react";
 import {useRouter} from "next/router";
-import Navlink from "./navlink";
+import Link from "next/link";
 import Logobar from "./logobar";
 import Footer from "./footer";
+import {getAuth, onAuthStateChanged, signOut} from 'firebase/auth';
+import {getFirestore, doc, getDoc} from 'firebase/firestore';
+import {auth} from "../lib/firebase";
 
 const Layout = ({children}) => {
     const [showNavLinks, setShowNavLinks] = useState(false);
     const router = useRouter();
+    const [userPhoto, setUserPhoto] = useState('');
+    const [displayName, setDisplayName] = useState('');
+    const [userLoggedIn, setUserLoggedIn] = useState(false);
+    const [user, setUser] = useState(null);
 
     useEffect(() => {
-        setShowNavLinks(false); // Hide nav links when path changes
+        setShowNavLinks(false);
     }, [router.pathname]);
+
+    useEffect(() => {
+        const authInstance = getAuth();
+        const firestore = getFirestore();
+        const unsubscribe = onAuthStateChanged(authInstance, async (user) => {
+            if (user) {
+                setUserLoggedIn(true);
+                const userRef = doc(firestore, `users/${user.uid}`);
+                const userDoc = await getDoc(userRef);
+
+                if (userDoc.exists()) {
+                    const userData = userDoc.data();
+                    setUserPhoto(userData.photo_url);
+                    setDisplayName(userData.display_name);
+                } else {
+                    console.log('No such document!');
+                }
+            } else {
+                setUserLoggedIn(false);
+                setUserPhoto('');
+            }
+        });
+
+        return () => unsubscribe();
+    }, []);
 
     const toggleNavLinks = () => {
         setShowNavLinks(!showNavLinks);
@@ -21,27 +53,54 @@ const Layout = ({children}) => {
         router.push(href);
     };
 
+    const handleSignOut = async () => {
+        try {
+            await signOut(auth);
+            setUserLoggedIn(false);
+            setUserPhoto('');
+            router.push('/login');
+        } catch (error) {
+            console.error('Error signing out:', error);
+        }
+    };
+
     return (
         <div className="nav-grid-container">
             <Logobar/>
             <div className="grid-content">
                 <nav className={`nav-bar ${showNavLinks ? "mobile-nav" : ""}`}>
                     <div className="nav-links">
-                        <Navlink href="/" onClick={() => handleNavLinkClick("/")}>
-                            Home
-                        </Navlink>
-                        <Navlink href="/about" onClick={() => handleNavLinkClick("/about")}>
-                            About Us
-                        </Navlink>
-                        <Navlink href="/volunteer" onClick={() => handleNavLinkClick("/volunteer")}>
-                            Volunteer
-                        </Navlink>
-                        <Navlink href="/stories" onClick={() => handleNavLinkClick("/stories")}>
-                            User Stories
-                        </Navlink>
-                        <Navlink href="/contact" onClick={() => handleNavLinkClick("/contact")}>
-                            Contact
-                        </Navlink>
+                        {userLoggedIn && showNavLinks && (
+                            <img src={userPhoto} alt={displayName} className="profile-picture"/>
+                        )}
+                        <Link href="/" passHref>
+                            <div onClick={() => handleNavLinkClick("/")}>Home
+                            </div>
+                        </Link>
+                        <Link href="/about" passHref>
+                            <div onClick={() => handleNavLinkClick("/about")}>About Us</div>
+                        </Link>
+                        <Link href="/volunteer" passHref>
+                            <div onClick={() => handleNavLinkClick("/volunteer")}>Volunteer</div>
+                        </Link>
+                        <Link href="/stories" passHref>
+                            <div onClick={() => handleNavLinkClick("/stories")}>User Stories</div>
+                        </Link>
+                        <Link href="/contact" passHref>
+                            <div onClick={() => handleNavLinkClick("/contact")}>Contact</div>
+                        </Link>
+                        {userLoggedIn ? (
+                            <>
+                                <Link href="/profile" passHref>
+                                    <div onClick={() => handleNavLinkClick("/profile")}>Profile</div>
+                                </Link>
+                                <div className="nav-link" onClick={handleSignOut}>Sign Out</div>
+                            </>
+                        ) : (
+                            <Link href="/login" passHref>
+                                <div onClick={() => handleNavLinkClick("/login")}>Login</div>
+                            </Link>
+                        )}
                     </div>
                     <div className={`nav-toggle ${showNavLinks ? "active" : ""}`} onClick={toggleNavLinks}>
             <span className="icon">
@@ -59,7 +118,8 @@ const Layout = ({children}) => {
             <main>{children}</main>
             <Footer/>
         </div>
-    );
+    )
+        ;
 };
 
 export default Layout;

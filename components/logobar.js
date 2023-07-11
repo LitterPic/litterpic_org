@@ -77,31 +77,32 @@ const Logobar = () => {
                 </div>
             </div>
             {user ? (
-                <div className="logo-bar-right-content">
-                    <CustomButton href="/donate">Donate</CustomButton>
-                    <div className="profile-dropdown">
-                        <div className="profile-picture-wrapper" onClick={toggleDropdown}>
-                            <img src={userPhoto} alt={displayName} className="profile-picture"/>
-                            <FontAwesomeIcon
-                                icon={faCaretDown}
-                                className={`dropdown-icon ${showDropdown ? 'rotate' : ''}`}
-                            />
-                        </div>
-                        {showDropdown && (
-                            <div className="dropdown-menu">
-                                <button className="logo-profile-menu-button" onClick={handleProfileClick}>Profile
-                                </button>
-                                <button className="signout-profile-menu-button" onClick={handleSignOut}>Log Out</button>
+                    <div className="logo-bar-right-content">
+                        <CustomButton href="/donate">Donate</CustomButton>
+                        <div className="profile-dropdown">
+                            <div className="profile-picture-wrapper" onClick={toggleDropdown}>
+                                <img src={userPhoto} alt={displayName} className="profile-picture"/>
+                                <FontAwesomeIcon
+                                    icon={faCaretDown}
+                                    className={`dropdown-icon ${showDropdown ? 'rotate' : ''}`}
+                                />
                             </div>
-                        )}
+                            {showDropdown && (
+                                <div className="dropdown-menu">
+                                    <button className="logo-profile-menu-button" onClick={handleProfileClick}>Profile
+                                    </button>
+                                    <button className="signout-profile-menu-button" onClick={handleSignOut}>Log Out</button>
+                                </div>
+                            )}
+                        </div>
                     </div>
-                </div>
-            ) : (
-                <div className="logo-bar-right-content">
-                    <CustomButton href="/donate">Donate</CustomButton>
-                    <button className="login-button" onClick={() => router.push('/login')}>Login</button>
-                </div>
-            )}
+                ) :
+                (
+                    <div className="logo-bar-right-content">
+                        <CustomButton href="/donate">Donate</CustomButton>
+                        <button className="login-button" onClick={() => router.push('/login')}>Login</button>
+                    </div>
+                )}
         </div>
     );
 };
