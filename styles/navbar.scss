@@ -40,35 +40,11 @@
         font-family: Rubik, Times, sans-serif;
         font-size: 1.5rem;
       }
-
     }
   }
 
   .nav-toggle {
     display: none;
-
-    @media (max-width: 76.5rem) {
-      align-items: center;
-      cursor: pointer;
-      display: flex;
-      height: 100%;
-      margin-bottom: .5rem;
-      position: absolute;
-      right: .5rem;
-    }
-
-    .icon {
-      align-items: center;
-      display: flex;
-      justify-content: center;
-      padding-bottom: 1rem;
-
-      svg {
-        fill: currentColor;
-        height: 3rem;
-        width: 3rem;
-      }
-    }
   }
 
   &.mobile-nav {
@@ -82,16 +58,40 @@
         margin: 0 0 .5rem;
       }
     }
-
-    .nav-toggle {
-      .icon {
-        transform: rotate(180deg);
-      }
-    }
   }
 }
 
+.hide {
+  display: none;
+}
+
 @media (max-width: 76.5rem) {
+  .nav-bar .nav-toggle {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    margin-bottom: 4.5rem;
+    margin-right: .5rem;
+    position: absolute;
+    right: .5rem;
+  }
+
+  .nav-bar {
+    .nav-toggle {
+      .icon {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+
+        svg {
+          fill: currentColor;
+          height: 3rem;
+          width: 3rem;
+        }
+      }
+    }
+  }
+
   .nav-bar .nav-links {
     background-color: $gray;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
@@ -101,7 +101,7 @@
     padding: .5rem;
     position: absolute;
     right: .5rem;
-    top: 10%;
+    top: 8%;
     z-index: 100;
   }
 
@@ -109,19 +109,8 @@
     display: flex;
   }
 
-
-  .nav-toggle {
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    position: relative;
-
-    .icon {
-      position: absolute;
-      right: .5rem;
-      top: 50%;
-      transform: translateY(-90%);
-    }
+  .hide {
+    display: grid;
   }
 }
 
@@ -135,11 +124,15 @@
     padding: .5rem;
     position: absolute;
     right: .5rem;
-    top: 28%;
+    top: 20%;
     z-index: 100;
   }
 
   .nav-bar.mobile-nav .nav-links.show-navlinks {
     display: flex;
+  }
+
+  .hide {
+    display: grid;
   }
 }

@@ -100,7 +100,7 @@ const Logobar = () => {
                 (
                     <div className="logo-bar-right-content">
                         <CustomButton href="/donate">Donate</CustomButton>
-                        <button className="login-button" onClick={() => router.push('/login')}>Login</button>
+                        {/*<button className="login-button" onClick={() => router.push('/login')}>Login</button>*/}
                     </div>
                 )}
         </div>

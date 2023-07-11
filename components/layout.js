@@ -89,18 +89,20 @@ const Layout = ({children}) => {
                         <Link href="/contact" passHref>
                             <div onClick={() => handleNavLinkClick("/contact")}>Contact</div>
                         </Link>
-                        {userLoggedIn ? (
-                            <>
-                                <Link href="/profile" passHref>
-                                    <div onClick={() => handleNavLinkClick("/profile")}>Profile</div>
+                        <div className={`nav-links-desktop ${!userLoggedIn ? "" : "hide"}`}>
+                            {userLoggedIn ? (
+                                <>
+                                    <Link href="/profile" passHref>
+                                        <div onClick={() => handleNavLinkClick("/profile")}>Profile</div>
+                                    </Link>
+                                    <div className="nav-link" onClick={handleSignOut}>Log Out</div>
+                                </>
+                            ) : (
+                                <Link href="/login" passHref>
+                                    <div onClick={() => handleNavLinkClick("/login")}>Login</div>
                                 </Link>
-                                <div className="nav-link" onClick={handleSignOut}>Sign Out</div>
-                            </>
-                        ) : (
-                            <Link href="/login" passHref>
-                                <div onClick={() => handleNavLinkClick("/login")}>Login</div>
-                            </Link>
-                        )}
+                            )}
+                        </div>
                     </div>
                     <div className={`nav-toggle ${showNavLinks ? "active" : ""}`} onClick={toggleNavLinks}>
             <span className="icon">
