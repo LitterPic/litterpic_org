@@ -116,6 +116,7 @@ export default function Index() {
                     <div className="index-wrapper">
                         <div className="index-column-one-row-one">
                             <h1 className="index-starting-text">Starting with LitterPic is a breeze.</h1>
+                            <br/>
                             <p>It's crucial that we come together and do something about litter. Our goal should be to
                                 encourage and inspire others to join in the fight against it. A cleaner and healthier
                                 environment is vital to enhancing everyone's quality of life. Let's collaborate and make

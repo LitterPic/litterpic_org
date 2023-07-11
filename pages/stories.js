@@ -67,7 +67,7 @@ function Stories() {
                     <div className="stories-top-bar">
                         <h1 className="heading-text">User Stories</h1>
                         <Link href="/createpost">
-                            <button className="create-post-button">Create Post</button>
+                            <button className="create-post-button">Post Your Story</button>
                         </Link>
                     </div>
                     <div className="stories-about-us">
