@@ -397,6 +397,12 @@
   margin-right: 2.5rem;
 }
 
+.donate-tax {
+  font-size: 0.9rem;
+  font-style: italic;
+  text-align: center;
+}
+
 .donorbox-images-container {
   display: flex;
   flex-direction: row;
@@ -421,6 +427,9 @@
 }
 
 @media (max-width: 76.5rem) {
+  .donate-tax {
+    font-size: 0.5rem;
+  }
   .donorbox-images-container {
     display: flex;
     flex-direction: row;

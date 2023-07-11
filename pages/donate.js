@@ -18,14 +18,23 @@ const Donate = () => {
                                 <DonorBox/>
                             </div>
                         </div>
+                        <p className="donate-tax">
+                            LITTERPIC INC is a 501(c)(3) charitable organization, EIN 88-2549690. All donations
+                            are
+                            tax-deductible
+                            absent any limitations on deductions applicable to a particular taxpayer.
+                        </p>
+                        <br/>
+                        <div>
+                            <h1 className="heading-text">Help support the mission of a cleaner environment!!</h1>
+                            <p>
+                                If you would like to talk about how you can volunteer or have a project we can help
+                                with, please email or give us a call. We look forward to hearing from you!
+                            </p>
+                        </div>
 
                         <div className="donate-legal-text">
-                            <p>
-                                LITTERPIC INC is a 501(c)(3) charitable organization, EIN 88-2549690. All donations
-                                are
-                                tax-deductible
-                                absent any limitations on deductions applicable to a particular taxpayer.
-                            </p>
+                            <br/>
                             <p>
                                 Donations are the lifeblood of LitterPic, allowing us to continue our work towards a
                                 world
@@ -36,6 +45,7 @@ const Donate = () => {
                                 people
                                 to act against litter, making a tangible impact on the health of our planet.
                             </p>
+                            <br/>
                             <p>
                                 Your donations help us maintain and improve our platform, ensuring it remains
                                 user-friendly,
@@ -46,6 +56,7 @@ const Donate = () => {
                                 grabbers, bags, and gloves, that enable our volunteers to pick up litter safely and
                                 effectively.
                             </p>
+                            <br/>
                             <p>
                                 Your generous donations enable us to make a real difference in the fight against
                                 litter.
@@ -59,6 +70,7 @@ const Donate = () => {
                                 to
                                 live.
                             </p>
+                            <br/>
                             <p>
                                 In addition to supporting our future litter-picking events, your donations help us
                                 maintain
@@ -69,6 +81,7 @@ const Donate = () => {
                                 can
                                 continue to operate as a legitimate and effective force in the fight against litter.
                             </p>
+                            <br/>
                             <p>
                                 At LitterPic, we believe that every dollar counts and appreciate any support we
                                 receive
@@ -83,6 +96,7 @@ const Donate = () => {
                                 and
                                 well-being of our planet.
                             </p>
+                            <br/>
                         </div>
                         <div className="donorbox-images-container">
                             <div className="donate-image-container">
@@ -94,7 +108,8 @@ const Donate = () => {
                 </div>
             </div>
         </div>
-    );
+    )
+        ;
 };
 
 export default Donate;

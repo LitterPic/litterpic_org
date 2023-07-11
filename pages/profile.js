@@ -89,7 +89,7 @@ const ProfilePage = () => {
                                 <img src={userPhoto} alt="Profile Picture"/>
                             ) : (
                                 <img
-                                    src="https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes.png"
+                                    src="https://cdn.vectorstock.com/i/1000x1000/32/12/default-avatar-profile-icon-vector-39013212.webp"
                                     alt="Default Profile Picture"
                                 />
                             )}
