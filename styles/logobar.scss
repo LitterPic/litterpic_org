@@ -1,3 +1,6 @@
+@import 'colors';
+@import 'fonts';
+
 .logo-bar {
   align-items: center;
   background-color: $white;
@@ -111,10 +114,10 @@
   border-radius: 4px;
   display: flex;
   flex-direction: column;
-  padding: 8px 8px 8px 1rem;
+  padding: .5rem .5rem .5rem .3rem;
   position: absolute;
   right: 3rem;
-  top: calc(9% + 10px);
+  top: calc(9% + .75rem);
   z-index: 1;
 
   button {
@@ -123,6 +126,7 @@
     color: $black;
     cursor: pointer;
     display: flex;
+    font-weight: bolder;
     margin: .7rem 0;
     padding: 0;
     position: relative;
@@ -182,12 +186,11 @@
     justify-content: center;
   }
 
-  .login-button,
   .donate-button {
-    font-size: .75rem;
+    font-size: 1rem;
     font-weight: normal;
     height: 2rem;
-    margin-right: 5rem;
+    margin-right: 4rem;
     padding: .5rem;
   }
 
@@ -211,7 +214,7 @@
   .logo-bar {
     padding-left: .6rem;
     padding-top: 1rem;
-    width: 100%;
+    width: 90%;
   }
 
   .profile-picture {
@@ -233,15 +236,8 @@
   }
 
   .logo-bar-right-content {
-    .login-button {
-      font-size: .75rem;
-      font-weight: normal;
-      height: 2rem;
-      padding: 1.25rem;
-    }
-
     .donate-button {
-      font-size: .75rem;
+      font-size: 1rem;
       padding: 1.25rem;
     }
   }
