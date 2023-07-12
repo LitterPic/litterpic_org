@@ -84,7 +84,7 @@ const ProfilePage = () => {
                                 {new Date(user.metadata.creationTime).toLocaleDateString()}
                             </p>
                         </div>
-                        <div className="profile-picture">
+                        <div className="profile-page-picture">
                             {userPhoto ? (
                                 <img src={userPhoto} alt="Profile Picture"/>
                             ) : (

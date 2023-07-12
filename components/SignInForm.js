@@ -2,12 +2,18 @@ import {useState} from 'react';
 import {signInWithEmailAndPassword} from 'firebase/auth';
 import {auth} from '../lib/firebase';
 import {useRouter} from 'next/router';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faTimes} from "@fortawesome/free-solid-svg-icons";
 
 export default function SignInForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const router = useRouter();  // Get router instance
+    const router = useRouter();
+    const [error, setError] = useState('');
 
+    const clearError = () => {
+        setError('');
+    };
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -21,7 +27,14 @@ export default function SignInForm() {
                 router.push('/');
             }
         } catch (error) {
-            console.error(error);
+            if (error.code === 'auth/wrong-password') {
+                setError('Invalid Username or Password');
+            } else if (error.code === 'auth/user-not-found') {
+                setError('Invalid Username or Password');
+            } else {
+                setError('Unexpected Error');
+                console.error(error);
+            }
         }
     };
 
@@ -36,6 +49,16 @@ export default function SignInForm() {
                    onChange={(e) => setPassword(e.target.value)} placeholder="Password"
                    required/>
             <button className="sign-in-button" type="submit">Login</button>
+            {error && (
+                <div className="error-container">
+                    <p className="error-message">{error}</p>
+                    <FontAwesomeIcon
+                        icon={faTimes}
+                        className="error-clear-icon"
+                        onClick={clearError}
+                    />
+                </div>
+            )}
         </form>
     );
 }

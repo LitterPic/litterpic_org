@@ -9,6 +9,13 @@
   justify-content: center;
 }
 
+.sign-in-form {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .signup-email,
 .signup-password,
 .signup-confirm-password {
@@ -52,6 +59,7 @@
   font-size: 1.5rem;
   font-weight: bolder;
   margin-right: 8px;
+  text-align: center;
 }
 
 .error-clear-icon {
