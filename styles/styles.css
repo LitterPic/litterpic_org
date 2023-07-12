@@ -599,6 +599,7 @@ p .index-inspire-change-text {
 
 .index-more-stories-button {
   padding-left: 1rem;
+  text-decoration: none;
 }
 .index-more-stories-button button {
   border-radius: 0.5rem;
@@ -704,6 +705,7 @@ p .index-inspire-change-text {
 }
 
 .sign-in-button {
+  border-radius: 0.5rem;
   font-family: RopaSans, sans-serif;
   margin-left: auto;
   margin-right: auto;
@@ -1044,20 +1046,18 @@ p .index-inspire-change-text {
   grid-template-columns: 1fr 1fr;
 }
 
-.profile-picture {
+.profile-page-picture {
   align-items: center;
   display: flex;
   flex-direction: column;
-  grid-column: 2/3;
   justify-content: start;
 }
-.profile-picture img {
+.profile-page-picture img {
   border: 2px solid #015e41;
   border-radius: 50%;
-  height: 100px;
-  margin-right: 2rem;
+  height: 150px;
   object-fit: cover;
-  width: 100px;
+  width: 150px;
 }
 
 .edit-profile-button {
@@ -1067,7 +1067,6 @@ p .index-inspire-change-text {
   color: #fff;
   cursor: pointer;
   display: inline-block;
-  margin-right: 2rem;
   margin-top: 0.5rem;
   padding: 0.5rem 1rem;
   text-align: center;
@@ -1098,7 +1097,33 @@ p .index-inspire-change-text {
   padding-left: 0.5rem;
 }
 
+@media (max-width: 76.5rem) {
+  .profile-page-picture {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+  }
+  .profile-page-picture img {
+    border: 2px solid #015e41;
+    border-radius: 50%;
+    height: 100px;
+    object-fit: cover;
+    width: 100px;
+  }
+  .edit-profile-button {
+    font-size: 1rem;
+    width: auto;
+  }
+}
 .signup-form {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.sign-in-form {
   align-items: center;
   display: flex;
   flex-direction: column;
@@ -1146,6 +1171,7 @@ p .index-inspire-change-text {
   font-size: 1.5rem;
   font-weight: bolder;
   margin-right: 8px;
+  text-align: center;
 }
 
 .error-clear-icon {
