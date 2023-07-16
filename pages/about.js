@@ -47,7 +47,7 @@ const About = () => {
     return (
         <div>
             <div className="banner">
-                <img src="/images/AboutUsBanner.webp" alt="Banner Image"/>
+                <img src="/images/pine_trees_banner.webp" alt="Banner Image"/>
             </div>
 
             <div className="page">

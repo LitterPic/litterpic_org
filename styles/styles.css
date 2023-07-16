@@ -1228,10 +1228,10 @@ p .index-inspire-change-text {
 }
 
 .carousel-image {
-  height: 350px;
-  object-fit: cover;
+  height: 400px;
+  object-fit: contain;
   overflow: hidden;
-  width: 500px;
+  width: auto;
 }
 
 .carousel-chevron {

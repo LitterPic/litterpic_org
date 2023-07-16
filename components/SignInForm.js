@@ -41,7 +41,8 @@ export default function SignInForm() {
     return (
         <form className="sign-in-form" onSubmit={handleSubmit}>
             <div className="sign-in-new-user-heading">
-                New to LitterPic? <a className="sign-in-sign-up-link" href="/signup">Sign Up</a>
+                New to LitterPic?
+                <a className="sign-in-sign-up-link" href="/signup">Sign Up</a>
             </div>
             <input className="sign-in-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)}
                    placeholder="Email" required/>
