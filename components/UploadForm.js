@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import 'firebase/firestore';
+import {storage, db} from '../lib/firebase';
 
 function UploadForm() {
     const [file, setFile] = useState(null);
@@ -21,23 +21,41 @@ function UploadForm() {
 
     const handleUpload = async (e) => {
         e.preventDefault();
-        const storageRef = firebase.storage().ref('posts/' + file.name);
-        const task = storageRef.put(file);
+        if (file) {
+            const storageRef = storage.ref(`posts/${file.name}`);
+            const task = storageRef.put(file);
 
-        task.on('state_changed',
-            (snapshot) => {
-                // Progress function ...
-            },
-            (err) => {
-                setError(err);
-            },
-            () => {
-                // Complete function ...
-                task.snapshot.ref.getDownloadURL().then((downloadURL) => {
-                    console.log('File available at', downloadURL);
-                });
-            }
-        );
+            task.on(
+                'state_changed',
+                (snapshot) => {
+                    // Progress function ...
+                },
+                (err) => {
+                    setError(err.message);
+                },
+                () => {
+                    // Complete function ...
+                    task.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                        console.log('File available at', downloadURL);
+
+                        // Save the post details to Firestore
+                        db.collection('posts')
+                            .add({
+                                imageUrl: downloadURL,
+                                createdAt: new Date(),
+                            })
+                            .then(() => {
+                                console.log('Post saved successfully!');
+                            })
+                            .catch((error) => {
+                                setError(error.message);
+                            });
+                    });
+                }
+            );
+        } else {
+            setError('Please select an image file (png or jpg)');
+        }
     };
 
     return (
