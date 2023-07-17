@@ -3,6 +3,9 @@ import Post from '../components/post';
 import {fetchPosts} from '../components/utils';
 import Link from 'next/link';
 import Masonry from 'react-masonry-css';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faHeart} from '@fortawesome/free-solid-svg-icons';
+import {faComment} from '@fortawesome/free-solid-svg-icons';
 
 function Stories() {
     const [posts, setPosts] = useState([]);
@@ -42,6 +45,7 @@ function Stories() {
         return uniquePosts;
     };
 
+    /* TODO - Fix fetching more posts */
     const fetchMorePosts = async () => {
         setIsLoading(true);
         const nextPage = page + 1;
@@ -72,8 +76,8 @@ function Stories() {
                     </div>
                     <div className="stories-about-us">
                         Explore the inspiring posts shared by our volunteers on our website, showcasing the positive
-                        impact they have
-                        made. Join our volunteer community today and contribute your own unique story to the collection!
+                        impact they have made. Join our volunteer community today and contribute your own unique story
+                        to the collection!
                     </div>
 
                     <div className="story-posts">
@@ -82,12 +86,32 @@ function Stories() {
                             className="post-grid"
                             columnClassName="post-grid-column"
                         >
-                            {posts.map((post) => (
-                                <div key={post.id}
-                                     className="post">
-                                    <Post post={post}/>
-                                </div>
-                            ))}
+                            {posts.map((post) => {
+                                console.log('Post:', post);
+                                const likes = post.likes !== undefined ? post.likes : 0;
+                                const {numComments} = post;
+
+                                return (
+                                    <div key={post.id} className="post">
+                                        <Post post={post}/>
+
+                                        <div className="likes-comments">
+                                            <span className="likes-comments-likes-field">
+                                                <FontAwesomeIcon
+                                                    icon={faHeart}
+                                                    className={likes > 0 ? 'filled-heart' : 'empty-heart'}
+                                                />
+                                                <span className="like-count">{likes}</span>
+                                            </span>
+
+                                            <span className="likes-comments-comment-field">
+                                                <FontAwesomeIcon icon={faComment}/>
+                                                <span className="comment-count">{numComments}</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                );
+                            })}
                         </Masonry>
                         {!isLoading && hasMorePosts && <div id="end-of-posts"></div>}
                     </div>
