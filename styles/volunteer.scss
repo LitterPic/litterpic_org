@@ -8,12 +8,13 @@
 
 .community-service-button {
   border-radius: .5em;
-  display: block;
+  display: flex;
   font-family: RopaSans, sans-serif;
-  margin: 1.875rem auto 2.5rem;
+  justify-content: left;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
   padding: .6rem;
 }
-
 
 // Volunteer Calendar
 .event-background {
