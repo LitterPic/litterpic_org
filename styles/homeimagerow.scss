@@ -15,11 +15,25 @@
   }
 }
 
-
-@media (max-width: 76.5rem) {
-  // Mobile Support
+.image-row-container {
+  overflow: hidden;
+  position: relative;
 }
 
-@media (max-width: 102.25rem) and (orientation: landscape) {
-  // Mobile Support
+.image-row__scroll-arrow {
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.image-row__scroll-arrow-icon {
+  color: $white;
+  font-size: 36px;
+  font-weight: bolder;
+
+  &:hover {
+    color: $litterpic-green;
+  }
 }
