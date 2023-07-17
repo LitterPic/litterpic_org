@@ -22,17 +22,43 @@
 
 .post-grid {
   display: flex;
-  gap: 2rem;
+  gap: .5rem;
 }
 
 .post {
   border: .01rem solid $litterpic-green;
   border-radius: .5rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
+}
 
-  &:not(:last-child) {
-    border-bottom: 0;
+.likes-comments {
+  display: flex;
+  justify-content: center;
+  margin-bottom: .5rem;
+
+  .likes-comments-likes-field {
+    margin-right: 2rem;
   }
+
+  .likes-comments-comment-field {
+    margin-left: 2rem;
+  }
+}
+
+.filled-heart {
+  color: red;
+}
+
+.empty-heart {
+  color: black;;
+}
+
+.like-count, .comment-count {
+  margin-left: 5px;
+}
+
+.fa-comment {
+  margin-left: 10px;
 }
 
 .post-carousel {
@@ -156,10 +182,6 @@
     border: .01rem solid $litterpic-green;
     border-radius: .5rem;
     margin-bottom: .5rem;
-
-    &:not(:last-child) {
-      border-bottom: 0;
-    }
   }
 
   .carousel-chevron {
@@ -215,10 +237,6 @@
     border: .01rem solid $litterpic-green;
     border-radius: .5rem;
     margin-bottom: .5rem;
-
-    &:not(:last-child) {
-      border-bottom: 0;
-    }
   }
 
   .carousel-chevron {

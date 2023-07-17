@@ -37,7 +37,7 @@ function Post({post}) {
     const hasMultiplePhotos = post.photos.length > 1;
 
     return (
-        <div className="post">
+        <div className="fetch-post">
             <div className="post-username-location">
                 <div className="profile-image">
                     {userPhoto || post.user.photo_url ? (
@@ -85,9 +85,14 @@ function Post({post}) {
                 )}
             </div>
             <div className="post-litter-weight-collected">
-                Collected <span>{post.litterWeight}</span>{' '}
-                {post.litterWeight === 1 ? 'pound' : 'pounds'} of litter!
+                {post.litterWeight > 0 && (
+                    <span>
+                        Collected <span>{post.litterWeight}</span>{' '}
+                        {post.litterWeight === 1 ? 'pound' : 'pounds'} of litter!
+                    </span>
+                )}
             </div>
+
         </div>
     );
 }
