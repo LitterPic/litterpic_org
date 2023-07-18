@@ -22,6 +22,8 @@ function CreatePost() {
     const [city, setCity] = useState('');
     const [state, setState] = useState('');
     const [country, setCountry] = useState('');
+    const [locationSelected, setLocationSelected] = useState(false);
+    const [isAddressModified, setAddressModified] = useState(false);
     const [error, setError] = useState('');
 
     const clearError = () => {
@@ -46,7 +48,6 @@ function CreatePost() {
     const onFileChange = (e) => {
         // Limit the user to upload only up to 5 images
         if (e.target.files.length > 5) {
-            console.log('You can only upload up to 5 images');
             return;
         }
         setPostImages(e.target.files);
@@ -62,6 +63,8 @@ function CreatePost() {
 
     const handleAddressSelect = (address) => {
         setSelectedAddress(address);
+        setAddressModified(false);
+        setLocationSelected(true);
 
         geocodeByAddress(address)
             .then((results) => {
@@ -97,7 +100,6 @@ function CreatePost() {
             });
     };
 
-
     const onSubmit = async (e) => {
         e.preventDefault();
 
@@ -107,8 +109,8 @@ function CreatePost() {
             return;
         }
 
-        if (!selectedAddress) {
-            setError('A location is required');
+        if (!locationSelected || isAddressModified || !selectedAddress.trim()) {
+            setError('Please select a valid location from the suggestions');
             return;
         }
 
@@ -151,13 +153,12 @@ function CreatePost() {
             setLitterWeight('');
             setPreviews([]);
             setSelectedAddress('');
-
-            console.log('Post created successfully!');
+            setLocationSelected(false);
         } catch (error) {
             console.error('Error creating post:', error);
             setError('Error creating post. Please try again.');
         }
-    }
+    };
 
     if (!isLoaded) {
         return <div>Loading...</div>;
@@ -200,8 +201,10 @@ function CreatePost() {
                                     placeholder="Enter the amount of litter collected"
                                     value={litterWeight}
                                     onChange={(e) => {
-                                        const value = parseInt(e.target.value);
-                                        setLitterWeight(value >= 0 ? value : 0);
+                                        const value = e.target.value;
+                                        if (value === '' || (value >= 0 && !isNaN(value))) {
+                                            setLitterWeight(value);
+                                        }
                                     }}
                                 />
                             </div>
@@ -217,6 +220,11 @@ function CreatePost() {
                                                 {...getInputProps({
                                                     placeholder: 'Enter a location',
                                                     className: 'location-input',
+                                                    onKeyDown: (e) => {
+                                                        if (e.key === 'Backspace' || e.key === 'Delete') {
+                                                            setAddressModified(true);
+                                                        }
+                                                    },
                                                 })}
                                             />
                                             <div className="autocomplete-dropdown-container">
@@ -224,8 +232,9 @@ function CreatePost() {
                                                 {suggestions.map((suggestion, index) => (
                                                     <div
                                                         key={index}
-                                                        {...getSuggestionItemProps(suggestion)}
-                                                        className="suggestion-item"
+                                                        {...getSuggestionItemProps(suggestion, {
+                                                            className: suggestion.active ? 'suggestion-item active' : 'suggestion-item',
+                                                        })}
                                                     >
                                                         <span>{suggestion.description}</span>
                                                     </div>
@@ -241,11 +250,7 @@ function CreatePost() {
                             {error && (
                                 <div className="error-container">
                                     <p className="error-message">{error}</p>
-                                    <FontAwesomeIcon
-                                        icon={faTimes}
-                                        className="error-clear-icon"
-                                        onClick={clearError}
-                                    />
+                                    <FontAwesomeIcon icon={faTimes} className="error-clear-icon" onClick={clearError}/>
                                 </div>
                             )}
                         </form>

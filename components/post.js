@@ -13,8 +13,6 @@ function Post({post}) {
                 const {display_name, photo_url} = post.user;
                 setUserName(display_name);
                 setUserPhoto(photo_url);
-                console.log("Display Name:", display_name);
-                console.log("Profile Pic:", photo_url);
             }
         };
 
