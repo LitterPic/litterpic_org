@@ -6,6 +6,7 @@ import Masonry from 'react-masonry-css';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faHeart} from '@fortawesome/free-solid-svg-icons';
 import {faComment} from '@fortawesome/free-solid-svg-icons';
+import {getAuth} from 'firebase/auth';
 
 function Stories() {
     const [posts, setPosts] = useState([]);
@@ -15,11 +16,11 @@ function Stories() {
     const [renderedPostIds, setRenderedPostIds] = useState([]);
 
     useEffect(() => {
+        const auth = getAuth();
         const fetchAndSetPosts = async () => {
             setIsLoading(true);
             try {
                 const fetchedPosts = await fetchPosts(page, 4);
-                console.log('Fetched Posts:', fetchedPosts); // Log the fetched posts
                 if (fetchedPosts.length === 0) {
                     setHasMorePosts(false);
                 } else {
@@ -34,13 +35,17 @@ function Stories() {
         };
 
         fetchAndSetPosts();
+
+        const unsubscribe = auth.onAuthStateChanged((user) => {
+            setUser(user);
+        });
+
+        return () => unsubscribe();
     }, [page, renderedPostIds]); // Include renderedPostIds in the dependency array
 
     const filterUniquePosts = (newPosts) => {
         const newPostIds = newPosts.map((post) => post.id);
-        console.log('New Post IDs:', newPostIds); // Log the new post IDs
         const uniquePosts = newPosts.filter((post) => !renderedPostIds.includes(post.id));
-        console.log('Unique Posts:', uniquePosts); // Log the unique posts
         setRenderedPostIds((prevIds) => [...prevIds, ...newPostIds]);
         return uniquePosts;
     };
@@ -87,7 +92,6 @@ function Stories() {
                             columnClassName="post-grid-column"
                         >
                             {posts.map((post) => {
-                                console.log('Post:', post);
                                 const likes = post.likes !== undefined ? post.likes : 0;
                                 const {numComments} = post;
 

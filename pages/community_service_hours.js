@@ -20,6 +20,7 @@ const Community_Service_Hours = () => {
                         please
                         ensure that you:
                     </p>
+                    <br/>
                     <div className="blank-space"></div>
                     <ol>
                         <li>Clean a littered area of your choice; take before and after pictures to show off your

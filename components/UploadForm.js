@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {storage, db} from '../lib/firebase';
 
 function UploadForm() {
@@ -36,8 +36,6 @@ function UploadForm() {
                 () => {
                     // Complete function ...
                     task.snapshot.ref.getDownloadURL().then((downloadURL) => {
-                        console.log('File available at', downloadURL);
-
                         // Save the post details to Firestore
                         db.collection('posts')
                             .add({

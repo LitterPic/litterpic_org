@@ -32,10 +32,10 @@
   }
 
   &-column-3 {
-    align-self: start;
+    align-self: flex-start;
 
     a {
-      align-self: start;
+      align-self: flex-start;
       font-size: 16px;
       line-height: 1.75;
 
@@ -87,6 +87,3 @@
   }
 }
 
-@media (max-width: 102.25rem) and (orientation: landscape) {
-  // Mobile Support
-}
