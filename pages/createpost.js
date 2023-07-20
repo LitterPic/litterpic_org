@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
+import {useRouter} from 'next/router';
 import withAuth from '../components/withAuth';
 import {storage, db, ref} from '../lib/firebase';
-import {collection, addDoc, updateDoc, doc, arrayUnion} from 'firebase/firestore';
+import {collection, addDoc, updateDoc, doc, arrayUnion, deleteDoc} from 'firebase/firestore';
 import {uploadBytesResumable, getDownloadURL} from 'firebase/storage';
 import {useAuth} from '../lib/firebase';
 import PlacesAutocomplete, {geocodeByAddress, getLatLng} from 'react-places-autocomplete';
@@ -25,6 +26,8 @@ function CreatePost() {
     const [locationSelected, setLocationSelected] = useState(false);
     const [isAddressModified, setAddressModified] = useState(false);
     const [error, setError] = useState('');
+    const [uploading, setUploading] = useState(false);
+    const router = useRouter();
 
     const clearError = () => {
         setError('');
@@ -100,6 +103,22 @@ function CreatePost() {
             });
     };
 
+    const uploadImages = async (postDocRef) => {
+        setUploading(true);
+        const imageUrls = [];
+        for (let i = 0; i < postImages.length; i++) {
+            const file = postImages[i];
+            const storageRef = ref(storage, `userPosts/${postDocRef.id}/${file.name}`);
+            const task = uploadBytesResumable(storageRef, file);
+            const snapshot = await task;
+
+            const imageUrl = await getDownloadURL(snapshot.ref);
+            imageUrls.push(imageUrl);
+        }
+        setUploading(false);
+        return imageUrls;
+    };
+
     const onSubmit = async (e) => {
         e.preventDefault();
 
@@ -117,9 +136,11 @@ function CreatePost() {
         // Clear any previous errors
         setError('');
 
+        let postDocRef;
+
         try {
             // Create a new post document in Firestore
-            const postDocRef = await addDoc(collection(db, 'userPosts'), {
+            postDocRef = await addDoc(collection(db, 'userPosts'), {
                 postDescription: postDescription,
                 litterWeight: litterWeight ? parseInt(litterWeight) : null,
                 timePosted: new Date(),
@@ -131,16 +152,7 @@ function CreatePost() {
             });
 
             // Upload the images to Firebase Storage
-            const imageUrls = [];
-            for (let i = 0; i < postImages.length; i++) {
-                const file = postImages[i];
-                const storageRef = ref(storage, `userPosts/${postDocRef.id}/${file.name}`);
-                const task = uploadBytesResumable(storageRef, file);
-                const snapshot = await task;
-
-                const imageUrl = await getDownloadURL(snapshot.ref);
-                imageUrls.push(imageUrl);
-            }
+            const imageUrls = await uploadImages(postDocRef);
 
             // Update the post document with the image URLs
             await updateDoc(postDocRef, {
@@ -154,9 +166,17 @@ function CreatePost() {
             setPreviews([]);
             setSelectedAddress('');
             setLocationSelected(false);
+
+            // Redirect to the /stories.js page
+            await router.push('/stories');
         } catch (error) {
             console.error('Error creating post:', error);
             setError('Error creating post. Please try again.');
+
+            // Delete the created post document if an error occurs
+            if (postDocRef) {
+                await deleteDoc(doc(db, 'userPosts', postDocRef.id));
+            }
         }
     };
 
@@ -189,11 +209,8 @@ function CreatePost() {
                                 <input type="file" multiple onChange={onFileChange}/>
                             </div>
                             <div>
-                <textarea
-                    value={postDescription}
-                    onChange={onDescriptionChange}
-                    placeholder="Post Description"
-                />
+                                <textarea value={postDescription} onChange={onDescriptionChange}
+                                          placeholder="Post Description"/>
                             </div>
                             <div>
                                 <input
@@ -245,7 +262,9 @@ function CreatePost() {
                                 </PlacesAutocomplete>
                             </div>
                             <div>
-                                <button type="submit">Create Post</button>
+                                <button type="submit" disabled={uploading}>
+                                    {uploading ? 'Uploading...' : 'Create Post'}
+                                </button>
                             </div>
                             {error && (
                                 <div className="error-container">
