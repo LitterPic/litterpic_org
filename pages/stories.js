@@ -14,6 +14,7 @@ function Stories() {
     const [hasMorePosts, setHasMorePosts] = useState(true);
     const [page, setPage] = useState(1);
     const [renderedPostIds, setRenderedPostIds] = useState([]);
+    const [user, setUser] = useState(null);
 
     useEffect(() => {
         const auth = getAuth();
