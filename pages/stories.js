@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import Post from '../components/post';
-import {fetchPosts} from '../components/utils';
+import {fetchPosts, toggleLike} from '../components/utils';
 import Link from 'next/link';
 import Masonry from 'react-masonry-css';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
@@ -10,17 +10,36 @@ import {faHeart} from '@fortawesome/free-solid-svg-icons';
 import {faComment} from '@fortawesome/free-solid-svg-icons';
 import {getAuth} from 'firebase/auth';
 import {getUsersWhoLikedPost} from '../components/utils';
+import {doc} from "firebase/firestore";
+import {useRouter} from 'next/router';
 
 function Stories() {
     const [posts, setPosts] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [hasMorePosts, setHasMorePosts] = useState(true);
     const [page, setPage] = useState(1);
-    const [renderedPostIds, setRenderedPostIds] = useState([]);
     const [user, setUser] = useState(null);
+    const [loadingUser, setLoadingUser] = useState(true);
 
+    const router = useRouter();
+
+    // Separate useEffect for auth state changes
     useEffect(() => {
         const auth = getAuth();
+        const unsubscribe = auth.onAuthStateChanged((user) => {
+            setUser(user);
+            setLoadingUser(false);
+        });
+
+        return () => unsubscribe();
+    }, []);
+
+    // UseEffect for posts fetching
+    useEffect(() => {
+        if (loadingUser) {
+            return;
+        }
+
         const fetchAndSetPosts = async () => {
             setIsLoading(true);
             try {
@@ -40,32 +59,53 @@ function Stories() {
                     const updatedPosts = uniquePosts.map((post, index) => ({
                         ...post,
                         likedUsers: likedUsersLists[index] || [], // Store the liked user UIDs in each post
+                        currentUserLiked: user ? likedUsersLists[index].includes(user.uid) : false,
                     }));
 
-                    // Set the posts state with only the updatedPosts array (without appending to the previous state)
                     setPosts((prevPosts) => [...prevPosts, ...updatedPosts]);
-
-                    setPage((prevPage) => prevPage + 1); // Increment the page number
-
-                    // Log the liked user UIDs for each post
-                    updatedPosts.forEach((post) => {
-                        console.log(`Liked user UIDs for post ID ${post.id}:`, post.likedUsers);
-                    });
+                    setPage((prevPage) => prevPage + 1);
                 }
             } catch (error) {
-                console.error('Error fetching posts:', error); // Log the error, if any
+                console.error('Error fetching posts:', error);
             }
             setIsLoading(false);
         };
 
         fetchAndSetPosts();
+    }, [page, user, loadingUser]);
 
-        const unsubscribe = auth.onAuthStateChanged((user) => {
-            setUser(user);
-        });
+    const handleToggleLike = async (postId) => {
+        // User is not logged in
+        if (!user) {
+            router.push('/login');
+            return;
+        }
 
-        return () => unsubscribe();
-    }, [page, renderedPostIds]);
+        try {
+            // Find the post with the given postId in the posts array
+            const postIndex = posts.findIndex((post) => post.id === postId);
+            const postToUpdate = posts[postIndex];
+
+            const didLike = await toggleLike(postToUpdate, posts); // Await here to ensure that toggleLike completes before we update the state
+
+            // update the local state
+            let updatedPosts = [...posts];
+            if (didLike) {
+                updatedPosts[postIndex].likeIds.push(user.uid);
+                updatedPosts[postIndex].likes += 1;  // increment like count
+                updatedPosts[postIndex].currentUserLiked = true;
+            } else {
+                updatedPosts[postIndex].likeIds = postToUpdate.likeIds.filter(id => id !== user.uid);
+                updatedPosts[postIndex].likes -= 1;  // decrement like count
+                updatedPosts[postIndex].currentUserLiked = false;
+            }
+
+            setPosts(updatedPosts);
+        } catch (error) {
+            console.error('Error toggling like:', error);
+        }
+    };
+
 
     const filterUniquePosts = (newPosts) => {
         const uniquePosts = [];
@@ -133,21 +173,21 @@ function Stories() {
                                     <div key={post.id} className="post">
                                         <Post post={post}/>
                                         <div className="likes-comments">
-                                          <span className="likes-comments-likes-field">
-                                            <FontAwesomeIcon
-                                                icon={currentUserLiked ? faHeart : farHeart}
-                                                className={currentUserLiked ? 'filled-heart' : 'empty-heart'}
-                                            />
-                                            <span className="like-count">{likes}</span>
-                                          </span>
-
-                                          <span className="likes-comments-comment-field">
-                                            <FontAwesomeIcon
-                                              icon={numComments > 0 ? faComment : farComment}
-                                              className={numComments > 0 ? 'filled-comment' : 'empty-comment'}
-                                            />
-                                          <span className="comment-count">{numComments}</span>
-                                        </span>
+            <span className="likes-comments-likes-field">
+                <FontAwesomeIcon
+                    icon={post.currentUserLiked ? faHeart : farHeart}
+                    onClick={() => handleToggleLike(post.id)}
+                    className={post.currentUserLiked ? 'filled-heart' : 'empty-heart'}
+                />
+                <span className="like-count">{likes}</span>
+            </span>
+                                            <span className="likes-comments-comment-field">
+                <FontAwesomeIcon
+                    icon={numComments > 0 ? faComment : farComment}
+                    className={numComments > 0 ? 'filled-comment' : 'empty-comment'}
+                />
+                <span className="comment-count">{numComments}</span>
+            </span>
                                         </div>
                                     </div>
                                 );
