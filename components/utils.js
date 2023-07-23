@@ -1,4 +1,6 @@
 import {
+    arrayUnion,
+    arrayRemove,
     collection,
     doc,
     getDoc,
@@ -8,10 +10,13 @@ import {
     orderBy,
     query,
     startAfter,
+    updateDoc,
     where
 } from 'firebase/firestore';
 import {db, storage} from '../lib/firebase';
 import {getDownloadURL, ref} from 'firebase/storage';
+import {getAuth} from 'firebase/auth';
+import {useRouter} from 'next/router';
 
 export async function fetchPosts(page, postsPerPage) {
     let postQuery = query(
@@ -70,6 +75,8 @@ export async function fetchPosts(page, postsPerPage) {
             litterWeight: postData.litterWeight,
             likes: likes,
             numComments,
+            ref: postDoc.ref,
+            likeIds: likeIds,
         });
     }
 
@@ -114,5 +121,38 @@ export async function getUsersWhoLikedPost(postId) {
         return likedUsersRefs.map((userRef) => userRef.id);
     } else {
         return [];
+    }
+}
+
+``
+
+export async function toggleLike(post, posts) {
+    const postToUpdate = posts.find((p) => p.id === post.id);
+    const auth = getAuth();
+
+    // Check if the user is logged in
+    const currentUser = auth.currentUser;
+    if (!currentUser) {
+        const router = useRouter();
+        router.push('/login');
+        return;
+    }
+
+    // Get the user's UID
+    const userId = currentUser.uid;
+
+    // Check if the post exists and if the user has already liked it
+    if (!postToUpdate.likeIds || !Array.isArray(postToUpdate.likeIds)) {
+        // User has not liked the post, so add their UID to the likes array
+        await updateDoc(postToUpdate.ref, {likes: arrayUnion(doc(db, 'users', userId))});
+        return true;
+    } else if (postToUpdate.likeIds.includes(userId)) {
+        // User already liked the post, so remove their UID from the likes array
+        await updateDoc(postToUpdate.ref, {likes: arrayRemove(doc(db, 'users', userId))});
+        return false;
+    } else {
+        // User has not liked the post, so add their UID to the likes array
+        await updateDoc(postToUpdate.ref, {likes: arrayUnion(doc(db, 'users', userId))});
+        return true;
     }
 }
