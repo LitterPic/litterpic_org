@@ -4,9 +4,12 @@ import {fetchPosts} from '../components/utils';
 import Link from 'next/link';
 import Masonry from 'react-masonry-css';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faComment as farComment} from '@fortawesome/free-regular-svg-icons';
+import {faHeart as farHeart} from '@fortawesome/free-regular-svg-icons';
 import {faHeart} from '@fortawesome/free-solid-svg-icons';
 import {faComment} from '@fortawesome/free-solid-svg-icons';
 import {getAuth} from 'firebase/auth';
+import {getUsersWhoLikedPost} from '../components/utils';
 
 function Stories() {
     const [posts, setPosts] = useState([]);
@@ -26,8 +29,28 @@ function Stories() {
                     setHasMorePosts(false);
                 } else {
                     const uniquePosts = filterUniquePosts(fetchedPosts);
-                    setPosts((prevPosts) => [...prevPosts, ...uniquePosts]);
+
+                    // Fetch and store the liked user UIDs for each post
+                    const likedUsersPromises = uniquePosts.map((post) =>
+                        getUsersWhoLikedPost(post.id)
+                    );
+                    const likedUsersLists = await Promise.all(likedUsersPromises);
+
+                    // Update the posts state by adding likedUsers for each post
+                    const updatedPosts = uniquePosts.map((post, index) => ({
+                        ...post,
+                        likedUsers: likedUsersLists[index] || [], // Store the liked user UIDs in each post
+                    }));
+
+                    // Set the posts state with only the updatedPosts array (without appending to the previous state)
+                    setPosts((prevPosts) => [...prevPosts, ...updatedPosts]);
+
                     setPage((prevPage) => prevPage + 1); // Increment the page number
+
+                    // Log the liked user UIDs for each post
+                    updatedPosts.forEach((post) => {
+                        console.log(`Liked user UIDs for post ID ${post.id}:`, post.likedUsers);
+                    });
                 }
             } catch (error) {
                 console.error('Error fetching posts:', error); // Log the error, if any
@@ -42,16 +65,22 @@ function Stories() {
         });
 
         return () => unsubscribe();
-    }, [page, renderedPostIds]); // Include renderedPostIds in the dependency array
+    }, [page, renderedPostIds]);
 
     const filterUniquePosts = (newPosts) => {
-        const newPostIds = newPosts.map((post) => post.id);
-        const uniquePosts = newPosts.filter((post) => !renderedPostIds.includes(post.id));
-        setRenderedPostIds((prevIds) => [...prevIds, ...newPostIds]);
+        const uniquePosts = [];
+        const uniquePostIds = new Set();
+
+        newPosts.forEach((post) => {
+            if (!uniquePostIds.has(post.id)) {
+                uniquePostIds.add(post.id);
+                uniquePosts.push(post);
+            }
+        });
+
         return uniquePosts;
     };
 
-    /* TODO - Fix fetching more posts */
     const fetchMorePosts = async () => {
         setIsLoading(true);
         const nextPage = page + 1;
@@ -60,7 +89,7 @@ function Stories() {
             setHasMorePosts(false);
         } else {
             const uniquePosts = filterUniquePosts(fetchedPosts);
-            setPosts((prevPosts) => [...prevPosts, ...uniquePosts]);
+            setPosts((prevPosts) => [...prevPosts, ...uniquePosts]); // Merge previous posts with new ones
             setPage(nextPage);
         }
         setIsLoading(false);
@@ -82,8 +111,9 @@ function Stories() {
                     </div>
                     <div className="stories-about-us">
                         Explore the inspiring posts shared by our volunteers on our website, showcasing the positive
-                        impact they have made. Join our volunteer community today and contribute your own unique story
-                        to the collection!
+                        impact they
+                        have made. Join our volunteer community today and contribute your own unique story to the
+                        collection!
                     </div>
 
                     <div className="story-posts">
@@ -96,23 +126,28 @@ function Stories() {
                                 const likes = post.likes !== undefined ? post.likes : 0;
                                 const {numComments} = post;
 
+                                // Check if the current user's UID exists in the likedUsers array for this post
+                                const currentUserLiked = user ? post.likedUsers.includes(user.uid) : false;
+
                                 return (
                                     <div key={post.id} className="post">
                                         <Post post={post}/>
-
                                         <div className="likes-comments">
-                                            <span className="likes-comments-likes-field">
-                                                <FontAwesomeIcon
-                                                    icon={faHeart}
-                                                    className={likes > 0 ? 'filled-heart' : 'empty-heart'}
-                                                />
-                                                <span className="like-count">{likes}</span>
-                                            </span>
+                                          <span className="likes-comments-likes-field">
+                                            <FontAwesomeIcon
+                                                icon={currentUserLiked ? faHeart : farHeart}
+                                                className={currentUserLiked ? 'filled-heart' : 'empty-heart'}
+                                            />
+                                            <span className="like-count">{likes}</span>
+                                          </span>
 
-                                            <span className="likes-comments-comment-field">
-                                                <FontAwesomeIcon icon={faComment}/>
-                                                <span className="comment-count">{numComments}</span>
-                                            </span>
+                                          <span className="likes-comments-comment-field">
+                                            <FontAwesomeIcon
+                                              icon={numComments > 0 ? faComment : farComment}
+                                              className={numComments > 0 ? 'filled-comment' : 'empty-comment'}
+                                            />
+                                          <span className="comment-count">{numComments}</span>
+                                        </span>
                                         </div>
                                     </div>
                                 );

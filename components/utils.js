@@ -1,6 +1,9 @@
 import {
     collection,
+    doc,
+    getDoc,
     getDocs,
+    getFirestore,
     limit,
     orderBy,
     query,
@@ -94,4 +97,22 @@ async function getLastVisiblePost(page, postsPerPage) {
 
     const querySnapshot = await getDocs(postQuery);
     return querySnapshot.docs[querySnapshot.docs.length - 1];
+}
+
+
+// Function to fetch the complete user data for each liked user in the post
+export async function getUsersWhoLikedPost(postId) {
+    const db = getFirestore();
+    const postRef = doc(db, 'userPosts', postId);
+
+    const postSnap = await getDoc(postRef);
+    if (postSnap.exists()) {
+        const postData = postSnap.data();
+        const likedUsersRefs = postData.likes || [];
+
+        // Extract the UIDs from each user reference
+        return likedUsersRefs.map((userRef) => userRef.id);
+    } else {
+        return [];
+    }
 }
