@@ -56,22 +56,22 @@
 }
 
 .filled-comment {
-  color: $litterpic-green; /* Replace 'blue' with the desired color for the filled comment icon */
+  color: $litterpic-green;
 }
 
-/* Style the filled heart icon (red) */
 .filled-heart {
-  color: red; /* Replace 'red' with the desired color for the filled heart */
+  color: $red;
 }
 
-/* Style the empty heart icon (border only) */
-.empty-heart svg {
-  border: 2px solid red; /* Replace 'red' with the desired color for the heart border */
+.empty-heart {
+  svg {
+    border: 2px solid $red;
+  }
 }
 
 
 .suggestion-item {
-  background-color: white;
+  background-color: $white;
   cursor: pointer;
   padding: .5rem;
 
@@ -127,6 +127,16 @@
   padding-top: 1rem;
 }
 
+.post-time {
+  align-items: center;
+  display: flex;
+  font-size: .75rem;
+  grid-column: 3;
+  grid-row: 2;
+  justify-content: flex-end;
+  padding-right: 1rem;
+}
+
 .profile-image {
   img {
     border-radius: 50%;
@@ -135,7 +145,6 @@
     width: 40px;
   }
 }
-
 
 .post-user-name {
   align-items: center;
@@ -147,7 +156,7 @@
   align-items: center;
   color: $dark-blue;
   display: flex;
-  font-size: 1rem;
+  font-size: .75rem;
   justify-self: end;
   padding-right: 1rem;
 }
@@ -194,7 +203,10 @@
   }
 
   .post-user-name {
-    align-items: flex-start;
+    align-items: center;
+    display: flex;
+    font-size: .75rem;
+    justify-content: center;
   }
 
   .post-location {
@@ -249,7 +261,10 @@
   }
 
   .post-user-name {
-    align-items: flex-start;
+    align-items: center;
+    display: flex;
+    font-size: .75rem;
+    justify-content: center;
   }
 
   .post-location {

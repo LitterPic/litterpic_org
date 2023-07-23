@@ -34,6 +34,26 @@ function Post({post}) {
 
     const hasMultiplePhotos = post.photos.length > 1;
 
+    const formatDate = (timestamp) => {
+
+        if (!timestamp) {
+            return ' ';
+        }
+
+        const date = new Date(timestamp);
+        if (isNaN(date)) {
+            return ' ';
+        }
+
+        const options = {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+        };
+
+        return date.toLocaleString('en-US', options);
+    };
+
     return (
         <div className="fetch-post">
             <div className="post-username-location">
@@ -59,6 +79,7 @@ function Post({post}) {
                         {post.location}
                     </a>
                 </div>
+                <div className="post-time">{formatDate(post.dateCreated)}</div>
             </div>
             <div className="post-description">
                 {post.description ? post.description : 'No description available'}
