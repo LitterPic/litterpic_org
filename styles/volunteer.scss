@@ -85,6 +85,97 @@
   width: 3.75rem;
 }
 
+
+.form-container {
+  display: grid;
+  gap: .25rem;
+  grid-template-columns: 225px auto;
+  grid-template-rows: auto;
+
+  label[for="numberAttending"] {
+    grid-column: 1;
+    grid-row: 1;
+    text-align: center;
+  }
+
+  input[name="numberAttending"] {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  label[for="note"] {
+    grid-column: 1;
+    grid-row: 2;
+    text-align: center;
+  }
+
+  textarea[name="note"] {
+    grid-column: 2;
+    grid-row: 2;
+  }
+}
+
+.form-input {
+  border: 1px solid $litterpic-green;
+  border-radius: 5px;
+  padding: 5px;
+  width: 100%;
+}
+
+.textarea-large {
+  border: 1px solid $litterpic-green;
+  border-radius: 5px;
+  height: 60px;
+  padding: 5px;
+  width: 80%;
+}
+
+.input-small {
+  border: 1px solid $litterpic-green;
+  border-radius: 5px;
+  padding: 5px;
+  width: 50px;
+}
+
+.rsvp-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.rsvp-button {
+  border-radius: .5rem;
+  cursor: pointer;
+  display: flex;
+  font-family: RopaSans, sans-serif;
+  margin: 1rem auto;
+  padding: .6rem;
+
+  &.submit {
+    margin-right: 1rem;
+  }
+
+  &.cancel {
+    margin-left: 1rem;
+  }
+}
+
+.volunteer-event-details {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  margin-left: 20%;
+  margin-right: 20%;
+}
+
+.rsvp-thankyou {
+  margin-top: 1rem;
+  text-align: center;
+
+  button {
+    border-radius: .5rem;
+  }
+}
+
 @media (max-width: 76.5rem) {
   .start-time-column {
     width: 2.5rem;
