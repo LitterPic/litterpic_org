@@ -782,7 +782,6 @@ p .index-inspire-change-text {
   display: flex;
   gap: 1rem;
   height: 100%;
-  margin-right: 1rem;
 }
 
 .login-button,
@@ -867,6 +866,14 @@ p .index-inspire-change-text {
   position: relative;
 }
 
+@media (min-width: 76.5rem) {
+  .logo-bar {
+    margin-left: 10rem;
+  }
+  .logo-bar-right-content {
+    margin-right: 9rem;
+  }
+}
 @media (max-width: 76.5rem) {
   .logo-bar {
     padding: 5px;
@@ -954,6 +961,8 @@ p .index-inspire-change-text {
   }
   .logo-bar-right-content .donate-button {
     font-size: 1rem;
+    margin-left: auto;
+    margin-right: auto;
     padding: 1.25rem;
   }
   .profile-dropdown {
@@ -1309,10 +1318,10 @@ p .index-inspire-change-text {
 }
 
 .carousel-image {
-  height: 400px;
-  object-fit: contain;
+  height: 450px;
+  object-fit: cover;
   overflow: hidden;
-  width: auto;
+  width: 700px;
 }
 
 .carousel-chevron {
@@ -1648,6 +1657,15 @@ p .index-inspire-change-text {
 }
 .rsvp-thankyou button {
   border-radius: 0.5rem;
+}
+
+.cancel-rsvp-button {
+  border-radius: 0.5rem;
+  display: flex;
+  font-size: 0.8rem;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0.5rem;
 }
 
 @media (max-width: 76.5rem) {

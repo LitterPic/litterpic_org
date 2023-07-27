@@ -92,11 +92,12 @@
   position: relative;
 }
 
+// https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit
 .carousel-image {
-  height: 400px;
-  object-fit: contain;
+  height: 450px;
+  object-fit: cover;
   overflow: hidden;
-  width: auto;
+  width: 700px;
 }
 
 .carousel-chevron {
