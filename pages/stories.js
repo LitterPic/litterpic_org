@@ -86,7 +86,7 @@ function Stories() {
             const postIndex = posts.findIndex((post) => post.id === postId);
             const postToUpdate = posts[postIndex];
 
-            const didLike = await toggleLike(postToUpdate, posts); // Await here to ensure that toggleLike completes before we update the state
+            const didLike = await toggleLike(postToUpdate, posts);
 
             // update the local state
             let updatedPosts = [...posts];
@@ -173,21 +173,21 @@ function Stories() {
                                     <div key={post.id} className="post">
                                         <Post post={post}/>
                                         <div className="likes-comments">
-            <span className="likes-comments-likes-field">
-                <FontAwesomeIcon
-                    icon={post.currentUserLiked ? faHeart : farHeart}
-                    onClick={() => handleToggleLike(post.id)}
-                    className={post.currentUserLiked ? 'filled-heart' : 'empty-heart'}
-                />
-                <span className="like-count">{likes}</span>
-            </span>
+                                            <span className="likes-comments-likes-field">
+                                                <FontAwesomeIcon
+                                                    icon={post.currentUserLiked ? faHeart : farHeart}
+                                                    onClick={() => handleToggleLike(post.id)}
+                                                    className={post.currentUserLiked ? 'filled-heart' : 'empty-heart'}
+                                                />
+                                                <span className="like-count">{likes}</span>
+                                            </span>
                                             <span className="likes-comments-comment-field">
-                <FontAwesomeIcon
-                    icon={numComments > 0 ? faComment : farComment}
-                    className={numComments > 0 ? 'filled-comment' : 'empty-comment'}
-                />
-                <span className="comment-count">{numComments}</span>
-            </span>
+                                                <FontAwesomeIcon
+                                                    icon={numComments > 0 ? faComment : farComment}
+                                                    className={numComments > 0 ? 'filled-comment' : 'empty-comment'}
+                                                />
+                                                <span className="comment-count">{numComments}</span>
+                                            </span>
                                         </div>
                                     </div>
                                 );

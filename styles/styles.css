@@ -813,6 +813,8 @@ p .index-inspire-change-text {
 
 .donate-button {
   display: flex;
+  font-family: Rubik, Times, sans-serif;
+  font-size: 28px;
   height: 2.5rem;
   margin: auto 0;
 }
@@ -1563,6 +1565,89 @@ p .index-inspire-change-text {
 
 .start-time-column {
   width: 3.75rem;
+}
+
+.form-container {
+  display: grid;
+  gap: 0.25rem;
+  grid-template-columns: 225px auto;
+  grid-template-rows: auto;
+}
+.form-container label[for=numberAttending] {
+  grid-column: 1;
+  grid-row: 1;
+  text-align: center;
+}
+.form-container input[name=numberAttending] {
+  grid-column: 2;
+  grid-row: 1;
+}
+.form-container label[for=note] {
+  grid-column: 1;
+  grid-row: 2;
+  text-align: center;
+}
+.form-container textarea[name=note] {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.form-input {
+  border: 1px solid #015e41;
+  border-radius: 5px;
+  padding: 5px;
+  width: 100%;
+}
+
+.textarea-large {
+  border: 1px solid #015e41;
+  border-radius: 5px;
+  height: 60px;
+  padding: 5px;
+  width: 80%;
+}
+
+.input-small {
+  border: 1px solid #015e41;
+  border-radius: 5px;
+  padding: 5px;
+  width: 50px;
+}
+
+.rsvp-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.rsvp-button {
+  border-radius: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  font-family: RopaSans, sans-serif;
+  margin: 1rem auto;
+  padding: 0.6rem;
+}
+.rsvp-button.submit {
+  margin-right: 1rem;
+}
+.rsvp-button.cancel {
+  margin-left: 1rem;
+}
+
+.volunteer-event-details {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  margin-left: 20%;
+  margin-right: 20%;
+}
+
+.rsvp-thankyou {
+  margin-top: 1rem;
+  text-align: center;
+}
+.rsvp-thankyou button {
+  border-radius: 0.5rem;
 }
 
 @media (max-width: 76.5rem) {
