@@ -92,24 +92,24 @@
   grid-template-columns: 225px auto;
   grid-template-rows: auto;
 
-  label[for="numberAttending"] {
+  label[for='numberAttending'] {
     grid-column: 1;
     grid-row: 1;
     text-align: center;
   }
 
-  input[name="numberAttending"] {
+  input[name='numberAttending'] {
     grid-column: 2;
     grid-row: 1;
   }
 
-  label[for="note"] {
+  label[for='note'] {
     grid-column: 1;
     grid-row: 2;
     text-align: center;
   }
 
-  textarea[name="note"] {
+  textarea[name='note'] {
     grid-column: 2;
     grid-row: 2;
   }
@@ -174,6 +174,15 @@
   button {
     border-radius: .5rem;
   }
+}
+
+.cancel-rsvp-button {
+  border-radius: .5rem;
+  display: flex;
+  font-size: .8rem;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: .5rem;
 }
 
 @media (max-width: 76.5rem) {
