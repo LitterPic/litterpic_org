@@ -427,6 +427,9 @@
 }
 
 @media (max-width: 76.5rem) {
+  .donorbox-images-container-desktop {
+    display: none;
+  }
   .donate-tax {
     font-size: 0.5rem;
   }
@@ -454,14 +457,21 @@
     margin-right: 2.5rem;
   }
 }
-@media (max-width: 102.25rem) and (orientation: landscape) {
-  .donorbox-container {
-    margin-top: 0.6rem;
+@media (min-width: 76.5rem) {
+  .donorbox-images-container {
+    display: none;
   }
-  .donate-image {
-    height: auto;
-    justify-content: left;
-    width: 30%;
+  .donorbox-images-container-desktop {
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .donate-image-desktop {
+    height: 250px;
+    margin-left: 2rem;
+    margin-right: 1rem;
+    margin-top: 7rem;
+    width: auto;
   }
 }
 .address-link:hover {

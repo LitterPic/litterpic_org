@@ -17,6 +17,11 @@ const Donate = () => {
                             <div className="donorbox-container">
                                 <DonorBox/>
                             </div>
+                            <div className="donorbox-images-container-desktop">
+                                <img className="donate-image-desktop" src="/images/501(c)(3).webp" alt="501(c)(3)"/>
+                                <img className="donate-image-desktop" src="/images/nonprofit_seal.webp"
+                                     alt="Nonprofit Seal"/>
+                            </div>
                         </div>
                         <p className="donate-tax">
                             LITTERPIC INC is a 501(c)(3) charitable organization, EIN 88-2549690. All donations
