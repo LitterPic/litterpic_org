@@ -52,7 +52,7 @@ const Contact = () => {
                     <h1 className="heading-text">Contact</h1>
                     <div className="contact-wrapper">
                         <div className="contact-container">
-                            <div className="contact-lets-chat">Let's Chat</div>
+                            <div className="contact-lets-chat">Send Us A Message</div>
                             <div className="contact-phone-email-social">
                                 <div className="contact-phone">
                                     <p className="contact-heading">Phone</p>
