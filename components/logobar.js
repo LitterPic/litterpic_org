@@ -1,5 +1,5 @@
 import {useRouter} from 'next/router';
-import {useEffect, useState} from 'react';
+import {useEffect, useState, useRef} from 'react';
 import {onAuthStateChanged, signOut} from 'firebase/auth';
 import {auth, db} from '../lib/firebase';
 import {doc, getDoc} from 'firebase/firestore';
@@ -8,11 +8,51 @@ import {faCaretDown} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 const Logobar = () => {
+    const dropdownRef = useRef(null);
     const [user, setUser] = useState(null);
     const [userPhoto, setUserPhoto] = useState('');
     const [displayName, setDisplayName] = useState('');
     const router = useRouter();
-    const [showDropdown, setShowDropdown] = useState(false); // Track dropdown visibility
+    const [showDropdown, setShowDropdown] = useState(false);
+
+    const handleDropdownIconClick = (event) => {
+        // Prevent event propagation to avoid the click being registered as inside the dropdown
+        event.stopPropagation();
+        toggleDropdown();
+    };
+
+    useEffect(() => {
+        console.log('Adding event listeners.');
+        // Event listener to handle clicks outside the dropdown
+        const handleClickOutsideDropdown = (event) => {
+            const clickedInsideDropdown = dropdownRef.current && dropdownRef.current.contains(event.target);
+            const clickedOnDropdownIcon = event.target.classList.contains('dropdown-icon');
+
+            if (!clickedInsideDropdown && !clickedOnDropdownIcon) {
+                console.log('Clicked outside dropdown. Closing the dropdown.');
+                setShowDropdown(false);
+            } else {
+                console.log('Clicked inside the dropdown or on the dropdown icon.');
+            }
+        };
+
+        // Event listener to handle navigation away from the current page
+        const handlePageNavigation = () => {
+            console.log('Navigating away from the page. Closing the dropdown.');
+            setShowDropdown(false);
+        };
+
+        // Add event listeners when the component mounts
+        document.addEventListener('click', handleClickOutsideDropdown);
+        router.events.on('routeChangeStart', handlePageNavigation);
+
+        // Remove event listeners when the component unmounts
+        return () => {
+            console.log('Removing event listeners.');
+            document.removeEventListener('click', handleClickOutsideDropdown);
+            router.events.off('routeChangeStart', handlePageNavigation);
+        };
+    }, [router.events]);
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -85,6 +125,7 @@ const Logobar = () => {
                                 <FontAwesomeIcon
                                     icon={faCaretDown}
                                     className={`dropdown-icon ${showDropdown ? 'rotate' : ''}`}
+                                    onClick={handleDropdownIconClick}
                                 />
                             </div>
                             {showDropdown && (
@@ -100,7 +141,6 @@ const Logobar = () => {
                 (
                     <div className="logo-bar-right-content">
                         <CustomButton href="/donate">Donate</CustomButton>
-                        {/*<button className="login-button" onClick={() => router.push('/login')}>Login</button>*/}
                     </div>
                 )}
         </div>
