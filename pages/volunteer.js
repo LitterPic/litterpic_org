@@ -117,8 +117,9 @@ const Volunteer = () => {
                                 [eventId]: true,
                             }));
 
-                            const templateId = "d-d1420f7a054b4424bf7bb990524db1ae";
-                            const templateData = {
+                            //send email to person who RSVP'd
+                            const participantRsvpTemplateId = "d-d1420f7a054b4424bf7bb990524db1ae";
+                            const participantTemplateData = {
                                 eventDate: selectedEventInfo.start.toDateString(),
                                 eventStartTime: selectedEventInfo.eventStartTime?.toDate().toLocaleTimeString([], {
                                     hour: 'numeric',
@@ -143,8 +144,8 @@ const Volunteer = () => {
                                 },
                                 body: JSON.stringify({
                                     email: user.email,
-                                    templateId: templateId,
-                                    templateData: templateData,
+                                    templateId: participantRsvpTemplateId,
+                                    templateData: participantTemplateData,
                                 }),
                             })
                                 .then((response) => response.json())
@@ -153,6 +154,49 @@ const Volunteer = () => {
                                 })
                                 .catch((error) => {
                                     console.error("Error sending email:", error);
+                                });
+
+
+                            //send email to event organizer
+                            const organizerRsvpTemplateId = "d-60649fab1ee8435db38e1ff3ce8f4645"
+                            const organizerTemplateData = {
+                                //participantName: "",
+                                eventDate: selectedEventInfo.start.toDateString(),
+                                eventStartTime: selectedEventInfo.eventStartTime?.toDate().toLocaleTimeString([], {
+                                    hour: 'numeric',
+                                    minute: '2-digit',
+                                    hour12: true
+                                }),
+                                eventEndTime: selectedEventInfo.eventEndTime
+                                    ? selectedEventInfo.eventEndTime.toDate().toLocaleTimeString([], {
+                                        hour: 'numeric',
+                                        minute: '2-digit',
+                                        hour12: true,
+                                    })
+                                    : 'N/A',
+                                eventLocation: selectedEventInfo.location,
+                                participantEmail: user.email,
+                                // numberOfAttendees: "",
+                                // participantNote: "",
+                            };
+
+                            fetch("/api/sendEmail", {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify({
+                                    email: user.email, //TODO: update to event organizer email
+                                    templateId: organizerRsvpTemplateId,
+                                    templateData: organizerTemplateData,
+                                }),
+                            })
+                                .then((response) => response.json())
+                                .then((data) => {
+                                    console.log("Email sent to organizer successfully", data);
+                                })
+                                .catch((error) => {
+                                    console.error("Error sending email to organizer:", error);
                                 });
 
                         }
@@ -220,7 +264,7 @@ const Volunteer = () => {
                 }
             }
         };
-        
+
         const handleThankYouOkClick = () => {
             setShowThankYou(false);
             setRsvpFormData({

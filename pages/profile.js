@@ -2,7 +2,7 @@ import withAuth from '../components/withAuth';
 import {useAuth} from '../lib/firebase';
 import {useState, useEffect} from 'react';
 import {db} from '../lib/firebase';
-import {getFirestore, doc, getDoc, collection, query, where, getDocs} from "firebase/firestore";
+import {doc, getDoc, collection, query, where, getDocs} from "firebase/firestore";
 
 const ProfilePage = () => {
     const {user, loading} = useAuth();
@@ -93,9 +93,10 @@ const ProfilePage = () => {
                                     alt="Default Profile Picture"
                                 />
                             )}
-                            <a className="edit-profile-button" href="/edit-profile">
-                                Edit Profile
-                            </a>
+                            <span className="edit-profile-button"
+                                  data-tooltip="Please visit the LitterPic mobile app to update your profile">
+                Edit Profile
+              </span>
                         </div>
                     </div>
                 </div>

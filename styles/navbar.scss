@@ -17,14 +17,14 @@
   a {
     color: $black;
     font-size: 1.75rem;
-    font-weight: bolder;
+    font-weight: lighter;
     margin-left: .5rem;
     margin-right: .5rem;
     text-decoration: none;
     transition: color .5s ease;
 
     &:hover {
-      color: $litterpic-green;
+      color: $table-highlight-green;
     }
   }
 
