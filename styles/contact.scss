@@ -39,18 +39,7 @@
 }
 
 #message {
-  height: 3.75rem;
-}
-
-.contact-input {
-  font-size: 1.1rem;
-  height: 3rem;
-  width: 25rem;
-}
-
-.contact-textarea {
-  height: 15rem;
-  width: 50%;
+  height: 5rem;
 }
 
 .form-row {
@@ -126,6 +115,11 @@
     display: flex;
     height: 70%;
     justify-content: center;
+  }
+
+  #message {
+    height: 3.75rem;
+    width: 100%;
   }
 
 
