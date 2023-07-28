@@ -27,7 +27,7 @@ const Contact = () => {
             });
 
             if (response.ok) {
-                setSuccessMessage(`Thanks for submitting, ${firstName}!`);
+                setSuccessMessage(`Thank you for Contacting Us, someone will be in touch soon!`);
                 setFirstName('');
                 setLastName('');
                 setEmail('');
