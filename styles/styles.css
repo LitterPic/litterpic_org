@@ -1683,6 +1683,57 @@ p .index-inspire-change-text {
   margin-top: 0.5rem;
 }
 
+.event-form {
+  display: grid;
+  gap: 10px;
+  grid-template-rows: repeat(1, 1fr);
+}
+
+.form-row {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: auto 1fr;
+}
+.form-row:first-child {
+  font-weight: bold;
+  padding-right: 3rem;
+  text-align: end;
+}
+
+textarea.event-description-input {
+  min-height: 100px;
+  overflow-wrap: break-word;
+  resize: none;
+  width: 100%;
+}
+
+.location-input {
+  width: 100%;
+}
+
+.create-event-buttons {
+  display: flex;
+  grid-column: 1/-1;
+  grid-row: 7;
+  justify-content: center;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+.create-event-buttons .event-submit {
+  border-radius: 0.5rem;
+  margin-right: 0.5rem;
+}
+.create-event-buttons .event-submit-cancel {
+  border-radius: 0.5rem;
+  margin-left: 0.5rem;
+}
+
+.create-event-button {
+  border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
+  width: 185px;
+}
+
 @media (max-width: 76.5rem) {
   .start-time-column {
     width: 2.5rem;
