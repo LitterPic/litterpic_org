@@ -22,33 +22,25 @@ const Logobar = () => {
     };
 
     useEffect(() => {
-        console.log('Adding event listeners.');
-        // Event listener to handle clicks outside the dropdown
         const handleClickOutsideDropdown = (event) => {
             const clickedInsideDropdown = dropdownRef.current && dropdownRef.current.contains(event.target);
             const clickedOnDropdownIcon = event.target.classList.contains('dropdown-icon');
 
             if (!clickedInsideDropdown && !clickedOnDropdownIcon) {
-                console.log('Clicked outside dropdown. Closing the dropdown.');
                 setShowDropdown(false);
             } else {
-                console.log('Clicked inside the dropdown or on the dropdown icon.');
+
             }
         };
 
-        // Event listener to handle navigation away from the current page
         const handlePageNavigation = () => {
-            console.log('Navigating away from the page. Closing the dropdown.');
             setShowDropdown(false);
         };
 
-        // Add event listeners when the component mounts
         document.addEventListener('click', handleClickOutsideDropdown);
         router.events.on('routeChangeStart', handlePageNavigation);
 
-        // Remove event listeners when the component unmounts
         return () => {
-            console.log('Removing event listeners.');
             document.removeEventListener('click', handleClickOutsideDropdown);
             router.events.off('routeChangeStart', handlePageNavigation);
         };
