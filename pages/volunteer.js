@@ -207,7 +207,7 @@ const Volunteer = () => {
 
             // Date format
             const options = {
-                weekday: 'long', // 'short' for abbreviated, 'long' for full
+                weekday: 'long',
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric',
@@ -572,7 +572,7 @@ const Volunteer = () => {
 
                     {showCreateEventForm && (
                         <div>
-                            <form onSubmit={handleCreateEventFormSubmit} class="event-form">
+                            <form onSubmit={handleCreateEventFormSubmit} className="event-form">
                                 <div class="form-row">
                                     <label htmlFor="date">Event Date</label>
                                     <input type="date" name="date" required/>

@@ -1525,13 +1525,16 @@ p .index-inspire-change-text {
 }
 
 .community-service-button {
+  align-items: center;
   border-radius: 0.5em;
   display: flex;
   font-family: RopaSans, sans-serif;
-  justify-content: left;
+  height: 2rem;
+  justify-content: center;
   margin-bottom: 1rem;
   margin-top: 1rem;
   padding: 0.6rem;
+  width: 195px;
 }
 
 .event-background {
@@ -1729,9 +1732,16 @@ textarea.event-description-input {
 }
 
 .create-event-button {
+  align-items: center;
   border-radius: 0.5rem;
-  margin-bottom: 0.5rem;
-  width: 185px;
+  display: flex;
+  font-family: RopaSans, sans-serif;
+  height: 2rem;
+  justify-content: center;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  padding: 0.6rem;
+  width: 195px;
 }
 
 @media (max-width: 76.5rem) {
