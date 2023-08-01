@@ -14,14 +14,15 @@
   padding-top: .3rem;
   width: 100%;
 
-  a {
+  a,
+  .nav-link {
     color: $black;
     font-size: 1.75rem;
     font-weight: lighter;
     margin-left: .5rem;
     margin-right: .5rem;
     text-decoration: none;
-    transition: color .5s ease;
+    transition: color .1s ease;
 
     &:hover {
       color: $table-highlight-green;
@@ -33,9 +34,9 @@
   }
 
   .nav-links {
+    align-items: center;
     display: flex;
     position: relative;
-    align-items: center;
 
     a {
       background-color: transparent;
@@ -73,18 +74,36 @@
 }
 
 @media (max-width: 76.5rem) {
-  .nav-bar .nav-toggle {
-    align-items: center;
-    cursor: pointer;
-    display: flex;
-    margin-bottom: 4.5rem;
-    margin-right: .5rem;
-    position: absolute;
-    right: .5rem;
+  .nav-bar {
+    a {
+      font-size: 1.5rem;
+    }
   }
 
+
   .nav-bar {
+    .nav-links {
+      background-color: $gray;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, .1);
+      display: none;
+      flex-direction: column;
+      margin-top: .5rem;
+      padding: .5rem;
+      position: absolute;
+      right: .5rem;
+      top: 7%;
+      z-index: 100;
+    }
+
     .nav-toggle {
+      align-items: center;
+      cursor: pointer;
+      display: flex;
+      margin-bottom: 4.5rem;
+      margin-right: .5rem;
+      position: absolute;
+      right: .5rem;
+
       .icon {
         align-items: center;
         display: flex;
@@ -99,19 +118,6 @@
     }
   }
 
-  .nav-bar .nav-links {
-    background-color: $gray;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, .1);
-    display: none;
-    flex-direction: column;
-    margin-top: .5rem;
-    padding: .5rem;
-    position: absolute;
-    right: .5rem;
-    top: 8%;
-    z-index: 100;
-  }
-
   .nav-bar.mobile-nav .nav-links.show-navlinks {
     display: flex;
   }
@@ -119,27 +125,47 @@
   .hide {
     display: grid;
   }
+
+  .nav-links-desktop {
+    .nav-link {
+      color: $black;
+      cursor: pointer;
+      font-size: 1.5rem;
+      font-weight: lighter;
+      margin-left: 0;
+      margin-right: .5rem;
+      text-decoration: none;
+      transition: color .1s ease;
+
+      &:hover {
+        color: $table-highlight-green;
+      }
+    }
+  }
+
 }
 
 @media (max-width: 102.25rem) and (orientation: landscape) {
-  .nav-bar .nav-links {
-    background-color: $gray;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, .1);
-    display: none;
-    flex-direction: column;
-    margin-top: .5rem;
-    padding: .5rem;
-    position: absolute;
-    right: .5rem;
-    top: 20%;
-    z-index: 100;
+  .nav-links-desktop {
+    .nav-link {
+      color: $black;
+      cursor: pointer;
+      font-size: 1.5rem;
+      font-weight: lighter;
+      margin-left: 0;
+      margin-right: .5rem;
+      text-decoration: none;
+      transition: color .1s ease;
+
+      &:hover {
+        color: $table-highlight-green;
+      }
+    }
   }
 
-  .nav-bar.mobile-nav .nav-links.show-navlinks {
-    display: flex;
-  }
-
-  .hide {
-    display: grid;
+  .nav-bar {
+    .nav-links {
+      top: 15%;
+    }
   }
 }

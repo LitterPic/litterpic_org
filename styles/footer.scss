@@ -64,14 +64,14 @@
     padding-top: .5rem;
 
     &-column-1 {
-      padding-left: 2rem;
+      padding-left: 1rem;
     }
 
     &-column-1,
     &-column-2,
     &-column-3 {
       p {
-        font-size: .75rem;
+        font-size: .6rem;
       }
     }
 
@@ -80,7 +80,7 @@
         line-height: 1.5;
 
         &:link {
-          font-size: .75rem;
+          font-size: .6rem;
         }
       }
     }

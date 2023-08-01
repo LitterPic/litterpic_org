@@ -53,6 +53,7 @@ h1 {
 
 h2 {
   font-family: Rubik, Times, sans-serif;
+  font-weight: normal;
 
   &.heading-text {
     color: $litterpic-green;
@@ -123,7 +124,6 @@ textarea {
     padding: 3rem;
   }
 }
-
 
 // Media Query for Mobile Devices
 @media (max-width: 76.5rem) {

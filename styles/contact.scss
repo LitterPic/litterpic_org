@@ -23,7 +23,7 @@
   }
 }
 
-.form-group {
+.contact-form-group {
   display: flex;
   flex-direction: column;
   margin-right: 3.75rem;
@@ -42,7 +42,7 @@
   height: 5rem;
 }
 
-.form-row {
+.contact-form-row {
   align-items: center;
   column-gap: .6rem;
   display: grid;
@@ -81,8 +81,6 @@
 
 #contact-submit-button {
   display: flex;
-  margin-left: auto;
-  margin-right: auto;
   margin-top: .6rem;
 }
 
@@ -152,7 +150,7 @@
   }
 
 
-  .form-group {
+  .contact-form-group {
     display: flex;
     flex-direction: column;
     margin-right: 0;
@@ -183,7 +181,7 @@
     width: 50%;
   }
 
-  .form-row {
+  .contact-form-row {
     align-items: center;
     column-gap: 0;
     display: grid;
@@ -200,7 +198,7 @@
   }
 
   .contact-lets-chat {
-    font-size: 2.5rem;
+    font-size: 1.875rem;
     font-weight: normal;
     margin-left: .6rem;
   }
@@ -227,8 +225,6 @@
 
   #contact-submit-button {
     display: flex;
-    margin-left: auto;
-    margin-right: auto;
     margin-top: .6rem;
   }
 
@@ -277,8 +273,6 @@
 
   #contact-submit-button {
     display: flex;
-    margin-left: auto;
-    margin-right: auto;
     margin-top: .6rem;
   }
 }
