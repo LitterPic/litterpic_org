@@ -52,7 +52,7 @@ const Contact = () => {
                     <h1 className="heading-text">Contact</h1>
                     <div className="contact-wrapper">
                         <div className="contact-container">
-                            <div className="contact-lets-chat">Send Us A Message</div>
+                            <div className="contact-lets-chat">Send us a message</div>
                             <div className="contact-phone-email-social">
                                 <div className="contact-phone">
                                     <p className="contact-heading">Phone</p>
@@ -81,8 +81,8 @@ const Contact = () => {
                                 </div>
                             </div>
                             <form onSubmit={handleSubmit} className="contact-form">
-                                <div className="form-row">
-                                    <div className="form-group">
+                                <div className="contact-form-row">
+                                    <div className="contact-form-group">
                                         <label htmlFor="firstName">
                                             First Name <sup className="required">*</sup>
                                         </label>
@@ -94,7 +94,7 @@ const Contact = () => {
                                             required
                                         />
                                     </div>
-                                    <div className="form-group">
+                                    <div className="contact-form-group">
                                         <label htmlFor="lastName">
                                             Last Name <sup className="required">*</sup>
                                         </label>
@@ -106,7 +106,7 @@ const Contact = () => {
                                             required
                                         />
                                     </div>
-                                    <div className="form-group">
+                                    <div className="contact-form-group">
                                         <label htmlFor="email">
                                             Email <sup className="required">*</sup>
                                         </label>
@@ -119,7 +119,7 @@ const Contact = () => {
                                         />
                                     </div>
                                 </div>
-                                <div className="form-group">
+                                <div className="contact-form-group">
                                     <label htmlFor="message">Message</label>
                                     <textarea
                                         id="message"

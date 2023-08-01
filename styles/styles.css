@@ -163,12 +163,12 @@
   text-align: center;
 }
 
-.form-group {
+.contact-form-group {
   display: flex;
   flex-direction: column;
   margin-right: 3.75rem;
 }
-.form-group label {
+.contact-form-group label {
   margin-bottom: 0.3rem;
 }
 
@@ -181,7 +181,7 @@
   height: 5rem;
 }
 
-.form-row {
+.contact-form-row {
   align-items: center;
   column-gap: 0.6rem;
   display: grid;
@@ -219,8 +219,6 @@
 
 #contact-submit-button {
   display: flex;
-  margin-left: auto;
-  margin-right: auto;
   margin-top: 0.6rem;
 }
 
@@ -280,12 +278,12 @@
     font-size: 1rem;
     font-weight: bold;
   }
-  .form-group {
+  .contact-form-group {
     display: flex;
     flex-direction: column;
     margin-right: 0;
   }
-  .form-group label {
+  .contact-form-group label {
     margin-bottom: 0.3rem;
   }
   .required {
@@ -305,7 +303,7 @@
     height: 15rem;
     width: 50%;
   }
-  .form-row {
+  .contact-form-row {
     align-items: center;
     column-gap: 0;
     display: grid;
@@ -320,7 +318,7 @@
     row-gap: 0.6rem;
   }
   .contact-lets-chat {
-    font-size: 2.5rem;
+    font-size: 1.875rem;
     font-weight: normal;
     margin-left: 0.6rem;
   }
@@ -340,8 +338,6 @@
   }
   #contact-submit-button {
     display: flex;
-    margin-left: auto;
-    margin-right: auto;
     margin-top: 0.6rem;
   }
   .contact-submit-response {
@@ -381,8 +377,6 @@
   }
   #contact-submit-button {
     display: flex;
-    margin-left: auto;
-    margin-right: auto;
     margin-top: 0.6rem;
   }
 }
@@ -516,16 +510,16 @@
     padding-top: 0.5rem;
   }
   .footer-column-1 {
-    padding-left: 2rem;
+    padding-left: 1rem;
   }
   .footer-column-1 p, .footer-column-2 p, .footer-column-3 p {
-    font-size: 0.75rem;
+    font-size: 0.6rem;
   }
   .footer-column-3 a {
     line-height: 1.5;
   }
   .footer-column-3 a:link {
-    font-size: 0.75rem;
+    font-size: 0.6rem;
   }
 }
 .overlay {
@@ -985,25 +979,27 @@ p .index-inspire-change-text {
   padding-top: 0.3rem;
   width: 100%;
 }
-.nav-bar a {
+.nav-bar a,
+.nav-bar .nav-link {
   color: #000;
   font-size: 1.75rem;
   font-weight: lighter;
   margin-left: 0.5rem;
   margin-right: 0.5rem;
   text-decoration: none;
-  transition: color 0.5s ease;
+  transition: color 0.1s ease;
 }
-.nav-bar a:hover {
+.nav-bar a:hover,
+.nav-bar .nav-link:hover {
   color: #4caf50;
 }
 .nav-bar .nav-link {
   font-size: 1.5rem;
 }
 .nav-bar .nav-links {
+  align-items: center;
   display: flex;
   position: relative;
-  align-items: center;
 }
 .nav-bar .nav-links a {
   background-color: transparent;
@@ -1033,6 +1029,21 @@ p .index-inspire-change-text {
 }
 
 @media (max-width: 76.5rem) {
+  .nav-bar a {
+    font-size: 1.5rem;
+  }
+  .nav-bar .nav-links {
+    background-color: #d3d3d3;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    display: none;
+    flex-direction: column;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    position: absolute;
+    right: 0.5rem;
+    top: 7%;
+    z-index: 100;
+  }
   .nav-bar .nav-toggle {
     align-items: center;
     cursor: pointer;
@@ -1052,43 +1063,42 @@ p .index-inspire-change-text {
     height: 3rem;
     width: 3rem;
   }
-  .nav-bar .nav-links {
-    background-color: #d3d3d3;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    display: none;
-    flex-direction: column;
-    margin-top: 0.5rem;
-    padding: 0.5rem;
-    position: absolute;
-    right: 0.5rem;
-    top: 8%;
-    z-index: 100;
-  }
   .nav-bar.mobile-nav .nav-links.show-navlinks {
     display: flex;
   }
   .hide {
     display: grid;
+  }
+  .nav-links-desktop .nav-link {
+    color: #000;
+    cursor: pointer;
+    font-size: 1.5rem;
+    font-weight: lighter;
+    margin-left: 0;
+    margin-right: 0.5rem;
+    text-decoration: none;
+    transition: color 0.1s ease;
+  }
+  .nav-links-desktop .nav-link:hover {
+    color: #4caf50;
   }
 }
 @media (max-width: 102.25rem) and (orientation: landscape) {
+  .nav-links-desktop .nav-link {
+    color: #000;
+    cursor: pointer;
+    font-size: 1.5rem;
+    font-weight: lighter;
+    margin-left: 0;
+    margin-right: 0.5rem;
+    text-decoration: none;
+    transition: color 0.1s ease;
+  }
+  .nav-links-desktop .nav-link:hover {
+    color: #4caf50;
+  }
   .nav-bar .nav-links {
-    background-color: #d3d3d3;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    display: none;
-    flex-direction: column;
-    margin-top: 0.5rem;
-    padding: 0.5rem;
-    position: absolute;
-    right: 0.5rem;
-    top: 20%;
-    z-index: 100;
-  }
-  .nav-bar.mobile-nav .nav-links.show-navlinks {
-    display: flex;
-  }
-  .hide {
-    display: grid;
+    top: 15%;
   }
 }
 .profile-content {
@@ -1376,6 +1386,10 @@ p .index-inspire-change-text {
   padding-right: 1rem;
 }
 
+.profile-image {
+  display: flex;
+  justify-content: start;
+}
 .profile-image img {
   border-radius: 50%;
   height: 40px;
@@ -1415,6 +1429,7 @@ p .index-inspire-change-text {
 .post-description {
   font-family: inherit;
   font-size: 1rem;
+  height: auto;
   padding: 1rem 2rem;
   width: auto;
 }
@@ -1429,6 +1444,10 @@ p .index-inspire-change-text {
 }
 
 @media (max-width: 76.5rem) {
+  .profile-image {
+    justify-content: center;
+    padding-right: 0;
+  }
   .post-username-location {
     display: grid;
     grid-template-columns: 20% 40% 40%;
@@ -1441,7 +1460,7 @@ p .index-inspire-change-text {
     align-items: center;
     display: flex;
     font-size: 0.75rem;
-    justify-content: center;
+    justify-content: start;
   }
   .post-location a {
     font-size: 0.75rem;
@@ -1475,6 +1494,10 @@ p .index-inspire-change-text {
   }
 }
 @media (max-width: 102.25rem) and (orientation: landscape) {
+  .profile-image {
+    justify-content: center;
+    padding-right: 0;
+  }
   .post-username-location {
     display: grid;
     grid-template-columns: 20% 40% 40%;
@@ -1487,7 +1510,7 @@ p .index-inspire-change-text {
     align-items: center;
     display: flex;
     font-size: 0.75rem;
-    justify-content: center;
+    justify-content: start;
   }
   .post-location a {
     font-size: 0.75rem;
@@ -1582,7 +1605,9 @@ p .index-inspire-change-text {
 .table td,
 .table th {
   border: 0.06rem solid #ddd;
+  max-width: 150px;
   padding: 1rem;
+  word-wrap: break-word;
 }
 
 .highlight {
@@ -1815,6 +1840,7 @@ h1.heading-text {
 
 h2 {
   font-family: Rubik, Times, sans-serif;
+  font-weight: normal;
 }
 h2.heading-text {
   color: #015e41;

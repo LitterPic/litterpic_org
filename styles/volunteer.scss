@@ -75,7 +75,9 @@
   td,
   th {
     border: .06rem solid $table-gray;
+    max-width: 150px;
     padding: 1rem;
+    word-wrap: break-word;
   }
 }
 
