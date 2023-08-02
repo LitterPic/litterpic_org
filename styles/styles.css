@@ -1231,6 +1231,11 @@ p .index-inspire-change-text {
   margin: 1.9rem auto 0;
   width: 6.25rem;
 }
+.signup-button:disabled {
+  background-color: #d3d3d3;
+  color: #aaa;
+  cursor: not-allowed;
+}
 
 .error-container {
   align-items: center;
@@ -1258,6 +1263,21 @@ p .index-inspire-change-text {
 .signup-legal a {
   font-size: 0.65rem;
   font-style: italic;
+}
+
+.valid-password-attribute {
+  color: #015e41;
+}
+
+.invalid-password-attribute {
+  color: #f00;
+}
+
+.signup-password-requirements {
+  font-weight: bold;
+}
+.signup-password-requirements p {
+  font-size: 0.75rem;
 }
 
 .stories-top-bar {

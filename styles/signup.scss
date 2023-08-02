@@ -46,6 +46,12 @@
   font-family: RopaSans, sans-serif;
   margin: 1.9rem auto 0;
   width: 6.25rem;
+
+  &:disabled {
+    background-color: $gray;
+    color: $profile-text-gray;
+    cursor: not-allowed;
+  }
 }
 
 .error-container {
@@ -77,11 +83,18 @@
   }
 }
 
-
-@media (max-width: 76.5rem) {
-  // Mobile Support
+.valid-password-attribute {
+  color: $litterpic-green;
 }
 
-@media (max-width: 102.25rem) and (orientation: landscape) {
-  // Mobile Support
+.invalid-password-attribute {
+  color: $red;
+}
+
+.signup-password-requirements {
+  font-weight: bold;
+
+  p {
+    font-size: .75rem;
+  }
 }
