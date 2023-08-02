@@ -129,8 +129,8 @@ export default function SignInForm() {
                     <p className={isLongEnough ? 'valid-password-attribute' : 'invalid-password-attribute'}>{checkMark} Password
                         must be at least 6 characters
                         long</p>
-                    <p className={passwordMatch ? 'valid-password-attribute' : 'invalid-password-attribute'}>{checkMark} Passwords
-                        Match</p>
+                    <p className={passwordMatch ? 'valid-password-attribute' : 'invalid-password-attribute'}>{checkMark} Password
+                        and Confirm Password fields must match</p>
                 </div>
             )}
             <button className="signup-button"
