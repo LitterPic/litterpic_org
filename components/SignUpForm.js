@@ -12,7 +12,30 @@ export default function SignInForm() {
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
 
+    const [hasUpperCase, setHasUpperCase] = useState(false);
+    const [hasNumber, setHasNumber] = useState(false);
+    const [hasSpecialChar, setHasSpecialChar] = useState(false);
+    const [isLongEnough, setIsLongEnough] = useState(false);
+    const [passwordMatch, setPasswordMatch] = useState(false);
+
     const router = useRouter();
+
+    const handlePasswordChange = (e) => {
+        const pass = e.target.value;
+        setPassword(pass);
+
+        setHasUpperCase(/[A-Z]/.test(pass));
+        setHasNumber(/\d/.test(pass));
+        setHasSpecialChar(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(pass));
+        setIsLongEnough(pass.length >= 6);
+        setPasswordMatch(pass === confirmPassword && pass !== '' && confirmPassword !== '');
+    }
+
+    const handleConfirmPasswordChange = (e) => {
+        const confirmPass = e.target.value;
+        setConfirmPassword(confirmPass);
+        setPasswordMatch(password === confirmPass && password !== '' && confirmPass !== '');
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -22,16 +45,16 @@ export default function SignInForm() {
             return;
         }
 
+        if (!hasUpperCase || !hasNumber || !hasSpecialChar || !isLongEnough) {
+            setError('Password does not meet requirements');
+            return;
+        }
+
         try {
             await createUserWithEmailAndPassword(auth, email, password);
 
-            // After creating the user, update the user's display name
-            await updateUserProfile(auth.currentUser, {
-                displayName: 'Your Display Name', // Set the initial display name here
-            });
-
-            // Redirect the user to the edit profile page
-            router.push('/edit-profile');
+            // Redirect the user to the stories page
+            await router.push('/stories');
         } catch (error) {
             if (error.code === 'auth/email-already-in-use') {
                 setError('User already exists');
@@ -53,6 +76,8 @@ export default function SignInForm() {
         setError('');
     };
 
+    const checkMark = hasUpperCase && hasNumber && hasSpecialChar && isLongEnough && passwordMatch ? '✓' : ' ';
+
     return (
         <form className="signup-form" onSubmit={handleSubmit}>
             <input
@@ -68,7 +93,7 @@ export default function SignInForm() {
                     className="signup-password"
                     type={showPassword ? 'text' : 'password'}
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={handlePasswordChange}
                     placeholder="Password"
                     required
                 />
@@ -83,7 +108,7 @@ export default function SignInForm() {
                     className="signup-password"
                     type={showPassword ? 'text' : 'password'}
                     value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    onChange={handleConfirmPasswordChange}
                     placeholder="Confirm Password"
                     required
                 />
@@ -93,7 +118,24 @@ export default function SignInForm() {
                     onClick={togglePasswordVisibility}
                 />
             </div>
-            <button className="signup-button" type="submit">
+            {(password !== '' || confirmPassword !== '') && (
+                <div className="signup-password-requirements">
+                    <p className={hasUpperCase ? 'valid-password-attribute' : 'invalid-password-attribute'}>{checkMark} Password
+                        must have an uppercase letter</p>
+                    <p className={hasNumber ? 'valid-password-attribute' : 'invalid-password-attribute'}>{checkMark} Password
+                        must have a number</p>
+                    <p className={hasSpecialChar ? 'valid-password-attribute' : 'invalid-password-attribute'}>{checkMark} Password
+                        must have a special character</p>
+                    <p className={isLongEnough ? 'valid-password-attribute' : 'invalid-password-attribute'}>{checkMark} Password
+                        must be at least 6 characters
+                        long</p>
+                    <p className={passwordMatch ? 'valid-password-attribute' : 'invalid-password-attribute'}>{checkMark} Passwords
+                        Match</p>
+                </div>
+            )}
+            <button className="signup-button"
+                    type="submit"
+                    disabled={!hasUpperCase || !hasNumber || !hasSpecialChar || !isLongEnough || !passwordMatch}>
                 Sign Up
             </button>
             <p className="signup-legal">By signing up, you expressly acknowledge, consent to, and agree to be
