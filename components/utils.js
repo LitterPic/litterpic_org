@@ -2,6 +2,7 @@ import {
     arrayUnion,
     arrayRemove,
     collection,
+    deleteDoc,
     doc,
     getDoc,
     getDocs,
@@ -106,6 +107,10 @@ async function getLastVisiblePost(page, postsPerPage) {
     return querySnapshot.docs[querySnapshot.docs.length - 1];
 }
 
+export async function deletePost(postId) {
+    const postRef = doc(db, 'userPosts', postId);
+    await deleteDoc(postRef);
+}
 
 // Function to fetch the complete user data for each liked user in the post
 export async function getUsersWhoLikedPost(postId) {

@@ -16,7 +16,8 @@
 }
 
 .stories-about-us {
-  font-size: 1.25rem;
+  font-size: 1rem;
+  line-height: 1.5;
   margin-bottom: 3rem;
 }
 
@@ -29,6 +30,7 @@
   border: .01rem solid $litterpic-green;
   border-radius: .5rem;
   margin-bottom: 1rem;
+  position: relative;
 }
 
 .likes-comments {
@@ -197,6 +199,61 @@
   }
 }
 
+.meatball-menu {
+  cursor: pointer;
+  float: right;
+  margin-right: .5rem;
+  margin-top: .5rem;
+
+}
+
+.grayed-out {
+  color: gray;
+  cursor: not-allowed;
+  margin-left: .5rem;
+}
+
+
+.post-dropdown-menu {
+  background-color: $gray;
+  border: 1px solid $gray;
+  border-radius: 4px;
+  display: none;
+  left: 78%;
+  padding: 0;
+  position: absolute;
+  right: 0;
+  text-align: left;
+  top: 6%;
+  z-index: 1;
+
+  ul {
+    list-style: none;
+    margin: 0;
+    margin-top: 1rem;
+    padding: 0;
+  }
+
+  li:not(.grayed-out) {
+    cursor: pointer;
+    font-family: Rubik, Times, sans-serif;
+    font-size: 1rem;
+    margin-left: .5rem;
+    padding: 0;
+
+    &:hover {
+      color: $litterpic-green;
+    }
+  }
+
+  &.show {
+    display: inline-block;
+    padding: 0;
+    width: 130px;
+  }
+}
+
+
 @media (max-width: 76.5rem) {
   .profile-image {
     justify-content: center;
@@ -256,6 +313,10 @@
     object-fit: fill;
     overflow: hidden;
     width: 400px;
+  }
+
+  .post-dropdown-menu {
+    left: 63%;
   }
 }
 
