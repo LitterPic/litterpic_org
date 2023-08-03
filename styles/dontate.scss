@@ -41,8 +41,12 @@
   }
 
   .donate-tax {
-    font-size: .5rem;
+    font-size: .7rem;
+    transform: scale(.6);
+    transform-origin: left;
+    width: 166.67%;
   }
+
 
   .donorbox-images-container {
     display: flex;

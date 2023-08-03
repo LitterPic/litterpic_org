@@ -418,7 +418,10 @@
     display: none;
   }
   .donate-tax {
-    font-size: 0.5rem;
+    font-size: 0.7rem;
+    transform: scale(0.6);
+    transform-origin: left;
+    width: 166.67%;
   }
   .donorbox-images-container {
     display: flex;
@@ -507,19 +510,35 @@
   .footer {
     align-items: end;
     padding-bottom: 0.5rem;
-    padding-top: 0.5rem;
+    padding-top: 0.6rem;
   }
   .footer-column-1 {
-    padding-left: 1rem;
+    padding-left: 0.5rem;
+    width: 10rem;
+  }
+  .footer-column-1, .footer-column-2, .footer-column-3 {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
   }
   .footer-column-1 p, .footer-column-2 p, .footer-column-3 p {
-    font-size: 0.6rem;
+    font-size: 1rem;
+    line-height: 1;
+    transform: scale(0.7);
+    transform-origin: left;
+  }
+  .footer-column-2 {
+    margin-bottom: 0.5rem;
+  }
+  .footer-column-2 a:link {
+    font-size: 0.7rem;
   }
   .footer-column-3 a {
-    line-height: 1.5;
+    line-height: 1.75;
   }
   .footer-column-3 a:link {
-    font-size: 0.6rem;
+    font-size: 0.7rem;
   }
 }
 .overlay {
@@ -1810,6 +1829,12 @@ textarea.event-description-input {
   .table th {
     font-size: 0.6rem;
     padding: 0.06rem;
+  }
+  .table a {
+    font-size: 0.7rem;
+  }
+  .cancel-rsvp-button {
+    font-size: 0.5rem;
   }
 }
 @media (max-width: 102.25rem) and (orientation: landscape) {
