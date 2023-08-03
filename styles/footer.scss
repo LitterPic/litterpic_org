@@ -61,26 +61,45 @@
   .footer {
     align-items: end;
     padding-bottom: .5rem;
-    padding-top: .5rem;
+    padding-top: .6rem;
 
     &-column-1 {
-      padding-left: 1rem;
+      padding-left: .5rem;
+      width: 10rem;
     }
 
     &-column-1,
     &-column-2,
     &-column-3 {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      line-height: 1;
+
       p {
-        font-size: .6rem;
+        font-size: 1rem;
+        line-height: 1;
+        transform: scale(.7);
+        transform-origin: left;
+      }
+    }
+
+    &-column-2 {
+      margin-bottom: .5rem;
+
+      a {
+        &:link {
+          font-size: .7rem;
+        }
       }
     }
 
     &-column-3 {
       a {
-        line-height: 1.5;
+        line-height: 1.75;
 
         &:link {
-          font-size: .6rem;
+          font-size: .7rem;
         }
       }
     }
