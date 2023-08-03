@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import Post from '../components/post';
 import {fetchPosts, toggleLike} from '../components/utils';
 import Link from 'next/link';
@@ -8,10 +8,11 @@ import {faComment as farComment} from '@fortawesome/free-regular-svg-icons';
 import {faHeart as farHeart} from '@fortawesome/free-regular-svg-icons';
 import {faHeart} from '@fortawesome/free-solid-svg-icons';
 import {faComment} from '@fortawesome/free-solid-svg-icons';
+import {faEllipsisV, faEllipsisH} from '@fortawesome/free-solid-svg-icons';
 import {getAuth} from 'firebase/auth';
 import {getUsersWhoLikedPost} from '../components/utils';
-import {doc} from "firebase/firestore";
 import {useRouter} from 'next/router';
+import {deletePost as deletePostFromDB} from '../components/utils';
 
 function Stories() {
     const [posts, setPosts] = useState([]);
@@ -20,8 +21,34 @@ function Stories() {
     const [page, setPage] = useState(1);
     const [user, setUser] = useState(null);
     const [loadingUser, setLoadingUser] = useState(true);
+    const [openMenuId, setOpenMenuId] = useState(null);
 
     const router = useRouter();
+    const dropdownRef = useRef(null);
+
+    const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            setOpenMenuId(null);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
+    useEffect(() => {
+        const handleRouteChange = () => {
+            setOpenMenuId(null);
+        };
+
+        router.events.on('routeChangeStart', handleRouteChange);
+        return () => {
+            router.events.off('routeChangeStart', handleRouteChange);
+        };
+    }, []);
 
     // Separate useEffect for auth state changes
     useEffect(() => {
@@ -106,6 +133,15 @@ function Stories() {
         }
     };
 
+    const deletePost = async (postId) => {
+        try {
+            await deletePostFromDB(postId);  // Delete the post from Firestore
+            setPosts(posts.filter(post => post.id !== postId));  // Update the local state
+        } catch (error) {
+            console.error('Error deleting post:', error);
+        }
+    };
+
 
     const filterUniquePosts = (newPosts) => {
         const uniquePosts = [];
@@ -171,6 +207,30 @@ function Stories() {
 
                                 return (
                                     <div key={post.id} className="post">
+                                        <div className="post-header">
+                                            <FontAwesomeIcon icon={faEllipsisV}
+                                                             className="meatball-menu"
+                                                             onClick={() => setOpenMenuId(openMenuId !== post.id ? post.id : null)}
+                                            />
+                                        </div>
+                                        <div className={`post-dropdown-menu ${openMenuId === post.id ? 'show' : ''}`}
+                                             ref={openMenuId === post.id ? dropdownRef : null}>
+                                            <ul className="meatball-post-menu">
+
+                                                <li
+                                                    onClick={() => {
+                                                        if (user && post.user && user.uid === post.user.uid) {
+                                                            deletePost(post.id);
+                                                        }
+                                                    }}
+                                                    className={
+                                                        user && post.user && user.uid === post.user.uid ? '' : 'grayed-out'
+                                                    }
+                                                >
+                                                    Delete Post
+                                                </li>
+                                            </ul>
+                                        </div>
                                         <Post post={post}/>
                                         <div className="likes-comments">
                                             <span className="likes-comments-likes-field">

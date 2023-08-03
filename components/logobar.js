@@ -16,7 +16,6 @@ const Logobar = () => {
     const [showDropdown, setShowDropdown] = useState(false);
 
     const handleDropdownIconClick = (event) => {
-        // Prevent event propagation to avoid the click being registered as inside the dropdown
         event.stopPropagation();
         toggleDropdown();
     };
@@ -49,8 +48,7 @@ const Logobar = () => {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
             setUser(user);
-
-            // Retrieve additional user details from Firestore
+            
             if (user) {
                 const userRef = doc(db, `users/${user.uid}`);
                 const userDoc = await getDoc(userRef);

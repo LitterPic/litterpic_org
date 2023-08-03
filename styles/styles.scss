@@ -11,6 +11,7 @@
 @import 'login';
 @import 'logobar';
 @import 'navbar';
+@import 'privacy';
 @import 'profile';
 @import 'signup';
 @import 'stories';
@@ -64,8 +65,8 @@ h2 {
 }
 
 p {
-  font-size: 1.2rem;
-  line-height: 1.75;
+  font-size: 1rem;
+  line-height: 1.5;
 }
 
 li {
@@ -120,9 +121,9 @@ textarea {
   padding: 1.5rem;
   width: 70%;
 
-  ul {
-    padding: 3rem;
-  }
+  //ul {
+  //  padding: 3rem;
+  //}
 }
 
 // Media Query for Mobile Devices

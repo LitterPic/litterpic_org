@@ -27,7 +27,7 @@ const Privacy = () => {
                         When you use our Services, we may collect the following types of information:
                     </p>
 
-                    <ul>
+                    <ul className="privacy-ul">
                         <li>
                             <strong>Personal Information:</strong> We may collect personal information you provide us,
                             such
@@ -64,7 +64,7 @@ const Privacy = () => {
                         We may use the information we collect for the following purposes:
                     </p>
 
-                    <ul>
+                    <ul className="privacy-ul">
                         <li>To provide and improve our Services;</li>
                         <li>To communicate with you about your account, our Services, and other updates and
                             promotions;
@@ -83,7 +83,7 @@ const Privacy = () => {
                         We may share your information with third parties in the following circumstances:
                     </p>
 
-                    <ul>
+                    <ul className="privacy-ul">
                         <li>
                             With service providers that help us operate our Services, such as payment processors and
                             hosting
@@ -112,7 +112,7 @@ const Privacy = () => {
                         personal information. For example:
                     </p>
 
-                    <ul>
+                    <ul className="privacy-ul">
                         <li>You may opt out of receiving promotional communications from us by following the
                             instructions in
                             those
