@@ -34,7 +34,7 @@
 p {
   &.litter-weight {
     color: $litterpic-green;
-    font-family: RopaSans, sans-serif;
+    font-family: Poppins, sans-serif;
     font-size: 2rem;
     padding: 1rem;
   }
@@ -131,6 +131,7 @@ p {
   .index-more-stories-button {
     display: flex;
     justify-content: flex-start;
+    padding-left: 0;
 
     button {
       margin-bottom: 1rem;
