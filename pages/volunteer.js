@@ -30,49 +30,6 @@ const mapApiKey = process.env.NEXT_PUBLIC_PLACES_API_KEY;
 
 const localizer = momentLocalizer(moment);
 
-// const LocationSearchInput = ({setLocationData}) => {
-//     const [locationInputValue, setLocationInputValue] = useState("");
-//     const handleChange = (newValue) => {
-//         console.log("New Value:", newValue);
-//         setLocationInputValue(newValue);
-//     };
-//
-//     return (
-//         <PlacesAutocomplete
-//             value={locationInputValue}
-//             onChange={handleChange}
-//             onSelect={(address) => handleSelect(address, setLocationData)}
-//         >
-//             {({getInputProps, suggestions, getSuggestionItemProps, loading}) => {
-//                 console.log("Suggestions:", suggestions); // Logging the suggestions array
-//                 return (
-//                     <div>
-//                         <input {...getInputProps()} />
-//                         <div>
-//                             {loading ? <div>Loading...</div> : null}
-//                             {suggestions.map((suggestion, index) => {
-//                                 const style = {
-//                                     backgroundColor: suggestion.active ? "#41b6e6" : "#fff",
-//                                 };
-//                                 return (
-//                                     <div
-//                                         key={index}
-//                                         {...getSuggestionItemProps(suggestion, {
-//                                             style,
-//                                         })}
-//                                     >
-//                                         {suggestion.description}
-//                                     </div>
-//                                 );
-//                             })}
-//                         </div>
-//                     </div>
-//                 );
-//             }}
-//         </PlacesAutocomplete>
-//     );
-// };
-
 class CustomToolbar extends React.Component {
     navigate = action => {
         this.props.onNavigate(action);
@@ -573,16 +530,15 @@ const Volunteer = () => {
                     {showCreateEventForm && (
                         <div>
                             <form onSubmit={handleCreateEventFormSubmit} className="event-form">
-                                <div class="form-row">
+                                <div className="form-row">
                                     <label htmlFor="date">Event Date</label>
                                     <input type="date" name="date" required/>
 
                                     <label htmlFor="event_title">Event Title</label>
-                                    <input type="text" name="event_title" required/>
+                                    <input type="text" className="event-title" name="event_title" required/>
 
                                     <label htmlFor="description">Event Description</label>
-                                    <textarea type="text" className="event-description-input" name="description"
-                                              required/>
+                                    <textarea className="event-description-input" name="description" required/>
 
                                     <label htmlFor="eventStartTime">Event Start Time</label>
                                     <input type="time" name="eventStartTime" required/>
@@ -590,7 +546,7 @@ const Volunteer = () => {
                                     <label htmlFor="eventEndTime">Event End Time</label>
                                     <input type="time" name="eventEndTime"/>
 
-                                    <label htmlFor="location">Event Location</label>
+                                    <label htmlFor="location" className="event-location">Event Location</label>
                                     {isLoaded ? (
                                         <PlacesAutocomplete
                                             value={selectedAddress}
@@ -674,7 +630,7 @@ const Volunteer = () => {
                             </tr>
                             </thead>
                             <tbody>
-                            {rsvpSnapshot.length > 0 && events.filter(event => new Date(event.start.toISOString().split('T')[0]) >= new Date()).map((event, index) => {
+                            {events.filter(event => new Date(event.start.toISOString().split('T')[0]) >= new Date()).map((event, index) => {
                                 const rsvpForEvent = rsvpSnapshot.find(doc => {
                                     const eventRef = doc.data().eventAssociation;
                                     return eventRef && eventRef.id === event.id;

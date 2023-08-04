@@ -15,94 +15,41 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   padding-bottom: .5rem;
-
-  &-column-1 {
-    padding-left: 3rem;
-  }
+  padding-top: .5rem;
 
   &-column-1,
   &-column-2,
   &-column-3 {
-    justify-self: center;
-
-    p {
-      font-size: 16px;
-      text-align: center;
-    }
-  }
-
-  &-column-3 {
-    align-self: flex-start;
-
-    a {
-      align-self: flex-start;
-      font-size: 16px;
-      line-height: 1.5;
-
-      &:link {
-        font-size: 16px;
-        text-decoration: none;
-      }
-    }
-  }
-
-  &-links {
+    align-items: center;
     display: flex;
     flex-direction: column;
+    justify-content: flex-end;
+    justify-self: center;
 
+    p,
     a {
+      display: flex;
+      font-size: 16px;
+      line-height: 1.5;
+      margin: 0;
+      padding: 0;
       text-align: center;
+      text-decoration: none;
     }
   }
-}
 
+}
 
 @media (max-width: 76.5rem) {
   .footer {
-    align-items: end;
-    padding-bottom: .5rem;
-    padding-top: .6rem;
-
-    &-column-1 {
-      padding-left: .5rem;
-      width: 10rem;
-    }
-
     &-column-1,
     &-column-2,
     &-column-3 {
-      align-items: center;
-      display: flex;
-      flex-direction: column;
-      line-height: 1;
-
-      p {
-        font-size: 1rem;
-        line-height: 1;
-        transform: scale(.7);
-        transform-origin: left;
-      }
-    }
-
-    &-column-2 {
-      margin-bottom: .5rem;
-
+      p,
       a {
-        &:link {
-          font-size: .7rem;
-        }
-      }
-    }
-
-    &-column-3 {
-      a {
-        line-height: 1.75;
-
-        &:link {
-          font-size: .7rem;
-        }
+        font-size: 12px;
+        line-height: 1.15;
       }
     }
   }
 }
-

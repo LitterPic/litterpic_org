@@ -11,7 +11,8 @@
   align-items: center;
   border-radius: .5em;
   display: flex;
-  font-family: RopaSans, sans-serif;
+  font-family: Poppins, sans-serif;
+  font-size: 1rem;
   height: 2rem;
   justify-content: center;
   margin-bottom: 1rem;
@@ -46,7 +47,7 @@
 
 
 .rbc-event-content {
-  font-size: .9rem;
+  font-size: .6rem;
   height: 1.25rem;
 }
 
@@ -95,7 +96,7 @@
 .form-container {
   display: grid;
   gap: .25rem;
-  grid-template-columns: 225px auto;
+  grid-template-columns: 200px auto;
   grid-template-rows: auto;
 
 
@@ -153,7 +154,7 @@
   border-radius: .5rem;
   cursor: pointer;
   display: flex;
-  font-family: RopaSans, sans-serif;
+  font-family: Poppins, sans-serif;
   margin: 1rem auto;
   padding: .6rem;
 
@@ -219,6 +220,14 @@ textarea {
   }
 }
 
+.event-title {
+  width: 100%;
+}
+
+.event-location {
+  width: 100%;
+}
+
 .location-input {
   width: 100%;
 }
@@ -246,7 +255,8 @@ textarea {
   align-items: center;
   border-radius: .5rem;
   display: flex;
-  font-family: RopaSans, sans-serif;
+  font-family: Poppins, sans-serif;
+  font-size: 1rem;
   height: 2rem;
   justify-content: center;
   margin-bottom: 1rem;
@@ -282,7 +292,7 @@ textarea {
   .table {
     td,
     th {
-      font-size: .6rem;
+      font-size: .5rem;
       padding: .06rem;
     }
 

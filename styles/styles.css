@@ -60,7 +60,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Ropa+Sans&family=Rubik:wght@500&display=swap");
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css");
 @import url("https://fonts.googleapis.com/css2?family=Rubik:wght@500&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap");
 .about-us-content {
   margin-bottom: 1rem;
 }
@@ -505,70 +505,35 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   padding-bottom: 0.5rem;
-}
-.footer-column-1 {
-  padding-left: 3rem;
+  padding-top: 0.5rem;
 }
 .footer-column-1, .footer-column-2, .footer-column-3 {
-  justify-self: center;
-}
-.footer-column-1 p, .footer-column-2 p, .footer-column-3 p {
-  font-size: 16px;
-  text-align: center;
-}
-.footer-column-3 {
-  align-self: flex-start;
-}
-.footer-column-3 a {
-  align-self: flex-start;
-  font-size: 16px;
-  line-height: 1.5;
-}
-.footer-column-3 a:link {
-  font-size: 16px;
-  text-decoration: none;
-}
-.footer-links {
+  align-items: center;
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
+  justify-self: center;
 }
-.footer-links a {
+.footer-column-1 p,
+.footer-column-1 a, .footer-column-2 p,
+.footer-column-2 a, .footer-column-3 p,
+.footer-column-3 a {
+  display: flex;
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
   text-align: center;
+  text-decoration: none;
 }
 
 @media (max-width: 76.5rem) {
-  .footer {
-    align-items: end;
-    padding-bottom: 0.5rem;
-    padding-top: 0.6rem;
-  }
-  .footer-column-1 {
-    padding-left: 0.5rem;
-    width: 10rem;
-  }
-  .footer-column-1, .footer-column-2, .footer-column-3 {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    line-height: 1;
-  }
-  .footer-column-1 p, .footer-column-2 p, .footer-column-3 p {
-    font-size: 1rem;
-    line-height: 1;
-    transform: scale(0.7);
-    transform-origin: left;
-  }
-  .footer-column-2 {
-    margin-bottom: 0.5rem;
-  }
-  .footer-column-2 a:link {
-    font-size: 0.7rem;
-  }
+  .footer-column-1 p,
+  .footer-column-1 a, .footer-column-2 p,
+  .footer-column-2 a, .footer-column-3 p,
   .footer-column-3 a {
-    line-height: 1.75;
-  }
-  .footer-column-3 a:link {
-    font-size: 0.7rem;
+    font-size: 12px;
+    line-height: 1.15;
   }
 }
 .overlay {
@@ -602,7 +567,7 @@
 
 p.litter-weight {
   color: #015e41;
-  font-family: RopaSans, sans-serif;
+  font-family: Poppins, sans-serif;
   font-size: 2rem;
   padding: 1rem;
 }
@@ -684,6 +649,7 @@ p .index-inspire-change-text {
   .index-more-stories-button {
     display: flex;
     justify-content: flex-start;
+    padding-left: 0;
   }
   .index-more-stories-button button {
     margin-bottom: 1rem;
@@ -775,7 +741,7 @@ p .index-inspire-change-text {
 
 .sign-in-button {
   border-radius: 0.5rem;
-  font-family: RopaSans, sans-serif;
+  font-family: Poppins, sans-serif;
   margin-left: auto;
   margin-right: auto;
   margin-top: 1.9rem;
@@ -1594,70 +1560,35 @@ p .index-inspire-change-text {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   padding-bottom: 0.5rem;
-}
-.footer-column-1 {
-  padding-left: 3rem;
+  padding-top: 0.5rem;
 }
 .footer-column-1, .footer-column-2, .footer-column-3 {
-  justify-self: center;
-}
-.footer-column-1 p, .footer-column-2 p, .footer-column-3 p {
-  font-size: 16px;
-  text-align: center;
-}
-.footer-column-3 {
-  align-self: flex-start;
-}
-.footer-column-3 a {
-  align-self: flex-start;
-  font-size: 16px;
-  line-height: 1.5;
-}
-.footer-column-3 a:link {
-  font-size: 16px;
-  text-decoration: none;
-}
-.footer-links {
+  align-items: center;
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
+  justify-self: center;
 }
-.footer-links a {
+.footer-column-1 p,
+.footer-column-1 a, .footer-column-2 p,
+.footer-column-2 a, .footer-column-3 p,
+.footer-column-3 a {
+  display: flex;
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
   text-align: center;
+  text-decoration: none;
 }
 
 @media (max-width: 76.5rem) {
-  .footer {
-    align-items: end;
-    padding-bottom: 0.5rem;
-    padding-top: 0.6rem;
-  }
-  .footer-column-1 {
-    padding-left: 0.5rem;
-    width: 10rem;
-  }
-  .footer-column-1, .footer-column-2, .footer-column-3 {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    line-height: 1;
-  }
-  .footer-column-1 p, .footer-column-2 p, .footer-column-3 p {
-    font-size: 1rem;
-    line-height: 1;
-    transform: scale(0.7);
-    transform-origin: left;
-  }
-  .footer-column-2 {
-    margin-bottom: 0.5rem;
-  }
-  .footer-column-2 a:link {
-    font-size: 0.7rem;
-  }
+  .footer-column-1 p,
+  .footer-column-1 a, .footer-column-2 p,
+  .footer-column-2 a, .footer-column-3 p,
   .footer-column-3 a {
-    line-height: 1.75;
-  }
-  .footer-column-3 a:link {
-    font-size: 0.7rem;
+    font-size: 12px;
+    line-height: 1.15;
   }
 }
 .overlay {
@@ -1691,7 +1622,7 @@ p .index-inspire-change-text {
 
 p.litter-weight {
   color: #015e41;
-  font-family: RopaSans, sans-serif;
+  font-family: Poppins, sans-serif;
   font-size: 2rem;
   padding: 1rem;
 }
@@ -1773,6 +1704,7 @@ p .index-inspire-change-text {
   .index-more-stories-button {
     display: flex;
     justify-content: flex-start;
+    padding-left: 0;
   }
   .index-more-stories-button button {
     margin-bottom: 1rem;
@@ -1864,7 +1796,7 @@ p .index-inspire-change-text {
 
 .sign-in-button {
   border-radius: 0.5rem;
-  font-family: RopaSans, sans-serif;
+  font-family: Poppins, sans-serif;
   margin-left: auto;
   margin-right: auto;
   margin-top: 1.9rem;
@@ -2365,7 +2297,7 @@ p .index-inspire-change-text {
 
 .signup-button {
   border-radius: 0.5rem;
-  font-family: RopaSans, sans-serif;
+  font-family: Poppins, sans-serif;
   margin: 1.9rem auto 0;
   width: 6.25rem;
 }
@@ -2763,7 +2695,8 @@ p .index-inspire-change-text {
   align-items: center;
   border-radius: 0.5em;
   display: flex;
-  font-family: RopaSans, sans-serif;
+  font-family: Poppins, sans-serif;
+  font-size: 1rem;
   height: 2rem;
   justify-content: center;
   margin-bottom: 1rem;
@@ -2790,7 +2723,7 @@ p .index-inspire-change-text {
 }
 
 .rbc-event-content {
-  font-size: 0.9rem;
+  font-size: 0.6rem;
   height: 1.25rem;
 }
 
@@ -2834,7 +2767,7 @@ p .index-inspire-change-text {
 .form-container {
   display: grid;
   gap: 0.25rem;
-  grid-template-columns: 225px auto;
+  grid-template-columns: 200px auto;
   grid-template-rows: auto;
 }
 .form-container label[for=numberAttending] {
@@ -2887,7 +2820,7 @@ p .index-inspire-change-text {
   border-radius: 0.5rem;
   cursor: pointer;
   display: flex;
-  font-family: RopaSans, sans-serif;
+  font-family: Poppins, sans-serif;
   margin: 1rem auto;
   padding: 0.6rem;
 }
@@ -2947,6 +2880,14 @@ textarea.event-description-input {
   width: 100%;
 }
 
+.event-title {
+  width: 100%;
+}
+
+.event-location {
+  width: 100%;
+}
+
 .location-input {
   width: 100%;
 }
@@ -2972,7 +2913,8 @@ textarea.event-description-input {
   align-items: center;
   border-radius: 0.5rem;
   display: flex;
-  font-family: RopaSans, sans-serif;
+  font-family: Poppins, sans-serif;
+  font-size: 1rem;
   height: 2rem;
   justify-content: center;
   margin-bottom: 1rem;
@@ -3000,7 +2942,7 @@ textarea.event-description-input {
   }
   .table td,
   .table th {
-    font-size: 0.6rem;
+    font-size: 0.5rem;
     padding: 0.06rem;
   }
   .table a {
@@ -3162,7 +3104,7 @@ textarea.event-description-input {
 
 .signup-button {
   border-radius: 0.5rem;
-  font-family: RopaSans, sans-serif;
+  font-family: Poppins, sans-serif;
   margin: 1.9rem auto 0;
   width: 6.25rem;
 }
@@ -3560,7 +3502,8 @@ textarea.event-description-input {
   align-items: center;
   border-radius: 0.5em;
   display: flex;
-  font-family: RopaSans, sans-serif;
+  font-family: Poppins, sans-serif;
+  font-size: 1rem;
   height: 2rem;
   justify-content: center;
   margin-bottom: 1rem;
@@ -3587,7 +3530,7 @@ textarea.event-description-input {
 }
 
 .rbc-event-content {
-  font-size: 0.9rem;
+  font-size: 0.6rem;
   height: 1.25rem;
 }
 
@@ -3631,7 +3574,7 @@ textarea.event-description-input {
 .form-container {
   display: grid;
   gap: 0.25rem;
-  grid-template-columns: 225px auto;
+  grid-template-columns: 200px auto;
   grid-template-rows: auto;
 }
 .form-container label[for=numberAttending] {
@@ -3684,7 +3627,7 @@ textarea.event-description-input {
   border-radius: 0.5rem;
   cursor: pointer;
   display: flex;
-  font-family: RopaSans, sans-serif;
+  font-family: Poppins, sans-serif;
   margin: 1rem auto;
   padding: 0.6rem;
 }
@@ -3744,6 +3687,14 @@ textarea.event-description-input {
   width: 100%;
 }
 
+.event-title {
+  width: 100%;
+}
+
+.event-location {
+  width: 100%;
+}
+
 .location-input {
   width: 100%;
 }
@@ -3769,7 +3720,8 @@ textarea.event-description-input {
   align-items: center;
   border-radius: 0.5rem;
   display: flex;
-  font-family: RopaSans, sans-serif;
+  font-family: Poppins, sans-serif;
+  font-size: 1rem;
   height: 2rem;
   justify-content: center;
   margin-bottom: 1rem;
@@ -3797,7 +3749,7 @@ textarea.event-description-input {
   }
   .table td,
   .table th {
-    font-size: 0.6rem;
+    font-size: 0.5rem;
     padding: 0.06rem;
   }
   .table a {
@@ -3836,7 +3788,7 @@ textarea.event-description-input {
 
 body {
   background-color: #fff;
-  font-family: RopaSans, sans-serif;
+  font-family: Poppins, sans-serif;
 }
 
 main {
@@ -3898,7 +3850,7 @@ form {
 input,
 select,
 textarea {
-  font-family: RopaSans, sans-serif;
+  font-family: Poppins, sans-serif;
   font-size: 16px;
   height: 2rem;
   margin-bottom: 1rem;

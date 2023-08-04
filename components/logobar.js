@@ -14,6 +14,7 @@ const Logobar = () => {
     const [displayName, setDisplayName] = useState('');
     const router = useRouter();
     const [showDropdown, setShowDropdown] = useState(false);
+    const [isUserDataLoaded, setIsUserDataLoaded] = useState(false);
 
     const handleDropdownIconClick = (event) => {
         event.stopPropagation();
@@ -48,7 +49,7 @@ const Logobar = () => {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
             setUser(user);
-            
+
             if (user) {
                 const userRef = doc(db, `users/${user.uid}`);
                 const userDoc = await getDoc(userRef);
@@ -57,6 +58,7 @@ const Logobar = () => {
                     const userData = userDoc.data();
                     setUserPhoto(userData.photo_url);
                     setDisplayName(userData.display_name);
+                    setIsUserDataLoaded(true);
                 } else {
                     console.log('No such document!');
                 }
@@ -73,6 +75,7 @@ const Logobar = () => {
         try {
             await signOut(auth);
             setUser(null);
+            setIsUserDataLoaded(false);
             router.push('/login');
             setShowDropdown(false);
         } catch (error) {
@@ -111,7 +114,9 @@ const Logobar = () => {
                         <CustomButton href="/donate">Donate</CustomButton>
                         <div className="profile-dropdown">
                             <div className="profile-picture-wrapper" onClick={toggleDropdown}>
-                                <img src={userPhoto} alt={displayName} className="profile-picture"/>
+                                {isUserDataLoaded && (
+                                    <img src={userPhoto} alt={displayName} className="profile-picture"/>
+                                )}
                                 <FontAwesomeIcon
                                     icon={faCaretDown}
                                     className={`dropdown-icon ${showDropdown ? 'rotate' : ''}`}

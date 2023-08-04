@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 const Footer = () => {
-    const address = 'Wells, ME 04090';
+    const address = 'Wells, ME';
     const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
         address
     )}`;
@@ -16,7 +16,7 @@ const Footer = () => {
                 <p onClick={handleAddressClick} className="address-link">
                     {address}
                 </p>
-                <p>207-200-1496</p>
+                <p id="phone-number">207-200-1496</p>
             </div>
             <div className="footer-column-2">
                 <p>©2022</p>
