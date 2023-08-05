@@ -2414,6 +2414,52 @@ p .index-inspire-change-text {
   border: 2px solid #f00;
 }
 
+.story-comment-input {
+  display: flex;
+  flex-direction: column;
+}
+.story-comment-input .comment-submit-button {
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+  width: 30%;
+}
+.story-comment-input .comment-text-input {
+  font-size: 0.7rem;
+  height: 60px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+}
+
+.comment {
+  align-items: center;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: auto 1fr;
+  margin-bottom: 10px;
+}
+.comment img {
+  align-self: start;
+  border-radius: 50%;
+  grid-row: span 2;
+  height: 30px;
+  margin-left: 0.5rem;
+  width: 30px;
+}
+.comment .comment-time {
+  font-size: 0.4rem;
+}
+.comment .comment-text {
+  font-size: 0.6rem;
+  grid-column: 2;
+}
+.comment .comment-text .comment-user {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
 .suggestion-item {
   background-color: #fff;
   cursor: pointer;
@@ -2921,6 +2967,11 @@ textarea.event-description-input {
   margin-top: 1rem;
   padding: 0.6rem;
   width: 195px;
+}
+.create-event-button:disabled {
+  background-color: #d3d3d3;
+  color: #aaa;
+  cursor: not-allowed;
 }
 
 @media (max-width: 76.5rem) {
@@ -3221,6 +3272,52 @@ textarea.event-description-input {
   border: 2px solid #f00;
 }
 
+.story-comment-input {
+  display: flex;
+  flex-direction: column;
+}
+.story-comment-input .comment-submit-button {
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+  width: 30%;
+}
+.story-comment-input .comment-text-input {
+  font-size: 0.7rem;
+  height: 60px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+}
+
+.comment {
+  align-items: center;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: auto 1fr;
+  margin-bottom: 10px;
+}
+.comment img {
+  align-self: start;
+  border-radius: 50%;
+  grid-row: span 2;
+  height: 30px;
+  margin-left: 0.5rem;
+  width: 30px;
+}
+.comment .comment-time {
+  font-size: 0.4rem;
+}
+.comment .comment-text {
+  font-size: 0.6rem;
+  grid-column: 2;
+}
+.comment .comment-text .comment-user {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
 .suggestion-item {
   background-color: #fff;
   cursor: pointer;
@@ -3728,6 +3825,11 @@ textarea.event-description-input {
   margin-top: 1rem;
   padding: 0.6rem;
   width: 195px;
+}
+.create-event-button:disabled {
+  background-color: #d3d3d3;
+  color: #aaa;
+  cursor: not-allowed;
 }
 
 @media (max-width: 76.5rem) {
