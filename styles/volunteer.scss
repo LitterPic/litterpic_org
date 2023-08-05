@@ -263,6 +263,14 @@ textarea {
   margin-top: 1rem;
   padding: .6rem;
   width: 195px;
+
+  &:disabled {
+    background-color: $gray;
+    color: $profile-text-gray;
+    cursor: not-allowed;
+
+
+  }
 }
 
 @media (max-width: 76.5rem) {

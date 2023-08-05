@@ -13,18 +13,37 @@ import {getAuth} from 'firebase/auth';
 import {getUsersWhoLikedPost} from '../components/utils';
 import {useRouter} from 'next/router';
 import {deletePost as deletePostFromDB} from '../components/utils';
+import {
+    getFirestore,
+    doc,
+    addDoc,
+    serverTimestamp,
+    collection,
+    updateDoc,
+    increment,
+    query,
+    where,
+    getDocs,
+    orderBy
+} from 'firebase/firestore';
+
 
 function Stories() {
+    const router = useRouter();
+    const dropdownRef = useRef(null);
     const [posts, setPosts] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [hasMorePosts, setHasMorePosts] = useState(true);
     const [page, setPage] = useState(1);
     const [user, setUser] = useState(null);
+    const [users, setUsers] = useState({});
     const [loadingUser, setLoadingUser] = useState(true);
     const [openMenuId, setOpenMenuId] = useState(null);
-
-    const router = useRouter();
-    const dropdownRef = useRef(null);
+    const [comments, setComments] = useState({});
+    const [openCommentInput, setOpenCommentInput] = useState(null);
+    const [postComments, setPostComments] = useState({});
+    const commentInputRef = useRef();
+    const submitButtonRef = useRef(null);
 
     const handleClickOutside = (event) => {
         if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -60,6 +79,7 @@ function Stories() {
 
         return () => unsubscribe();
     }, []);
+
 
     // UseEffect for posts fetching
     useEffect(() => {
@@ -132,6 +152,133 @@ function Stories() {
             console.error('Error toggling like:', error);
         }
     };
+
+    const handleCommentChange = (event, postId) => {
+        setComments({
+            ...comments,
+            [postId]: event.target.value,
+        });
+    };
+
+    const submitComment = async (postId) => {
+        // User is not logged in
+        if (!user) {
+            router.push('/login');
+            return;
+        }
+
+        if (comments[postId].trim() === '') {
+            return;
+        }
+
+        // Get the comment from the state
+        const comment = comments[postId];
+        if (comment) {
+            const db = getFirestore();
+            try {
+                await addDoc(collection(db, 'storyComments'), {
+                    comment,
+                    commentUser: doc(db, 'users', user.uid),
+                    postAssociation: doc(db, 'userPosts', postId),
+                    timePosted: serverTimestamp(),
+                });
+                // Update the numComments field in the userPosts document
+                const postRef = doc(db, 'userPosts', postId);
+                await updateDoc(postRef, {
+                    numComments: increment(1)
+                });
+
+                // Update the local state for numComments
+                const postIndex = posts.findIndex((post) => post.id === postId);
+                const updatedPosts = [...posts];
+                updatedPosts[postIndex].numComments = (updatedPosts[postIndex].numComments || 0) + 1;
+                setPosts(updatedPosts);
+
+                // Update the local state for postComments
+                const updatedPostComments = {...postComments};
+                updatedPostComments[postId] = [
+                    ...(updatedPostComments[postId] || []),
+                    {
+                        comment,
+                        commentUser: {name: user.displayName},  // Assuming user.displayName exists
+                        postAssociation: postId,
+                        timePosted: new Date(),  // This will be the local time, not the server time
+                    },
+                ];
+                setPostComments(updatedPostComments);
+
+                setComments({...comments, [postId]: ''});  // Clear the comment field
+                setOpenCommentInput(null);  // Close the comment input
+            } catch (error) {
+                console.error('Error adding comment:', error);
+            }
+        }
+    };
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (
+                commentInputRef.current &&
+                !commentInputRef.current.contains(event.target) &&
+                (!dropdownRef.current || !dropdownRef.current.contains(event.target)) &&
+                (!submitButtonRef.current || !submitButtonRef.current.contains(event.target))
+            ) {
+                setOpenCommentInput(null);
+            }
+        };
+
+        document.addEventListener('mouseup', handleClickOutside);
+        return () => {
+            document.removeEventListener('mouseup', handleClickOutside);
+        };
+    }, []);
+
+
+    useEffect(() => {
+        const handleRouteChange = () => {
+            setOpenCommentInput(null);
+        };
+
+        router.events.on('routeChangeStart', handleRouteChange);
+        return () => {
+            router.events.off('routeChangeStart', handleRouteChange);
+        };
+    }, []);
+
+    useEffect(() => {
+        const fetchAndSetUsers = async () => {
+            const db = getFirestore();
+            const usersCollection = collection(db, 'users');
+            const usersSnapshot = await getDocs(usersCollection);
+            const usersData = {};
+            usersSnapshot.docs.forEach(doc => {
+                usersData[doc.id] = doc.data();
+            });
+            setUsers(usersData);
+            console.log("Fetched users:", JSON.stringify(usersData, null, 2));
+        };
+
+        fetchAndSetUsers();
+    }, []);
+
+    useEffect(() => {
+        const fetchAndSetPostComments = async () => {
+            const db = getFirestore();
+            const fetchedPostComments = {};
+
+            for (const post of posts) {
+                const q = query(collection(db, 'storyComments'), where('postAssociation', '==', doc(db, 'userPosts', post.id)), orderBy('timePosted'));
+                const querySnapshot = await getDocs(q);
+                fetchedPostComments[post.id] = querySnapshot.docs.map(doc => doc.data());
+            }
+
+            setPostComments(fetchedPostComments);
+            console.log("Fetched post comments:", JSON.stringify(fetchedPostComments, null, 2));
+        };
+
+        fetchAndSetPostComments();
+    }, [posts]);
+
 
     const deletePost = async (postId) => {
         try {
@@ -210,7 +357,10 @@ function Stories() {
                                         <div className="post-header">
                                             <FontAwesomeIcon icon={faEllipsisV}
                                                              className="meatball-menu"
-                                                             onClick={() => setOpenMenuId(openMenuId !== post.id ? post.id : null)}
+                                                             onClick={() => {
+                                                                 setOpenMenuId(openMenuId !== post.id ? post.id : null);
+                                                                 setOpenCommentInput(null);
+                                                             }}
                                             />
                                         </div>
                                         <div className={`post-dropdown-menu ${openMenuId === post.id ? 'show' : ''}`}
@@ -245,9 +395,49 @@ function Stories() {
                                                 <FontAwesomeIcon
                                                     icon={numComments > 0 ? faComment : farComment}
                                                     className={numComments > 0 ? 'filled-comment' : 'empty-comment'}
+                                                    onClick={() => setOpenCommentInput(openCommentInput !== post.id ? post.id : null)}
                                                 />
                                                 <span className="comment-count">{numComments}</span>
                                             </span>
+                                        </div>
+                                        <div className="story-comment-input">
+                                            {openCommentInput === post.id && (
+                                                <>
+                                                    {postComments[post.id] && postComments[post.id].map((commentData, index) => {
+                                                        const commentUserId = commentData.commentUser._key.path.segments[6];
+                                                        const commentUser = users[commentUserId];
+                                                        const commentTime = commentData.timePosted.toDate();
+                                                        return (
+                                                            <div key={index} className="comment">
+                                                                {commentUser && (
+                                                                    <>
+                                                                        <img src={commentUser.photo_url}
+                                                                             alt={commentUser.display_name}/>
+                                                                        <div className="comment-text">
+                                                                            <span
+                                                                                className="comment-user">{commentUser.display_name}</span>
+                                                                            <span
+                                                                                className="comment-time">{commentTime.toLocaleString()}</span>
+                                                                            <div
+                                                                                className="comment-text-content">{commentData.comment}</div>
+                                                                        </div>
+                                                                    </>
+                                                                )}
+                                                            </div>
+                                                        );
+                                                    })}
+                                                        <textarea
+                                                            className="comment-text-input"
+                                                            ref={openCommentInput === post.id ? commentInputRef : null}
+                                                            value={comments[post.id] || ''}
+                                                            onChange={(event) => handleCommentChange(event, post.id)}
+                                                            placeholder="Add a comment..."
+                                                        />
+                                                        <button className="comment-submit-button" ref={submitButtonRef}
+                                                                onClick={() => submitComment(post.id)}>Submit
+                                                        </button>
+                                                </>
+                                            )}
                                         </div>
                                     </div>
                                 );

@@ -127,7 +127,6 @@ const Volunteer = () => {
     }
 
     const handleCreateEventFormSubmit = async (event) => {
-        event.preventDefault();
 
         const startTimeString = event.target.eventStartTime.value;
         const endTimeString = event.target.eventEndTime.value;
@@ -158,7 +157,9 @@ const Volunteer = () => {
 
         try {
             const eventCollection = collection(db, "events");
-            await addDoc(eventCollection, eventData);
+            const docRef = await addDoc(eventCollection, eventData);
+
+            setEvents(prevEvents => [...prevEvents, {...eventData, id: docRef.id}]);
 
             setShowCreateEventForm(false);
 
@@ -523,8 +524,13 @@ const Volunteer = () => {
                         for
                         your event.</p>
                     <button className="community-service-button" onClick={handleButtonClick}>Community Service</button>
-                    <div>
-                        <button className="create-event-button" onClick={handleCreateEventClick}>Create Event</button>
+                    <div title={!user ? "Please login to create an event" : ""}>
+                        <button className="create-event-button"
+                                onClick={handleCreateEventClick}
+                                disabled={!user}
+                        >
+                            Create Event
+                        </button>
                     </div>
 
                     {showCreateEventForm && (

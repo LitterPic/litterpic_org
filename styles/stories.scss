@@ -71,6 +71,57 @@
   }
 }
 
+.story-comment-input {
+  display: flex;
+  flex-direction: column;
+
+  .comment-submit-button {
+    border-radius: .5rem;
+    margin-bottom: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    width: 30%;
+  }
+
+  .comment-text-input {
+    font-size: .7rem;
+    height: 60px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+  }
+}
+
+.comment {
+  align-items: center;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: auto 1fr;
+  margin-bottom: 10px;
+
+  img {
+    align-self: start;
+    border-radius: 50%;
+    grid-row: span 2;
+    height: 30px;
+    margin-left: .5rem;
+    width: 30px;
+  }
+
+  .comment-time {
+    font-size: .4rem;
+  }
+
+  .comment-text {
+    font-size: .6rem;
+    grid-column: 2;
+
+    .comment-user {
+      font-weight: bold;
+      margin-right: 5px;
+    }
+  }
+}
 
 .suggestion-item {
   background-color: $white;
