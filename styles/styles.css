@@ -2449,10 +2449,10 @@ p .index-inspire-change-text {
   width: 30px;
 }
 .comment .comment-time {
-  font-size: 0.4rem;
+  font-size: 0.6rem;
 }
 .comment .comment-text {
-  font-size: 0.6rem;
+  font-size: 0.8rem;
   grid-column: 2;
 }
 .comment .comment-text .comment-user {
@@ -3307,10 +3307,10 @@ textarea.event-description-input {
   width: 30px;
 }
 .comment .comment-time {
-  font-size: 0.4rem;
+  font-size: 0.6rem;
 }
 .comment .comment-text {
-  font-size: 0.6rem;
+  font-size: 0.8rem;
   grid-column: 2;
 }
 .comment .comment-text .comment-user {
