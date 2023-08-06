@@ -100,7 +100,7 @@
   margin-bottom: 10px;
 
   img {
-    align-self: start;
+    align-self: flex-start;
     border-radius: 50%;
     grid-row: span 2;
     height: 30px;
@@ -193,7 +193,7 @@
 
 .profile-image {
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
 
   img {
     border-radius: 50%;
@@ -324,7 +324,7 @@
     align-items: center;
     display: flex;
     font-size: .75rem;
-    justify-content: start;
+    justify-content: flex-start;
   }
 
   .post-location {
@@ -391,7 +391,7 @@
     align-items: center;
     display: flex;
     font-size: .75rem;
-    justify-content: start;
+    justify-content: flex-start;
   }
 
   .post-location {

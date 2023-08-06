@@ -77,8 +77,8 @@
   td,
   th {
     border: .06rem solid $table-gray;
-    max-width: 150px;
-    padding: 1rem;
+    max-width: 125px;
+    text-align: center;
     word-wrap: break-word;
   }
 }
@@ -195,8 +195,8 @@
 
 .event-form {
   display: grid;
-  gap: 10px;
-  grid-template-rows: repeat(1, 1fr);
+  gap: 8px;
+  grid-template-rows: 1fr;
 }
 
 .form-row {
