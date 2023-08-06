@@ -13,7 +13,6 @@ const Layout = ({children}) => {
     const [userPhoto, setUserPhoto] = useState('');
     const [displayName, setDisplayName] = useState('');
     const [userLoggedIn, setUserLoggedIn] = useState(false);
-    const [user, setUser] = useState(null);
 
     useEffect(() => {
         setShowNavLinks(false);
@@ -89,7 +88,7 @@ const Layout = ({children}) => {
                         <Link href="/contact" passHref>
                             <div onClick={() => handleNavLinkClick("/contact")}>Contact</div>
                         </Link>
-                        <div className={`nav-links-desktop ${!userLoggedIn ? "" : "hide"}`}>
+                        <div className={`nav-links-desktop ${"hide"}`}>
                             {userLoggedIn ? (
                                 <>
                                     <Link href="/profile" passHref>
@@ -99,7 +98,7 @@ const Layout = ({children}) => {
                                 </>
                             ) : (
                                 <Link href="/login" passHref>
-                                    <div onClick={() => handleNavLinkClick("/login")}>Login</div>
+                                    <div onClick={() => handleNavLinkClick("/login")}>Login/Sign Up</div>
                                 </Link>
                             )}
                         </div>
