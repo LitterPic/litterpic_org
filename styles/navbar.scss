@@ -76,15 +76,18 @@
 @media (max-width: 76.5rem) {
   .nav-bar {
     a {
-      font-size: 1.5rem;
+      font-size: 1rem;
     }
+  }
+
+  .nav-links:hover {
+    background-color: red;
   }
 
 
   .nav-bar {
     .nav-links {
       background-color: $gray;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, .1);
       display: none;
       flex-direction: column;
       margin-top: .5rem;
@@ -93,6 +96,8 @@
       right: .5rem;
       top: 7%;
       z-index: 100;
+
+
     }
 
     .nav-toggle {
@@ -105,13 +110,14 @@
       right: .5rem;
 
       .icon {
-        align-items: center;
+        align-items: start;
         display: flex;
-        justify-content: center;
+        justify-content: flex-start;
 
         svg {
           fill: currentColor;
           height: 3rem;
+          margin-bottom: 3rem;
           width: 3rem;
         }
       }
@@ -130,7 +136,7 @@
     .nav-link {
       color: $black;
       cursor: pointer;
-      font-size: 1.5rem;
+      font-size: 1rem;
       font-weight: lighter;
       margin-left: 0;
       margin-right: .5rem;

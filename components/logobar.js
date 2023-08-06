@@ -21,6 +21,14 @@ const Logobar = () => {
         toggleDropdown();
     };
 
+    const handleLoginClick = () => {
+        router.push('/login');
+    };
+
+    const handleSignUpClick = () => {
+        router.push('/signup');
+    };
+
     useEffect(() => {
         const handleClickOutsideDropdown = (event) => {
             const clickedInsideDropdown = dropdownRef.current && dropdownRef.current.contains(event.target);
@@ -136,6 +144,16 @@ const Logobar = () => {
                 (
                     <div className="logo-bar-right-content">
                         <CustomButton href="/donate">Donate</CustomButton>
+                        <div className="login-button" onMouseEnter={() => setShowDropdown(true)}
+                             onMouseLeave={() => setShowDropdown(false)}>
+                            <span>Login</span>
+                            {showDropdown && (
+                                <div className="login-menu">
+                                    <button className="login-menu-button" onClick={handleLoginClick}>Login</button>
+                                    <button className="login-menu-button" onClick={handleSignUpClick}>Sign Up</button>
+                                </div>
+                            )}
+                        </div>
                     </div>
                 )}
         </div>

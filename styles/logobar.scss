@@ -1,61 +1,56 @@
 @import 'colors';
 @import 'fonts';
 
-.logo-bar {
-  align-items: center;
-  background-color: $white;
+.logo-bar,
+.logo-bar-left-content,
+.logo-bar-right-content,
+.logo-content {
+  align-items: flex-start;
   display: flex;
-  justify-content: space-between;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  padding-top: 1rem;
 
-  .logo-bar-left-content {
+  .logo-content {
     align-items: center;
     display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
 
-    .logo-content {
-      align-items: center;
-      display: flex;
-      padding: 0;
-
-      img {
-        border-radius: .5rem;
-        cursor: pointer;
-        height: 3.5rem;
-        width: auto;
-      }
+    img {
+      border-radius: .5rem;
+      cursor: pointer;
+      height: 3.5rem;
+      width: auto;
     }
 
     .logo-text {
+      align-items: start;
       display: flex;
       flex-direction: column;
+      justify-content: flex-start;
       margin-left: .5rem;
 
       p {
-        line-height: 1.5;
+        line-height: 1;
       }
 
       .logo {
-        font-size: 1.75rem;
-        margin-right: .3rem;
+        font-size: 1.5rem;
       }
 
       .tagline {
         color: $litterpic-green;
-        font-size: 1.1rem;
+        font-size: .9rem;
         font-style: italic;
-        margin-top: 0;
       }
     }
   }
 
-  .logo-bar-right-content {
-    align-items: center;
-    display: flex;
-    gap: 1rem;
-    height: 100%;
-  }
+
+}
+
+.logo-bar {
+  background-color: $white;
+  justify-content: space-between;
+  padding: 1rem;
 }
 
 .login-button,
@@ -67,11 +62,10 @@
   color: $white;
   cursor: pointer;
   display: flex;
-  font-size: 2rem;
-  font-weight: bold;
-  height: 3.25rem;
+  font-family: Rubik, Times, sans-serif;
+  font-size: 28px;
+  height: 2rem;
   justify-content: center;
-  line-height: 1.25;
   margin-bottom: auto;
   padding: 0 1rem;
   text-align: center;
@@ -85,11 +79,11 @@
 }
 
 .donate-button {
-  display: flex;
-  font-family: Rubik, Times, sans-serif;
-  font-size: 28px;
-  height: 2.5rem;
-  margin: auto 0;
+  margin-right: .5rem;
+}
+
+.login-button {
+  margin-left: .5rem;
 }
 
 .profile-picture-wrapper {
@@ -125,8 +119,8 @@
   flex-direction: column;
   padding: .5rem .5rem .5rem .3rem;
   position: absolute;
-  right: 7rem;
-  top: calc(8% + 1rem);
+  right: 2rem;
+  top: calc(8% + 2rem);
   z-index: 1;
 
   button {
@@ -142,125 +136,59 @@
   }
 }
 
-@media (min-width: 76.5rem) {
-  .logo-bar {
-    margin-left: 10rem;
-  }
+.login-menu {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: calc(8%);
+}
 
-  .logo-bar-right-content {
-    margin-right: 9rem;
+.login-menu-button {
+  &:hover {
+    background-color: $white;
+    border: 1px solid;
+    color: $litterpic-green;
+    font-weight: bold;
   }
 }
 
 @media (max-width: 76.5rem) {
-  .logo-bar {
-    padding: 5px;
-
-    img {
-      height: 3rem;
-    }
-  }
-
-  .logo-bar-left-content {
-    align-items: center;
-    display: flex;
-
-    .logo-content {
-      align-items: center;
-      display: flex;
-      padding: 0;
-
-      img {
-        border-radius: .5rem;
-        cursor: pointer;
-        height: 3.5rem;
-        width: auto;
-      }
-    }
-
-    .logo-text {
-      display: flex;
-      flex-direction: column;
-      margin-left: .5rem;
-
-      .logo {
-        font-size: 5rem;
-        margin-right: .3rem;
-      }
-
-      .tagline {
-        color: $litterpic-green;
-        font-size: .5rem;
-        font-style: italic;
-        margin-top: 0;
-      }
-    }
-  }
-
-  .logo-bar-right-content {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    justify-content: center;
+  .login-button {
+    display: none;
   }
 
   .donate-button {
     font-size: 1rem;
     font-weight: normal;
     height: 2rem;
-    margin-right: 4rem;
     padding: .5rem;
   }
 
-
-  .profile-picture {
-    border-radius: 50%;
-    border-style: solid;
-    border-width: 1px;
-    height: 50px;
-    margin-left: 5.5rem;
-    object-fit: cover;
-    width: 50px;
-  }
-
-  .profile-dropdown {
-    display: none;
-  }
-}
-
-@media (max-width: 102.25rem) and (orientation: landscape) {
   .logo-bar {
-    padding-left: .6rem;
-    padding-top: 1rem;
-    width: 90%;
+    align-self: flex-start;
   }
 
-  .profile-picture {
-    border-radius: 50%;
-    border-style: solid;
-    border-width: 1px;
-    height: 50px;
-    margin-right: 1rem;
-    object-fit: cover;
-    width: 50px;
-  }
+  .logo-text {
+    flex-direction: column;
+    margin-left: .5rem;
 
-  .logo {
-    font-size: .75rem;
-  }
+    .logo {
+      font-size: 14px;
+    }
 
-  .tagline {
-    font-size: .5rem;
+    .tagline {
+      font-size: 9px;
+    }
   }
 
   .logo-bar-right-content {
-    .donate-button {
-      font-size: 1rem;
-      margin-left: auto;
-      margin-right: auto;
-      padding: 1.25rem;
-    }
+    flex-direction: column;
+    height: 100%;
+    margin-right: 3rem;
+  }
+
+  .profile-picture {
+    margin-left: 5.5rem;
   }
 
   .profile-dropdown {

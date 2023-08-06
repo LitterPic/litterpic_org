@@ -80,6 +80,7 @@
 }
 
 #contact-submit-button {
+  border-radius: .5rem;
   display: flex;
   margin-top: .6rem;
 }
@@ -119,7 +120,6 @@
     height: 3.75rem;
     width: 100%;
   }
-
 
   .contact-container {
     background: linear-gradient(to bottom, $litterpic-green, $black);
@@ -163,11 +163,6 @@
   .required {
     font-size: smaller;
     vertical-align: super;
-  }
-
-  #message {
-    height: 3.75rem;
-    width: 100%;
   }
 
   .contact-input {
@@ -224,6 +219,7 @@
   }
 
   #contact-submit-button {
+    border-radius: .5rem;
     display: flex;
     margin-top: .6rem;
   }
@@ -272,6 +268,7 @@
   }
 
   #contact-submit-button {
+    border-radius: .5rem;
     display: flex;
     margin-top: .6rem;
   }

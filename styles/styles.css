@@ -248,6 +248,7 @@
 }
 
 #contact-submit-button {
+  border-radius: 0.5rem;
   display: flex;
   margin-top: 0.6rem;
 }
@@ -320,10 +321,6 @@
     font-size: smaller;
     vertical-align: super;
   }
-  #message {
-    height: 3.75rem;
-    width: 100%;
-  }
   .contact-input {
     font-size: 1.5rem;
     height: 3rem;
@@ -367,6 +364,7 @@
     font-weight: normal;
   }
   #contact-submit-button {
+    border-radius: 0.5rem;
     display: flex;
     margin-top: 0.6rem;
   }
@@ -406,6 +404,7 @@
     width: 100%;
   }
   #contact-submit-button {
+    border-radius: 0.5rem;
     display: flex;
     margin-top: 0.6rem;
   }
@@ -748,53 +747,66 @@ p .index-inspire-change-text {
   width: 6.25rem;
 }
 
-.logo-bar {
-  align-items: center;
-  background-color: #fff;
-  display: flex;
-  justify-content: space-between;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  padding-top: 1rem;
-}
-.logo-bar .logo-bar-left-content {
-  align-items: center;
+.logo-bar,
+.logo-bar-left-content,
+.logo-bar-right-content,
+.logo-content {
+  align-items: flex-start;
   display: flex;
 }
-.logo-bar .logo-bar-left-content .logo-content {
+.logo-bar .logo-content,
+.logo-bar-left-content .logo-content,
+.logo-bar-right-content .logo-content,
+.logo-content .logo-content {
   align-items: center;
   display: flex;
-  padding: 0;
+  flex-direction: row;
+  justify-content: flex-start;
 }
-.logo-bar .logo-bar-left-content .logo-content img {
+.logo-bar .logo-content img,
+.logo-bar-left-content .logo-content img,
+.logo-bar-right-content .logo-content img,
+.logo-content .logo-content img {
   border-radius: 0.5rem;
   cursor: pointer;
   height: 3.5rem;
   width: auto;
 }
-.logo-bar .logo-bar-left-content .logo-text {
+.logo-bar .logo-content .logo-text,
+.logo-bar-left-content .logo-content .logo-text,
+.logo-bar-right-content .logo-content .logo-text,
+.logo-content .logo-content .logo-text {
+  align-items: start;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   margin-left: 0.5rem;
 }
-.logo-bar .logo-bar-left-content .logo-text p {
-  line-height: 1.5;
+.logo-bar .logo-content .logo-text p,
+.logo-bar-left-content .logo-content .logo-text p,
+.logo-bar-right-content .logo-content .logo-text p,
+.logo-content .logo-content .logo-text p {
+  line-height: 1;
 }
-.logo-bar .logo-bar-left-content .logo-text .logo {
-  font-size: 1.75rem;
-  margin-right: 0.3rem;
+.logo-bar .logo-content .logo-text .logo,
+.logo-bar-left-content .logo-content .logo-text .logo,
+.logo-bar-right-content .logo-content .logo-text .logo,
+.logo-content .logo-content .logo-text .logo {
+  font-size: 1.5rem;
 }
-.logo-bar .logo-bar-left-content .logo-text .tagline {
+.logo-bar .logo-content .logo-text .tagline,
+.logo-bar-left-content .logo-content .logo-text .tagline,
+.logo-bar-right-content .logo-content .logo-text .tagline,
+.logo-content .logo-content .logo-text .tagline {
   color: #015e41;
-  font-size: 1.1rem;
+  font-size: 0.9rem;
   font-style: italic;
-  margin-top: 0;
 }
-.logo-bar .logo-bar-right-content {
-  align-items: center;
-  display: flex;
-  gap: 1rem;
-  height: 100%;
+
+.logo-bar {
+  background-color: #fff;
+  justify-content: space-between;
+  padding: 1rem;
 }
 
 .login-button,
@@ -806,11 +818,10 @@ p .index-inspire-change-text {
   color: #fff;
   cursor: pointer;
   display: flex;
-  font-size: 2rem;
-  font-weight: bold;
-  height: 3.25rem;
+  font-family: Rubik, Times, sans-serif;
+  font-size: 28px;
+  height: 2rem;
   justify-content: center;
-  line-height: 1.25;
   margin-bottom: auto;
   padding: 0 1rem;
   text-align: center;
@@ -824,11 +835,11 @@ p .index-inspire-change-text {
 }
 
 .donate-button {
-  display: flex;
-  font-family: Rubik, Times, sans-serif;
-  font-size: 28px;
-  height: 2.5rem;
-  margin: auto 0;
+  margin-right: 0.5rem;
+}
+
+.login-button {
+  margin-left: 0.5rem;
 }
 
 .profile-picture-wrapper {
@@ -863,8 +874,8 @@ p .index-inspire-change-text {
   flex-direction: column;
   padding: 0.5rem 0.5rem 0.5rem 0.3rem;
   position: absolute;
-  right: 7rem;
-  top: calc(8% + 1rem);
+  right: 2rem;
+  top: calc(8% + 2rem);
   z-index: 1;
 }
 .dropdown-menu button {
@@ -879,104 +890,50 @@ p .index-inspire-change-text {
   position: relative;
 }
 
-@media (min-width: 76.5rem) {
-  .logo-bar {
-    margin-left: 10rem;
-  }
-  .logo-bar-right-content {
-    margin-right: 9rem;
-  }
+.login-menu {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 8%;
 }
+
+.login-menu-button:hover {
+  background-color: #fff;
+  border: 1px solid;
+  color: #015e41;
+  font-weight: bold;
+}
+
 @media (max-width: 76.5rem) {
-  .logo-bar {
-    padding: 5px;
-  }
-  .logo-bar img {
-    height: 3rem;
-  }
-  .logo-bar-left-content {
-    align-items: center;
-    display: flex;
-  }
-  .logo-bar-left-content .logo-content {
-    align-items: center;
-    display: flex;
-    padding: 0;
-  }
-  .logo-bar-left-content .logo-content img {
-    border-radius: 0.5rem;
-    cursor: pointer;
-    height: 3.5rem;
-    width: auto;
-  }
-  .logo-bar-left-content .logo-text {
-    display: flex;
-    flex-direction: column;
-    margin-left: 0.5rem;
-  }
-  .logo-bar-left-content .logo-text .logo {
-    font-size: 5rem;
-    margin-right: 0.3rem;
-  }
-  .logo-bar-left-content .logo-text .tagline {
-    color: #015e41;
-    font-size: 0.5rem;
-    font-style: italic;
-    margin-top: 0;
-  }
-  .logo-bar-right-content {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    justify-content: center;
+  .login-button {
+    display: none;
   }
   .donate-button {
     font-size: 1rem;
     font-weight: normal;
     height: 2rem;
-    margin-right: 4rem;
     padding: 0.5rem;
   }
-  .profile-picture {
-    border-radius: 50%;
-    border-style: solid;
-    border-width: 1px;
-    height: 50px;
-    margin-left: 5.5rem;
-    object-fit: cover;
-    width: 50px;
-  }
-  .profile-dropdown {
-    display: none;
-  }
-}
-@media (max-width: 102.25rem) and (orientation: landscape) {
   .logo-bar {
-    padding-left: 0.6rem;
-    padding-top: 1rem;
-    width: 90%;
+    align-self: flex-start;
+  }
+  .logo-text {
+    flex-direction: column;
+    margin-left: 0.5rem;
+  }
+  .logo-text .logo {
+    font-size: 14px;
+  }
+  .logo-text .tagline {
+    font-size: 9px;
+  }
+  .logo-bar-right-content {
+    flex-direction: column;
+    height: 100%;
+    margin-right: 3rem;
   }
   .profile-picture {
-    border-radius: 50%;
-    border-style: solid;
-    border-width: 1px;
-    height: 50px;
-    margin-right: 1rem;
-    object-fit: cover;
-    width: 50px;
-  }
-  .logo {
-    font-size: 0.75rem;
-  }
-  .tagline {
-    font-size: 0.5rem;
-  }
-  .logo-bar-right-content .donate-button {
-    font-size: 1rem;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 1.25rem;
+    margin-left: 5.5rem;
   }
   .profile-dropdown {
     display: none;
@@ -1045,11 +1002,13 @@ p .index-inspire-change-text {
 
 @media (max-width: 76.5rem) {
   .nav-bar a {
-    font-size: 1.5rem;
+    font-size: 1rem;
+  }
+  .nav-links:hover {
+    background-color: red;
   }
   .nav-bar .nav-links {
     background-color: #d3d3d3;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     display: none;
     flex-direction: column;
     margin-top: 0.5rem;
@@ -1069,13 +1028,14 @@ p .index-inspire-change-text {
     right: 0.5rem;
   }
   .nav-bar .nav-toggle .icon {
-    align-items: center;
+    align-items: start;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
   }
   .nav-bar .nav-toggle .icon svg {
     fill: currentColor;
     height: 3rem;
+    margin-bottom: 3rem;
     width: 3rem;
   }
   .nav-bar.mobile-nav .nav-links.show-navlinks {
@@ -1087,7 +1047,7 @@ p .index-inspire-change-text {
   .nav-links-desktop .nav-link {
     color: #000;
     cursor: pointer;
-    font-size: 1.5rem;
+    font-size: 1rem;
     font-weight: lighter;
     margin-left: 0;
     margin-right: 0.5rem;
@@ -1303,6 +1263,7 @@ p .index-inspire-change-text {
 }
 
 #contact-submit-button {
+  border-radius: 0.5rem;
   display: flex;
   margin-top: 0.6rem;
 }
@@ -1375,10 +1336,6 @@ p .index-inspire-change-text {
     font-size: smaller;
     vertical-align: super;
   }
-  #message {
-    height: 3.75rem;
-    width: 100%;
-  }
   .contact-input {
     font-size: 1.5rem;
     height: 3rem;
@@ -1422,6 +1379,7 @@ p .index-inspire-change-text {
     font-weight: normal;
   }
   #contact-submit-button {
+    border-radius: 0.5rem;
     display: flex;
     margin-top: 0.6rem;
   }
@@ -1461,6 +1419,7 @@ p .index-inspire-change-text {
     width: 100%;
   }
   #contact-submit-button {
+    border-radius: 0.5rem;
     display: flex;
     margin-top: 0.6rem;
   }
@@ -1803,53 +1762,66 @@ p .index-inspire-change-text {
   width: 6.25rem;
 }
 
-.logo-bar {
-  align-items: center;
-  background-color: #fff;
-  display: flex;
-  justify-content: space-between;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  padding-top: 1rem;
-}
-.logo-bar .logo-bar-left-content {
-  align-items: center;
+.logo-bar,
+.logo-bar-left-content,
+.logo-bar-right-content,
+.logo-content {
+  align-items: flex-start;
   display: flex;
 }
-.logo-bar .logo-bar-left-content .logo-content {
+.logo-bar .logo-content,
+.logo-bar-left-content .logo-content,
+.logo-bar-right-content .logo-content,
+.logo-content .logo-content {
   align-items: center;
   display: flex;
-  padding: 0;
+  flex-direction: row;
+  justify-content: flex-start;
 }
-.logo-bar .logo-bar-left-content .logo-content img {
+.logo-bar .logo-content img,
+.logo-bar-left-content .logo-content img,
+.logo-bar-right-content .logo-content img,
+.logo-content .logo-content img {
   border-radius: 0.5rem;
   cursor: pointer;
   height: 3.5rem;
   width: auto;
 }
-.logo-bar .logo-bar-left-content .logo-text {
+.logo-bar .logo-content .logo-text,
+.logo-bar-left-content .logo-content .logo-text,
+.logo-bar-right-content .logo-content .logo-text,
+.logo-content .logo-content .logo-text {
+  align-items: start;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   margin-left: 0.5rem;
 }
-.logo-bar .logo-bar-left-content .logo-text p {
-  line-height: 1.5;
+.logo-bar .logo-content .logo-text p,
+.logo-bar-left-content .logo-content .logo-text p,
+.logo-bar-right-content .logo-content .logo-text p,
+.logo-content .logo-content .logo-text p {
+  line-height: 1;
 }
-.logo-bar .logo-bar-left-content .logo-text .logo {
-  font-size: 1.75rem;
-  margin-right: 0.3rem;
+.logo-bar .logo-content .logo-text .logo,
+.logo-bar-left-content .logo-content .logo-text .logo,
+.logo-bar-right-content .logo-content .logo-text .logo,
+.logo-content .logo-content .logo-text .logo {
+  font-size: 1.5rem;
 }
-.logo-bar .logo-bar-left-content .logo-text .tagline {
+.logo-bar .logo-content .logo-text .tagline,
+.logo-bar-left-content .logo-content .logo-text .tagline,
+.logo-bar-right-content .logo-content .logo-text .tagline,
+.logo-content .logo-content .logo-text .tagline {
   color: #015e41;
-  font-size: 1.1rem;
+  font-size: 0.9rem;
   font-style: italic;
-  margin-top: 0;
 }
-.logo-bar .logo-bar-right-content {
-  align-items: center;
-  display: flex;
-  gap: 1rem;
-  height: 100%;
+
+.logo-bar {
+  background-color: #fff;
+  justify-content: space-between;
+  padding: 1rem;
 }
 
 .login-button,
@@ -1861,11 +1833,10 @@ p .index-inspire-change-text {
   color: #fff;
   cursor: pointer;
   display: flex;
-  font-size: 2rem;
-  font-weight: bold;
-  height: 3.25rem;
+  font-family: Rubik, Times, sans-serif;
+  font-size: 28px;
+  height: 2rem;
   justify-content: center;
-  line-height: 1.25;
   margin-bottom: auto;
   padding: 0 1rem;
   text-align: center;
@@ -1879,11 +1850,11 @@ p .index-inspire-change-text {
 }
 
 .donate-button {
-  display: flex;
-  font-family: Rubik, Times, sans-serif;
-  font-size: 28px;
-  height: 2.5rem;
-  margin: auto 0;
+  margin-right: 0.5rem;
+}
+
+.login-button {
+  margin-left: 0.5rem;
 }
 
 .profile-picture-wrapper {
@@ -1918,8 +1889,8 @@ p .index-inspire-change-text {
   flex-direction: column;
   padding: 0.5rem 0.5rem 0.5rem 0.3rem;
   position: absolute;
-  right: 7rem;
-  top: calc(8% + 1rem);
+  right: 2rem;
+  top: calc(8% + 2rem);
   z-index: 1;
 }
 .dropdown-menu button {
@@ -1934,104 +1905,50 @@ p .index-inspire-change-text {
   position: relative;
 }
 
-@media (min-width: 76.5rem) {
-  .logo-bar {
-    margin-left: 10rem;
-  }
-  .logo-bar-right-content {
-    margin-right: 9rem;
-  }
+.login-menu {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 8%;
 }
+
+.login-menu-button:hover {
+  background-color: #fff;
+  border: 1px solid;
+  color: #015e41;
+  font-weight: bold;
+}
+
 @media (max-width: 76.5rem) {
-  .logo-bar {
-    padding: 5px;
-  }
-  .logo-bar img {
-    height: 3rem;
-  }
-  .logo-bar-left-content {
-    align-items: center;
-    display: flex;
-  }
-  .logo-bar-left-content .logo-content {
-    align-items: center;
-    display: flex;
-    padding: 0;
-  }
-  .logo-bar-left-content .logo-content img {
-    border-radius: 0.5rem;
-    cursor: pointer;
-    height: 3.5rem;
-    width: auto;
-  }
-  .logo-bar-left-content .logo-text {
-    display: flex;
-    flex-direction: column;
-    margin-left: 0.5rem;
-  }
-  .logo-bar-left-content .logo-text .logo {
-    font-size: 5rem;
-    margin-right: 0.3rem;
-  }
-  .logo-bar-left-content .logo-text .tagline {
-    color: #015e41;
-    font-size: 0.5rem;
-    font-style: italic;
-    margin-top: 0;
-  }
-  .logo-bar-right-content {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    justify-content: center;
+  .login-button {
+    display: none;
   }
   .donate-button {
     font-size: 1rem;
     font-weight: normal;
     height: 2rem;
-    margin-right: 4rem;
     padding: 0.5rem;
   }
-  .profile-picture {
-    border-radius: 50%;
-    border-style: solid;
-    border-width: 1px;
-    height: 50px;
-    margin-left: 5.5rem;
-    object-fit: cover;
-    width: 50px;
-  }
-  .profile-dropdown {
-    display: none;
-  }
-}
-@media (max-width: 102.25rem) and (orientation: landscape) {
   .logo-bar {
-    padding-left: 0.6rem;
-    padding-top: 1rem;
-    width: 90%;
+    align-self: flex-start;
+  }
+  .logo-text {
+    flex-direction: column;
+    margin-left: 0.5rem;
+  }
+  .logo-text .logo {
+    font-size: 14px;
+  }
+  .logo-text .tagline {
+    font-size: 9px;
+  }
+  .logo-bar-right-content {
+    flex-direction: column;
+    height: 100%;
+    margin-right: 3rem;
   }
   .profile-picture {
-    border-radius: 50%;
-    border-style: solid;
-    border-width: 1px;
-    height: 50px;
-    margin-right: 1rem;
-    object-fit: cover;
-    width: 50px;
-  }
-  .logo {
-    font-size: 0.75rem;
-  }
-  .tagline {
-    font-size: 0.5rem;
-  }
-  .logo-bar-right-content .donate-button {
-    font-size: 1rem;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 1.25rem;
+    margin-left: 5.5rem;
   }
   .profile-dropdown {
     display: none;
@@ -2100,11 +2017,13 @@ p .index-inspire-change-text {
 
 @media (max-width: 76.5rem) {
   .nav-bar a {
-    font-size: 1.5rem;
+    font-size: 1rem;
+  }
+  .nav-links:hover {
+    background-color: red;
   }
   .nav-bar .nav-links {
     background-color: #d3d3d3;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     display: none;
     flex-direction: column;
     margin-top: 0.5rem;
@@ -2124,13 +2043,14 @@ p .index-inspire-change-text {
     right: 0.5rem;
   }
   .nav-bar .nav-toggle .icon {
-    align-items: center;
+    align-items: start;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
   }
   .nav-bar .nav-toggle .icon svg {
     fill: currentColor;
     height: 3rem;
+    margin-bottom: 3rem;
     width: 3rem;
   }
   .nav-bar.mobile-nav .nav-links.show-navlinks {
@@ -2142,7 +2062,7 @@ p .index-inspire-change-text {
   .nav-links-desktop .nav-link {
     color: #000;
     cursor: pointer;
-    font-size: 1.5rem;
+    font-size: 1rem;
     font-weight: lighter;
     margin-left: 0;
     margin-right: 0.5rem;
