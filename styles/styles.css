@@ -875,7 +875,7 @@ p .index-inspire-change-text {
   padding: 0.5rem 0.5rem 0.5rem 0.3rem;
   position: absolute;
   right: 2rem;
-  top: calc(8% + 2rem);
+  top: 8%;
   z-index: 1;
 }
 .dropdown-menu button {
@@ -894,7 +894,7 @@ p .index-inspire-change-text {
   display: flex;
   flex-direction: column;
   position: absolute;
-  top: 8%;
+  top: 4%;
 }
 
 .login-menu-button:hover {
@@ -1890,7 +1890,7 @@ p .index-inspire-change-text {
   padding: 0.5rem 0.5rem 0.5rem 0.3rem;
   position: absolute;
   right: 2rem;
-  top: calc(8% + 2rem);
+  top: 8%;
   z-index: 1;
 }
 .dropdown-menu button {
@@ -1909,7 +1909,7 @@ p .index-inspire-change-text {
   display: flex;
   flex-direction: column;
   position: absolute;
-  top: 8%;
+  top: 4%;
 }
 
 .login-menu-button:hover {
