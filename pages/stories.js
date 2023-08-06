@@ -416,8 +416,12 @@ function Stories() {
                                                                         <div className="comment-text">
                                                                             <span
                                                                                 className="comment-user">{commentUser.display_name}</span>
-                                                                            <span
-                                                                                className="comment-time">{commentTime.toLocaleString()}</span>
+                                                                            <span className="comment-time">
+                                                                                {commentTime.toLocaleTimeString(undefined, {
+                                                                                    hour: '2-digit',
+                                                                                    minute: '2-digit'
+                                                                                })}
+                                                                            </span>
                                                                             <div
                                                                                 className="comment-text-content">{commentData.comment}</div>
                                                                         </div>

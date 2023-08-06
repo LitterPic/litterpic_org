@@ -2,96 +2,87 @@
 @import 'fonts';
 
 .profile-content {
-  display: grid;
-  gap: 20px;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
 }
 
 .profile-page-picture {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 1fr .1fr;
+  margin-left: auto;
+  margin-right: .5rem;
 
   img {
     border: 2px solid $litterpic-green;
     border-radius: 50%;
+    grid-column: 4;
+    grid-row: 1;
     height: 150px;
+    justify-self: center;
     object-fit: cover;
     width: 150px;
   }
 }
 
 .edit-profile-button {
-  cursor: not-allowed;
-  margin-top: .5rem;
-  position: relative;
+  align-self: flex-start;
+  font-size: 1rem;
+  grid-column: 4;
+  grid-row: 2;
+  justify-self: center;
+  width: auto;
 
   &::before {
-    background-color: $litterpic-green;
-    border-radius: 4px;
-    color: $white;
-    content: attr(data-tooltip);
-    font-size: 12px;
-    left: 50%;
-    opacity: 0;
-    padding: 8px 15px;
-    pointer-events: none;
-    position: absolute;
-    top: 20px;
-    transform: translateX(-50%);
-    visibility: hidden;
-    white-space: nowrap;
-  }
-
-  &:hover {
-    &::before {
-      opacity: 1;
-      visibility: visible;
-    }
+    white-space: normal;
   }
 }
 
-
 .profile-info {
-  display: flex;
-  flex-direction: column;
-  grid-column: 1 / 2;
+  display: grid;
+  grid-template-columns: .5fr 2fr;
   padding-left: .5rem;
 }
 
 .profile-item {
   color: $profile-text-gray;
+  font-size: .75rem;
   font-weight: bold;
-
-  &:not(:first-child) {
-    padding-top: 1rem;
-  }
+  padding-top: 1rem;
 }
 
 .profile-value {
-  padding-left: .5rem;
+  font-size: 1rem;
+  justify-content: flex-start;
+  padding-left: 1rem;
+  padding-top: 1rem;
 }
-
 
 @media (max-width: 76.5rem) {
   .profile-page-picture {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 1fr .1fr;
+    margin-left: auto;
+    margin-right: .5rem;
 
     img {
       border: 2px solid $litterpic-green;
       border-radius: 50%;
-      height: 100px;
+      grid-column: 4;
+      grid-row: 1;
+      height: 60px;
+      justify-self: center;
       object-fit: cover;
-      width: 100px;
+      width: 60px;
     }
   }
 
   .edit-profile-button {
+    align-self: flex-start;
     font-size: 1rem;
+    grid-column: 4;
+    grid-row: 2;
+    justify-self: center;
     width: auto;
 
     &::before {

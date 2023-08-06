@@ -66,37 +66,34 @@ const ProfilePage = () => {
             <div className="page">
                 <div className="content">
                     <h1 className="heading-text">Profile</h1>
+                    <div className="profile-page-picture">
+                        {userPhoto ? (
+                            <img src={userPhoto} alt="Profile Picture"/>
+                        ) : (
+                            <img
+                                src="https://cdn.vectorstock.com/i/1000x1000/32/12/default-avatar-profile-icon-vector-39013212.webp"
+                                alt="Default Profile Picture"
+                            />
+                        )}
+                        <span className="edit-profile-button">Edit Profile</span>
+                    </div>
 
                     <div className="profile-content">
                         <div className="profile-info">
-                            <p className="profile-item">Display Name</p>
+                            <p className="profile-item">Name</p>
                             <p className="profile-value">{displayName || 'None Set'}</p>
                             <p className="profile-item">Email</p>
                             <p className="profile-value">{userEmail}</p>
-                            <p className="profile-item">Your Organization</p>
+                            <p className="profile-item">Organization</p>
                             <p className="profile-value">{userOrganization}</p>
-                            <p className="profile-item">Litter Collected</p>
+                            <p className="profile-item">Collected</p>
                             <p className="profile-value">{litterCollected} pounds</p>
-                            <p className="profile-item">Your Bio</p>
+                            <p className="profile-item">Bio</p>
                             <p className="profile-value">{userBio}</p>
-                            <p className="profile-item">Member Since</p>
+                            <p className="profile-item">Member</p>
                             <p className="profile-value">
                                 {new Date(user.metadata.creationTime).toLocaleDateString()}
                             </p>
-                        </div>
-                        <div className="profile-page-picture">
-                            {userPhoto ? (
-                                <img src={userPhoto} alt="Profile Picture"/>
-                            ) : (
-                                <img
-                                    src="https://cdn.vectorstock.com/i/1000x1000/32/12/default-avatar-profile-icon-vector-39013212.webp"
-                                    alt="Default Profile Picture"
-                                />
-                            )}
-                            <span className="edit-profile-button"
-                                  data-tooltip="Please visit the LitterPic mobile app to update your profile">
-                Edit Profile
-              </span>
                         </div>
                     </div>
                 </div>

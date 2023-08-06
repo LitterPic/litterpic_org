@@ -15,7 +15,7 @@ import {
     deleteDoc,
     getDoc
 } from "firebase/firestore";
-import {db} from "../lib/firebase";
+import {auth, db} from "../lib/firebase";
 import {Calendar, momentLocalizer, Navigate} from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -593,19 +593,19 @@ const Volunteer = () => {
                                     ) : (
                                         <div>Loading...</div>
                                     )}
-
-                                    <div className="create-event-buttons">
-                                        <button className="event-submit" type="submit">Submit</button>
-                                        <button className="event-submit-cancel"
-                                                onClick={handleCancelCreateEventClick}>Cancel
-                                        </button>
-                                    </div>
-
                                 </div>
+
+                                <div className="create-event-buttons">
+                                    <button className="event-submit" type="submit">Submit</button>
+                                    <button className="event-submit-cancel"
+                                            onClick={handleCancelCreateEventClick}>Cancel
+                                    </button>
+                                </div>
+
+
                             </form>
                         </div>
                     )}
-
                     <div className="calendar">
                         <Calendar
                             localizer={localizer}
@@ -632,17 +632,21 @@ const Volunteer = () => {
                                 <th>Date</th>
                                 <th>Location</th>
                                 <th className="start-time-column">Start Time</th>
+                                <th>Attendees</th>
                                 <th>RSVP</th>
                             </tr>
                             </thead>
                             <tbody>
                             {events.filter(event => new Date(event.start.toISOString().split('T')[0]) >= new Date()).map((event, index) => {
+
                                 const rsvpForEvent = rsvpSnapshot.find(doc => {
                                     const eventRef = doc.data().eventAssociation;
                                     return eventRef && eventRef.id === event.id;
                                 });
 
                                 const isHostingEvent = rsvpForEvent && rsvpForEvent.data().noteToOrganizer === "Auto Owner RSVP";
+                                const userEmail = auth && auth.currentUser && auth.currentUser.email ? auth.currentUser.email : '';
+                                const shouldShowLink = isHostingEvent || userEmail === 'alek@litterpic.com';
 
                                 return (
                                     <tr key={index}
@@ -657,12 +661,15 @@ const Volunteer = () => {
                                             hour12: true
                                         })}</td>
                                         <td>
+                                            {event.rsvps ? event.rsvps.length : 0}
+                                        </td>
+
+                                        <td>
                                             {rsvps[event.id] ? (
                                                 isHostingEvent ? (
                                                     "You're hosting this event"
                                                 ) : (
                                                     <>
-                                                        {/* Show "Cancel RSVP" button */}
                                                         You are attending this event
                                                         <br/>
                                                         <button
