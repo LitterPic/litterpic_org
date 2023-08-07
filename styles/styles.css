@@ -2838,19 +2838,19 @@ p .index-inspire-change-text {
 
 .rsvp-details-table {
   border-collapse: collapse;
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
+  margin-left: auto;
+  margin-right: auto;
   margin-top: 1rem;
-  width: 100%;
+  width: 99%;
 }
 .rsvp-details-table th,
 .rsvp-details-table td {
-  border: 1px solid #e5e5e4;
-  padding: 8px 12px;
+  border: 1px solid #015e41;
+  padding: 3px 7px;
   text-align: left;
 }
 .rsvp-details-table th {
-  background-color: #e5e5e4;
+  background-color: #aaa;
   color: #000;
 }
 .rsvp-details-table tr:hover {
@@ -2869,20 +2869,11 @@ p .index-inspire-change-text {
 .rsvp-details-table button:hover {
   background-color: #4267b2;
 }
-.rsvp-details-table tbody tr:nth-child(odd) {
-  background-color: #fff;
-}
-.rsvp-details-table tbody tr:nth-child(even) {
-  background-color: #e5e5e4;
-}
-.rsvp-details-table tbody tr:hover {
-  background-color: #e5e5e4;
-}
 
 .download-csv-button {
   background-color: #015e41;
   border: 0;
-  border-radius: 5px;
+  border-radius: 0.5rem;
   color: #fff;
   cursor: pointer;
   font-weight: bold;
@@ -2986,17 +2977,15 @@ textarea.event-description-input {
   }
   .rsvp-details-table {
     border-collapse: collapse;
-    max-width: 100%;
-    min-width: 100%;
-    margin-left: 0.5rem;
-    margin-top: 0;
-    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1rem;
+    width: 99%;
   }
   .rsvp-details-table th,
   .rsvp-details-table td {
-    border: 1px solid #e5e5e4;
-    font-size: 0.7rem;
-    padding: 5px 5px;
+    border: 1px solid #015e41;
+    font-size: 0.5rem;
     text-align: left;
   }
   .rsvp-details-table th {
@@ -3005,6 +2994,28 @@ textarea.event-description-input {
   }
   .rsvp-details-table tr:hover {
     background-color: #e5e5e4;
+  }
+  .download-csv-button {
+    background-color: #015e41;
+    border: 0;
+    border-radius: 0.5rem;
+    color: #fff;
+    cursor: pointer;
+    font-size: 0.5rem;
+    font-weight: bold;
+    margin-left: 0.5rem;
+    margin-top: 2rem;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease-in-out;
+  }
+  .download-csv-button:hover {
+    background-color: #4267b2;
+  }
+  .download-csv-button:active {
+    background-color: #4267b2;
+  }
+  .download-csv-button:focus {
+    outline: none;
   }
 }
 @media (max-width: 102.25rem) and (orientation: landscape) {
@@ -3780,19 +3791,19 @@ textarea.event-description-input {
 
 .rsvp-details-table {
   border-collapse: collapse;
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
+  margin-left: auto;
+  margin-right: auto;
   margin-top: 1rem;
-  width: 100%;
+  width: 99%;
 }
 .rsvp-details-table th,
 .rsvp-details-table td {
-  border: 1px solid #e5e5e4;
-  padding: 8px 12px;
+  border: 1px solid #015e41;
+  padding: 3px 7px;
   text-align: left;
 }
 .rsvp-details-table th {
-  background-color: #e5e5e4;
+  background-color: #aaa;
   color: #000;
 }
 .rsvp-details-table tr:hover {
@@ -3811,20 +3822,11 @@ textarea.event-description-input {
 .rsvp-details-table button:hover {
   background-color: #4267b2;
 }
-.rsvp-details-table tbody tr:nth-child(odd) {
-  background-color: #fff;
-}
-.rsvp-details-table tbody tr:nth-child(even) {
-  background-color: #e5e5e4;
-}
-.rsvp-details-table tbody tr:hover {
-  background-color: #e5e5e4;
-}
 
 .download-csv-button {
   background-color: #015e41;
   border: 0;
-  border-radius: 5px;
+  border-radius: 0.5rem;
   color: #fff;
   cursor: pointer;
   font-weight: bold;
@@ -3928,17 +3930,15 @@ textarea.event-description-input {
   }
   .rsvp-details-table {
     border-collapse: collapse;
-    max-width: 100%;
-    min-width: 100%;
-    margin-left: 0.5rem;
-    margin-top: 0;
-    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1rem;
+    width: 99%;
   }
   .rsvp-details-table th,
   .rsvp-details-table td {
-    border: 1px solid #e5e5e4;
-    font-size: 0.7rem;
-    padding: 5px 5px;
+    border: 1px solid #015e41;
+    font-size: 0.5rem;
     text-align: left;
   }
   .rsvp-details-table th {
@@ -3947,6 +3947,28 @@ textarea.event-description-input {
   }
   .rsvp-details-table tr:hover {
     background-color: #e5e5e4;
+  }
+  .download-csv-button {
+    background-color: #015e41;
+    border: 0;
+    border-radius: 0.5rem;
+    color: #fff;
+    cursor: pointer;
+    font-size: 0.5rem;
+    font-weight: bold;
+    margin-left: 0.5rem;
+    margin-top: 2rem;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease-in-out;
+  }
+  .download-csv-button:hover {
+    background-color: #4267b2;
+  }
+  .download-csv-button:active {
+    background-color: #4267b2;
+  }
+  .download-csv-button:focus {
+    outline: none;
   }
 }
 @media (max-width: 102.25rem) and (orientation: landscape) {

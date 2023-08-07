@@ -213,20 +213,20 @@
 // RSVP Attendee Details
 .rsvp-details-table {
   border-collapse: collapse;
-  margin-left: .5rem;
-  margin-right: .5rem;
+  margin-left: auto;
+  margin-right: auto;
   margin-top: 1rem;
-  width: 100%;
+  width: 99%;
 
   th,
   td {
-    border: 1px solid $light-gray;
-    padding: 8px 12px;
+    border: 1px solid $litterpic-green;
+    padding: 3px 7px;
     text-align: left;
   }
 
   th {
-    background-color: $light-gray;
+    background-color: $profile-text-gray;
     color: $black;
   }
 
@@ -250,28 +250,12 @@
       background-color: $facebook-blue;
     }
   }
-
-  tbody {
-    tr {
-      &:nth-child(odd) {
-        background-color: $white;
-      }
-
-      &:nth-child(even) {
-        background-color: $light-gray;
-      }
-
-      &:hover {
-        background-color: $light-gray;
-      }
-    }
-  }
 }
 
 .download-csv-button {
   background-color: $litterpic-green;
   border: 0;
-  border-radius: 5px;
+  border-radius: .5rem;
   color: $white;
   cursor: pointer;
   font-weight: bold;
@@ -399,17 +383,15 @@ textarea {
   // RSVP Attendee Details
   .rsvp-details-table {
     border-collapse: collapse;
-    max-width: 100%;
-    min-width: 100%;
-    margin-left: .5rem;
-    margin-top: 0;
-    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1rem;
+    width: 99%;
 
     th,
     td {
-      border: 1px solid $light-gray;
-      font-size: .7rem;
-      padding: 5px 5px;
+      border: 1px solid $litterpic-green;
+      font-size: .5rem;
       text-align: left;
     }
 
@@ -423,7 +405,32 @@ textarea {
         background-color: $light-gray;
       }
     }
+  }
 
+  .download-csv-button {
+    background-color: $litterpic-green;
+    border: 0;
+    border-radius: .5rem;
+    color: $white;
+    cursor: pointer;
+    font-size: .5rem;
+    font-weight: bold;
+    margin-left: .5rem;
+    margin-top: 2rem;
+    padding: 10px 20px;
+    transition: background-color .3s ease-in-out;
+
+    &:hover {
+      background-color: $facebook-blue;
+    }
+
+    &:active {
+      background-color: $facebook-blue;
+    }
+
+    &:focus {
+      outline: none;
+    }
   }
 
 }

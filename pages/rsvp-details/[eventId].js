@@ -1,6 +1,6 @@
 import {useRouter} from 'next/router';
 import {useEffect, useState} from 'react';
-import {auth, db} from "../../lib/firebase";
+import {db} from "../../lib/firebase";
 import {doc, getDoc} from 'firebase/firestore';
 
 const RsvpDetails = () => {
@@ -37,7 +37,8 @@ const RsvpDetails = () => {
                                     ...rsvpData,
                                     userEmail: userData.email,
                                     userName: userData.display_name,
-                                    organization: userData.organization
+                                    organization: userData.organization,
+                                    attendees: userData.numberAttending
                                 });
                             } else {
                                 // If the user doc doesn't exist, just push the RSVP data
@@ -79,6 +80,7 @@ const RsvpDetails = () => {
                     <th>Email</th>
                     <th>Name</th>
                     <th>Note to Organizer</th>
+                    <th>Number Attending</th>
                     <th>Organization</th>
                 </tr>
                 </thead>
@@ -89,6 +91,7 @@ const RsvpDetails = () => {
                             <td>{rsvp.userEmail}</td>
                             <td>{rsvp.userName}</td>
                             <td>{rsvp.noteToOrganizer}</td>
+                            <td>{rsvp.numberAttending || rsvp.numberAttending === 0 ? rsvp.numberAttending : 1}</td>
                             <td>{rsvp.organization}</td>
                         </tr>
                     ))
