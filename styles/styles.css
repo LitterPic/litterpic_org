@@ -175,7 +175,7 @@
 .contact-wrapper {
   align-items: center;
   display: flex;
-  height: 90%;
+  height: 100%;
   justify-content: center;
 }
 
@@ -1190,7 +1190,7 @@ p .index-inspire-change-text {
 .contact-wrapper {
   align-items: center;
   display: flex;
-  height: 90%;
+  height: 100%;
   justify-content: center;
 }
 
@@ -4069,10 +4069,11 @@ textarea {
 }
 
 .page {
-  align-items: center;
+  align-items: flex-start;
   background-color: #d3d3d3;
   display: flex;
   justify-content: center;
+  min-height: 100vh;
   padding: 1.5rem;
 }
 
