@@ -4094,7 +4094,7 @@ textarea {
     padding: 0;
   }
   .page {
-    align-items: center;
+    align-items: flex-start;
     display: flex;
     justify-content: center;
     padding: 0.6rem 0 0;
