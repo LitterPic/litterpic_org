@@ -45,7 +45,6 @@
   }
 }
 
-
 .rbc-event-content {
   font-size: .6rem;
   height: 1.25rem;
@@ -211,6 +210,89 @@
   }
 }
 
+// RSVP Attendee Details
+.rsvp-details-table {
+  border-collapse: collapse;
+  margin-left: .5rem;
+  margin-right: .5rem;
+  margin-top: 1rem;
+  width: 100%;
+
+  th,
+  td {
+    border: 1px solid $light-gray;
+    padding: 8px 12px;
+    text-align: left;
+  }
+
+  th {
+    background-color: $light-gray;
+    color: $black;
+  }
+
+  tr {
+    &:hover {
+      background-color: $light-gray;
+    }
+  }
+
+  button {
+    background-color: $facebook-blue;
+    border: 0;
+    border-radius: 5px;
+    color: $white;
+    cursor: pointer;
+    margin-top: 20px;
+    padding: 10px 15px;
+    transition: background-color .2s;
+
+    &:hover {
+      background-color: $facebook-blue;
+    }
+  }
+
+  tbody {
+    tr {
+      &:nth-child(odd) {
+        background-color: $white;
+      }
+
+      &:nth-child(even) {
+        background-color: $light-gray;
+      }
+
+      &:hover {
+        background-color: $light-gray;
+      }
+    }
+  }
+}
+
+.download-csv-button {
+  background-color: $litterpic-green;
+  border: 0;
+  border-radius: 5px;
+  color: $white;
+  cursor: pointer;
+  font-weight: bold;
+  margin-left: .5rem;
+  margin-top: 2rem;
+  padding: 10px 20px;
+  transition: background-color .3s ease-in-out;
+
+  &:hover {
+    background-color: $facebook-blue;
+  }
+
+  &:active {
+    background-color: $facebook-blue;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
 textarea {
   &.event-description-input {
     min-height: 100px;
@@ -313,6 +395,37 @@ textarea {
   .cancel-rsvp-button {
     font-size: .5rem;
   }
+
+  // RSVP Attendee Details
+  .rsvp-details-table {
+    border-collapse: collapse;
+    max-width: 100%;
+    min-width: 100%;
+    margin-left: .5rem;
+    margin-top: 0;
+    width: 50%;
+
+    th,
+    td {
+      border: 1px solid $light-gray;
+      font-size: .7rem;
+      padding: 5px 5px;
+      text-align: left;
+    }
+
+    th {
+      background-color: $light-gray;
+      color: $black;
+    }
+
+    tr {
+      &:hover {
+        background-color: $light-gray;
+      }
+    }
+
+  }
+
 }
 
 @media (max-width: 102.25rem) and (orientation: landscape) {

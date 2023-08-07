@@ -24,6 +24,7 @@ import {getAuth, onAuthStateChanged} from "firebase/auth";
 import PlacesAutocomplete, {geocodeByAddress, getLatLng} from 'react-places-autocomplete';
 import {useLoadScript} from "@react-google-maps/api";
 import {GeoPoint} from "firebase/firestore";
+import Link from "next/link";
 
 const libraries = ['places'];
 const mapApiKey = process.env.NEXT_PUBLIC_PLACES_API_KEY;
@@ -661,7 +662,13 @@ const Volunteer = () => {
                                             hour12: true
                                         })}</td>
                                         <td>
-                                            {event.rsvps ? event.rsvps.length : 0}
+                                            {
+                                                (shouldShowLink && event.rsvps && event.rsvps.length > 0) ?
+                                                    <Link href={`/rsvp-details/${event.id}`}>
+                                                        {event.rsvps ? event.rsvps.length : 0}
+                                                    </Link> :
+                                                    event.rsvps ? event.rsvps.length : 0
+                                            }
                                         </td>
 
                                         <td>
