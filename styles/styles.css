@@ -59,6 +59,10 @@
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css");
 @import url("https://fonts.googleapis.com/css2?family=Ropa+Sans&family=Rubik:wght@500&display=swap");
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css");
+@import url("https://fonts.googleapis.com/css2?family=Ropa+Sans&family=Rubik:wght@500&display=swap");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css");
+@import url("https://fonts.googleapis.com/css2?family=Ropa+Sans&family=Rubik:wght@500&display=swap");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css");
 @import url("https://fonts.googleapis.com/css2?family=Rubik:wght@500&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap");
 .about-us-content {
@@ -493,6 +497,49 @@
     width: auto;
   }
 }
+.edit-profile-label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+.edit-profile-label img {
+  border-radius: 50%;
+  height: 100px;
+  width: 100px;
+}
+
+.edit-profile-input,
+.edit-profile-textarea {
+  border: 1px solid #e5e5e4;
+  border-radius: 3px;
+  padding: 10px;
+  width: 100%;
+}
+
+.edit-profile-select {
+  height: 50px;
+}
+
+.profile-preview {
+  display: block;
+  height: 100px;
+  margin-top: 10px;
+  width: 100px;
+}
+
+.edit-profile-submit-button {
+  background: #015e41;
+  border: 0;
+  border-radius: 0.5rem;
+  color: #fff;
+  cursor: pointer;
+  padding: 10px 20px;
+  transition: background 0.3s;
+}
+.edit-profile-submit-button:hover {
+  background: #4267b2;
+}
+
 .address-link:hover {
   color: #00f;
   cursor: pointer;
@@ -2115,10 +2162,14 @@ p .index-inspire-change-text {
 
 .edit-profile-button {
   align-self: flex-start;
+  border-radius: 0.5rem;
+  color: #fff;
+  cursor: pointer;
   font-size: 1rem;
   grid-column: 4;
   grid-row: 2;
   justify-self: center;
+  margin-top: 0.5rem;
   width: auto;
 }
 .edit-profile-button::before {
@@ -2179,6 +2230,9 @@ p .index-inspire-change-text {
   align-items: center;
   display: flex;
   flex-direction: column;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 400px;
   justify-content: center;
 }
 
@@ -3068,10 +3122,14 @@ textarea.event-description-input {
 
 .edit-profile-button {
   align-self: flex-start;
+  border-radius: 0.5rem;
+  color: #fff;
+  cursor: pointer;
   font-size: 1rem;
   grid-column: 4;
   grid-row: 2;
   justify-self: center;
+  margin-top: 0.5rem;
   width: auto;
 }
 .edit-profile-button::before {
@@ -3132,6 +3190,9 @@ textarea.event-description-input {
   align-items: center;
   display: flex;
   flex-direction: column;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 400px;
   justify-content: center;
 }
 
@@ -3602,6 +3663,17 @@ textarea.event-description-input {
     width: 300px;
   }
 }
+.ok-button {
+  background-color: #015e41;
+  border: 0;
+  border-radius: 0.5rem;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1.2rem;
+  margin-top: 1.5rem;
+  padding: 0.5rem;
+}
+
 .volunteer-top-paragraph {
   font-size: 1rem;
   line-height: 1.5;

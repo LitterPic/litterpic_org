@@ -1,7 +1,12 @@
 import {useState} from 'react';
-import {createUserWithEmailAndPassword} from 'firebase/auth';
-import {auth} from '../lib/firebase';
+import {
+    createUserWithEmailAndPassword, getAuth,
+    sendEmailVerification,
+    signOut
+} from 'firebase/auth';
+import {auth} from '../lib/firebase'
 import {useRouter} from 'next/router';
+import {getFirestore, collection, addDoc, serverTimestamp, setDoc, doc} from 'firebase/firestore';
 import {faEye, faEyeSlash, faTimes} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
@@ -51,10 +56,33 @@ export default function SignInForm() {
         }
 
         try {
-            await createUserWithEmailAndPassword(auth, email, password);
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+
+            await sendEmailVerification(user);
+
+            if (!auth.currentUser) {
+                console.log('User is unauthenticated.');
+                // Continue with creating the user document
+            } else {
+                console.log('User Object:', user);
+                console.log('Auth Object:', auth)
+            }
+            // Create the user document in Firestore
+            const db = getFirestore();
+            const userDocRef = doc(db, 'users', user.uid);
+
+            await setDoc(userDocRef, {
+                created_time: serverTimestamp(),
+                email: user.email,
+                uid: user.uid,
+            }, {merge: true});
+            
+            // Log out the user immediately after account creation
+            await signOut(auth);
 
             // Redirect the user to the stories page
-            await router.push('/stories');
+            await router.push('/verify-email-page');
         } catch (error) {
             if (error.code === 'auth/email-already-in-use') {
                 setError('User already exists');
@@ -127,10 +155,9 @@ export default function SignInForm() {
                     <p className={hasSpecialChar ? 'valid-password-attribute' : 'invalid-password-attribute'}>{checkMark} Password
                         must have a special character</p>
                     <p className={isLongEnough ? 'valid-password-attribute' : 'invalid-password-attribute'}>{checkMark} Password
-                        must be at least 6 characters
-                        long</p>
+                        must be at least 6 characters</p>
                     <p className={passwordMatch ? 'valid-password-attribute' : 'invalid-password-attribute'}>{checkMark} Password
-                        and Confirm Password fields must match</p>
+                        fields must match</p>
                 </div>
             )}
             <button className="signup-button"

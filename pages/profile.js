@@ -3,8 +3,10 @@ import {useAuth} from '../lib/firebase';
 import {useState, useEffect} from 'react';
 import {db} from '../lib/firebase';
 import {doc, getDoc, collection, query, where, getDocs} from "firebase/firestore";
+import {useRouter} from 'next/router';
 
 const ProfilePage = () => {
+    const router = useRouter();
     const {user, loading} = useAuth();
     const [userPhoto, setUserPhoto] = useState('');
     const [userBio, setUserBio] = useState('');
@@ -75,7 +77,9 @@ const ProfilePage = () => {
                                 alt="Default Profile Picture"
                             />
                         )}
-                        <span className="edit-profile-button">Edit Profile</span>
+                        <button className="edit-profile-button"
+                                onClick={() => router.push('/edit-profile')}>Edit Profile
+                        </button>
                     </div>
 
                     <div className="profile-content">
