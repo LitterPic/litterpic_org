@@ -1,0 +1,47 @@
+@import 'colors';
+@import 'fonts';
+
+.edit-profile-label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+
+  img {
+    border-radius: 50%;
+    height: 100px;
+    width: 100px;
+  }
+}
+
+.edit-profile-input,
+.edit-profile-textarea {
+  border: 1px solid $light-gray;
+  border-radius: 3px;
+  padding: 10px;
+  width: 100%;
+}
+
+.edit-profile-select {
+  height: 50px;
+}
+
+.profile-preview {
+  display: block;
+  height: 100px;
+  margin-top: 10px;
+  width: 100px;
+}
+
+.edit-profile-submit-button {
+  background: $litterpic-green;
+  border: 0;
+  border-radius: .5rem;
+  color: $white;
+  cursor: pointer;
+  padding: 10px 20px;
+  transition: background .3s;
+
+  &:hover {
+    background: $facebook-blue;
+  }
+}

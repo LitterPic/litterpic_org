@@ -12,7 +12,7 @@ import {
     query,
     startAfter,
     updateDoc,
-    where
+    where, setDoc
 } from 'firebase/firestore';
 import {db, storage} from '../lib/firebase';
 import {getDownloadURL, ref} from 'firebase/storage';
