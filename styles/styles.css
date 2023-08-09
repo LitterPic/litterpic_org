@@ -752,8 +752,8 @@ p .index-inspire-change-text {
   font-size: 2rem;
   letter-spacing: 2px;
   line-height: 1.5;
-  margin-left: 3rem;
-  max-width: calc(100% - 10rem);
+  margin-left: 4rem;
+  max-width: 56%;
   word-wrap: break-word;
 }
 
@@ -1849,8 +1849,8 @@ p .index-inspire-change-text {
   font-size: 2rem;
   letter-spacing: 2px;
   line-height: 1.5;
-  margin-left: 3rem;
-  max-width: calc(100% - 10rem);
+  margin-left: 4rem;
+  max-width: 56%;
   word-wrap: break-word;
 }
 
