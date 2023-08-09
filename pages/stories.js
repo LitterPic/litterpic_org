@@ -8,7 +8,7 @@ import {faComment as farComment} from '@fortawesome/free-regular-svg-icons';
 import {faHeart as farHeart} from '@fortawesome/free-regular-svg-icons';
 import {faHeart} from '@fortawesome/free-solid-svg-icons';
 import {faComment} from '@fortawesome/free-solid-svg-icons';
-import {faEllipsisV} from '@fortawesome/free-solid-svg-icons';
+import {faEllipsisV, faEllipsisH} from '@fortawesome/free-solid-svg-icons';
 import {getAuth} from 'firebase/auth';
 import {getUsersWhoLikedPost} from '../components/utils';
 import {useRouter} from 'next/router';
@@ -29,12 +29,12 @@ import {
 
 
 function Stories() {
-    const [page, setPage] = useState(1);
+    const router = useRouter();
+    const dropdownRef = useRef(null);
     const [posts, setPosts] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [hasMorePosts, setHasMorePosts] = useState(true);
-    const router = useRouter();
-    const dropdownRef = useRef(null);
+    const [page, setPage] = useState(1);
     const [user, setUser] = useState(null);
     const [users, setUsers] = useState({});
     const [loadingUser, setLoadingUser] = useState(true);
@@ -44,53 +44,6 @@ function Stories() {
     const [postComments, setPostComments] = useState({});
     const commentInputRef = useRef();
     const submitButtonRef = useRef(null);
-
-    const loadMorePosts = async () => {
-        if (isLoading || !hasMorePosts) return;
-
-        setIsLoading(true);
-        const nextPage = page + 1;
-        const fetchedPosts = await fetchPosts(nextPage, 8);
-
-        // Combine current posts with fetched posts and filter duplicates
-        const uniquePosts = [...posts, ...fetchedPosts].filter((post, index, self) =>
-            index === self.findIndex((p) => p.id === post.id)
-        );
-
-        // Fetch and store the liked user UIDs for each post
-        const likedUsersPromises = uniquePosts.map((post) =>
-            getUsersWhoLikedPost(post.id)
-        );
-        const likedUsersLists = await Promise.all(likedUsersPromises);
-
-        // Update the posts state by adding likedUsers for each post
-        const updatedPosts = uniquePosts.map((post, index) => ({
-            ...post,
-            likedUsers: likedUsersLists[index] || [],
-            currentUserLiked: user ? likedUsersLists[index].includes(user.uid) : false,
-        }));
-
-        setPosts(uniquePosts);
-        setPage(nextPage);
-        setIsLoading(false);
-
-        if (fetchedPosts.length < 8) {
-            setHasMorePosts(false);
-        }
-    };
-
-    // Scroll listener to detect when to load more posts
-    useEffect(() => {
-        const handleScroll = () => {
-            const threshold = 300;
-            if (window.innerHeight + window.scrollY >= document.body.offsetHeight - threshold) {
-                loadMorePosts();
-            }
-        };
-
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, [isLoading, hasMorePosts, posts, page]);
 
     const handleClickOutside = (event) => {
         if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -137,7 +90,7 @@ function Stories() {
         const fetchAndSetPosts = async () => {
             setIsLoading(true);
             try {
-                const fetchedPosts = await fetchPosts(1, 8);
+                const fetchedPosts = await fetchPosts(page, 4);
                 if (fetchedPosts.length === 0) {
                     setHasMorePosts(false);
                 } else {
@@ -158,15 +111,15 @@ function Stories() {
 
                     setPosts((prevPosts) => [...prevPosts, ...updatedPosts]);
                     setPage((prevPage) => prevPage + 1);
-                    setIsLoading(false);
                 }
             } catch (error) {
                 console.error('Error fetching posts:', error);
             }
+            setIsLoading(false);
         };
 
         fetchAndSetPosts();
-    }, [loadingUser]);
+    }, [page, user, loadingUser]);
 
     const handleToggleLike = async (postId) => {
         // User is not logged in
@@ -319,6 +272,7 @@ function Stories() {
             }
 
             setPostComments(fetchedPostComments);
+            console.log("Fetched post comments:", JSON.stringify(fetchedPostComments, null, 2));
         };
 
         fetchAndSetPostComments();
@@ -347,6 +301,20 @@ function Stories() {
         });
 
         return uniquePosts;
+    };
+
+    const fetchMorePosts = async () => {
+        setIsLoading(true);
+        const nextPage = page + 1;
+        const fetchedPosts = await fetchPosts(nextPage, 4);
+        if (fetchedPosts.length === 0) {
+            setHasMorePosts(false);
+        } else {
+            const uniquePosts = filterUniquePosts(fetchedPosts);
+            setPosts((prevPosts) => [...prevPosts, ...uniquePosts]); // Merge previous posts with new ones
+            setPage(nextPage);
+        }
+        setIsLoading(false);
     };
 
     return (
@@ -381,14 +349,7 @@ function Stories() {
                                 const {numComments} = post;
 
                                 // Check if the current user's UID exists in the likedUsers array for this post
-                                // const currentUserLiked = user ? post.likedUsers.includes(user.uid) : false;
-                                const currentUserLiked = user && Array.isArray(post.likedUsers) ? post.likedUsers.includes(user.uid) : false;
-
-                                console.log("Post ID:", post.id);
-                                console.log("Liked Users:", post.likedUsers);
-                                console.log("Current User UID:", user ? user.uid : 'No user');
-                                console.log("Current User Liked:", currentUserLiked);
-
+                                const currentUserLiked = user ? post.likedUsers.includes(user.uid) : false;
 
                                 return (
                                     <div key={post.id} className="post">
