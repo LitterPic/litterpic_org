@@ -554,10 +554,14 @@
 }
 
 .edit-profile-name-input {
+  padding-left: 0.5rem;
   width: 33%;
 }
 
 .edit-profile-organization-select {
+  background-color: #fff;
+  color: #000;
+  text-decoration: none;
   width: 33%;
 }
 
@@ -587,6 +591,30 @@
   display: none;
 }
 
+@media (max-width: 76.5rem) {
+  .edit-profile-container form {
+    max-width: 100%;
+    width: 100%;
+  }
+  .edit-profile-label {
+    font-size: 0.75rem;
+  }
+  .edit-profile-name-input {
+    font-size: 0.75rem;
+    width: 90%;
+  }
+  .edit-profile-organization-select {
+    font-size: 0.75rem;
+    width: 90%;
+  }
+  .edit-profile-bio-textarea {
+    font-size: 0.75rem;
+    min-height: 150px;
+  }
+  .edit-profile-submit-button {
+    font-size: 0.75rem;
+  }
+}
 .address-link:hover {
   color: #00f;
   cursor: pointer;
@@ -2278,20 +2306,20 @@ p .index-inspire-change-text {
   .profile-page-picture img {
     border: 2px solid #015e41;
     border-radius: 50%;
-    grid-column: 4;
+    grid-column: 1;
     grid-row: 1;
-    height: 60px;
+    height: 100px;
     justify-self: center;
     object-fit: cover;
-    width: 60px;
+    width: 100px;
   }
   .edit-profile-button {
     align-self: flex-start;
     font-size: 1rem;
-    grid-column: 4;
+    grid-column: 1;
     grid-row: 2;
     justify-self: center;
-    width: auto;
+    width: 100px;
   }
   .edit-profile-button::before {
     white-space: normal;
@@ -3236,20 +3264,20 @@ textarea.event-description-input {
   .profile-page-picture img {
     border: 2px solid #015e41;
     border-radius: 50%;
-    grid-column: 4;
+    grid-column: 1;
     grid-row: 1;
-    height: 60px;
+    height: 100px;
     justify-self: center;
     object-fit: cover;
-    width: 60px;
+    width: 100px;
   }
   .edit-profile-button {
     align-self: flex-start;
     font-size: 1rem;
-    grid-column: 4;
+    grid-column: 1;
     grid-row: 2;
     justify-self: center;
-    width: auto;
+    width: 100px;
   }
   .edit-profile-button::before {
     white-space: normal;
