@@ -3,9 +3,7 @@ import {collection, query, orderBy, limit, getDocs} from 'firebase/firestore';
 import {getDownloadURL, ref} from 'firebase/storage';
 import {storage} from '../lib/firebase';
 import {db} from '../lib/firebase';
-import ImageRow from '../components/imagerow';
 import 'firebase/firestore';
-import CustomButton from "../components/CustomButton";
 
 async function fetchRecentPosts() {
     const postsQuery = query(
@@ -80,21 +78,44 @@ export default function Index() {
         fetchTotalWeight();
     }, []);
 
-    const swipeLeft = () => {
-        if (images.length > 0) {
-            const firstImage = images.shift();
-            images.push(firstImage);
-            setImages([...images]);
-        }
-    };
 
-    const swipeRight = () => {
-        if (images.length > 0) {
-            const lastImage = images.pop();
-            images.unshift(lastImage);
-            setImages([...images]);
-        }
-    };
+    function Carousel({images}) {
+        const [currentIndex, setCurrentIndex] = useState(0);
+
+        const handleSwipe = (direction) => {
+            if (direction === "left") {
+                setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+            } else {
+                setCurrentIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
+            }
+        };
+
+        useEffect(() => {
+            // Automatically change the picture every 5 seconds
+            const intervalId = setInterval(() => {
+                handleSwipe("left"); // Change to the next picture
+            }, 5000);
+
+            return () => {
+                clearInterval(intervalId); // Clear the interval when the component is unmounted
+            };
+        }, [images, handleSwipe]);
+
+        return (
+            <div className="carousel-container">
+                <div className="carousel-slide">
+                    {images.map((image, index) => (
+                        <div
+                            key={index}
+                            className={`carousel-page ${index === currentIndex ? 'active' : ''}`}
+                            style={{backgroundImage: `url(${image})`}}
+                        />
+                    ))}
+                </div>
+                <button className="carousel-button-right" onClick={() => handleSwipe("right")}>{">"}</button>
+            </div>
+        );
+    }
 
     return (
         <div>
@@ -161,22 +182,19 @@ export default function Index() {
                         </div>
 
                     </div>
-                    <h2 className="heading-text">Recent Posts Photos</h2>
-                    <ImageRow className="image-row" images={images} onSwipeLeft={swipeLeft} onSwipeRight={swipeRight}/>
+                    <div className="home-carousel-section">
+                        <Carousel className="carousel" images={images}/>
 
-                    <h2>Take a look at all of our volunteer's stories and get inspired by more!
-                        <a className="index-more-stories-button" href="/stories">
-                            <button type="button">User Stories</button>
-                        </a>
-                    </h2>
+                        <h2 className="home-carousel-section-text">Take a look at all of our volunteer's stories and get
+                            inspired by more!
+                            <a className="index-more-stories-button" href="/stories">
+                                <button type="button">User Stories</button>
+                            </a>
+                        </h2>
+                    </div>
 
                 </div>
             </div>
         </div>
     );
 }
-
-
-
-
-
