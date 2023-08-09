@@ -3,13 +3,14 @@ import {signInWithEmailAndPassword, onAuthStateChanged, sendPasswordResetEmail} 
 import {auth} from '../lib/firebase';
 import {useRouter} from 'next/router';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faTimes} from "@fortawesome/free-solid-svg-icons";
+import {faEye, faEyeSlash, faTimes} from "@fortawesome/free-solid-svg-icons";
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function SignInForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const router = useRouter();
     const [error, setError] = useState('');
     const [isEmailVerified, setIsEmailVerified] = useState(false);
@@ -28,6 +29,10 @@ export default function SignInForm() {
 
         return () => unsubscribe();
     }, []);
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -71,9 +76,9 @@ export default function SignInForm() {
 
     return (
         <div>
-            {!isEmailVerified && (
-                <p>Please verify your email before logging in. Check your inbox for the verification email.</p>
-            )}
+            {/*{!isEmailVerified && (*/}
+            {/*    <p>Please verify your email before logging in. Check your inbox for the verification email.</p>*/}
+            {/*)}*/}
             <form className="sign-in-form" onSubmit={handleSubmit}>
                 <div className="sign-in-new-user-heading">
                     New to LitterPic?
@@ -81,9 +86,16 @@ export default function SignInForm() {
                 </div>
                 <input className="sign-in-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)}
                        placeholder="Email" required/>
-                <input className="sign-in-password" type="password" value={password}
-                       onChange={(e) => setPassword(e.target.value)} placeholder="Password"
-                       required/>
+                <div className="signup-password-container">
+                    <input className="sign-in-password" type={showPassword ? 'text' : 'password'} value={password}
+                           onChange={(e) => setPassword(e.target.value)} placeholder="Password"
+                           required/>
+                    <FontAwesomeIcon
+                        icon={showPassword ? faEyeSlash : faEye}
+                        className="signup-password-toggle-icon"
+                        onClick={togglePasswordVisibility}
+                    />
+                </div>
                 <a className="sign-in-forgot-password" href="#" onClick={handleForgotPassword} role="button"
                    tabIndex="0">Forgot Password?</a>
 

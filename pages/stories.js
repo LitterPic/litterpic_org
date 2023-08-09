@@ -255,7 +255,6 @@ function Stories() {
                 usersData[doc.id] = doc.data();
             });
             setUsers(usersData);
-            console.log("Fetched users:", JSON.stringify(usersData, null, 2));
         };
 
         fetchAndSetUsers();
@@ -417,10 +416,13 @@ function Stories() {
                                                                             <span
                                                                                 className="comment-user">{commentUser.display_name}</span>
                                                                             <span className="comment-time">
-                                                                                {commentTime.toLocaleTimeString(undefined, {
-                                                                                    hour: '2-digit',
-                                                                                    minute: '2-digit'
-                                                                                })}
+                                                                              {commentTime.toLocaleString('en-US-posix', {
+                                                                                  year: 'numeric',
+                                                                                  month: '2-digit',
+                                                                                  day: '2-digit',
+                                                                                  hour: '2-digit',
+                                                                                  minute: '2-digit'
+                                                                              })}
                                                                             </span>
                                                                             <div
                                                                                 className="comment-text-content">{commentData.comment}</div>
@@ -430,16 +432,16 @@ function Stories() {
                                                             </div>
                                                         );
                                                     })}
-                                                        <textarea
-                                                            className="comment-text-input"
-                                                            ref={openCommentInput === post.id ? commentInputRef : null}
-                                                            value={comments[post.id] || ''}
-                                                            onChange={(event) => handleCommentChange(event, post.id)}
-                                                            placeholder="Add a comment..."
-                                                        />
-                                                        <button className="comment-submit-button" ref={submitButtonRef}
-                                                                onClick={() => submitComment(post.id)}>Submit
-                                                        </button>
+                                                    <textarea
+                                                        className="comment-text-input"
+                                                        ref={openCommentInput === post.id ? commentInputRef : null}
+                                                        value={comments[post.id] || ''}
+                                                        onChange={(event) => handleCommentChange(event, post.id)}
+                                                        placeholder="Add a comment..."
+                                                    />
+                                                    <button className="comment-submit-button" ref={submitButtonRef}
+                                                            onClick={() => submitComment(post.id)}>Submit
+                                                    </button>
                                                 </>
                                             )}
                                         </div>

@@ -13,7 +13,8 @@ import {
     arrayRemove,
     serverTimestamp,
     deleteDoc,
-    getDoc
+    getDoc,
+    onSnapshot
 } from "firebase/firestore";
 import {auth, db} from "../lib/firebase";
 import {Calendar, momentLocalizer, Navigate} from 'react-big-calendar';
@@ -231,14 +232,17 @@ const Volunteer = () => {
 
     const handleRsvpFormSubmit = (event) => {
         event.preventDefault();
+        console.log("start of handlersvpformsubmit");
+
         const {eventId, numberAttending, note} = rsvpFormData;
         if (eventId) {
             addRsvpDocument(eventId, user.uid, parseInt(numberAttending), note)
                 .then(async (rsvpId) => {
                         const eventDocRef = doc(db, "events", eventId);
                         const rsvpsArray = arrayUnion(doc(db, "rsvp", rsvpId));
+                        console.log("Before UpdateDoc");
                         updateDoc(eventDocRef, {rsvps: rsvpsArray});
-
+                        console.log("After UpdateDoc");
                         const rsvpDocRef = doc(db, "rsvp", rsvpId);
                         const rsvpDoc = await getDoc(rsvpDocRef);
                         const rsvpData = rsvpDoc.data();
@@ -260,11 +264,7 @@ const Volunteer = () => {
 
                         setShowThankYou(true);
 
-                        setRsvps((prevRsvps) => ({
-                            ...prevRsvps,
-                            [eventId]: true,
-                        }));
-
+                        console.log("Before email to person who rsvp'd");
                         //send email to person who RSVP'd
                         const participantRsvpTemplateId = "d-d1420f7a054b4424bf7bb990524db1ae";
                         const participantTemplateData = {
@@ -304,6 +304,7 @@ const Volunteer = () => {
                                 console.error("Error sending email:", error);
                             });
 
+                        console.log("Before email to event organizer");
                         //send email to event organizer
                         const organizerRsvpTemplateId = "d-60649fab1ee8435db38e1ff3ce8f4645"
                         const organizerTemplateData = {
@@ -346,6 +347,7 @@ const Volunteer = () => {
                                 console.error("Error sending email to organizer:", error);
                             });
 
+                        console.log("End of method");
                     }
                 )
                 .catch((error) => {
@@ -431,31 +433,35 @@ const Volunteer = () => {
     }, []);
 
     useEffect(() => {
-        const fetchRsvps = async () => {
-            if (user && user.uid) {
-                const loggedInUserId = user.uid;
-                const rsvpCollection = collection(db, "rsvp");
-                const q = query(rsvpCollection, where("user", "==", doc(db, "users", loggedInUserId)));
-                const rsvpSnapshot = await getDocs(q);
+        const fetchRsvps = () => {
+            const rsvpCollection = collection(db, "rsvp");
 
+            const unsubscribe = onSnapshot(rsvpCollection, (rsvpSnapshot) => {
                 setRsvpSnapshot(rsvpSnapshot.docs);
-                const rsvpData = {};
-                rsvpSnapshot.forEach((doc) => {
-                    const eventAssociationRef = doc.data().eventAssociation;
-                    if (eventAssociationRef && eventAssociationRef.id) {
-                        const eventId = eventAssociationRef.id;
-                        rsvpData[eventId] = true;
-                    }
-                });
 
-                setRsvps((prevRsvps) => ({...prevRsvps, ...rsvpData}));
-            } else {
-                setRsvps({});
-            }
+                const numberAttendingByEvent = rsvpSnapshot.docs.reduce((acc, doc) => {
+                    const {eventAssociation, numberAttending = 0} = doc.data();
+
+                    if (eventAssociation && eventAssociation.id) {
+                        const eventId = eventAssociation.id;
+                        acc[eventId] = (acc[eventId] || 0) + numberAttending;
+                    }
+
+                    return acc;
+                }, {});
+
+                setRsvps((prevRsvps) => {
+                    const newState = {...prevRsvps, ...numberAttendingByEvent};
+                    return newState;
+                });
+            });
+
+            return unsubscribe;
         };
 
         fetchRsvps();
     }, [user]);
+
 
     const handleButtonClick = () => {
         window.location.href = "/community_service_hours";
@@ -602,8 +608,6 @@ const Volunteer = () => {
                                             onClick={handleCancelCreateEventClick}>Cancel
                                     </button>
                                 </div>
-
-
                             </form>
                         </div>
                     )}
@@ -663,11 +667,11 @@ const Volunteer = () => {
                                         })}</td>
                                         <td>
                                             {
-                                                (shouldShowLink && event.rsvps && event.rsvps.length > 0) ?
+                                                (shouldShowLink && rsvps[event.id] > 0) ?
                                                     <Link href={`/rsvp-details/${event.id}`}>
-                                                        {event.rsvps ? event.rsvps.length : 0}
+                                                        {rsvps[event.id]}
                                                     </Link> :
-                                                    event.rsvps ? event.rsvps.length : 0
+                                                    rsvps[event.id] || 0
                                             }
                                         </td>
 
@@ -749,6 +753,7 @@ const Volunteer = () => {
                                                     onChange={handleRsvpInputChange}
                                                     required
                                                     className="input-small"
+                                                    min="1"
                                                 />
                                                 <br/>
                                                 <label htmlFor="note">Note for event organizer:</label>
