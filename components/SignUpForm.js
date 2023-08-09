@@ -17,7 +17,6 @@ export default function SignInForm() {
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
 
-    const [hasUpperCase, setHasUpperCase] = useState(false);
     const [hasNumber, setHasNumber] = useState(false);
     const [hasSpecialChar, setHasSpecialChar] = useState(false);
     const [isLongEnough, setIsLongEnough] = useState(false);
@@ -29,7 +28,6 @@ export default function SignInForm() {
         const pass = e.target.value;
         setPassword(pass);
 
-        setHasUpperCase(/[A-Z]/.test(pass));
         setHasNumber(/\d/.test(pass));
         setHasSpecialChar(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(pass));
         setIsLongEnough(pass.length >= 6);
@@ -50,7 +48,7 @@ export default function SignInForm() {
             return;
         }
 
-        if (!hasUpperCase || !hasNumber || !hasSpecialChar || !isLongEnough) {
+        if (!hasNumber || !hasSpecialChar || !isLongEnough) {
             setError('Password does not meet requirements');
             return;
         }
@@ -77,7 +75,7 @@ export default function SignInForm() {
                 email: user.email,
                 uid: user.uid,
             }, {merge: true});
-            
+
             // Log out the user immediately after account creation
             await signOut(auth);
 
@@ -104,7 +102,7 @@ export default function SignInForm() {
         setError('');
     };
 
-    const checkMark = hasUpperCase && hasNumber && hasSpecialChar && isLongEnough && passwordMatch ? '✓' : ' ';
+    const checkMark = hasNumber && hasSpecialChar && isLongEnough && passwordMatch ? '✓' : ' ';
 
     return (
         <form className="signup-form" onSubmit={handleSubmit}>
@@ -148,8 +146,6 @@ export default function SignInForm() {
             </div>
             {(password !== '' || confirmPassword !== '') && (
                 <div className="signup-password-requirements">
-                    <p className={hasUpperCase ? 'valid-password-attribute' : 'invalid-password-attribute'}>{checkMark} Password
-                        must have an uppercase letter</p>
                     <p className={hasNumber ? 'valid-password-attribute' : 'invalid-password-attribute'}>{checkMark} Password
                         must have a number</p>
                     <p className={hasSpecialChar ? 'valid-password-attribute' : 'invalid-password-attribute'}>{checkMark} Password
@@ -162,7 +158,7 @@ export default function SignInForm() {
             )}
             <button className="signup-button"
                     type="submit"
-                    disabled={!hasUpperCase || !hasNumber || !hasSpecialChar || !isLongEnough || !passwordMatch}>
+                    disabled={!hasNumber || !hasSpecialChar || !isLongEnough || !passwordMatch}>
                 Sign Up
             </button>
             <p className="signup-legal">By signing up, you expressly acknowledge, consent to, and agree to be

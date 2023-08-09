@@ -1,9 +1,11 @@
 import {useState, useEffect} from 'react';
-import {signInWithEmailAndPassword, onAuthStateChanged} from 'firebase/auth';
+import {signInWithEmailAndPassword, onAuthStateChanged, sendPasswordResetEmail} from 'firebase/auth';
 import {auth} from '../lib/firebase';
 import {useRouter} from 'next/router';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTimes} from "@fortawesome/free-solid-svg-icons";
+import {toast, ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function SignInForm() {
     const [email, setEmail] = useState('');
@@ -56,6 +58,17 @@ export default function SignInForm() {
         }
     };
 
+    const handleForgotPassword = async (e) => {
+        e.preventDefault();
+        try {
+            await sendPasswordResetEmail(auth, email);
+            toast.success('Password reset email sent');
+        } catch (error) {
+            console.error(error);
+            toast.error('Failed to send password reset email');
+        }
+    };
+
     return (
         <div>
             {!isEmailVerified && (
@@ -71,7 +84,11 @@ export default function SignInForm() {
                 <input className="sign-in-password" type="password" value={password}
                        onChange={(e) => setPassword(e.target.value)} placeholder="Password"
                        required/>
+                <a className="sign-in-forgot-password" href="#" onClick={handleForgotPassword} role="button"
+                   tabIndex="0">Forgot Password?</a>
+
                 <button className="sign-in-button" type="submit">Login</button>
+                <ToastContainer/>
                 {error && (
                     <div className="error-container">
                         <p className="error-message">{error}</p>

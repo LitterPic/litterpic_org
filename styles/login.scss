@@ -27,6 +27,7 @@
 
 .sign-in-password {
   font-size: 1.1rem;
+  margin-bottom: .25rem;
   margin-left: auto;
   margin-right: auto;
   width: 15.6rem;
@@ -39,4 +40,11 @@
   margin-right: auto;
   margin-top: 1.9rem;
   width: 6.25rem;
+}
+
+.sign-in-forgot-password {
+  cursor: pointer;
+  font-size: .75rem;
+  font-style: italic;
+  text-decoration: none;
 }

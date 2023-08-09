@@ -780,6 +780,7 @@ p .index-inspire-change-text {
 
 .sign-in-password {
   font-size: 1.1rem;
+  margin-bottom: 0.25rem;
   margin-left: auto;
   margin-right: auto;
   width: 15.6rem;
@@ -792,6 +793,13 @@ p .index-inspire-change-text {
   margin-right: auto;
   margin-top: 1.9rem;
   width: 6.25rem;
+}
+
+.sign-in-forgot-password {
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-style: italic;
+  text-decoration: none;
 }
 
 .logo-bar,
@@ -882,7 +890,9 @@ p .index-inspire-change-text {
 }
 
 .donate-button {
+  margin-bottom: auto;
   margin-right: 0.5rem;
+  margin-top: auto;
 }
 
 .login-button {
@@ -959,6 +969,8 @@ p .index-inspire-change-text {
     font-size: 1rem;
     font-weight: normal;
     height: 2rem;
+    margin-bottom: 0;
+    margin-top: 0;
     padding: 0.5rem;
   }
   .logo-bar {
@@ -1795,6 +1807,7 @@ p .index-inspire-change-text {
 
 .sign-in-password {
   font-size: 1.1rem;
+  margin-bottom: 0.25rem;
   margin-left: auto;
   margin-right: auto;
   width: 15.6rem;
@@ -1807,6 +1820,13 @@ p .index-inspire-change-text {
   margin-right: auto;
   margin-top: 1.9rem;
   width: 6.25rem;
+}
+
+.sign-in-forgot-password {
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-style: italic;
+  text-decoration: none;
 }
 
 .logo-bar,
@@ -1897,7 +1917,9 @@ p .index-inspire-change-text {
 }
 
 .donate-button {
+  margin-bottom: auto;
   margin-right: 0.5rem;
+  margin-top: auto;
 }
 
 .login-button {
@@ -1974,6 +1996,8 @@ p .index-inspire-change-text {
     font-size: 1rem;
     font-weight: normal;
     height: 2rem;
+    margin-bottom: 0;
+    margin-top: 0;
     padding: 0.5rem;
   }
   .logo-bar {
@@ -2230,10 +2254,10 @@ p .index-inspire-change-text {
   align-items: center;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   margin-left: auto;
   margin-right: auto;
   max-width: 400px;
-  justify-content: center;
 }
 
 .sign-in-form {
@@ -3190,10 +3214,10 @@ textarea.event-description-input {
   align-items: center;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   margin-left: auto;
   margin-right: auto;
   max-width: 400px;
-  justify-content: center;
 }
 
 .sign-in-form {
