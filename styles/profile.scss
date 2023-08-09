@@ -72,22 +72,22 @@
     img {
       border: 2px solid $litterpic-green;
       border-radius: 50%;
-      grid-column: 4;
+      grid-column: 1;
       grid-row: 1;
-      height: 60px;
+      height: 100px;
       justify-self: center;
       object-fit: cover;
-      width: 60px;
+      width: 100px;
     }
   }
 
   .edit-profile-button {
     align-self: flex-start;
     font-size: 1rem;
-    grid-column: 4;
+    grid-column: 1;
     grid-row: 2;
     justify-self: center;
-    width: auto;
+    width: 100px;
 
     &::before {
       white-space: normal;
