@@ -3,7 +3,7 @@ import {auth, db} from '../lib/firebase';
 import {useAuth} from '../lib/firebase';
 import {useRouter} from 'next/router';
 import {updateProfile} from 'firebase/auth';
-import {collection, getDocs, doc, updateDoc, getDoc, setDoc, query, where} from 'firebase/firestore';
+import {collection, getDocs, doc, setDoc, query, where} from 'firebase/firestore';
 import {getStorage, ref, uploadBytes, getDownloadURL} from 'firebase/storage';
 
 export default function EditProfilePage() {
@@ -61,6 +61,10 @@ export default function EditProfilePage() {
         setPhotoUrl(downloadURL);
     };
 
+    const handleFileClick = () => {
+        document.getElementById('fileInput').click();
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
@@ -105,49 +109,58 @@ export default function EditProfilePage() {
                 <img src="/images/editProfileBanner.jpeg" alt="Banner Image"/>
             </div>
 
-            <h1 className="heading-text">Edit Profile</h1>
-            <form onSubmit={handleSubmit}>
-                <label className="edit-profile-label">
-                    Display Name:
-                    <input className="edit-profile-input"
-                           type="text"
-                           value={displayName}
-                           onChange={(e) => setDisplayName(e.target.value)}
-                           required
-                    />
-                </label>
-                <label className="edit-profile-label">
-                    Bio:
-                    <textarea className="edit-profile-textarea"
-                              value={bio}
-                              onChange={(e) => setBio(e.target.value)}
-                    ></textarea>
-                </label>
-                <label className="edit-profile-label">
-                    Organization:
-                    <select className="edit-profile-select"
-                            value={organization}
-                            onChange={(e) => setOrganization(e.target.value)}
-                    >
-                        {organizations.map((org, index) => (
-                            <option key={index} value={org}>
-                                {org}
-                            </option>
-                        ))}
-                    </select>
-                </label>
-                <label className="edit-profile-label">
-                    Profile Photo:
-                    <input className="edit-profile-input"
-                           type="file"
-                           onChange={handleChange}
-                    />
-                    {photoUrl && <img src={photoUrl} alt="Profile Preview"/>}
-                </label>
-                <button className="edit-profile-submit-button" type="submit" disabled={isLoading}>
-                    {isLoading ? 'Updating...' : 'Update Profile'}
-                </button>
-            </form>
+            <div className="page">
+                <div className="content">
+                    <h1 className="heading-text">Edit Profile</h1>
+                    <div className="edit-profile-container">
+                        <form onSubmit={handleSubmit}>
+
+                            <label className="edit-profile-label">
+                                <div className="edit-profile-photo">
+                                    {photoUrl && <img src={photoUrl} alt="Profile Preview"/>}
+                                </div>
+                                <input type="file" id="fileInput" className="edit-profile-file-input"
+                                       onChange={handleChange}/>
+                                <button type="button" className="edit-profile-photo-button"
+                                        onClick={handleFileClick}>Choose File
+                                </button>
+                            </label>
+                            <label className="edit-profile-label">
+                                Display Name:
+                                <input className="edit-profile-name-input"
+                                       type="text"
+                                       value={displayName}
+                                       onChange={(e) => setDisplayName(e.target.value)}
+                                       required
+                                />
+                            </label>
+                            <label className="edit-profile-label">
+                                Bio:
+                                <textarea className="edit-profile-bio-textarea"
+                                          value={bio}
+                                          onChange={(e) => setBio(e.target.value)}
+                                ></textarea>
+                            </label>
+                            <label className="edit-profile-label">
+                                Organization:
+                                <select className="edit-profile-organization-select"
+                                        value={organization}
+                                        onChange={(e) => setOrganization(e.target.value)}
+                                >
+                                    {organizations.map((org, index) => (
+                                        <option key={index} value={org}>
+                                            {org}
+                                        </option>
+                                    ))}
+                                </select>
+                            </label>
+                            <button className="edit-profile-submit-button" type="submit" disabled={isLoading}>
+                                {isLoading ? 'Updating...' : 'Update Profile'}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }

@@ -1,47 +1,99 @@
 @import 'colors';
 @import 'fonts';
 
-.edit-profile-label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 5px;
+.edit-profile-container {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
 
-  img {
-    border-radius: 50%;
-    height: 100px;
-    width: 100px;
+  form {
+    background: $light-gray;
+    border-radius: 10px;
+    box-shadow: 0 0 10px $light-gray;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 75%;
+    padding: 30px;
+    width: 100%;
   }
 }
 
-.edit-profile-input,
-.edit-profile-textarea {
-  border: 1px solid $light-gray;
-  border-radius: 3px;
-  padding: 10px;
-  width: 100%;
+.edit-profile-label {
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+  margin-bottom: 20px;
 }
 
-.edit-profile-select {
-  height: 50px;
+.edit-profile-photo {
+  align-items: center;
+  display: flex;
+  margin-bottom: 10px;
+
+  img {
+    border-radius: 50%;
+    height: 200px;
+    width: 200px;
+  }
+
+  &-button {
+    border-radius: .5rem;
+    font-size: .75rem;
+    margin-bottom: 1rem;
+    width: 200px;
+  }
 }
 
-.profile-preview {
-  display: block;
-  height: 100px;
-  margin-top: 10px;
-  width: 100px;
-}
 
+.edit-profile-photo-button,
 .edit-profile-submit-button {
   background: $litterpic-green;
   border: 0;
-  border-radius: .5rem;
+  border-radius: 5px;
   color: $white;
   cursor: pointer;
   padding: 10px 20px;
-  transition: background .3s;
+  transition: background .3s ease;
 
   &:hover {
     background: $facebook-blue;
   }
 }
+
+.edit-profile-name-input {
+  width: 33%;
+}
+
+.edit-profile-organization-select {
+  width: 33%;
+}
+
+.edit-profile-bio-textarea {
+  border: 1px solid $med-gray;
+  border-radius: 5px;
+  min-height: 80px;
+  overflow-wrap: break-word;
+  padding: 10px;
+  resize: vertical;
+  white-space: pre-wrap;
+  width: 90%;
+}
+
+
+.edit-profile-submit-button {
+  display: block;
+  margin-top: 20px;
+  width: 200px;
+}
+
+[disabled] {
+  background: $med-gray;
+  cursor: not-allowed;
+}
+
+.edit-profile-file-input {
+  display: none;
+}
+
+
