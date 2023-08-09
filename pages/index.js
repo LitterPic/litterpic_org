@@ -112,6 +112,15 @@ export default function Index() {
                         />
                     ))}
                 </div>
+                <div className="carousel-dots">
+                    {images.map((_, index) => (
+                        <div
+                            key={index}
+                            className={`carousel-dot ${index === currentIndex ? 'active' : ''}`}
+                            onClick={() => setCurrentIndex(index)}
+                        />
+                    ))}
+                </div>
                 <button className="carousel-button-right" onClick={() => handleSwipe("right")}>{">"}</button>
             </div>
         );
