@@ -730,11 +730,60 @@ p .index-inspire-change-text {
 }
 
 .index-more-stories-button {
-  padding-left: 1rem;
+  display: inline;
+  margin-left: 1rem;
+  position: relative;
   text-decoration: none;
+  top: -5px;
 }
 .index-more-stories-button button {
   border-radius: 0.5rem;
+  display: inline;
+}
+
+.home-carousel-section {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+}
+.home-carousel-section-text {
+  color: #4caf50;
+  display: inline-block;
+  font-size: 2rem;
+  letter-spacing: 2px;
+  line-height: 1.5;
+  margin-left: 3rem;
+  max-width: calc(100% - 10rem);
+  word-wrap: break-word;
+}
+
+.carousel-container {
+  height: 300px;
+  margin-top: 3rem;
+  overflow: hidden;
+  position: relative;
+  width: 800px;
+}
+
+.carousel-slide {
+  height: 100%;
+  position: relative;
+  width: 100%;
+}
+
+.carousel-page {
+  background-position: center;
+  background-size: cover;
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: opacity 1.8s ease-in;
+}
+.carousel-page.active {
+  opacity: 1;
 }
 
 @media (max-width: 76.5rem) {
@@ -770,9 +819,11 @@ p .index-inspire-change-text {
   .index-more-stories-button {
     display: flex;
     justify-content: flex-start;
+    margin-left: 0;
     padding-left: 0;
   }
   .index-more-stories-button button {
+    font-size: 0.75rem;
     margin-bottom: 1rem;
     margin-top: 1rem;
   }
@@ -784,6 +835,25 @@ p .index-inspire-change-text {
     color: #015e41;
     font-size: 1rem;
     padding: 1rem;
+  }
+  .home-carousel-section {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+  }
+  .home-carousel-section-text {
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    line-height: 1.25;
+    margin-left: 1rem;
+    max-width: calc(100% - 5rem);
+  }
+  .carousel-container {
+    height: 150px;
+    margin-bottom: 2rem;
+    margin-left: 1rem;
+    margin-top: 2rem;
+    width: 500px;
   }
 }
 @media (max-width: 102.25rem) and (orientation: landscape) {
@@ -1757,11 +1827,60 @@ p .index-inspire-change-text {
 }
 
 .index-more-stories-button {
-  padding-left: 1rem;
+  display: inline;
+  margin-left: 1rem;
+  position: relative;
   text-decoration: none;
+  top: -5px;
 }
 .index-more-stories-button button {
   border-radius: 0.5rem;
+  display: inline;
+}
+
+.home-carousel-section {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+}
+.home-carousel-section-text {
+  color: #4caf50;
+  display: inline-block;
+  font-size: 2rem;
+  letter-spacing: 2px;
+  line-height: 1.5;
+  margin-left: 3rem;
+  max-width: calc(100% - 10rem);
+  word-wrap: break-word;
+}
+
+.carousel-container {
+  height: 300px;
+  margin-top: 3rem;
+  overflow: hidden;
+  position: relative;
+  width: 800px;
+}
+
+.carousel-slide {
+  height: 100%;
+  position: relative;
+  width: 100%;
+}
+
+.carousel-page {
+  background-position: center;
+  background-size: cover;
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: opacity 1.8s ease-in;
+}
+.carousel-page.active {
+  opacity: 1;
 }
 
 @media (max-width: 76.5rem) {
@@ -1797,9 +1916,11 @@ p .index-inspire-change-text {
   .index-more-stories-button {
     display: flex;
     justify-content: flex-start;
+    margin-left: 0;
     padding-left: 0;
   }
   .index-more-stories-button button {
+    font-size: 0.75rem;
     margin-bottom: 1rem;
     margin-top: 1rem;
   }
@@ -1811,6 +1932,25 @@ p .index-inspire-change-text {
     color: #015e41;
     font-size: 1rem;
     padding: 1rem;
+  }
+  .home-carousel-section {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+  }
+  .home-carousel-section-text {
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    line-height: 1.25;
+    margin-left: 1rem;
+    max-width: calc(100% - 5rem);
+  }
+  .carousel-container {
+    height: 150px;
+    margin-bottom: 2rem;
+    margin-left: 1rem;
+    margin-top: 2rem;
+    width: 500px;
   }
 }
 @media (max-width: 102.25rem) and (orientation: landscape) {
