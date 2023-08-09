@@ -13,7 +13,7 @@
     box-shadow: 0 0 10px $light-gray;
     margin-left: auto;
     margin-right: auto;
-    max-width: 75%;
+    max-width: 90%;
     padding: 30px;
     width: 100%;
   }
@@ -39,7 +39,7 @@
 
   &-button {
     border-radius: .5rem;
-    font-size: .75rem;
+    font-size: 1rem;
     margin-bottom: 1rem;
     width: 200px;
   }
@@ -131,6 +131,6 @@
   }
 
   .edit-profile-submit-button {
-    font-size: .75rem;
+    font-size: 1rem;
   }
 }

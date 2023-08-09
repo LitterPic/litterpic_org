@@ -122,7 +122,7 @@ export default function EditProfilePage() {
                                 <input type="file" id="fileInput" className="edit-profile-file-input"
                                        onChange={handleChange}/>
                                 <button type="button" className="edit-profile-photo-button"
-                                        onClick={handleFileClick}>Choose File
+                                        onClick={handleFileClick}>Change profile photo
                                 </button>
                             </label>
                             <label className="edit-profile-label">
