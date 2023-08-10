@@ -5,8 +5,6 @@ import {
     addDoc,
     doc,
     getDocs,
-    query,
-    where,
     setDoc,
     updateDoc,
     arrayUnion,
@@ -205,10 +203,8 @@ const Volunteer = () => {
             })
                 .then((response) => response.json())
                 .then((data) => {
-                    console.log("Event Confirmation Email sent successfully", data);
                 })
                 .catch((error) => {
-                    console.error("Error sending event confirmation email:", error);
                 });
         } catch (error) {
             console.error("Error creating event:", error);
@@ -232,7 +228,6 @@ const Volunteer = () => {
 
     const handleRsvpFormSubmit = (event) => {
         event.preventDefault();
-        console.log("start of handlersvpformsubmit");
 
         const {eventId, numberAttending, note} = rsvpFormData;
         if (eventId) {
@@ -240,9 +235,7 @@ const Volunteer = () => {
                 .then(async (rsvpId) => {
                         const eventDocRef = doc(db, "events", eventId);
                         const rsvpsArray = arrayUnion(doc(db, "rsvp", rsvpId));
-                        console.log("Before UpdateDoc");
                         updateDoc(eventDocRef, {rsvps: rsvpsArray});
-                        console.log("After UpdateDoc");
                         const rsvpDocRef = doc(db, "rsvp", rsvpId);
                         const rsvpDoc = await getDoc(rsvpDocRef);
                         const rsvpData = rsvpDoc.data();
@@ -264,7 +257,6 @@ const Volunteer = () => {
 
                         setShowThankYou(true);
 
-                        console.log("Before email to person who rsvp'd");
                         //send email to person who RSVP'd
                         const participantRsvpTemplateId = "d-d1420f7a054b4424bf7bb990524db1ae";
                         const participantTemplateData = {
@@ -298,13 +290,11 @@ const Volunteer = () => {
                         })
                             .then((response) => response.json())
                             .then((data) => {
-                                console.log("Email sent successfully", data);
                             })
                             .catch((error) => {
                                 console.error("Error sending email:", error);
                             });
 
-                        console.log("Before email to event organizer");
                         //send email to event organizer
                         const organizerRsvpTemplateId = "d-60649fab1ee8435db38e1ff3ce8f4645"
                         const organizerTemplateData = {
@@ -341,13 +331,10 @@ const Volunteer = () => {
                         })
                             .then((response) => response.json())
                             .then((data) => {
-                                console.log("Email sent to organizer successfully", data);
                             })
                             .catch((error) => {
                                 console.error("Error sending email to organizer:", error);
                             });
-
-                        console.log("End of method");
                     }
                 )
                 .catch((error) => {

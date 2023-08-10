@@ -8,7 +8,7 @@ import {faComment as farComment} from '@fortawesome/free-regular-svg-icons';
 import {faHeart as farHeart} from '@fortawesome/free-regular-svg-icons';
 import {faHeart} from '@fortawesome/free-solid-svg-icons';
 import {faComment} from '@fortawesome/free-solid-svg-icons';
-import {faEllipsisV, faEllipsisH} from '@fortawesome/free-solid-svg-icons';
+import {faEllipsisV} from '@fortawesome/free-solid-svg-icons';
 import {getAuth} from 'firebase/auth';
 import {getUsersWhoLikedPost} from '../components/utils';
 import {useRouter} from 'next/router';
@@ -272,7 +272,6 @@ function Stories() {
             }
 
             setPostComments(fetchedPostComments);
-            console.log("Fetched post comments:", JSON.stringify(fetchedPostComments, null, 2));
         };
 
         fetchAndSetPostComments();
@@ -301,20 +300,6 @@ function Stories() {
         });
 
         return uniquePosts;
-    };
-
-    const fetchMorePosts = async () => {
-        setIsLoading(true);
-        const nextPage = page + 1;
-        const fetchedPosts = await fetchPosts(nextPage, 4);
-        if (fetchedPosts.length === 0) {
-            setHasMorePosts(false);
-        } else {
-            const uniquePosts = filterUniquePosts(fetchedPosts);
-            setPosts((prevPosts) => [...prevPosts, ...uniquePosts]); // Merge previous posts with new ones
-            setPage(nextPage);
-        }
-        setIsLoading(false);
     };
 
     return (
