@@ -25,7 +25,6 @@ export default function EditProfilePage() {
                 const userDocs = await getDocs(userQuery);
 
                 if (userDocs.empty) {
-                    console.log("No matching documents.");
                     return;
                 }
 
@@ -83,7 +82,6 @@ export default function EditProfilePage() {
             const userDocs = await getDocs(userQuery);
 
             if (userDocs.empty) {
-                console.log("No matching documents.");
                 return;
             }
 
