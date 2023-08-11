@@ -2712,7 +2712,7 @@ p .index-inspire-change-text {
   width: 30%;
 }
 .story-comment-input .comment-text-input {
-  font-size: 0.7rem;
+  font-size: 1rem;
   height: 60px;
   margin-left: auto;
   margin-right: auto;
@@ -2875,7 +2875,7 @@ p .index-inspire-change-text {
 }
 
 .grayed-out {
-  color: gray;
+  color: #808080;
   cursor: not-allowed;
   margin-left: 0.5rem;
 }
@@ -2966,6 +2966,14 @@ p .index-inspire-change-text {
   }
   .post-dropdown-menu {
     left: 63%;
+  }
+  .create-post-content {
+    display: flex;
+    justify-content: center;
+  }
+  .create-post-content img {
+    max-width: 99vw;
+    object-fit: cover;
   }
 }
 @media (max-width: 102.25rem) and (orientation: landscape) {
@@ -3670,7 +3678,7 @@ textarea.event-description-input {
   width: 30%;
 }
 .story-comment-input .comment-text-input {
-  font-size: 0.7rem;
+  font-size: 1rem;
   height: 60px;
   margin-left: auto;
   margin-right: auto;
@@ -3833,7 +3841,7 @@ textarea.event-description-input {
 }
 
 .grayed-out {
-  color: gray;
+  color: #808080;
   cursor: not-allowed;
   margin-left: 0.5rem;
 }
@@ -3924,6 +3932,14 @@ textarea.event-description-input {
   }
   .post-dropdown-menu {
     left: 63%;
+  }
+  .create-post-content {
+    display: flex;
+    justify-content: center;
+  }
+  .create-post-content img {
+    max-width: 99vw;
+    object-fit: cover;
   }
 }
 @media (max-width: 102.25rem) and (orientation: landscape) {

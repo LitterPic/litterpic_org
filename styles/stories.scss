@@ -84,7 +84,7 @@
   }
 
   .comment-text-input {
-    font-size: .7rem;
+    font-size: 1rem;
     height: 60px;
     margin-left: auto;
     margin-right: auto;
@@ -259,7 +259,7 @@
 }
 
 .grayed-out {
-  color: gray;
+  color: #808080;
   cursor: not-allowed;
   margin-left: .5rem;
 }
@@ -368,6 +368,16 @@
 
   .post-dropdown-menu {
     left: 63%;
+  }
+
+  .create-post-content {
+    display: flex;
+    justify-content: center;
+
+    img {
+      max-width: 99vw;
+      object-fit: cover;
+    }
   }
 }
 

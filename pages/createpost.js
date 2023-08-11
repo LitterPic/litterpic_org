@@ -201,7 +201,6 @@ function CreatePost() {
                                         key={index}
                                         src={preview}
                                         alt="Preview"
-                                        style={{width: '400px', height: '400px', objectFit: 'cover'}}
                                     />
                                 ))}
                             </div>
@@ -210,12 +209,12 @@ function CreatePost() {
                             </div>
                             <div>
                                 <textarea value={postDescription} onChange={onDescriptionChange}
-                                          placeholder="Post Description"/>
+                                          placeholder="Description"/>
                             </div>
                             <div>
                                 <input
                                     type="number"
-                                    placeholder="Enter the amount of litter collected"
+                                    placeholder="Pounds of litter collected"
                                     value={litterWeight}
                                     onChange={(e) => {
                                         const value = e.target.value;
@@ -269,7 +268,8 @@ function CreatePost() {
                             {error && (
                                 <div className="error-container">
                                     <p className="error-message">{error}</p>
-                                    <FontAwesomeIcon icon={faTimes} className="error-clear-icon" onClick={clearError}/>
+                                    <FontAwesomeIcon icon={faTimes} className="error-clear-icon"
+                                                     onClick={clearError}/>
                                 </div>
                             )}
                         </form>

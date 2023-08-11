@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
+import {toast, ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Contact = () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
-    const [successMessage, setSuccessMessage] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -27,17 +28,17 @@ const Contact = () => {
             });
 
             if (response.ok) {
-                setSuccessMessage(`Thank you for Contacting Us, someone will be in touch soon!`);
+                toast.success('Thank you for contacting us, someone will be in touch soon!');
                 setFirstName('');
                 setLastName('');
                 setEmail('');
                 setMessage('');
             } else {
-                setSuccessMessage('Failed to send email. Please try again later.');
+                toast.error('Failed to send email. Please try again later.');
             }
         } catch (error) {
             console.error(error);
-            setSuccessMessage('An error occurred. Please try again later.');
+            toast.error('An error occurred. Please try again later.');
         }
     };
 
@@ -129,7 +130,7 @@ const Contact = () => {
                                     ></textarea>
                                 </div>
                                 <button id="contact-submit-button" type="submit">Send</button>
-                                {successMessage && <p className="contact-submit-response">{successMessage}</p>}
+                                <ToastContainer/>
                             </form>
                         </div>
                     </div>
