@@ -94,7 +94,9 @@ const Volunteer = () => {
     const [rsvpSnapshot, setRsvpSnapshot] = useState([]);
     const [showCreateEventForm, setShowCreateEventForm] = useState(false);
     const [selectedAddress, setSelectedAddress] = useState('');
+    const [addressModified, setAddressModified] = useState(false);
     const [latLng, setLatLng] = useState('');
+    const [eventsChanged, setEventsChanged] = useState(false);
 
     const handleAddressSelect = (address) => {
         setSelectedAddress(address);
@@ -127,6 +129,7 @@ const Volunteer = () => {
     }
 
     const handleCreateEventFormSubmit = async (event) => {
+        event.preventDefault();
 
         const startTimeString = event.target.eventStartTime.value;
         const endTimeString = event.target.eventEndTime.value;
@@ -151,15 +154,33 @@ const Volunteer = () => {
             eventStartTime: eventStartTime,
             eventEndTime: eventEndTime,
             owner: userRef,
-            rspvs: [],
+            rsvps: [],
             time_created: serverTimestamp(),
         };
 
         try {
             const eventCollection = collection(db, "events");
             const docRef = await addDoc(eventCollection, eventData);
+            const userRef = doc(db, 'users', user.uid);
+
+            // Create the RSVP document with necessary fields
+            const rsvpData = {
+                eventAssociation: docRef, // reference to the created event
+                noteToOrganizer: "Auto Owner RSVP",
+                user: userRef,
+            };
+
+            const rsvpCollection = collection(db, "rsvp");
+            const rsvpDocRef = await addDoc(rsvpCollection, rsvpData);
+
+            await updateDoc(docRef, {
+                rsvps: arrayUnion(rsvpDocRef)
+            });
+
+            eventData.rsvps.push(rsvpDocRef);
 
             setEvents(prevEvents => [...prevEvents, {...eventData, id: docRef.id}]);
+            setEventsChanged(!eventsChanged);
 
             setShowCreateEventForm(false);
 
@@ -472,7 +493,7 @@ const Volunteer = () => {
             setEvents(eventList);
         };
         fetchData();
-    }, []);
+    }, [eventsChanged]);
 
     const onEventSelect = (event) => {
         setSelectedDate(event.start.toISOString().split('T')[0]);
@@ -629,14 +650,16 @@ const Volunteer = () => {
                             </tr>
                             </thead>
                             <tbody>
-                            {events.filter(event => new Date(event.start.toISOString().split('T')[0]) >= new Date()).map((event, index) => {
+                            {events.filter(event => event && event.start && new Date(event.start.toISOString().split('T')[0]) >= new Date()).map((event, index) => {
+                                const currentUserID = auth && auth.currentUser && auth.currentUser.uid;
 
                                 const rsvpForEvent = rsvpSnapshot.find(doc => {
                                     const eventRef = doc.data().eventAssociation;
-                                    return eventRef && eventRef.id === event.id;
+                                    const userRef = doc.data().user;
+                                    return eventRef && eventRef.id === event.id && userRef.id === currentUserID && doc.data().noteToOrganizer === "Auto Owner RSVP";
                                 });
 
-                                const isHostingEvent = rsvpForEvent && rsvpForEvent.data().noteToOrganizer === "Auto Owner RSVP";
+                                const isHostingEvent = Boolean(rsvpForEvent);
                                 const userEmail = auth && auth.currentUser && auth.currentUser.email ? auth.currentUser.email : '';
                                 const shouldShowLink = isHostingEvent || userEmail === 'alek@litterpic.com';
 
@@ -663,21 +686,19 @@ const Volunteer = () => {
                                         </td>
 
                                         <td>
-                                            {rsvps[event.id] ? (
-                                                isHostingEvent ? (
-                                                    "You're hosting this event"
-                                                ) : (
-                                                    <>
-                                                        You are attending this event
-                                                        <br/>
-                                                        <button
-                                                            className="cancel-rsvp-button"
-                                                            onClick={() => handleCancelRsvp(event.id)}
-                                                        >
-                                                            Cancel RSVP
-                                                        </button>
-                                                    </>
-                                                )
+                                            {isHostingEvent ? (
+                                                "You're hosting this event"
+                                            ) : currentUserID && rsvps[event.id] ? (
+                                                <>
+                                                    You're attending this event
+                                                    <br/>
+                                                    <button
+                                                        className="cancel-rsvp-button"
+                                                        onClick={() => handleCancelRsvp(event.id)}
+                                                    >
+                                                        Cancel RSVP
+                                                    </button>
+                                                </>
                                             ) : (
                                                 <a href="#" onClick={() => handleRsvpClick(event.id)}>
                                                     RSVP
@@ -685,8 +706,7 @@ const Volunteer = () => {
                                             )}
                                         </td>
                                     </tr>
-                                )
-                                    ;
+                                );
                             })}
                             </tbody>
                         </table>
