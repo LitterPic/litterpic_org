@@ -248,6 +248,20 @@
     border-radius: .5em;
     margin-top: .5rem;
   }
+
+  img {
+    max-width: 40vw;
+    object-fit: cover;
+  }
+
+  input {
+    width: 600px;
+  }
+
+  textarea {
+    height: 100px;
+    width: 600px;
+  }
 }
 
 .meatball-menu {
@@ -377,6 +391,15 @@
     img {
       max-width: 99vw;
       object-fit: cover;
+    }
+
+    input {
+      width: 80vw;
+    }
+
+    textarea {
+      height: 100px;
+      width: 80vw;
     }
   }
 }

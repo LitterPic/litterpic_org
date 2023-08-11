@@ -2870,6 +2870,17 @@ p .index-inspire-change-text {
   border-radius: 0.5em;
   margin-top: 0.5rem;
 }
+.create-post-content img {
+  max-width: 40vw;
+  object-fit: cover;
+}
+.create-post-content input {
+  width: 600px;
+}
+.create-post-content textarea {
+  height: 100px;
+  width: 600px;
+}
 
 .meatball-menu {
   cursor: pointer;
@@ -2978,6 +2989,13 @@ p .index-inspire-change-text {
   .create-post-content img {
     max-width: 99vw;
     object-fit: cover;
+  }
+  .create-post-content input {
+    width: 80vw;
+  }
+  .create-post-content textarea {
+    height: 100px;
+    width: 80vw;
   }
 }
 @media (max-width: 102.25rem) and (orientation: landscape) {
@@ -3848,6 +3866,17 @@ textarea.event-description-input {
   border-radius: 0.5em;
   margin-top: 0.5rem;
 }
+.create-post-content img {
+  max-width: 40vw;
+  object-fit: cover;
+}
+.create-post-content input {
+  width: 600px;
+}
+.create-post-content textarea {
+  height: 100px;
+  width: 600px;
+}
 
 .meatball-menu {
   cursor: pointer;
@@ -3956,6 +3985,13 @@ textarea.event-description-input {
   .create-post-content img {
     max-width: 99vw;
     object-fit: cover;
+  }
+  .create-post-content input {
+    width: 80vw;
+  }
+  .create-post-content textarea {
+    height: 100px;
+    width: 80vw;
   }
 }
 @media (max-width: 102.25rem) and (orientation: landscape) {
