@@ -20,7 +20,7 @@ const Privacy = () => {
                         app
                         (collectively, the "Services").
                     </p>
-
+                    <br/>
                     <h2>Information We Collect</h2>
 
                     <p>
@@ -137,6 +137,7 @@ const Privacy = () => {
                     </p>
 
                     <div className="blank-space"></div>
+                    <br/>
                     <h2>Changes to this Policy</h2>
 
                     <p>
@@ -150,6 +151,7 @@ const Privacy = () => {
                     </p>
 
                     <div className="blank-space"></div>
+                    <br/>
                     <h2>Contact Us</h2>
 
                     <p>
