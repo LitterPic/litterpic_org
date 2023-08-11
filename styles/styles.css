@@ -2601,7 +2601,7 @@ p .index-inspire-change-text {
 
 .error-message {
   color: #f00;
-  font-size: 1.5rem;
+  font-size: 1rem;
   font-weight: bolder;
   margin-right: 8px;
   text-align: center;
@@ -3567,7 +3567,7 @@ textarea.event-description-input {
 
 .error-message {
   color: #f00;
-  font-size: 1.5rem;
+  font-size: 1rem;
   font-weight: bolder;
   margin-right: 8px;
   text-align: center;

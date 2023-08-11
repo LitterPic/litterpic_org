@@ -17,8 +17,6 @@ export default function SignInForm() {
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
 
-    const [hasNumber, setHasNumber] = useState(false);
-    const [hasSpecialChar, setHasSpecialChar] = useState(false);
     const [isLongEnough, setIsLongEnough] = useState(false);
     const [passwordMatch, setPasswordMatch] = useState(false);
 
@@ -28,8 +26,6 @@ export default function SignInForm() {
         const pass = e.target.value;
         setPassword(pass);
 
-        setHasNumber(/\d/.test(pass));
-        setHasSpecialChar(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(pass));
         setIsLongEnough(pass.length >= 6);
         setPasswordMatch(pass === confirmPassword && pass !== '' && confirmPassword !== '');
     }
@@ -48,7 +44,7 @@ export default function SignInForm() {
             return;
         }
 
-        if (!hasNumber || !hasSpecialChar || !isLongEnough) {
+        if (!isLongEnough) {
             setError('Password does not meet requirements');
             return;
         }
@@ -102,7 +98,7 @@ export default function SignInForm() {
         setError('');
     };
 
-    const checkMark = hasNumber && hasSpecialChar && isLongEnough && passwordMatch ? '✓' : ' ';
+    const checkMark = isLongEnough && passwordMatch ? '✓' : ' ';
 
     return (
         <form className="signup-form" onSubmit={handleSubmit}>
@@ -146,19 +142,18 @@ export default function SignInForm() {
             </div>
             {(password !== '' || confirmPassword !== '') && (
                 <div className="signup-password-requirements">
-                    <p className={hasNumber ? 'valid-password-attribute' : 'invalid-password-attribute'}>{checkMark} Password
-                        must have a number</p>
-                    <p className={hasSpecialChar ? 'valid-password-attribute' : 'invalid-password-attribute'}>{checkMark} Password
-                        must have a special character</p>
-                    <p className={isLongEnough ? 'valid-password-attribute' : 'invalid-password-attribute'}>{checkMark} Password
-                        must be at least 6 characters</p>
-                    <p className={passwordMatch ? 'valid-password-attribute' : 'invalid-password-attribute'}>{checkMark} Password
-                        fields must match</p>
+                    <p className={isLongEnough ? 'valid-password-attribute' : 'invalid-password-attribute'}>
+                        {isLongEnough ? '✓' : checkMark} Password {isLongEnough ? 'is' : "isn't"} at least 6 characters
+                        in length
+                    </p>
+                    <p className={passwordMatch ? 'valid-password-attribute' : 'invalid-password-attribute'}>
+                        {passwordMatch ? '✓' : checkMark} Password fields {passwordMatch ? 'match' : "don't match"}
+                    </p>
                 </div>
             )}
             <button className="signup-button"
                     type="submit"
-                    disabled={!hasNumber || !hasSpecialChar || !isLongEnough || !passwordMatch}>
+                    disabled={!isLongEnough || !passwordMatch}>
                 Sign Up
             </button>
             <p className="signup-legal">By signing up, you expressly acknowledge, consent to, and agree to be
