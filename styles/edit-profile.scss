@@ -62,12 +62,16 @@
 }
 
 .edit-profile-name-input {
+  border: 1px solid $med-gray;
+  border-radius: 5px;
   padding-left: .5rem;
   width: 33%;
 }
 
 .edit-profile-organization-select {
   background-color: $white;
+  border: 1px solid $med-gray;
+  border-radius: 5px;
   color: $black;
   text-decoration: none;
   width: 33%;
