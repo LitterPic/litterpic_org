@@ -357,6 +357,22 @@ textarea {
     }
   }
 
+  .create-event-buttons {
+    .event-submit {
+      border-radius: .5rem;
+      font-weight: normal;
+      margin-right: .5rem;
+      width: 100px;
+    }
+
+    .event-submit-cancel {
+      border-radius: .5rem;
+      font-weight: normal;
+      margin-left: .5rem;
+      width: 100px;
+    }
+  }
+
   .rbc-toolbar-label {
     font-size: 2.25rem;
   }
