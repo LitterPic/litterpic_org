@@ -12,7 +12,7 @@ import {
     query,
     startAfter,
     updateDoc,
-    where, setDoc
+    where
 } from 'firebase/firestore';
 import {db, storage} from '../lib/firebase';
 import {getDownloadURL, ref} from 'firebase/storage';
@@ -128,8 +128,6 @@ export async function getUsersWhoLikedPost(postId) {
         return [];
     }
 }
-
-``
 
 export async function toggleLike(post, posts) {
     const postToUpdate = posts.find((p) => p.id === post.id);
