@@ -388,9 +388,9 @@ function Stories() {
                                             {openCommentInput === post.id && (
                                                 <>
                                                     {postComments[post.id] && postComments[post.id].map((commentData, index) => {
-                                                        const commentUserId = commentData.commentUser._key.path.segments[6];
+                                                        const commentUserId = commentData.commentUser && commentData.commentUser._key && commentData.commentUser._key.path && commentData.commentUser._key.path.segments ? commentData.commentUser._key.path.segments[6] : null;
                                                         const commentUser = users[commentUserId];
-                                                        const commentTime = commentData.timePosted.toDate();
+                                                        const commentTime = commentData.timePosted && typeof commentData.timePosted.toDate === 'function' ? commentData.timePosted.toDate() : null;
                                                         return (
                                                             <div key={index} className="comment">
                                                                 {commentUser && (
