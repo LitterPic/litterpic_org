@@ -2562,6 +2562,12 @@ p .index-inspire-change-text {
   justify-content: center;
 }
 
+.migrated-user-forgot-password {
+  font-style: italic;
+  font-weight: normal;
+  text-decoration: none;
+}
+
 .signup-email,
 .signup-password,
 .signup-confirm-password {
@@ -3557,6 +3563,12 @@ textarea.event-description-input {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.migrated-user-forgot-password {
+  font-style: italic;
+  font-weight: normal;
+  text-decoration: none;
 }
 
 .signup-email,

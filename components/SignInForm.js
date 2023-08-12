@@ -17,6 +17,7 @@ export default function SignInForm() {
     const [error, setError] = useState('');
     const [isMigratedUser, setIsMigratedUser] = useState(false);
     const [userId, setUserId] = useState(null);
+    const [showMigratedUserError, setShowMigratedUserError] = useState(false);
 
 
     const clearError = () => {
@@ -104,7 +105,7 @@ export default function SignInForm() {
         const snapshot = await getDocs(q);
 
         if (!snapshot.empty) {
-            setError("Your account has been migrated from LitterPic.com, Please reset your password using the Forgot Password link below.");
+            setShowMigratedUserError(true);
             setIsMigratedUser(true);
             const foundUserId = snapshot.docs[0].id;
             setUserId(foundUserId);
@@ -118,9 +119,6 @@ export default function SignInForm() {
 
     return (
         <div>
-            {/*{!isEmailVerified && (*/}
-            {/*    <p>Please verify your email before logging in. Check your inbox for the verification email.</p>*/}
-            {/*)}*/}
             <form className="sign-in-form" onSubmit={handleSubmit}>
                 <div className="sign-in-new-user-heading">
                     New to LitterPic?
@@ -174,6 +172,22 @@ export default function SignInForm() {
                             icon={faTimes}
                             className="error-clear-icon"
                             onClick={clearError}
+                        />
+                    </div>
+                )}
+                {showMigratedUserError && (
+                    <div className="error-container">
+                        <p className="error-message">
+                            Your account has been migrated from LitterPic.com, Please reset your password using the
+                            <a href="#"
+                               className="migrated-user-forgot-password"
+                               onClick={(e) => handleForgotPassword(e, userId)}> Forgot Password </a>
+                            link.
+                        </p>
+                        <FontAwesomeIcon
+                            icon={faTimes}
+                            className="error-clear-icon"
+                            onClick={() => setShowMigratedUserError(false)}
                         />
                     </div>
                 )}
