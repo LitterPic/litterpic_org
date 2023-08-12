@@ -26,7 +26,7 @@ const ReportsPage = () => {
                 const countryList = Array.from(countrySet);
                 setCountries(countryList);
             } catch (error) {
-                console.error('Error fetching data:', error);
+
             }
         };
         fetchData();
@@ -49,7 +49,7 @@ const ReportsPage = () => {
                 const stateList = Array.from(stateSet);
                 setStates(stateList);
             } catch (error) {
-                console.error('Error fetching states:', error);
+
             }
         };
 
@@ -85,7 +85,7 @@ const ReportsPage = () => {
                 const cityList = Array.from(citySet);
                 setCities(cityList);
             } catch (error) {
-                console.error('Error fetching cities:', error);
+
             }
         };
 
@@ -141,7 +141,7 @@ const ReportsPage = () => {
             setTotalWeight(total);
             setCityWeights(Array.from(cityWeightMap.entries()));
         } catch (error) {
-            console.error('Error calculating total weight:', error);
+
         }
     };
 

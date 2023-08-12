@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 import {storage, db} from '../lib/firebase';
+import {toast, ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function UploadForm() {
     const [file, setFile] = useState(null);
-    const [error, setError] = useState(null);
 
     const types = ['image/png', 'image/jpeg', 'image/gif'];
 
@@ -12,10 +13,9 @@ function UploadForm() {
 
         if (selected && types.includes(selected.type)) {
             setFile(selected);
-            setError('');
         } else {
             setFile(null);
-            setError('Please select an image file (png or jpg)');
+            toast.error('Please select an image file (png or jpg)');
         }
     };
 
@@ -31,7 +31,7 @@ function UploadForm() {
                     // Progress function ...
                 },
                 (err) => {
-                    setError(err.message);
+                    toast.error(err.message);
                 },
                 () => {
                     // Complete function ...
@@ -43,25 +43,25 @@ function UploadForm() {
                                 createdAt: new Date(),
                             })
                             .then(() => {
-                                console.log('Post saved successfully!');
+
                             })
                             .catch((error) => {
-                                setError(error.message);
+                                toast.error(error.message);
                             });
                     });
                 }
             );
         } else {
-            setError('Please select an image file (png or jpg)');
+            toast.error('Please select an image file (png or jpg)');
         }
     };
 
     return (
         <form onSubmit={handleUpload}>
+            <ToastContainer/>
             <input type="file" onChange={handleChange}/>
             <button type="submit">Upload</button>
             <div className="output">
-                {error && <div className="error">{error}</div>}
                 {file && <div>{file.name}</div>}
             </div>
         </form>

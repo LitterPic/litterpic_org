@@ -3130,6 +3130,7 @@ p .index-inspire-change-text {
 
 .table {
   border-collapse: collapse;
+  margin-bottom: 3rem;
   width: 100%;
 }
 .table td,
@@ -4160,6 +4161,7 @@ textarea.event-description-input {
 
 .table {
   border-collapse: collapse;
+  margin-bottom: 3rem;
   width: 100%;
 }
 .table td,

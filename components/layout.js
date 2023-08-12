@@ -59,7 +59,7 @@ const Layout = ({children}) => {
             setUserPhoto('');
             router.push('/login');
         } catch (error) {
-            console.error('Error signing out:', error);
+
         }
     };
 

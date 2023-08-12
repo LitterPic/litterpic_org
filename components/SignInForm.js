@@ -51,14 +51,8 @@ export default function SignInForm() {
             const userDocRef = doc(db, 'users', user.uid);
             const userDoc = await getDoc(userDocRef);
 
-            // Check if the user is a migrated user
-            if (userDoc.exists() && userDoc.data().isMigrated) {
-                setError('Please reset your password.');
-                return;
-            }
-
             if (!user.emailVerified) {
-                setError('Please verify your email before logging in.');
+                toast.error('Please verify your email before logging in.');
                 return;
             }
 
@@ -71,10 +65,9 @@ export default function SignInForm() {
             }
         } catch (error) {
             if (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
-                setError('Invalid Username or Password');
+                toast.error('Invalid Username or Password');
             } else {
-                setError('Unexpected Error');
-                console.error(error);
+                toast.error('Unexpected Error');
             }
         }
     };
