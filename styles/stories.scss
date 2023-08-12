@@ -264,6 +264,19 @@
   }
 }
 
+.create-post-limit-message {
+  color: $litterpic-green;
+  font-size: .7rem;
+  margin-bottom: 1rem;
+  margin-left: .5rem;
+  margin-top: -.5rem;
+}
+
+.create-post-file-input {
+  margin: 0;
+  padding: 0;
+}
+
 .meatball-menu {
   cursor: pointer;
   float: right;
@@ -402,6 +415,10 @@
       height: 100px;
       width: 80vw;
     }
+  }
+
+  .create-post-limit-message {
+    font-size: .6rem;
   }
 }
 
