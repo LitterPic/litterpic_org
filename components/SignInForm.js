@@ -1,6 +1,6 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import {signInWithEmailAndPassword, sendPasswordResetEmail} from 'firebase/auth';
-import {collection, doc, updateDoc, query, where, getDocs, getDoc} from 'firebase/firestore';
+import {collection, doc, updateDoc, query, where, getDocs} from 'firebase/firestore';
 import {db, auth} from '../lib/firebase';
 import {useRouter} from 'next/router';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -47,21 +47,22 @@ export default function SignInForm() {
                 }
             }
 
-            // Get the user's document from the users collection
-            const userDocRef = doc(db, 'users', user.uid);
-            const userDoc = await getDoc(userDocRef);
-
             if (!user.emailVerified) {
                 toast.error('Please verify your email before logging in.');
                 return;
             }
 
+            /*
+             * Redirects the user after successful login.
+             * If a 'redirectTo' query parameter is present in the URL, the user will be redirected to the specified page.
+             * If the 'redirectTo' query parameter is not present, the user will be redirected to the home page.
+             */
             if (router.query.redirectTo) {
                 // If the redirectTo query parameter is set, redirect to that page
-                router.push(router.query.redirectTo);
+                await router.push(router.query.redirectTo);
             } else {
                 // If the redirectTo query parameter is not set, redirect to the home page
-                router.push('/');
+                await router.push('/');
             }
         } catch (error) {
             if (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
@@ -82,6 +83,11 @@ export default function SignInForm() {
             if (isMigratedUser) {
                 const userRef = doc(db, 'users', userId);
                 await updateDoc(userRef, {isMigrated: false});
+
+                // Clear the migrated user states
+                setShowMigratedUserError(false);
+                setIsMigratedUser(false);
+                setUserId(null);
             }
 
             clearError();
@@ -105,10 +111,18 @@ export default function SignInForm() {
         } else {
             setError('');
             setIsMigratedUser(false);
+            setShowMigratedUserError(false);
+            setUserId(null);
         }
     };
 
     const debouncedCheckIfMigratedUser = debounce(checkIfMigratedUser, 500);
+
+    useEffect(() => {
+        debouncedCheckIfMigratedUser(email);
+
+        return () => debouncedCheckIfMigratedUser.cancel();
+    }, [email]);
 
     return (
         <div>
@@ -120,10 +134,7 @@ export default function SignInForm() {
                 <input className="sign-in-email"
                        type="email"
                        value={email}
-                       onChange={async (e) => {
-                           setEmail(e.target.value);
-                           await debouncedCheckIfMigratedUser(e.target.value);
-                       }}
+                       onChange={(e) => setEmail(e.target.value)}
                        placeholder="Email"
                        required
                 />
