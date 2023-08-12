@@ -96,7 +96,6 @@ export default function EditProfilePage() {
 
             router.push('/profile');
         } catch (error) {
-            console.error(error);
             setIsLoading(false);
         }
     };

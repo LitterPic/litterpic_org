@@ -1,22 +1,22 @@
 import {useState} from 'react';
 import {
-    createUserWithEmailAndPassword, getAuth,
+    createUserWithEmailAndPassword,
     sendEmailVerification,
     signOut
 } from 'firebase/auth';
 import {auth} from '../lib/firebase'
 import {useRouter} from 'next/router';
-import {getFirestore, collection, addDoc, serverTimestamp, setDoc, doc} from 'firebase/firestore';
-import {faEye, faEyeSlash, faTimes} from '@fortawesome/free-solid-svg-icons';
+import {getFirestore, serverTimestamp, setDoc, doc} from 'firebase/firestore';
+import {faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {toast, ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function SignInForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
-    const [error, setError] = useState('');
-
     const [isLongEnough, setIsLongEnough] = useState(false);
     const [passwordMatch, setPasswordMatch] = useState(false);
 
@@ -40,12 +40,12 @@ export default function SignInForm() {
         e.preventDefault();
 
         if (password !== confirmPassword) {
-            setError('Passwords do not match');
+            toast.error('Passwords do not match');
             return;
         }
 
         if (!isLongEnough) {
-            setError('Password does not meet requirements');
+            toast.error('Password does not meet requirements');
             return;
         }
 
@@ -79,12 +79,11 @@ export default function SignInForm() {
             await router.push('/verify-email-page');
         } catch (error) {
             if (error.code === 'auth/email-already-in-use') {
-                setError('User already exists');
+                toast.error('User already exists');
             } else if (error.code === 'auth/weak-password') {
-                setError('Passwords must be at least 6 characters long');
+                toast.error('Passwords must be at least 6 characters long');
             } else {
-                setError('Unexpected Error');
-                console.error(error);
+                toast.error('An unexpected error occurred');
             }
         }
     };
@@ -92,10 +91,6 @@ export default function SignInForm() {
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
-    };
-
-    const clearError = () => {
-        setError('');
     };
 
     const checkMark = isLongEnough && passwordMatch ? '✓' : ' ';
@@ -160,16 +155,7 @@ export default function SignInForm() {
                 bound by the privacy policy of LitterPic Inc.
                 <a href="/privacy" target="_blank">privacy policy</a>
             </p>
-            {error && (
-                <div className="error-container">
-                    <p className="error-message">{error}</p>
-                    <FontAwesomeIcon
-                        icon={faTimes}
-                        className="error-clear-icon"
-                        onClick={clearError}
-                    />
-                </div>
-            )}
+            <ToastContainer/>
         </form>
     );
 }

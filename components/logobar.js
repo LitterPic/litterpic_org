@@ -87,7 +87,7 @@ const Logobar = () => {
             router.push('/login');
             setShowDropdown(false);
         } catch (error) {
-            console.error('Error signing out:', error);
+
         }
     };
 

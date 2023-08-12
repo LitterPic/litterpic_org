@@ -1,18 +1,19 @@
 import React, {useEffect, useRef, useState} from "react";
 import {useRouter} from 'next/router';
 import {
-    collection,
     addDoc,
-    doc,
-    getDocs,
-    setDoc,
-    updateDoc,
-    arrayUnion,
     arrayRemove,
-    serverTimestamp,
+    arrayUnion,
+    collection,
     deleteDoc,
+    doc,
+    GeoPoint,
     getDoc,
-    onSnapshot
+    getDocs,
+    onSnapshot,
+    serverTimestamp,
+    setDoc,
+    updateDoc
 } from "firebase/firestore";
 import {auth, db} from "../lib/firebase";
 import {Calendar, momentLocalizer, Navigate} from 'react-big-calendar';
@@ -22,7 +23,6 @@ import {FaChevronLeft, FaChevronRight} from "react-icons/fa";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
 import PlacesAutocomplete, {geocodeByAddress, getLatLng} from 'react-places-autocomplete';
 import {useLoadScript} from "@react-google-maps/api";
-import {GeoPoint} from "firebase/firestore";
 import Link from "next/link";
 
 const libraries = ['places'];
@@ -108,10 +108,10 @@ const Volunteer = () => {
                         const geopoint = new GeoPoint(latLng.lat, latLng.lng);
                         setLatLng(geopoint);
                     })
-                    .catch((error) => console.error('Error', error));
+                    .catch(() => console.error('Error'));
             })
-            .catch((error) => {
-                console.error('Error geocoding address:', error);
+            .catch(() => {
+
             });
     };
 
@@ -223,12 +223,12 @@ const Volunteer = () => {
                 }),
             })
                 .then((response) => response.json())
-                .then((data) => {
+                .then(() => {
                 })
-                .catch((error) => {
+                .catch(() => {
                 });
         } catch (error) {
-            console.error("Error creating event:", error);
+
         }
     };
 
@@ -310,10 +310,10 @@ const Volunteer = () => {
                             }),
                         })
                             .then((response) => response.json())
-                            .then((data) => {
+                            .then(() => {
                             })
-                            .catch((error) => {
-                                console.error("Error sending email:", error);
+                            .catch(() => {
+
                             });
 
                         //send email to event organizer
@@ -351,15 +351,15 @@ const Volunteer = () => {
                             }),
                         })
                             .then((response) => response.json())
-                            .then((data) => {
+                            .then(() => {
                             })
-                            .catch((error) => {
-                                console.error("Error sending email to organizer:", error);
+                            .catch(() => {
+
                             });
                     }
                 )
-                .catch((error) => {
-                    console.error("Error adding RSVP document or updating event: ", error);
+                .catch(() => {
+
                 });
         }
     };
@@ -414,7 +414,7 @@ const Volunteer = () => {
                         setRsvps(prevRsvps => ({...prevRsvps, [eventId]: false}));
                     })
                     .catch(error => {
-                        console.error("Error deleting RSVP document: ", error);
+                        
                     });
             }
         }
@@ -444,7 +444,7 @@ const Volunteer = () => {
         const fetchRsvps = () => {
             const rsvpCollection = collection(db, "rsvp");
 
-            const unsubscribe = onSnapshot(rsvpCollection, (rsvpSnapshot) => {
+            return onSnapshot(rsvpCollection, (rsvpSnapshot) => {
                 setRsvpSnapshot(rsvpSnapshot.docs);
 
                 const numberAttendingByEvent = rsvpSnapshot.docs.reduce((acc, doc) => {
@@ -459,12 +459,9 @@ const Volunteer = () => {
                 }, {});
 
                 setRsvps((prevRsvps) => {
-                    const newState = {...prevRsvps, ...numberAttendingByEvent};
-                    return newState;
+                    return {...prevRsvps, ...numberAttendingByEvent};
                 });
             });
-
-            return unsubscribe;
         };
 
         fetchRsvps();
