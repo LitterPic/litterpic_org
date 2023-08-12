@@ -9,6 +9,8 @@ import PlacesAutocomplete, {geocodeByAddress, getLatLng} from 'react-places-auto
 import {useLoadScript} from '@react-google-maps/api';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
+import {toast, ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const libraries = ['places'];
 const mapApiKey = process.env.NEXT_PUBLIC_PLACES_API_KEY;
@@ -28,6 +30,7 @@ function CreatePost() {
     const [error, setError] = useState('');
     const [uploading, setUploading] = useState(false);
     const router = useRouter();
+    const fileInputRef = React.useRef(null);
 
     const clearError = () => {
         setError('');
@@ -43,22 +46,32 @@ function CreatePost() {
             geocodeByAddress(selectedAddress)
                 .then((results) => getLatLng(results[0]))
                 .catch((error) => {
-                    console.error('Error geocoding address:', error);
+                    toast.error('Error finding address.');
                 });
         }
     }, [selectedAddress]);
 
+    const onFileInputClick = () => {
+        if (fileInputRef.current.files.length > 5) {
+            fileInputRef.current.value = "";
+            toast.error('You can select up to 5 images');
+        }
+    };
+
     const onFileChange = (e) => {
-        // Limit the user to upload only up to 5 images
         if (e.target.files.length > 5) {
+            e.target.value = "";
+            toast.error('You can select up to 5 images');
             return;
         }
+
         setPostImages(e.target.files);
 
         // Generate previews
         let newPreviews = Array.from(e.target.files).map((file) => URL.createObjectURL(file));
         setPreviews(newPreviews);
     };
+
 
     const onDescriptionChange = (e) => {
         setPostDescription(e.target.value);
@@ -99,7 +112,7 @@ function CreatePost() {
                 setCountry(country);
             })
             .catch((error) => {
-                console.error('Error geocoding address:', error);
+                toast.error("Error finding address");
             });
     };
 
@@ -170,8 +183,7 @@ function CreatePost() {
             // Redirect to the /stories.js page
             await router.push('/stories');
         } catch (error) {
-            console.error('Error creating post:', error);
-            setError('Error creating post. Please try again.');
+            toast.error('Error creating post. Please try again.');
 
             // Delete the created post document if an error occurs
             if (postDocRef) {
@@ -188,6 +200,7 @@ function CreatePost() {
         <div>
             <div className="banner">
                 <img src="/images/create-post-banner.jpeg" alt="Banner Image"/>
+                <ToastContainer/>
             </div>
 
             <div className="page">
@@ -205,11 +218,24 @@ function CreatePost() {
                                 ))}
                             </div>
                             <div>
-                                <input type="file" multiple onChange={onFileChange}/>
+                                <div>
+                                    <input
+                                        className="create-post-file-input"
+                                        ref={fileInputRef}
+                                        type="file"
+                                        multiple
+                                        onClick={onFileInputClick}
+                                        onChange={onFileChange}
+                                    />
+                                    <p className="create-post-limit-message">Select up to 5 photos</p>
+                                </div>
                             </div>
                             <div>
-                                <textarea value={postDescription} onChange={onDescriptionChange}
-                                          placeholder="Description"/>
+                                <textarea
+                                    value={postDescription}
+                                    onChange={onDescriptionChange}
+                                    placeholder="Description"
+                                />
                             </div>
                             <div>
                                 <input

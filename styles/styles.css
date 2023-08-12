@@ -2888,6 +2888,19 @@ p .index-inspire-change-text {
   width: 600px;
 }
 
+.create-post-limit-message {
+  color: #015e41;
+  font-size: 0.7rem;
+  margin-bottom: 1rem;
+  margin-left: 0.5rem;
+  margin-top: -0.5rem;
+}
+
+.create-post-file-input {
+  margin: 0;
+  padding: 0;
+}
+
 .meatball-menu {
   cursor: pointer;
   float: right;
@@ -3003,6 +3016,9 @@ p .index-inspire-change-text {
   .create-post-content textarea {
     height: 100px;
     width: 80vw;
+  }
+  .create-post-limit-message {
+    font-size: 0.6rem;
   }
 }
 @media (max-width: 102.25rem) and (orientation: landscape) {
@@ -3891,6 +3907,19 @@ textarea.event-description-input {
   width: 600px;
 }
 
+.create-post-limit-message {
+  color: #015e41;
+  font-size: 0.7rem;
+  margin-bottom: 1rem;
+  margin-left: 0.5rem;
+  margin-top: -0.5rem;
+}
+
+.create-post-file-input {
+  margin: 0;
+  padding: 0;
+}
+
 .meatball-menu {
   cursor: pointer;
   float: right;
@@ -4006,6 +4035,9 @@ textarea.event-description-input {
   .create-post-content textarea {
     height: 100px;
     width: 80vw;
+  }
+  .create-post-limit-message {
+    font-size: 0.6rem;
   }
 }
 @media (max-width: 102.25rem) and (orientation: landscape) {
