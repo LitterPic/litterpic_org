@@ -7,8 +7,6 @@ import {uploadBytesResumable, getDownloadURL} from 'firebase/storage';
 import {useAuth} from '../lib/firebase';
 import PlacesAutocomplete, {geocodeByAddress, getLatLng} from 'react-places-autocomplete';
 import {useLoadScript} from '@react-google-maps/api';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -27,14 +25,9 @@ function CreatePost() {
     const [country, setCountry] = useState('');
     const [locationSelected, setLocationSelected] = useState(false);
     const [isAddressModified, setAddressModified] = useState(false);
-    const [error, setError] = useState('');
     const [uploading, setUploading] = useState(false);
     const router = useRouter();
     const fileInputRef = React.useRef(null);
-
-    const clearError = () => {
-        setError('');
-    };
 
     const {isLoaded} = useLoadScript({
         googleMapsApiKey: mapApiKey,
@@ -45,8 +38,8 @@ function CreatePost() {
         if (selectedAddress) {
             geocodeByAddress(selectedAddress)
                 .then((results) => getLatLng(results[0]))
-                .catch((error) => {
-                    toast.error('Error finding address.');
+                .catch(() => {
+
                 });
         }
     }, [selectedAddress]);
@@ -111,8 +104,8 @@ function CreatePost() {
                 setState(state);
                 setCountry(country);
             })
-            .catch((error) => {
-                toast.error("Error finding address");
+            .catch(() => {
+
             });
     };
 
@@ -137,17 +130,14 @@ function CreatePost() {
 
         // Validation checks
         if (postImages.length === 0) {
-            setError('At least 1 photo is required');
+            toast.error('At least 1 photo is required');
             return;
         }
 
         if (!locationSelected || isAddressModified || !selectedAddress.trim()) {
-            setError('Please select a valid location from the suggestions');
+            toast.error('Please select a valid location from the suggestions');
             return;
         }
-
-        // Clear any previous errors
-        setError('');
 
         let postDocRef;
 
@@ -291,13 +281,6 @@ function CreatePost() {
                                     {uploading ? 'Uploading...' : 'Create Post'}
                                 </button>
                             </div>
-                            {error && (
-                                <div className="error-container">
-                                    <p className="error-message">{error}</p>
-                                    <FontAwesomeIcon icon={faTimes} className="error-clear-icon"
-                                                     onClick={clearError}/>
-                                </div>
-                            )}
                         </form>
                     </div>
                 </div>
