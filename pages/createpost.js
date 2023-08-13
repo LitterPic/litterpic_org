@@ -1,10 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
 import withAuth from '../components/withAuth';
-import {storage, db, ref} from '../lib/firebase';
-import {collection, addDoc, updateDoc, doc, arrayUnion, deleteDoc} from 'firebase/firestore';
-import {uploadBytesResumable, getDownloadURL} from 'firebase/storage';
-import {useAuth} from '../lib/firebase';
+import {db, ref, storage, useAuth} from '../lib/firebase';
+import {addDoc, arrayUnion, collection, deleteDoc, doc, updateDoc} from 'firebase/firestore';
+import {getDownloadURL, uploadBytesResumable} from 'firebase/storage';
 import PlacesAutocomplete, {geocodeByAddress, getLatLng} from 'react-places-autocomplete';
 import {useLoadScript} from '@react-google-maps/api';
 import {toast, ToastContainer} from 'react-toastify';
@@ -210,13 +209,18 @@ function CreatePost() {
                             <div>
                                 <div>
                                     <input
+                                        id="file-input"
                                         className="create-post-file-input"
                                         ref={fileInputRef}
                                         type="file"
                                         multiple
                                         onClick={onFileInputClick}
                                         onChange={onFileChange}
+                                        style={{display: 'none'}} // Hide the actual file input
                                     />
+                                    <label htmlFor="file-input" className="custom-file-button">
+                                        Select Files
+                                    </label>
                                     <p className="create-post-limit-message">Select up to 5 photos</p>
                                 </div>
                             </div>
@@ -277,7 +281,9 @@ function CreatePost() {
                                 </PlacesAutocomplete>
                             </div>
                             <div>
-                                <button type="submit" disabled={uploading}>
+                                <button
+                                    type="submit"
+                                    disabled={uploading}>
                                     {uploading ? 'Uploading...' : 'Create Post'}
                                 </button>
                             </div>
