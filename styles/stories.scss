@@ -13,6 +13,10 @@
     align-self: flex-end;
     margin-bottom: 2.5rem;
   }
+
+  &:hover {
+    background-color: $facebook-blue;
+  }
 }
 
 .stories-about-us {

@@ -40,6 +40,10 @@
   margin-right: auto;
   margin-top: 1.9rem;
   width: 6.25rem;
+
+  &:hover {
+    background-color: $facebook-blue;
+  }
 }
 
 .sign-in-forgot-password {

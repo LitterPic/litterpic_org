@@ -19,6 +19,10 @@
   margin-top: 1rem;
   padding: .6rem;
   width: 195px;
+
+  &:hover {
+    background-color: $facebook-blue;
+  }
 }
 
 // Volunteer Calendar
@@ -308,11 +312,19 @@ textarea {
   .event-submit {
     border-radius: .5rem;
     margin-right: .5rem;
+
+    &:hover {
+      background-color: $facebook-blue;
+    }
   }
 
   .event-submit-cancel {
     border-radius: .5rem;
     margin-left: .5rem;
+
+    &:hover {
+      background-color: $facebook-blue;
+    }
   }
 }
 
@@ -329,12 +341,14 @@ textarea {
   padding: .6rem;
   width: 195px;
 
+  &:hover {
+    background-color: $facebook-blue;
+  }
+
   &:disabled {
     background-color: $gray;
     color: $profile-text-gray;
     cursor: not-allowed;
-
-
   }
 }
 

@@ -115,26 +115,21 @@
 }
 
 .dropdown-menu {
-  background-color: $gray;
-  border-radius: 4px;
   display: flex;
   flex-direction: column;
-  padding: .5rem .5rem .5rem .3rem;
   position: absolute;
-  right: 2rem;
+  right: 1rem;
   top: calc(8%);
   z-index: 1;
 
   button {
-    background: none;
-    border: 0;
-    color: $black;
-    cursor: pointer;
-    display: flex;
-    font-weight: bolder;
-    margin: .7rem 0;
-    padding: 0;
-    position: relative;
+    &:hover {
+      background-color: $white;
+      border: 1px solid;
+      color: $litterpic-green;
+      font-weight: bold;
+    }
+
   }
 }
 

@@ -83,6 +83,10 @@
   border-radius: .5rem;
   display: flex;
   margin-top: .6rem;
+
+  &:hover {
+    background-color: $facebook-blue;
+  }
 }
 
 .contact-submit-response {
