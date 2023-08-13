@@ -6,3 +6,4 @@ out/
 #environment
 .env.local
 /.idea/codeStyles/codeStyleConfig.xml
+/.idea/git_toolbox_prj.xml
