@@ -1,10 +1,10 @@
-import {useState, useEffect} from 'react';
-import {auth, db} from '../lib/firebase';
-import {useAuth} from '../lib/firebase';
+import {useEffect, useState} from 'react';
+import {auth, db, useAuth} from '../lib/firebase';
 import {useRouter} from 'next/router';
 import {updateProfile} from 'firebase/auth';
-import {collection, getDocs, doc, setDoc, query, where} from 'firebase/firestore';
-import {getStorage, ref, uploadBytes, getDownloadURL} from 'firebase/storage';
+import {collection, doc, getDocs, query, setDoc, where} from 'firebase/firestore';
+import {getDownloadURL, getStorage, ref, uploadBytes} from 'firebase/storage';
+import {resizeImage} from "../components/utils";
 
 export default function EditProfilePage() {
     const {user} = useAuth();
@@ -49,9 +49,11 @@ export default function EditProfilePage() {
         const file = e.target.files[0];
         if (!file) return;
 
+        const resizedFile = await resizeImage(file, 600, 600);
+
         const storage = getStorage();
         const storageRef = ref(storage, `users/${auth.currentUser.uid}/uploads/profilePhoto`);
-        const snapshot = await uploadBytes(storageRef, file);
+        const snapshot = await uploadBytes(storageRef, resizedFile);
 
         // Get download URL
         const downloadURL = await getDownloadURL(snapshot.ref);
