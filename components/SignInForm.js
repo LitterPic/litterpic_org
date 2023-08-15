@@ -1,7 +1,7 @@
-import {useState, useEffect} from 'react';
-import {signInWithEmailAndPassword, sendPasswordResetEmail} from 'firebase/auth';
-import {collection, doc, updateDoc, query, where, getDocs} from 'firebase/firestore';
-import {db, auth} from '../lib/firebase';
+import {useEffect, useState} from 'react';
+import {sendPasswordResetEmail, signInWithEmailAndPassword} from 'firebase/auth';
+import {collection, doc, getDocs, query, updateDoc, where} from 'firebase/firestore';
+import {auth, db} from '../lib/firebase';
 import {useRouter} from 'next/router';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEye, faEyeSlash, faTimes} from "@fortawesome/free-solid-svg-icons";
@@ -164,7 +164,8 @@ export default function SignInForm() {
                 {showMigratedUserError && (
                     <div className="error-container">
                         <p className="error-message">
-                            Your account has been migrated from LitterPic.com, Please reset your password using the
+                            Your account has been migrated from LitterPic.com to LitterPic.org, please reset your
+                            password using the
                             <a href="#"
                                className="migrated-user-forgot-password"
                                onClick={(e) => handleForgotPassword(e, userId)}> Forgot Password </a>
