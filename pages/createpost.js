@@ -8,6 +8,7 @@ import PlacesAutocomplete, {geocodeByAddress, getLatLng} from 'react-places-auto
 import {useLoadScript} from '@react-google-maps/api';
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {resizeImage} from "../components/utils";
 
 const libraries = ['places'];
 const mapApiKey = process.env.NEXT_PUBLIC_PLACES_API_KEY;
@@ -111,15 +112,19 @@ function CreatePost() {
     const uploadImages = async (postDocRef) => {
         setUploading(true);
         const imageUrls = [];
+
         for (let i = 0; i < postImages.length; i++) {
             const file = postImages[i];
+            const resizedFile = await resizeImage(file, 600, 600);
+
             const storageRef = ref(storage, `userPosts/${postDocRef.id}/${file.name}`);
-            const task = uploadBytesResumable(storageRef, file);
+            const task = uploadBytesResumable(storageRef, resizedFile);
             const snapshot = await task;
 
             const imageUrl = await getDownloadURL(snapshot.ref);
             imageUrls.push(imageUrl);
         }
+
         setUploading(false);
         return imageUrls;
     };
