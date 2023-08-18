@@ -4,6 +4,7 @@ node_modules/
 out/
 
 #environment
-.env.local
+.env.development.local
 /.idea/codeStyles/codeStyleConfig.xml
 /.idea/git_toolbox_prj.xml
+.vercel

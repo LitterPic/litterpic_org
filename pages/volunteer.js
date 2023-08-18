@@ -414,7 +414,7 @@ const Volunteer = () => {
                         setRsvps(prevRsvps => ({...prevRsvps, [eventId]: false}));
                     })
                     .catch(error => {
-                        
+
                     });
             }
         }
@@ -658,7 +658,7 @@ const Volunteer = () => {
 
                                 const isHostingEvent = Boolean(rsvpForEvent);
                                 const userEmail = auth && auth.currentUser && auth.currentUser.email ? auth.currentUser.email : '';
-                                const shouldShowLink = isHostingEvent || userEmail === 'alek@litterpic.com';
+                                const shouldShowLink = isHostingEvent || userEmail === 'alek@litterpic.org';
 
                                 return (
                                     <tr key={index}

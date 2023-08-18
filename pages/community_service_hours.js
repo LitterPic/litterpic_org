@@ -46,11 +46,11 @@ const Community_Service_Hours = () => {
                     <p>
                         You can request validation of your service hours and obtain proof through LitterPic by
                         emailing {' '}
-                        <a href="mailto:contact@litterpic.com">contact@litterpic.com</a>
+                        <a href="mailto:contact@litterpic.org">contact@litterpic.org</a>
                         .
                     </p>
                     <p>
-                        In your email, please provide your name, LitterPic.com login email, the number of hours needing
+                        In your email, please provide your name, LitterPic.org login email, the number of hours needing
                         verification, and the contact information of the requesting party. After we validate your posts,
                         we
                         will

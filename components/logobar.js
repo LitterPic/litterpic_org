@@ -1,5 +1,5 @@
 import {useRouter} from 'next/router';
-import {useEffect, useState, useRef} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {onAuthStateChanged, signOut} from 'firebase/auth';
 import {auth, db} from '../lib/firebase';
 import {doc, getDoc} from 'firebase/firestore';

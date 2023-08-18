@@ -41,6 +41,28 @@
   }
 }
 
+.delete-account-profile-link {
+  align-self: flex-start;
+  border-radius: .5rem;
+  color: $dark-blue; /* Make sure the $white variable is defined elsewhere in your CSS */
+  cursor: pointer;
+  font-size: .75rem;
+  font-style: italic;
+  grid-column: 1;
+  grid-row: 2;
+  justify-self: center;
+  margin-top: 3rem;
+  text-decoration: none; /* Removes the underline from the link */
+
+  &::before {
+    white-space: normal;
+  }
+
+  &:hover {
+    color: $red;
+  }
+}
+
 .profile-info {
   display: grid;
   grid-template-columns: .5fr 2fr;

@@ -156,8 +156,7 @@ const Privacy = () => {
 
                     <p>
                         If you have any questions or concerns about this Privacy Policy, please get in touch with us at
-                        {' '}
-                        {/*<a href="mailto:contact@litterpic.com">contact@litterpic.org</a>.*/}
+                        {' '} <a href="mailto:contact@litterpic.org">contact@litterpic.org</a>.
                     </p>
                 </div>
             </div>

@@ -63,6 +63,8 @@
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css");
 @import url("https://fonts.googleapis.com/css2?family=Ropa+Sans&family=Rubik:wght@500&display=swap");
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css");
+@import url("https://fonts.googleapis.com/css2?family=Ropa+Sans&family=Rubik:wght@500&display=swap");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css");
 @import url("https://fonts.googleapis.com/css2?family=Rubik:wght@500&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap");
 .about-us-content {
@@ -416,6 +418,80 @@
     margin-top: 0.6rem;
   }
 }
+.delete-confirm {
+  display: flex;
+  flex-direction: row;
+}
+
+.delete-button {
+  border-radius: 0.5rem;
+}
+
+.delete-confirm-label {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 0;
+  position: relative;
+}
+.delete-confirm-label .delete-confirm-checkbox {
+  display: none; /* Hide the actual checkbox */
+}
+.delete-confirm-label .custom-checkbox {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #000;
+  margin-right: 10px;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  /* Style for checked state */
+  /* Style for hover state */
+  /* Add a custom checkmark for the checked state */
+}
+input:checked + .delete-confirm-label .custom-checkbox {
+  background-color: #f00; /* Change this to the color you want for the checked state */
+}
+.delete-confirm-label .custom-checkbox:hover {
+  border-color: #f00; /* Change this to the color you want for the hover state */
+}
+input:checked + .delete-confirm-label .custom-checkbox:after {
+  content: "";
+  position: absolute;
+  width: 6px;
+  height: 12px;
+  border-right: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  transform: rotate(45deg);
+  top: 4px;
+  left: 8px;
+}
+.delete-confirm-label .delete-confirm-text {
+  margin-left: 2.5rem; /* Adds space to the left of the text */
+}
+
+input:checked + .custom-checkbox::after {
+  content: "X";
+  position: absolute;
+  font-size: 16px;
+  color: #f00;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.delete-are-you-sure {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
+.delete-final-warning {
+  margin-bottom: 1rem;
+  margin-top: 2rem;
+}
+
 .donate-legal-text {
   margin-right: 2.5rem;
 }
@@ -532,6 +608,7 @@
 .edit-profile-photo img {
   border-radius: 50%;
   height: 200px;
+  object-fit: cover;
   width: 200px;
 }
 .edit-profile-photo-button {
@@ -1018,6 +1095,7 @@ p .index-inspire-change-text {
   border-radius: 0.5rem;
   cursor: pointer;
   height: 3.5rem;
+  object-fit: cover;
   width: auto;
 }
 .logo-bar .logo-content .logo-text,
@@ -1122,7 +1200,7 @@ p .index-inspire-change-text {
   flex-direction: column;
   position: absolute;
   right: 1rem;
-  top: 8%;
+  top: 5%;
   z-index: 1;
 }
 .dropdown-menu button:hover {
@@ -1136,7 +1214,7 @@ p .index-inspire-change-text {
   display: flex;
   flex-direction: column;
   position: absolute;
-  top: 4%;
+  top: 5%;
 }
 
 .login-menu-button:hover {
@@ -2151,6 +2229,7 @@ p .index-inspire-change-text {
   border-radius: 0.5rem;
   cursor: pointer;
   height: 3.5rem;
+  object-fit: cover;
   width: auto;
 }
 .logo-bar .logo-content .logo-text,
@@ -2255,7 +2334,7 @@ p .index-inspire-change-text {
   flex-direction: column;
   position: absolute;
   right: 1rem;
-  top: 8%;
+  top: 5%;
   z-index: 1;
 }
 .dropdown-menu button:hover {
@@ -2269,7 +2348,7 @@ p .index-inspire-change-text {
   display: flex;
   flex-direction: column;
   position: absolute;
-  top: 4%;
+  top: 5%;
 }
 
 .login-menu-button:hover {
@@ -2489,6 +2568,26 @@ p .index-inspire-change-text {
 }
 .edit-profile-button::before {
   white-space: normal;
+}
+
+.delete-account-profile-link {
+  align-self: flex-start;
+  border-radius: 0.5rem;
+  color: #00f; /* Make sure the $white variable is defined elsewhere in your CSS */
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-style: italic;
+  grid-column: 1;
+  grid-row: 2;
+  justify-self: center;
+  margin-top: 3rem;
+  text-decoration: none; /* Removes the underline from the link */
+}
+.delete-account-profile-link::before {
+  white-space: normal;
+}
+.delete-account-profile-link:hover {
+  color: #f00;
 }
 
 .profile-info {
@@ -3395,8 +3494,7 @@ textarea.event-description-input {
   background-color: #4267b2;
 }
 .create-event-button:disabled {
-  background-color: #d3d3d3;
-  color: #aaa;
+  background-color: #ccc;
   cursor: not-allowed;
 }
 
@@ -3545,6 +3643,26 @@ textarea.event-description-input {
 }
 .edit-profile-button::before {
   white-space: normal;
+}
+
+.delete-account-profile-link {
+  align-self: flex-start;
+  border-radius: 0.5rem;
+  color: #00f; /* Make sure the $white variable is defined elsewhere in your CSS */
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-style: italic;
+  grid-column: 1;
+  grid-row: 2;
+  justify-self: center;
+  margin-top: 3rem;
+  text-decoration: none; /* Removes the underline from the link */
+}
+.delete-account-profile-link::before {
+  white-space: normal;
+}
+.delete-account-profile-link:hover {
+  color: #f00;
 }
 
 .profile-info {
@@ -4462,8 +4580,7 @@ textarea.event-description-input {
   background-color: #4267b2;
 }
 .create-event-button:disabled {
-  background-color: #d3d3d3;
-  color: #aaa;
+  background-color: #ccc;
   cursor: not-allowed;
 }
 
@@ -4627,6 +4744,16 @@ button {
   cursor: pointer;
   font-size: 1.2rem;
   padding: 0.5rem;
+}
+button:hover {
+  background-color: #4267b2;
+}
+button:disabled {
+  cursor: not-allowed;
+  /* Override the hover effect when the button is disabled */
+}
+button:disabled:hover {
+  background-color: #ccc;
 }
 
 label {

@@ -44,7 +44,6 @@ export default function EditProfilePage() {
 
         fetchUserDataAndOrganizations();
     }, [user]);
-
     const handleChange = async (e) => {
         const file = e.target.files[0];
         if (!file) return;
@@ -94,6 +93,7 @@ export default function EditProfilePage() {
                 display_name: displayName,
                 organization: organization,
                 photo_url: photoUrl,
+                first_login: false,
             }, {merge: true});
 
             router.push('/profile');

@@ -21,7 +21,7 @@ export default function handler(req, res) {
 async function sendDynamicTemplateEmail(email, templateId, templateData) {
     const msg = {
         to: email,
-        from: "contact@litterpic.com", // TODO: Update to new LitterPic email once we have a .org domain email
+        from: "contact@litterpic.org",
         templateId: templateId,
         dynamicTemplateData: templateData,
     };

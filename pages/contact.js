@@ -120,7 +120,7 @@ const Contact = () => {
                                     </div>
                                 </div>
                                 <div className="contact-form-group">
-                                    <label htmlFor="message">Message</label>
+                                    <label htmlFor="message">Message <sup className="required">*</sup></label>
                                     <textarea
                                         id="message"
                                         value={message}

@@ -1,12 +1,8 @@
 import {useState} from 'react';
-import {
-    createUserWithEmailAndPassword,
-    sendEmailVerification,
-    signOut
-} from 'firebase/auth';
+import {createUserWithEmailAndPassword, sendEmailVerification, signOut} from 'firebase/auth';
 import {auth} from '../lib/firebase'
 import {useRouter} from 'next/router';
-import {getFirestore, serverTimestamp, setDoc, doc} from 'firebase/firestore';
+import {doc, getFirestore, serverTimestamp, setDoc} from 'firebase/firestore';
 import {faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {toast, ToastContainer} from 'react-toastify';
@@ -70,6 +66,8 @@ export default function SignInForm() {
                 created_time: serverTimestamp(),
                 email: user.email,
                 uid: user.uid,
+                photo_url: "https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg",
+                first_login: true,
             }, {merge: true});
 
             // Log out the user immediately after account creation
