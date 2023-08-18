@@ -1,0 +1,83 @@
+@import 'colors';
+@import 'fonts';
+
+
+.delete-confirm {
+  display: flex;
+  flex-direction: row;
+}
+
+.delete-button {
+  border-radius: .5rem;
+}
+
+.delete-confirm-label {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 0;
+  position: relative;
+
+  .delete-confirm-checkbox {
+    display: none; /* Hide the actual checkbox */
+  }
+
+  .custom-checkbox {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #000;
+    margin-right: 10px;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+
+    /* Style for checked state */
+    input:checked + & {
+      background-color: $red; /* Change this to the color you want for the checked state */
+    }
+
+    /* Style for hover state */
+    &:hover {
+      border-color: $red; /* Change this to the color you want for the hover state */
+    }
+
+    /* Add a custom checkmark for the checked state */
+    input:checked + &:after {
+      content: "";
+      position: absolute;
+      width: 6px;
+      height: 12px;
+      border-right: 2px solid #fff;
+      border-bottom: 2px solid #fff;
+      transform: rotate(45deg);
+      top: 4px;
+      left: 8px;
+    }
+  }
+
+  .delete-confirm-text {
+    margin-left: 2.5rem; /* Adds space to the left of the text */
+  }
+}
+
+input:checked + .custom-checkbox::after {
+  content: "X";
+  position: absolute;
+  font-size: 16px;
+  color: $red;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.delete-are-you-sure {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
+.delete-final-warning {
+  margin-bottom: 1rem;
+  margin-top: 2rem;
+}

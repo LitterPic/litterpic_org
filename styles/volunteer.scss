@@ -346,8 +346,7 @@ textarea {
   }
 
   &:disabled {
-    background-color: $gray;
-    color: $profile-text-gray;
+    background-color: $disabled-gray;
     cursor: not-allowed;
   }
 }

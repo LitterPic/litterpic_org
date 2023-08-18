@@ -1,30 +1,25 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Post from '../components/post';
-import {fetchPosts, toggleLike} from '../components/utils';
+import {deletePost as deletePostFromDB, fetchPosts, getUsersWhoLikedPost, toggleLike} from '../components/utils';
 import Link from 'next/link';
 import Masonry from 'react-masonry-css';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faComment as farComment} from '@fortawesome/free-regular-svg-icons';
-import {faHeart as farHeart} from '@fortawesome/free-regular-svg-icons';
-import {faHeart} from '@fortawesome/free-solid-svg-icons';
-import {faComment} from '@fortawesome/free-solid-svg-icons';
-import {faEllipsisV} from '@fortawesome/free-solid-svg-icons';
+import {faComment as farComment, faHeart as farHeart} from '@fortawesome/free-regular-svg-icons';
+import {faComment, faEllipsisV, faHeart} from '@fortawesome/free-solid-svg-icons';
 import {getAuth} from 'firebase/auth';
-import {getUsersWhoLikedPost} from '../components/utils';
 import {useRouter} from 'next/router';
-import {deletePost as deletePostFromDB} from '../components/utils';
 import {
-    getFirestore,
-    doc,
     addDoc,
-    serverTimestamp,
     collection,
-    updateDoc,
-    increment,
-    query,
-    where,
+    doc,
     getDocs,
-    orderBy
+    getFirestore,
+    increment,
+    orderBy,
+    query,
+    serverTimestamp,
+    updateDoc,
+    where
 } from 'firebase/firestore';
 
 
@@ -158,6 +153,10 @@ function Stories() {
             ...comments,
             [postId]: event.target.value,
         });
+    };
+
+    const handleSubmit = (postId) => {
+        submitComment(postId);
     };
 
     const submitComment = async (postId) => {
@@ -424,8 +423,13 @@ function Stories() {
                                                         onChange={(event) => handleCommentChange(event, post.id)}
                                                         placeholder="Add a comment..."
                                                     />
-                                                    <button className="comment-submit-button" ref={submitButtonRef}
-                                                            onClick={() => submitComment(post.id)}>Submit
+                                                    <button
+                                                        className="comment-submit-button"
+                                                        ref={submitButtonRef}
+                                                        onClick={() => handleSubmit(post.id)}
+                                                        disabled={!comments[post.id] || comments[post.id].trim().length < 1}
+                                                    >
+                                                        Submit
                                                     </button>
                                                 </>
                                             )}

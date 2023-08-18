@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import {sendPasswordResetEmail, signInWithEmailAndPassword} from 'firebase/auth';
-import {collection, doc, getDocs, query, updateDoc, where} from 'firebase/firestore';
+import {collection, doc, getDoc, getDocs, query, updateDoc, where} from 'firebase/firestore';
 import {auth, db} from '../lib/firebase';
 import {useRouter} from 'next/router';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -28,6 +28,31 @@ export default function SignInForm() {
         setShowPassword(!showPassword);
     };
 
+    const checkFirstLogin = async (userId) => {
+        console.log("Checking first login");
+        const userRef = doc(db, 'users', userId);
+        console.log("User Ref:", userRef);
+        const userDoc = await getDoc(userRef);
+        console.log("User Doc:", userDoc);
+
+
+        if (userDoc.exists() && userDoc.data().first_login) {
+            console.log("Should push to edit-profile");
+            router.push('/edit-profile')
+                .catch(error => {
+                    console.error("Error redirecting to edit-profile:", error);
+                });
+        } else if (router.query.redirectTo) {
+            console.log("Some specific redirectTo");
+            // If the redirectTo query parameter is set, redirect to that page
+            await router.push(router.query.redirectTo);
+        } else {
+            console.log("No Redirect");
+            // If the redirectTo query parameter is not set, redirect to the home page
+            await router.push('/');
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -39,6 +64,8 @@ export default function SignInForm() {
                 toast.error('Please verify your email before logging in.');
                 return;
             }
+
+            await checkFirstLogin(user.uid);
 
             if (router.query.redirectTo) {
                 // If the redirectTo query parameter is set, redirect to that page

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useSwipeable} from 'react-swipeable';
 import {FaChevronLeft, FaChevronRight} from 'react-icons/fa';
 
@@ -9,10 +9,14 @@ function Post({post}) {
 
     useEffect(() => {
         const fetchUserInfo = async () => {
-            if (post) {
+            if (post && post.user) {
                 const {display_name, photo_url} = post.user;
-                setUserName(display_name);
-                setUserPhoto(photo_url);
+                setUserName(display_name || ' ');
+                setUserPhoto(photo_url || 'https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg');
+            } else {
+                // Handle the case where post.user is not available
+                setUserName(' ');
+                setUserPhoto('https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg');
             }
         };
 
@@ -58,11 +62,11 @@ function Post({post}) {
         <div className="fetch-post">
             <div className="post-username-location">
                 <div className="profile-image">
-                    {userPhoto || post.user.photo_url ? (
-                        <img src={userPhoto || post.user.photo_url} alt="Profile"/>
+                    {userPhoto ? (
+                        <img src={userPhoto} alt="Profile"/>
                     ) : (
                         <img
-                            src="https://cdn.pixabay.com/photo/2016/11/08/15/21/user-1808597_640.png"
+                            src="https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg"
                             alt="Default Profile"
                         />
                     )}

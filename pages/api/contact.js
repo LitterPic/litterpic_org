@@ -7,7 +7,7 @@ export default async (req, res) => {
         const {firstName, lastName, email, message} = req.body;
 
         const msg = {
-            to: 'contact@litterpic.com',
+            to: 'contact@litterpic.org',
             from: 'contact@litterpic.org',
             subject: `New Contact from ${firstName} ${lastName}`,
             text: `${message} - you can reply to them at ${email}`,

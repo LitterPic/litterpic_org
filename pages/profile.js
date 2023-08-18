@@ -1,8 +1,7 @@
 import withAuth from '../components/withAuth';
-import {useAuth} from '../lib/firebase';
-import {useState, useEffect} from 'react';
-import {db} from '../lib/firebase';
-import {doc, getDoc, collection, query, where, getDocs} from "firebase/firestore";
+import {db, useAuth} from '../lib/firebase';
+import {useEffect, useState} from 'react';
+import {collection, doc, getDoc, getDocs, query, where} from "firebase/firestore";
 import {useRouter} from 'next/router';
 
 const ProfilePage = () => {
@@ -51,6 +50,10 @@ const ProfilePage = () => {
         fetchUserProfile();
     }, [user]);
 
+    const handleDeleteAccountClick = async () => {
+        await router.push('/delete_account');
+    }
+
     if (loading) {
         return <p>Loading...</p>;
     }
@@ -73,13 +76,18 @@ const ProfilePage = () => {
                             <img src={userPhoto} alt="Profile Picture"/>
                         ) : (
                             <img
-                                src="https://cdn.vectorstock.com/i/1000x1000/32/12/default-avatar-profile-icon-vector-39013212.webp"
+                                src="https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg"
                                 alt="Default Profile Picture"
                             />
                         )}
                         <button className="edit-profile-button"
                                 onClick={() => router.push('/edit-profile')}>Edit Profile
                         </button>
+                        <a href="#"
+                           className="delete-account-profile-link"
+                           onClick={handleDeleteAccountClick}>Delete
+                            Account
+                        </a>
                     </div>
 
                     <div className="profile-content">
