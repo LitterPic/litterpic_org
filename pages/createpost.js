@@ -20,6 +20,7 @@ function CreatePost() {
     const [litterWeight, setLitterWeight] = useState('');
     const [previews, setPreviews] = useState([]);
     const [selectedAddress, setSelectedAddress] = useState('');
+    const [timeoutId, setTimeoutId] = useState(null);
     const [city, setCity] = useState('');
     const [state, setState] = useState('');
     const [country, setCountry] = useState('');
@@ -36,12 +37,25 @@ function CreatePost() {
 
     useEffect(() => {
         if (selectedAddress) {
-            geocodeByAddress(selectedAddress)
-                .then((results) => getLatLng(results[0]))
-                .catch(() => {
+            // Clear any existing timeouts to prevent multiple calls
+            if (timeoutId) clearTimeout(timeoutId);
 
-                });
+            // Create a new timeout to delay the API call
+            const id = setTimeout(() => {
+                geocodeByAddress(selectedAddress)
+                    .then((results) => getLatLng(results[0]))
+                    .catch(() => {
+                    });
+            }, 1000);
+
+            // Save the timeout ID so it can be cleared later
+            setTimeoutId(id);
         }
+
+        // Clear the timeout when the component is unmounted
+        return () => {
+            if (timeoutId) clearTimeout(timeoutId);
+        };
     }, [selectedAddress]);
 
     const onFileInputClick = () => {
