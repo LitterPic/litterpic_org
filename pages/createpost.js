@@ -46,7 +46,7 @@ function CreatePost() {
                     .then((results) => getLatLng(results[0]))
                     .catch(() => {
                     });
-            }, 1000);
+            }, 1500);
 
             // Save the timeout ID so it can be cleared later
             setTimeoutId(id);
