@@ -42,12 +42,11 @@ function CreatePost() {
 
             // Create a new timeout to delay the API call
             const id = setTimeout(() => {
-                console.log(`Making geocode API call with address: ${selectedAddress}`); // Logging the API call
                 geocodeByAddress(selectedAddress)
                     .then((results) => getLatLng(results[0]))
                     .catch(() => {
                     });
-            }, 1500); // You can adjust this delay as needed
+            }, 1500);
 
             // Save the timeout ID so it can be cleared later
             setTimeoutId(id);
