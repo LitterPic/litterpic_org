@@ -192,6 +192,7 @@
   grid-column: 3;
   grid-row: 2;
   justify-content: flex-end;
+  margin-top: -.5rem;
   padding-right: 1rem;
 }
 
@@ -210,7 +211,7 @@
 .post-user-name {
   align-items: center;
   display: flex;
-  font-weight: normal;
+  font-weight: bold;
 }
 
 .post-location {

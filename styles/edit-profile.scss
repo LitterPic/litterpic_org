@@ -65,6 +65,7 @@
 .edit-profile-name-input {
   border: 1px solid $med-gray;
   border-radius: 5px;
+  font-size: .9rem;
   padding-left: .5rem;
   width: 33%;
 }
@@ -74,6 +75,7 @@
   border: 1px solid $med-gray;
   border-radius: 5px;
   color: $black;
+  font-size: .9rem;
   text-decoration: none;
   width: 33%;
 }
@@ -81,7 +83,9 @@
 .edit-profile-bio-textarea {
   border: 1px solid $med-gray;
   border-radius: 5px;
-  min-height: 80px;
+  font-size: .9rem;
+  line-height: 1.5;
+  min-height: 200px;
   overflow-wrap: break-word;
   padding: 10px;
   resize: vertical;
