@@ -86,7 +86,7 @@ export default function EditProfilePage() {
                 return;
             }
 
-            const userDocRef = doc(db, 'users', userDocs.docs[0].id);
+            const userDocRef = doc(db, 'users', currentUserUid);
 
             await setDoc(userDocRef, {
                 bio: bio.trim(),

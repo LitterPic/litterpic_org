@@ -2980,14 +2980,21 @@ p .index-inspire-change-text {
   background-color: #4267b2;
 }
 .create-post-content img {
-  max-width: 40vw;
+  margin: 5px;
+  max-height: 300px;
+  max-width: 20vw;
   object-fit: cover;
 }
 .create-post-content input {
+  font-size: 0.9rem;
   width: 600px;
 }
 .create-post-content textarea {
-  height: 100px;
+  cursor: text;
+  font-size: 0.9rem;
+  height: 200px;
+  line-height: 1.5;
+  padding: 5px;
   width: 600px;
 }
 
@@ -4055,14 +4062,21 @@ textarea.event-description-input {
   background-color: #4267b2;
 }
 .create-post-content img {
-  max-width: 40vw;
+  margin: 5px;
+  max-height: 300px;
+  max-width: 20vw;
   object-fit: cover;
 }
 .create-post-content input {
+  font-size: 0.9rem;
   width: 600px;
 }
 .create-post-content textarea {
-  height: 100px;
+  cursor: text;
+  font-size: 0.9rem;
+  height: 200px;
+  line-height: 1.5;
+  padding: 5px;
   width: 600px;
 }
 
