@@ -239,11 +239,13 @@ function CreatePost() {
                             <div>
                                 <input
                                     type="number"
+                                    min="0"
+                                    step="1"
                                     placeholder="Pounds of litter collected"
                                     value={litterWeight}
                                     onChange={(e) => {
                                         const value = e.target.value;
-                                        if (value === '' || (value >= 0 && !isNaN(value))) {
+                                        if ((Number(value) >= 0 && Number.isInteger(Number(value))) || value === '') {
                                             setLitterWeight(value);
                                         }
                                     }}

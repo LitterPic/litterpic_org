@@ -260,16 +260,23 @@
   }
 
   img {
-    max-width: 40vw;
+    margin: 5px;
+    max-height: 300px;
+    max-width: 20vw;
     object-fit: cover;
   }
 
   input {
+    font-size: .9rem;
     width: 600px;
   }
 
   textarea {
-    height: 100px;
+    cursor: text;
+    font-size: .9rem;
+    height: 200px;
+    line-height: 1.5;
+    padding: 5px;
     width: 600px;
   }
 }
