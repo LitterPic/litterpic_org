@@ -77,44 +77,41 @@ function Stories() {
 
 
     // UseEffect for posts fetching
-    useEffect(() => {
-        if (loadingUser) {
-            return;
-        }
+    const fetchAndSetPosts = async () => {
+        setIsLoading(true);
+        try {
+            const fetchedPosts = await fetchPosts(page, 6);
+            if (fetchedPosts.length === 0) {
+                setHasMorePosts(false);
+            } else {
+                const uniquePosts = filterUniquePosts(fetchedPosts);
 
-        const fetchAndSetPosts = async () => {
-            setIsLoading(true);
-            try {
-                const fetchedPosts = await fetchPosts(page, 4);
-                if (fetchedPosts.length === 0) {
-                    setHasMorePosts(false);
-                } else {
-                    const uniquePosts = filterUniquePosts(fetchedPosts);
+                // Fetch and store the liked user UIDs for each post
+                const likedUsersPromises = uniquePosts.map((post) =>
+                    getUsersWhoLikedPost(post.id)
+                );
+                const likedUsersLists = await Promise.all(likedUsersPromises);
 
-                    // Fetch and store the liked user UIDs for each post
-                    const likedUsersPromises = uniquePosts.map((post) =>
-                        getUsersWhoLikedPost(post.id)
-                    );
-                    const likedUsersLists = await Promise.all(likedUsersPromises);
+                // Update the posts state by adding likedUsers for each post
+                const updatedPosts = uniquePosts.map((post, index) => ({
+                    ...post,
+                    likedUsers: likedUsersLists[index] || [], // Store the liked user UIDs in each post
+                    currentUserLiked: user ? likedUsersLists[index].includes(user.uid) : false,
+                }));
 
-                    // Update the posts state by adding likedUsers for each post
-                    const updatedPosts = uniquePosts.map((post, index) => ({
-                        ...post,
-                        likedUsers: likedUsersLists[index] || [], // Store the liked user UIDs in each post
-                        currentUserLiked: user ? likedUsersLists[index].includes(user.uid) : false,
-                    }));
-
-                    setPosts((prevPosts) => [...prevPosts, ...updatedPosts]);
-                    setPage((prevPage) => prevPage + 1);
-                }
-            } catch (error) {
-                console.error('Error fetching posts:', error);
+                setPosts((prevPosts) => [...prevPosts, ...updatedPosts]);
+                setPage((prevPage) => prevPage + 1);
             }
-            setIsLoading(false);
-        };
+        } catch (error) {
+            console.error('Error fetching posts:', error);
+        }
+        setIsLoading(false);
+    };
 
+    useEffect(() => {
+        // This will fetch the initial posts when the component mounts
         fetchAndSetPosts();
-    }, [page, user, loadingUser]);
+    }, []);
 
     const handleToggleLike = async (postId) => {
         // User is not logged in
@@ -438,9 +435,12 @@ function Stories() {
                                 );
                             })}
                         </Masonry>
-                        {!isLoading && hasMorePosts && <div id="end-of-posts"></div>}
+                        {!isLoading && hasMorePosts && (
+                            <button className="custom-file-button" onClick={fetchAndSetPosts}>Load More</button> // Add the Load More button here
+                        )}
+                        {isLoading && <div>Loading more posts...</div>}
                     </div>
-                    {isLoading && <div>Loading more posts...</div>}
+
                 </div>
             </div>
         </div>

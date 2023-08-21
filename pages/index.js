@@ -1,15 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {collection, query, orderBy, limit, getDocs} from 'firebase/firestore';
+import {collection, getDocs, limit, orderBy, query} from 'firebase/firestore';
 import {getDownloadURL, ref} from 'firebase/storage';
-import {storage} from '../lib/firebase';
-import {db} from '../lib/firebase';
+import {db, storage} from '../lib/firebase';
 import 'firebase/firestore';
 
 async function fetchRecentPosts() {
     const postsQuery = query(
         collection(db, 'userPosts'),
         orderBy('timePosted', 'desc'),
-        limit(5)
+        limit(3)
     );
     const postsSnapshot = await getDocs(postsQuery);
 
