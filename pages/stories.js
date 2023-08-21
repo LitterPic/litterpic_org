@@ -130,12 +130,15 @@ function Stories() {
             // update the local state
             let updatedPosts = [...posts];
             if (didLike) {
+                if (!Array.isArray(updatedPosts[postIndex].likeIds)) {
+                    updatedPosts[postIndex].likeIds = []; // Initialize likeIds if it doesn't exist
+                }
                 updatedPosts[postIndex].likeIds.push(user.uid);
-                updatedPosts[postIndex].likes += 1;  // increment like count
+                updatedPosts[postIndex].likes += 1;
                 updatedPosts[postIndex].currentUserLiked = true;
             } else {
-                updatedPosts[postIndex].likeIds = postToUpdate.likeIds.filter(id => id !== user.uid);
-                updatedPosts[postIndex].likes -= 1;  // decrement like count
+                updatedPosts[postIndex].likeIds = updatedPosts[postIndex].likeIds.filter(id => id !== user.uid);
+                updatedPosts[postIndex].likes -= 1;
                 updatedPosts[postIndex].currentUserLiked = false;
             }
 
@@ -330,7 +333,7 @@ function Stories() {
                                 const {numComments} = post;
 
                                 // Check if the current user's UID exists in the likedUsers array for this post
-                                const currentUserLiked = user ? post.likedUsers.includes(user.uid) : false;
+                                const currentUserLiked = post.currentUserLiked;
 
                                 return (
                                     <div key={post.id} className="post">
@@ -365,9 +368,9 @@ function Stories() {
                                         <div className="likes-comments">
                                             <span className="likes-comments-likes-field">
                                                 <FontAwesomeIcon
-                                                    icon={post.currentUserLiked ? faHeart : farHeart}
+                                                    icon={currentUserLiked ? faHeart : farHeart}
                                                     onClick={() => handleToggleLike(post.id)}
-                                                    className={post.currentUserLiked ? 'filled-heart' : 'empty-heart'}
+                                                    className={currentUserLiked ? 'filled-heart' : 'empty-heart'}
                                                 />
                                                 <span className="like-count">{likes}</span>
                                             </span>
