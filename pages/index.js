@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {collection, getDocs, limit, orderBy, query} from 'firebase/firestore';
+import {collection, doc, getDoc, getDocs, limit, orderBy, query} from 'firebase/firestore';
 import {getDownloadURL, ref} from 'firebase/storage';
 import {db, storage} from '../lib/firebase';
 import 'firebase/firestore';
@@ -57,18 +57,9 @@ export default function Index() {
     useEffect(() => {
         const fetchTotalWeight = async () => {
             try {
-                const userPostsCol = collection(db, 'userPosts');
-                const snapshot = await getDocs(userPostsCol);
-                let sum = 0;
-
-                snapshot.forEach((doc) => {
-                    const post = doc.data();
-                    if (post.litterWeight) {
-                        sum += post.litterWeight;
-                    }
-                });
-
-                setTotalWeight(sum);
+                const statsRef = doc(db, 'stats', 'totalWeight');
+                const statsDoc = await getDoc(statsRef);
+                setTotalWeight(statsDoc.data().totalWeight);
             } catch (error) {
                 console.error('Error fetching total weight:', error);
             }
@@ -76,7 +67,6 @@ export default function Index() {
 
         fetchTotalWeight();
     }, []);
-
 
     function Carousel({images}) {
         const [currentIndex, setCurrentIndex] = useState(0);
