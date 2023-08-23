@@ -77,6 +77,41 @@ function Stories() {
         return () => unsubscribe();
     }, []);
 
+    // UseEffect for posts fetching
+    const fetchAndSetPosts = async () => {
+        setIsLoading(true);
+        try {
+            const fetchedPosts = await fetchPosts(page, 6);
+            if (fetchedPosts.length === 0) {
+                setHasMorePosts(false);
+            } else {
+                const uniquePosts = filterUniquePosts(fetchedPosts);
+
+                // Fetch and store the liked user UIDs for each post
+                const likedUsersPromises = uniquePosts.map((post) =>
+                    getUsersWhoLikedPost(post.id)
+                );
+                const likedUsersLists = await Promise.all(likedUsersPromises);
+
+                // Update the posts state by adding likedUsers for each post
+                const updatedPosts = uniquePosts.map((post, index) => {
+                    const currentUserLiked = user ? likedUsersLists[index].includes(user.uid) : false;
+                    return {
+                        ...post,
+                        likedUsers: likedUsersLists[index] || [],
+                        currentUserLiked: currentUserLiked,
+                    };
+                });
+
+                setPosts((prevPosts) => [...prevPosts, ...updatedPosts]);
+                setPage((prevPage) => prevPage + 1);
+            }
+        } catch (error) {
+            console.error('Error fetching posts:', error);
+        }
+        setIsLoading(false);
+    };
+
     useEffect(() => {
         if (!loadingUser) { // User's authentication state has been determined
             if (user) {
@@ -248,54 +283,6 @@ function Stories() {
         fetchAndSetUsers();
     }, []);
 
-    // UseEffect for posts fetching
-    const fetchAndSetPosts = async () => {
-        setIsLoading(true);
-
-        // Load cached data (if available)
-        const cachedPosts = localStorage.getItem(`posts_page_${page}`);
-        if (cachedPosts) {
-            setPosts((prevPosts) => [...prevPosts, ...JSON.parse(cachedPosts)]);
-        }
-
-        try {
-            // Fetch latest posts from the database
-            const fetchedPosts = await fetchPosts(page, 6);
-            if (fetchedPosts.length === 0) {
-                setHasMorePosts(false);
-            } else {
-                const uniquePosts = filterUniquePosts(fetchedPosts);
-
-                // Fetch and store the liked user UIDs for each post
-                const likedUsersPromises = uniquePosts.map((post) =>
-                    getUsersWhoLikedPost(post.id)
-                );
-                const likedUsersLists = await Promise.all(likedUsersPromises);
-
-                // Update the posts state with latest data
-                const updatedPosts = uniquePosts.map((post, index) => {
-                    const currentUserLiked = user ? likedUsersLists[index].includes(user.uid) : false;
-                    return {
-                        ...post,
-                        likedUsers: likedUsersLists[index] || [],
-                        currentUserLiked: currentUserLiked,
-                    };
-                });
-
-                setPosts((prevPosts) => [...prevPosts, ...updatedPosts]);
-                setPage((prevPage) => prevPage + 1);
-
-                // Update cache with latest data
-                localStorage.setItem(`posts_page_${page}`, JSON.stringify(updatedPosts));
-            }
-        } catch (error) {
-            console.error('Error fetching posts:', error);
-        }
-
-        setIsLoading(false);
-    };
-
-
     useEffect(() => {
         const fetchAndSetPostComments = async () => {
             // Load cached post comments (if available)
@@ -337,7 +324,7 @@ function Stories() {
                 // Retrieve the post document to get the litterWeight
                 const postDoc = await transaction.get(postRef);
                 const postLitterWeight = postDoc.data().litterWeight;
-                const postUserId = postDoc.data().postUser.id;
+                const postUserId = postDoc.data().postUser.id; // Extracting userId from post
 
                 // Retrieve the current total weight
                 const statsDoc = await transaction.get(statsRef);
