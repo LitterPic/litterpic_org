@@ -77,41 +77,6 @@ function Stories() {
         return () => unsubscribe();
     }, []);
 
-    // UseEffect for posts fetching
-    const fetchAndSetPosts = async () => {
-        setIsLoading(true);
-        try {
-            const fetchedPosts = await fetchPosts(page, 6);
-            if (fetchedPosts.length === 0) {
-                setHasMorePosts(false);
-            } else {
-                const uniquePosts = filterUniquePosts(fetchedPosts);
-
-                // Fetch and store the liked user UIDs for each post
-                const likedUsersPromises = uniquePosts.map((post) =>
-                    getUsersWhoLikedPost(post.id)
-                );
-                const likedUsersLists = await Promise.all(likedUsersPromises);
-
-                // Update the posts state by adding likedUsers for each post
-                const updatedPosts = uniquePosts.map((post, index) => {
-                    const currentUserLiked = user ? likedUsersLists[index].includes(user.uid) : false;
-                    return {
-                        ...post,
-                        likedUsers: likedUsersLists[index] || [],
-                        currentUserLiked: currentUserLiked,
-                    };
-                });
-
-                setPosts((prevPosts) => [...prevPosts, ...updatedPosts]);
-                setPage((prevPage) => prevPage + 1);
-            }
-        } catch (error) {
-            console.error('Error fetching posts:', error);
-        }
-        setIsLoading(false);
-    };
-
     useEffect(() => {
         if (!loadingUser) { // User's authentication state has been determined
             if (user) {
@@ -257,21 +222,88 @@ function Stories() {
 
     useEffect(() => {
         const fetchAndSetUsers = async () => {
+            // Load cached users (if available)
+            const cachedUsers = localStorage.getItem('users');
+            if (cachedUsers) {
+                setUsers(JSON.parse(cachedUsers));
+            }
+
+            // Fetch latest users from the database
             const db = getFirestore();
             const usersCollection = collection(db, 'users');
             const usersSnapshot = await getDocs(usersCollection);
             const usersData = {};
+
             usersSnapshot.docs.forEach(doc => {
                 usersData[doc.id] = doc.data();
             });
+
+            // Update state with latest users data
             setUsers(usersData);
+
+            // Update cache with latest users data
+            localStorage.setItem('users', JSON.stringify(usersData));
         };
 
         fetchAndSetUsers();
     }, []);
 
+    // UseEffect for posts fetching
+    const fetchAndSetPosts = async () => {
+        setIsLoading(true);
+
+        // Load cached data (if available)
+        const cachedPosts = localStorage.getItem(`posts_page_${page}`);
+        if (cachedPosts) {
+            setPosts((prevPosts) => [...prevPosts, ...JSON.parse(cachedPosts)]);
+        }
+
+        try {
+            // Fetch latest posts from the database
+            const fetchedPosts = await fetchPosts(page, 6);
+            if (fetchedPosts.length === 0) {
+                setHasMorePosts(false);
+            } else {
+                const uniquePosts = filterUniquePosts(fetchedPosts);
+
+                // Fetch and store the liked user UIDs for each post
+                const likedUsersPromises = uniquePosts.map((post) =>
+                    getUsersWhoLikedPost(post.id)
+                );
+                const likedUsersLists = await Promise.all(likedUsersPromises);
+
+                // Update the posts state with latest data
+                const updatedPosts = uniquePosts.map((post, index) => {
+                    const currentUserLiked = user ? likedUsersLists[index].includes(user.uid) : false;
+                    return {
+                        ...post,
+                        likedUsers: likedUsersLists[index] || [],
+                        currentUserLiked: currentUserLiked,
+                    };
+                });
+
+                setPosts((prevPosts) => [...prevPosts, ...updatedPosts]);
+                setPage((prevPage) => prevPage + 1);
+
+                // Update cache with latest data
+                localStorage.setItem(`posts_page_${page}`, JSON.stringify(updatedPosts));
+            }
+        } catch (error) {
+            console.error('Error fetching posts:', error);
+        }
+
+        setIsLoading(false);
+    };
+
+
     useEffect(() => {
         const fetchAndSetPostComments = async () => {
+            // Load cached post comments (if available)
+            const cachedPostComments = localStorage.getItem('postComments');
+            if (cachedPostComments) {
+                setPostComments(JSON.parse(cachedPostComments));
+            }
+
             const db = getFirestore();
             const fetchedPostComments = {};
 
@@ -281,7 +313,11 @@ function Stories() {
                 fetchedPostComments[post.id] = querySnapshot.docs.map(doc => doc.data());
             }
 
+            // Update state with latest post comments
             setPostComments(fetchedPostComments);
+
+            // Update cache with latest post comments
+            localStorage.setItem('postComments', JSON.stringify(fetchedPostComments));
         };
 
         fetchAndSetPostComments();
