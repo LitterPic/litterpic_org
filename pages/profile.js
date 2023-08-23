@@ -1,7 +1,7 @@
 import withAuth from '../components/withAuth';
 import {db, useAuth} from '../lib/firebase';
 import {useEffect, useState} from 'react';
-import {collection, doc, getDoc, getDocs, query, where} from "firebase/firestore";
+import {doc, getDoc} from "firebase/firestore";
 import {useRouter} from 'next/router';
 
 const ProfilePage = () => {
@@ -29,17 +29,8 @@ const ProfilePage = () => {
                         setUserEmail(userData.email);
                         setUserOrganization(userData.organization);
 
-                        const userPostsRef = collection(db, 'userPosts');
-                        const q = query(userPostsRef, where('postUser', '==', userRef));
-                        const querySnapshot = await getDocs(q);
-
-                        let sumLitterCollected = 0;
-                        querySnapshot.forEach((doc) => {
-                            const post = doc.data();
-                            sumLitterCollected += post.litterWeight;
-                        });
-
-                        setLitterCollected(sumLitterCollected);
+                        const totalWeight = userData.totalWeight || 0;
+                        setLitterCollected(totalWeight);
                     }
                 } catch (error) {
                     console.error('Error retrieving user profile:', error);
