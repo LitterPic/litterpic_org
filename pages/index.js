@@ -36,6 +36,8 @@ async function fetchRecentPosts() {
 }
 
 export default function Index() {
+    const CACHE_EXPIRATION_TIME = 5 * 60 * 1000;
+
     const [recentPosts, setRecentPosts] = useState([]);
     const [images, setImages] = useState([]);
     const [totalWeight, setTotalWeight] = useState(0);
@@ -57,9 +59,31 @@ export default function Index() {
     useEffect(() => {
         const fetchTotalWeight = async () => {
             try {
-                const statsRef = doc(db, 'stats', 'totalWeight');
-                const statsDoc = await getDoc(statsRef);
-                setTotalWeight(statsDoc.data().totalWeight);
+                let totalWeight;
+
+                // Check for cached totalWeight
+                const cachedData = localStorage.getItem('totalWeight');
+                if (cachedData) {
+                    const {value, timestamp} = JSON.parse(cachedData);
+                    const isCacheValid = Date.now() - timestamp < CACHE_EXPIRATION_TIME;
+                    if (isCacheValid) {
+                        totalWeight = value;
+                    }
+                }
+
+                if (totalWeight === undefined) {
+                    const statsRef = doc(db, 'stats', 'totalWeight');
+                    const statsDoc = await getDoc(statsRef);
+                    totalWeight = statsDoc.data().totalWeight;
+
+                    // Cache the fetched total weight with timestamp
+                    localStorage.setItem(
+                        'totalWeight',
+                        JSON.stringify({value: totalWeight, timestamp: Date.now()})
+                    );
+                }
+
+                setTotalWeight(totalWeight);
             } catch (error) {
                 console.error('Error fetching total weight:', error);
             }

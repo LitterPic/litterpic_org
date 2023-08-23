@@ -52,11 +52,9 @@ export default function SignInForm() {
             await sendEmailVerification(user);
 
             if (!auth.currentUser) {
-                console.log('User is unauthenticated.');
-                // Continue with creating the user document
+
             } else {
-                console.log('User Object:', user);
-                console.log('Auth Object:', auth)
+
             }
             // Create the user document in Firestore
             const db = getFirestore();

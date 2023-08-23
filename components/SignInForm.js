@@ -29,25 +29,18 @@ export default function SignInForm() {
     };
 
     const checkFirstLogin = async (userId) => {
-        console.log("Checking first login");
         const userRef = doc(db, 'users', userId);
-        console.log("User Ref:", userRef);
         const userDoc = await getDoc(userRef);
-        console.log("User Doc:", userDoc);
-
 
         if (userDoc.exists() && userDoc.data().first_login) {
-            console.log("Should push to edit-profile");
             router.push('/edit-profile')
                 .catch(error => {
                     console.error("Error redirecting to edit-profile:", error);
                 });
         } else if (router.query.redirectTo) {
-            console.log("Some specific redirectTo");
             // If the redirectTo query parameter is set, redirect to that page
             await router.push(router.query.redirectTo);
         } else {
-            console.log("No Redirect");
             // If the redirectTo query parameter is not set, redirect to the home page
             await router.push('/');
         }

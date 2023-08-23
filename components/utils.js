@@ -129,11 +129,8 @@ export async function getUsersWhoLikedPost(postId) {
     }
 }
 
-export async function toggleLike(post, posts) {
-    const postToUpdate = posts.find((p) => p.id === post.id);
+export async function toggleLike(post) {
     const auth = getAuth();
-
-    // Check if the user is logged in
     const currentUser = auth.currentUser;
     if (!currentUser) {
         const router = useRouter();
@@ -144,18 +141,19 @@ export async function toggleLike(post, posts) {
     // Get the user's UID
     const userId = currentUser.uid;
 
-    // Check if the post exists and if the user has already liked it
-    if (!postToUpdate.likeIds || !Array.isArray(postToUpdate.likeIds)) {
-        // User has not liked the post, so add their UID to the likes array
-        await updateDoc(postToUpdate.ref, {likes: arrayUnion(doc(db, 'users', userId))});
+    // Construct the document reference using the post ID
+    const db = getFirestore();
+    const postRef = doc(db, 'userPosts', post.id);
+
+    // Check if the user has already liked the post
+    if (!post.likeIds || !Array.isArray(post.likeIds)) {
+        await updateDoc(postRef, {likes: arrayUnion(userId)});
         return true;
-    } else if (postToUpdate.likeIds.includes(userId)) {
-        // User already liked the post, so remove their UID from the likes array
-        await updateDoc(postToUpdate.ref, {likes: arrayRemove(doc(db, 'users', userId))});
+    } else if (post.likeIds.includes(userId)) {
+        await updateDoc(postRef, {likes: arrayRemove(userId)});
         return false;
     } else {
-        // User has not liked the post, so add their UID to the likes array
-        await updateDoc(postToUpdate.ref, {likes: arrayUnion(doc(db, 'users', userId))});
+        await updateDoc(postRef, {likes: arrayUnion(userId)});
         return true;
     }
 }

@@ -26,6 +26,8 @@ import {db} from "../lib/firebase";
 
 
 function Stories() {
+    const CACHE_EXPIRATION_TIME = 5 * 60 * 1000; // 5 minutes
+
     const router = useRouter();
     const dropdownRef = useRef(null);
     const [posts, setPosts] = useState([]);
@@ -78,40 +80,6 @@ function Stories() {
     }, []);
 
     // UseEffect for posts fetching
-    const fetchAndSetPosts = async () => {
-        setIsLoading(true);
-        try {
-            const fetchedPosts = await fetchPosts(page, 6);
-            if (fetchedPosts.length === 0) {
-                setHasMorePosts(false);
-            } else {
-                const uniquePosts = filterUniquePosts(fetchedPosts);
-
-                // Fetch and store the liked user UIDs for each post
-                const likedUsersPromises = uniquePosts.map((post) =>
-                    getUsersWhoLikedPost(post.id)
-                );
-                const likedUsersLists = await Promise.all(likedUsersPromises);
-
-                // Update the posts state by adding likedUsers for each post
-                const updatedPosts = uniquePosts.map((post, index) => {
-                    const currentUserLiked = user ? likedUsersLists[index].includes(user.uid) : false;
-                    return {
-                        ...post,
-                        likedUsers: likedUsersLists[index] || [],
-                        currentUserLiked: currentUserLiked,
-                    };
-                });
-
-                setPosts((prevPosts) => [...prevPosts, ...updatedPosts]);
-                setPage((prevPage) => prevPage + 1);
-            }
-        } catch (error) {
-            console.error('Error fetching posts:', error);
-        }
-        setIsLoading(false);
-    };
-
     useEffect(() => {
         if (!loadingUser) { // User's authentication state has been determined
             if (user) {
@@ -255,33 +223,91 @@ function Stories() {
         };
     }, []);
 
-    useEffect(() => {
-        const fetchAndSetUsers = async () => {
-            // Load cached users (if available)
-            const cachedUsers = localStorage.getItem('users');
-            if (cachedUsers) {
-                setUsers(JSON.parse(cachedUsers));
+    const fetchAndSetUsers = async (userIds) => {
+        // Load cached users (if available)
+        const cachedUsers = localStorage.getItem('users');
+        if (cachedUsers) {
+            setUsers(JSON.parse(cachedUsers));
+        }
+
+        // Fetch only the users related to the fetched posts
+        const db = getFirestore();
+        const usersData = {};
+
+        for (const userId of userIds) {
+            const userDoc = await getDoc(doc(db, 'users', userId));
+            if (userDoc.exists()) {
+                usersData[userId] = userDoc.data();
+            }
+        }
+
+        // Update state with latest users data
+        setUsers(usersData);
+
+        // Update cache with latest users data
+        localStorage.setItem('users', JSON.stringify(usersData));
+    };
+
+    const fetchAndSetPosts = async () => {
+        setIsLoading(true);
+        try {
+            let fetchedPosts;
+
+            // Check for cached posts for the current page
+            const cachedData = localStorage.getItem(`posts_page_${page}`);
+            if (cachedData) {
+                const {posts, timestamp} = JSON.parse(cachedData);
+                const isCacheValid = Date.now() - timestamp < CACHE_EXPIRATION_TIME;
+                if (isCacheValid) {
+                    fetchedPosts = posts;
+                }
             }
 
-            // Fetch latest users from the database
-            const db = getFirestore();
-            const usersCollection = collection(db, 'users');
-            const usersSnapshot = await getDocs(usersCollection);
-            const usersData = {};
+            if (!fetchedPosts) {
+                fetchedPosts = await fetchPosts(page, 6);
 
-            usersSnapshot.docs.forEach(doc => {
-                usersData[doc.id] = doc.data();
-            });
+                // Cache the fetched posts for the current page with timestamp
+                localStorage.setItem(
+                    `posts_page_${page}`,
+                    JSON.stringify({posts: fetchedPosts, timestamp: Date.now()})
+                );
+            }
 
-            // Update state with latest users data
-            setUsers(usersData);
+            if (fetchedPosts.length === 0) {
+                setHasMorePosts(false);
+            } else {
+                const uniquePosts = filterUniquePosts(fetchedPosts);
 
-            // Update cache with latest users data
-            localStorage.setItem('users', JSON.stringify(usersData));
-        };
+                // Collect the user IDs related to the fetched posts
+                const userIds = uniquePosts.map(post => post.userId).filter(Boolean);
 
-        fetchAndSetUsers();
-    }, []);
+                // Fetch and set the users related to the fetched posts
+                await fetchAndSetUsers(userIds);
+
+                // Fetch and store the liked user UIDs for each post
+                const likedUsersPromises = uniquePosts.map((post) =>
+                    getUsersWhoLikedPost(post.id)
+                );
+                const likedUsersLists = await Promise.all(likedUsersPromises);
+
+                // Update the posts state by adding likedUsers for each post
+                const updatedPosts = uniquePosts.map((post, index) => {
+                    const currentUserLiked = user ? likedUsersLists[index].includes(user.uid) : false;
+                    return {
+                        ...post,
+                        likedUsers: likedUsersLists[index] || [],
+                        currentUserLiked: currentUserLiked,
+                    };
+                });
+
+                setPosts((prevPosts) => [...prevPosts, ...updatedPosts]);
+                setPage((prevPage) => prevPage + 1);
+            }
+        } catch (error) {
+            console.error('Error fetching posts:', error);
+        }
+        setIsLoading(false);
+    };
 
     useEffect(() => {
         const fetchAndSetPostComments = async () => {
@@ -452,12 +478,12 @@ function Stories() {
                                         <div className="story-comment-input">
                                             {openCommentInput === post.id && (
                                                 <>
-                                                    {postComments[post.id] && postComments[post.id].map((commentData, index) => {
+                                                    {postComments[post.id] && postComments[post.id].map((commentData) => {
                                                         const commentUserId = commentData.commentUser && commentData.commentUser._key && commentData.commentUser._key.path && commentData.commentUser._key.path.segments ? commentData.commentUser._key.path.segments[6] : null;
                                                         const commentUser = users[commentUserId];
                                                         const commentTime = commentData.timePosted && typeof commentData.timePosted.toDate === 'function' ? commentData.timePosted.toDate() : null;
                                                         return (
-                                                            <div key={index} className="comment">
+                                                            <div key={commentData.id} className="comment">
                                                                 {commentUser && (
                                                                     <>
                                                                         <img src={commentUser.photo_url}
