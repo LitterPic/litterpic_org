@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
 import withAuth from '../components/withAuth';
 import {db, ref, storage, useAuth} from '../lib/firebase';
-import {addDoc, arrayUnion, collection, deleteDoc, doc, runTransaction, updateDoc} from 'firebase/firestore';
+import {addDoc, arrayUnion, collection, deleteDoc, doc, getDoc, runTransaction, updateDoc} from 'firebase/firestore';
 import {getDownloadURL, uploadBytesResumable} from 'firebase/storage';
 import PlacesAutocomplete, {geocodeByAddress, getLatLng} from 'react-places-autocomplete';
 import {useLoadScript} from '@react-google-maps/api';
@@ -160,10 +160,11 @@ function CreatePost() {
         let postDocRef;
 
         try {
+            const postLitterWeight = litterWeight ? parseInt(litterWeight) : 0;
             // Create a new post document in Firestore
             postDocRef = await addDoc(collection(db, 'userPosts'), {
                 postDescription: postDescription,
-                litterWeight: litterWeight ? parseInt(litterWeight) : null,
+                litterWeight: postLitterWeight,
                 timePosted: new Date(),
                 postUser: doc(db, `users/${user.uid}`),
                 location: selectedAddress,
@@ -192,6 +193,12 @@ function CreatePost() {
                 // Increment the total weight by the litterWeight from the new post
                 transaction.update(statsRef, {totalWeight: currentTotalWeight + parseInt(litterWeight)});
             });
+
+            // Update user's totalWeight
+            const userRef = doc(db, `users/${user.uid}`);
+            const userDoc = await getDoc(userRef);
+            const currentUserTotalWeight = userDoc.data().totalWeight || 0;
+            await updateDoc(userRef, {totalWeight: currentUserTotalWeight + postLitterWeight});
 
             // Clear the form
             setPostDescription('');

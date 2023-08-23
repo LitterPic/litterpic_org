@@ -301,16 +301,25 @@ function Stories() {
                 // Retrieve the post document to get the litterWeight
                 const postDoc = await transaction.get(postRef);
                 const postLitterWeight = postDoc.data().litterWeight;
+                const postUserId = postDoc.data().postUser.id;
 
                 // Retrieve the current total weight
                 const statsDoc = await transaction.get(statsRef);
                 const currentTotalWeight = statsDoc.data().totalWeight;
+
+                // Reference to user document
+                const userRef = doc(db, 'users', postUserId);
+                const userDoc = await transaction.get(userRef);
+                const currentUserTotalWeight = userDoc.data().totalWeight || 0;
 
                 // Delete the post
                 transaction.delete(postRef);
 
                 // Decrement the total weight by the litterWeight of the deleted post
                 transaction.update(statsRef, {totalWeight: currentTotalWeight - postLitterWeight});
+
+                // Update the user's totalWeight
+                transaction.update(userRef, {totalWeight: currentUserTotalWeight - postLitterWeight});
             });
 
             // Update the local state to reflect the deleted post
