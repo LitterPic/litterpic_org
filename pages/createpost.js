@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
 import withAuth from '../components/withAuth';
 import {db, ref, storage, useAuth} from '../lib/firebase';
-import {addDoc, arrayUnion, collection, deleteDoc, doc, updateDoc} from 'firebase/firestore';
+import {addDoc, arrayUnion, collection, deleteDoc, doc, runTransaction, updateDoc} from 'firebase/firestore';
 import {getDownloadURL, uploadBytesResumable} from 'firebase/storage';
 import PlacesAutocomplete, {geocodeByAddress, getLatLng} from 'react-places-autocomplete';
 import {useLoadScript} from '@react-google-maps/api';
@@ -178,6 +178,19 @@ function CreatePost() {
             // Update the post document with the image URLs
             await updateDoc(postDocRef, {
                 postPhotos: arrayUnion(...imageUrls),
+            });
+
+            // Reference to totalWeight document
+            const statsRef = doc(db, 'stats', 'totalWeight');
+
+            // Run a transaction to update the total weight
+            await runTransaction(db, async (transaction) => {
+                // Retrieve the current total weight
+                const statsDoc = await transaction.get(statsRef);
+                const currentTotalWeight = statsDoc.data().totalWeight;
+
+                // Increment the total weight by the litterWeight from the new post
+                transaction.update(statsRef, {totalWeight: currentTotalWeight + parseInt(litterWeight)});
             });
 
             // Clear the form
