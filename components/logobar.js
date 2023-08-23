@@ -68,7 +68,7 @@ const Logobar = () => {
                     setDisplayName(userData.display_name);
                     setIsUserDataLoaded(true);
                 } else {
-                    console.log('No such document!');
+
                 }
             } else {
                 setUserPhoto(null);

@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {useRouter} from "next/router";
 import Link from "next/link";
 import Logobar from "./logobar";
 import Footer from "./footer";
 import {getAuth, onAuthStateChanged, signOut} from 'firebase/auth';
-import {getFirestore, doc, getDoc} from 'firebase/firestore';
+import {doc, getDoc, getFirestore} from 'firebase/firestore';
 import {auth} from "../lib/firebase";
 
 const Layout = ({children}) => {
@@ -32,7 +32,7 @@ const Layout = ({children}) => {
                     setUserPhoto(userData.photo_url);
                     setDisplayName(userData.display_name);
                 } else {
-                    console.log('No such document!');
+
                 }
             } else {
                 setUserLoggedIn(false);
