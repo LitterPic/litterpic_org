@@ -257,14 +257,27 @@ function Stories() {
 
     useEffect(() => {
         const fetchAndSetUsers = async () => {
+            // Load cached users (if available)
+            const cachedUsers = localStorage.getItem('users');
+            if (cachedUsers) {
+                setUsers(JSON.parse(cachedUsers));
+            }
+
+            // Fetch latest users from the database
             const db = getFirestore();
             const usersCollection = collection(db, 'users');
             const usersSnapshot = await getDocs(usersCollection);
             const usersData = {};
+
             usersSnapshot.docs.forEach(doc => {
                 usersData[doc.id] = doc.data();
             });
+
+            // Update state with latest users data
             setUsers(usersData);
+
+            // Update cache with latest users data
+            localStorage.setItem('users', JSON.stringify(usersData));
         };
 
         fetchAndSetUsers();
@@ -272,6 +285,12 @@ function Stories() {
 
     useEffect(() => {
         const fetchAndSetPostComments = async () => {
+            // Load cached post comments (if available)
+            const cachedPostComments = localStorage.getItem('postComments');
+            if (cachedPostComments) {
+                setPostComments(JSON.parse(cachedPostComments));
+            }
+
             const db = getFirestore();
             const fetchedPostComments = {};
 
@@ -281,7 +300,11 @@ function Stories() {
                 fetchedPostComments[post.id] = querySnapshot.docs.map(doc => doc.data());
             }
 
+            // Update state with latest post comments
             setPostComments(fetchedPostComments);
+
+            // Update cache with latest post comments
+            localStorage.setItem('postComments', JSON.stringify(fetchedPostComments));
         };
 
         fetchAndSetPostComments();
