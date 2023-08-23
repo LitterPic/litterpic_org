@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import Post from '../components/post';
-import {deletePost as deletePostFromDB, fetchPosts, getUsersWhoLikedPost, toggleLike} from '../components/utils';
+import {fetchPosts, getUsersWhoLikedPost, toggleLike} from '../components/utils';
 import Link from 'next/link';
 import Masonry from 'react-masonry-css';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
@@ -17,10 +17,12 @@ import {
     increment,
     orderBy,
     query,
+    runTransaction,
     serverTimestamp,
     updateDoc,
     where
 } from 'firebase/firestore';
+import {db} from "../lib/firebase";
 
 
 function Stories() {
@@ -288,8 +290,31 @@ function Stories() {
 
     const deletePost = async (postId) => {
         try {
-            await deletePostFromDB(postId);  // Delete the post from Firestore
-            setPosts(posts.filter(post => post.id !== postId));  // Update the local state
+            // Reference to the post document
+            const postRef = doc(db, 'userPosts', postId);
+
+            // Reference to the totalWeight document
+            const statsRef = doc(db, 'stats', 'totalWeight');
+
+            // Run a transaction to delete the post and update the total weight
+            await runTransaction(db, async (transaction) => {
+                // Retrieve the post document to get the litterWeight
+                const postDoc = await transaction.get(postRef);
+                const postLitterWeight = postDoc.data().litterWeight;
+
+                // Retrieve the current total weight
+                const statsDoc = await transaction.get(statsRef);
+                const currentTotalWeight = statsDoc.data().totalWeight;
+
+                // Delete the post
+                transaction.delete(postRef);
+
+                // Decrement the total weight by the litterWeight of the deleted post
+                transaction.update(statsRef, {totalWeight: currentTotalWeight - postLitterWeight});
+            });
+
+            // Update the local state to reflect the deleted post
+            setPosts(posts.filter(post => post.id !== postId));
         } catch (error) {
             console.error('Error deleting post:', error);
         }
