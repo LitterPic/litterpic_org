@@ -75,7 +75,6 @@ function Stories() {
         return () => unsubscribe();
     }, []);
 
-
     // UseEffect for posts fetching
     const fetchAndSetPosts = async () => {
         setIsLoading(true);
@@ -93,11 +92,14 @@ function Stories() {
                 const likedUsersLists = await Promise.all(likedUsersPromises);
 
                 // Update the posts state by adding likedUsers for each post
-                const updatedPosts = uniquePosts.map((post, index) => ({
-                    ...post,
-                    likedUsers: likedUsersLists[index] || [], // Store the liked user UIDs in each post
-                    currentUserLiked: user ? likedUsersLists[index].includes(user.uid) : false,
-                }));
+                const updatedPosts = uniquePosts.map((post, index) => {
+                    const currentUserLiked = user ? likedUsersLists[index].includes(user.uid) : false;
+                    return {
+                        ...post,
+                        likedUsers: likedUsersLists[index] || [],
+                        currentUserLiked: currentUserLiked,
+                    };
+                });
 
                 setPosts((prevPosts) => [...prevPosts, ...updatedPosts]);
                 setPage((prevPage) => prevPage + 1);
@@ -109,9 +111,16 @@ function Stories() {
     };
 
     useEffect(() => {
-        // This will fetch the initial posts when the component mounts
-        fetchAndSetPosts();
-    }, []);
+        if (!loadingUser) { // User's authentication state has been determined
+            if (user) {
+                // User is logged in, fetch posts with user's UID
+                fetchAndSetPosts(user.uid);
+            } else {
+                // User is not logged in, fetch posts without user's UID
+                fetchAndSetPosts();
+            }
+        }
+    }, [user, loadingUser]);
 
     const handleToggleLike = async (postId) => {
         // User is not logged in
