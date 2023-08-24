@@ -1149,7 +1149,7 @@ p .index-inspire-change-text {
   cursor: pointer;
   display: flex;
   font-family: Rubik, Times, sans-serif;
-  font-size: 28px;
+  font-size: 16px;
   height: 2rem;
   justify-content: center;
   margin-bottom: auto;
@@ -1202,9 +1202,9 @@ p .index-inspire-change-text {
 .dropdown-menu {
   display: flex;
   flex-direction: column;
+  margin-top: 0.5rem;
   position: absolute;
-  right: 1rem;
-  top: 5%;
+  right: 2rem;
   z-index: 1;
 }
 .dropdown-menu button:hover {
@@ -2283,7 +2283,7 @@ p .index-inspire-change-text {
   cursor: pointer;
   display: flex;
   font-family: Rubik, Times, sans-serif;
-  font-size: 28px;
+  font-size: 16px;
   height: 2rem;
   justify-content: center;
   margin-bottom: auto;
@@ -2336,9 +2336,9 @@ p .index-inspire-change-text {
 .dropdown-menu {
   display: flex;
   flex-direction: column;
+  margin-top: 0.5rem;
   position: absolute;
-  right: 1rem;
-  top: 5%;
+  right: 2rem;
   z-index: 1;
 }
 .dropdown-menu button:hover {

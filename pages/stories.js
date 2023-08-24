@@ -535,7 +535,7 @@ function Stories() {
                             })}
                         </Masonry>
                         {!isLoading && hasMorePosts && (
-                            <button className="custom-file-button" onClick={fetchAndSetPosts}>Load More</button> // Add the Load More button here
+                            <button className="custom-file-button" onClick={fetchAndSetPosts}>View More Posts</button> // Add the Load More button here
                         )}
                         {isLoading && <div>Loading more posts...</div>}
                     </div>
