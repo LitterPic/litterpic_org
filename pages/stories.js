@@ -371,13 +371,17 @@ function Stories() {
                 transaction.update(userRef, {totalWeight: currentUserTotalWeight - postLitterWeight});
             });
 
+            // Invalidate the cache for the current page containing the deleted post
+            localStorage.removeItem(`posts_page_${page}`);
+            localStorage.removeItem('totalWeight');
+
             // Update the local state to reflect the deleted post
-            setPosts(posts.filter(post => post.id !== postId));
+            setPosts(prevPosts => prevPosts.filter(post => post.id !== postId));
+
         } catch (error) {
             console.error('Error deleting post:', error);
         }
     };
-
 
     const filterUniquePosts = (newPosts) => {
         const uniquePosts = [];
