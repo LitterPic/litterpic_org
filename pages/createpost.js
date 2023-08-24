@@ -13,6 +13,18 @@ import {resizeImage} from "../components/utils";
 const libraries = ['places'];
 const mapApiKey = process.env.NEXT_PUBLIC_PLACES_API_KEY;
 
+function debounce(fn, delay) {
+    let timeoutId;
+    return function (...args) {
+        if (timeoutId) {
+            clearTimeout(timeoutId);
+        }
+        timeoutId = setTimeout(() => {
+            fn(...args);
+        }, delay);
+    };
+}
+
 function CreatePost() {
     const {user} = useAuth();
     const [postDescription, setPostDescription] = useState('');
@@ -20,7 +32,6 @@ function CreatePost() {
     const [litterWeight, setLitterWeight] = useState('');
     const [previews, setPreviews] = useState([]);
     const [selectedAddress, setSelectedAddress] = useState('');
-    const [timeoutId, setTimeoutId] = useState(null);
     const [city, setCity] = useState('');
     const [state, setState] = useState('');
     const [country, setCountry] = useState('');
@@ -35,27 +46,17 @@ function CreatePost() {
         libraries: libraries,
     });
 
+    const debouncedGeocode = debounce((address) => {
+        geocodeByAddress(address)
+            .then((results) => getLatLng(results[0]))
+            .catch(() => {
+            });
+    }, 2000);
+
     useEffect(() => {
         if (selectedAddress) {
-            // Clear any existing timeouts to prevent multiple calls
-            if (timeoutId) clearTimeout(timeoutId);
-
-            // Create a new timeout to delay the API call
-            const id = setTimeout(() => {
-                geocodeByAddress(selectedAddress)
-                    .then((results) => getLatLng(results[0]))
-                    .catch(() => {
-                    });
-            }, 1500);
-
-            // Save the timeout ID so it can be cleared later
-            setTimeoutId(id);
+            debouncedGeocode(selectedAddress);
         }
-
-        // Clear the timeout when the component is unmounted
-        return () => {
-            if (timeoutId) clearTimeout(timeoutId);
-        };
     }, [selectedAddress]);
 
     const onFileInputClick = () => {
@@ -84,44 +85,51 @@ function CreatePost() {
         setPostDescription(e.target.value);
     };
 
-    const handleAddressSelect = (address) => {
+    const handleAddressSelect = async (address, placeId) => {
+        console.log("Selected Place ID:", placeId);
+
         setSelectedAddress(address);
         setAddressModified(false);
         setLocationSelected(true);
 
-        geocodeByAddress(address)
-            .then((results) => {
-                const addressComponents = results[0].address_components;
-                let city = '';
-                let state = '';
-                let country = '';
+        try {
+            // Use geocodeByAddress to get address details using the placeId
+            const results = await geocodeByAddress(address);
+            const addressComponents = results[0]?.address_components || [];
 
-                // Extract city, state, and country from address components
-                for (let i = 0; i < addressComponents.length; i++) {
-                    const component = addressComponents[i];
+            if (addressComponents.length === 0) {
+                console.error("addressComponents is missing or empty!");
+                return;
+            }
 
-                    if (component.types.includes('locality')) {
-                        city = component.long_name;
-                    }
+            let city = '';
+            let state = '';
+            let country = '';
 
-                    if (component.types.includes('administrative_area_level_1')) {
-                        state = component.short_name;
-                    }
+            for (let i = 0; i < addressComponents.length; i++) {
+                const component = addressComponents[i];
 
-                    if (component.types.includes('country')) {
-                        country = component.long_name;
-                    }
+                if (component.types.includes('locality')) {
+                    city = component.long_name;
                 }
 
-                // Update city, state, and country fields
-                setCity(city);
-                setState(state);
-                setCountry(country);
-            })
-            .catch(() => {
+                if (component.types.includes('administrative_area_level_1')) {
+                    state = component.short_name;
+                }
 
-            });
+                if (component.types.includes('country')) {
+                    country = component.long_name;
+                }
+            }
+
+            setCity(city);
+            setState(state);
+            setCountry(country);
+        } catch (error) {
+            console.error("Failed to get address details:", error);
+        }
     };
+
 
     const uploadImages = async (postDocRef) => {
         setUploading(true);
@@ -288,8 +296,8 @@ function CreatePost() {
                             <div>
                                 <PlacesAutocomplete
                                     value={selectedAddress}
-                                    onChange={handleAddressSelect}
-                                    onSelect={handleAddressSelect}
+                                    onChange={setSelectedAddress}
+                                    onSelect={(address, result) => handleAddressSelect(address, result)}
                                 >
                                     {({getInputProps, suggestions, getSuggestionItemProps, loading}) => (
                                         <div>
@@ -298,7 +306,7 @@ function CreatePost() {
                                                     placeholder: 'Enter a location',
                                                     className: 'location-input',
                                                     onKeyDown: (e) => {
-                                                        if (e.key === 'Backspace' || e.key === 'Delete') {
+                                                        if ((e.key === 'Backspace' || e.key === 'Delete') && selectedAddress !== '') {
                                                             setAddressModified(true);
                                                         }
                                                     },
