@@ -86,8 +86,6 @@ function CreatePost() {
     };
 
     const handleAddressSelect = async (address, placeId) => {
-        console.log("Selected Place ID:", placeId);
-
         setSelectedAddress(address);
         setAddressModified(false);
         setLocationSelected(true);
