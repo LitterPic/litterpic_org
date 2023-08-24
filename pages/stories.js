@@ -12,6 +12,7 @@ import {
     addDoc,
     collection,
     doc,
+    getDoc,
     getDocs,
     getFirestore,
     increment,
@@ -224,25 +225,31 @@ function Stories() {
     }, []);
 
     const fetchAndSetUsers = async (userIds) => {
+        userIds = userIds.filter(Boolean); // Ensure no undefined or null values
+
         // Load cached users (if available)
         const cachedUsers = localStorage.getItem('users');
         if (cachedUsers) {
             setUsers(JSON.parse(cachedUsers));
         }
 
-        // Fetch only the users related to the fetched posts
         const db = getFirestore();
         const usersData = {};
 
         for (const userId of userIds) {
-            const userDoc = await getDoc(doc(db, 'users', userId));
-            if (userDoc.exists()) {
-                usersData[userId] = userDoc.data();
+            try {
+                const userDoc = await getDoc(doc(db, 'users', userId));
+
+                if (userDoc.exists()) {
+                    usersData[userId] = userDoc.data();
+                }
+            } catch (error) {
+                console.error("Error fetching user document for ID:", userId, error);
             }
         }
 
         // Update state with latest users data
-        setUsers(usersData);
+        setUsers(prevUsers => ({...prevUsers, ...usersData}));
 
         // Update cache with latest users data
         localStorage.setItem('users', JSON.stringify(usersData));
@@ -279,7 +286,9 @@ function Stories() {
                 const uniquePosts = filterUniquePosts(fetchedPosts);
 
                 // Collect the user IDs related to the fetched posts
-                const userIds = uniquePosts.map(post => post.userId).filter(Boolean);
+                const userIds = uniquePosts.map(post => {
+                    return post.user && post.user._key && post.user._key.path && post.user._key.path.segments ? post.user._key.path.segments[6] : null;
+                }).filter(Boolean);
 
                 // Fetch and set the users related to the fetched posts
                 await fetchAndSetUsers(userIds);
@@ -310,6 +319,8 @@ function Stories() {
     };
 
     useEffect(() => {
+        let isCancelled = false;
+
         const fetchAndSetPostComments = async () => {
             // Load cached post comments (if available)
             const cachedPostComments = localStorage.getItem('postComments');
@@ -319,21 +330,40 @@ function Stories() {
 
             const db = getFirestore();
             const fetchedPostComments = {};
+            const commenterUserIds = new Set();  // To store user IDs from comments
 
             for (const post of posts) {
                 const q = query(collection(db, 'storyComments'), where('postAssociation', '==', doc(db, 'userPosts', post.id)), orderBy('timePosted'));
                 const querySnapshot = await getDocs(q);
-                fetchedPostComments[post.id] = querySnapshot.docs.map(doc => doc.data());
+
+                fetchedPostComments[post.id] = querySnapshot.docs.map(doc => {
+                    const commentUser = doc.data().commentUser;
+                    if (commentUser && commentUser._key && commentUser._key.path && commentUser._key.path.segments) {
+                        const userIdFromComment = commentUser._key.path.segments[6];
+                        commenterUserIds.add(userIdFromComment);
+                    }
+
+                    return {
+                        ...doc.data(),
+                        id: doc.id  // Include the document ID
+                    };
+                });
             }
 
-            // Update state with latest post comments
-            setPostComments(fetchedPostComments);
+            // Fetch and set users from comments (and combine with post users)
+            const postUserIds = posts.map(post => post.userId).filter(Boolean);
+            await fetchAndSetUsers([...new Set([...postUserIds, ...commenterUserIds])]);
 
-            // Update cache with latest post comments
-            localStorage.setItem('postComments', JSON.stringify(fetchedPostComments));
+            if (!isCancelled) {
+                setPostComments(prevComments => ({...prevComments, ...fetchedPostComments}));
+            }
         };
 
         fetchAndSetPostComments();
+
+        return () => {
+            isCancelled = true;
+        };
     }, [posts]);
 
 
@@ -483,8 +513,8 @@ function Stories() {
                                             {openCommentInput === post.id && (
                                                 <>
                                                     {postComments[post.id] && postComments[post.id].map((commentData) => {
-                                                        const commentUserId = commentData.commentUser && commentData.commentUser._key && commentData.commentUser._key.path && commentData.commentUser._key.path.segments ? commentData.commentUser._key.path.segments[6] : null;
-                                                        const commentUser = users[commentUserId];
+                                                        const commentUserId = commentData?.commentUser?._key?.path?.segments?.[6] || null;
+                                                        const commentUser = users?.[commentUserId] || {};
                                                         const commentTime = commentData.timePosted && typeof commentData.timePosted.toDate === 'function' ? commentData.timePosted.toDate() : null;
                                                         return (
                                                             <div key={commentData.id} className="comment">
@@ -495,15 +525,20 @@ function Stories() {
                                                                         <div className="comment-text">
                                                                             <span
                                                                                 className="comment-user">{commentUser.display_name}</span>
-                                                                            <span className="comment-time">
-                                                                              {commentTime.toLocaleString('en-US-posix', {
-                                                                                  year: 'numeric',
-                                                                                  month: '2-digit',
-                                                                                  day: '2-digit',
-                                                                                  hour: '2-digit',
-                                                                                  minute: '2-digit'
-                                                                              })}
-                                                                            </span>
+                                                                            {commentTime && commentTime instanceof Date && (
+                                                                                <span className="comment-time">
+                                                                                    {
+                                                                                        commentTime &&
+                                                                                        commentTime.toLocaleString('en-US', {
+                                                                                            year: 'numeric',
+                                                                                            month: '2-digit',
+                                                                                            day: '2-digit',
+                                                                                            hour: '2-digit',
+                                                                                            minute: '2-digit'
+                                                                                        })
+                                                                                    }
+                                                                                </span>
+                                                                            )}
                                                                             <div
                                                                                 className="comment-text-content">{commentData.comment}</div>
                                                                         </div>
