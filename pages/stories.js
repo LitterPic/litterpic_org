@@ -402,7 +402,7 @@ function Stories() {
             });
 
             // Invalidate the cache for the current page containing the deleted post
-            localStorage.removeItem(`posts_page_${page}`);
+            localStorage.removeItem(`posts_page_1`);
             localStorage.removeItem('totalWeight');
 
             // Update the local state to reflect the deleted post

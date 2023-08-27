@@ -214,6 +214,10 @@ function CreatePost() {
             setSelectedAddress('');
             setLocationSelected(false);
 
+            // Invalidate the cache for the current page containing the deleted post
+            localStorage.removeItem('posts_page_1');
+            localStorage.removeItem('totalWeight');
+
             // Redirect to the /stories.js page
             await router.push('/stories');
         } catch (error) {
