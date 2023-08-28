@@ -2880,7 +2880,7 @@ p .index-inspire-change-text {
 
 .carousel-image {
   height: 450px;
-  object-fit: cover;
+  object-fit: contain;
   overflow: hidden;
   width: 700px;
 }
@@ -3963,7 +3963,7 @@ textarea.event-description-input {
 
 .carousel-image {
   height: 450px;
-  object-fit: cover;
+  object-fit: contain;
   overflow: hidden;
   width: 700px;
 }
