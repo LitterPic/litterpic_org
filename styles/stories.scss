@@ -152,7 +152,7 @@
 // https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit
 .carousel-image {
   height: 450px;
-  object-fit: cover;
+  object-fit: contain;
   overflow: hidden;
   width: 700px;
 }
