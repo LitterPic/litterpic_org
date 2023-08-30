@@ -7,7 +7,6 @@ import {
     collection,
     deleteDoc,
     doc,
-    GeoPoint,
     getDoc,
     getDocs,
     onSnapshot,
@@ -82,6 +81,18 @@ const addRsvpDocument = async (eventId, userId, numberAttending, note) => {
     return newRsvpDocRef.id;
 };
 
+function debounce(fn, delay) {
+    let timeoutId;
+    return function (...args) {
+        if (timeoutId) {
+            clearTimeout(timeoutId);
+        }
+        timeoutId = setTimeout(() => {
+            fn(...args);
+        }, delay);
+    };
+}
+
 const Volunteer = () => {
     const rsvpFormContainerRef = useRef(null);
     const router = useRouter();
@@ -97,28 +108,68 @@ const Volunteer = () => {
     const [addressModified, setAddressModified] = useState(false);
     const [latLng, setLatLng] = useState('');
     const [eventsChanged, setEventsChanged] = useState(false);
+    const [city, setCity] = useState('');
+    const [state, setState] = useState('');
+    const [country, setCountry] = useState('');
 
-    const handleAddressSelect = (address) => {
+    const handleAddressSelect = async (address, placeId) => {
         setSelectedAddress(address);
+        setAddressModified(false);
 
-        geocodeByAddress(address)
-            .then((results) => {
-                getLatLng(results[0])
-                    .then((latLng) => {
-                        const geopoint = new GeoPoint(latLng.lat, latLng.lng);
-                        setLatLng(geopoint);
-                    })
-                    .catch(() => console.error('Error'));
-            })
-            .catch(() => {
+        try {
+            // Use geocodeByAddress to get address details using the placeId
+            const results = await geocodeByAddress(address);
+            const addressComponents = results[0]?.address_components || [];
 
-            });
+            if (addressComponents.length === 0) {
+                console.error("addressComponents is missing or empty!");
+                return;
+            }
+
+            let city = '';
+            let state = '';
+            let country = '';
+
+            for (let i = 0; i < addressComponents.length; i++) {
+                const component = addressComponents[i];
+
+                if (component.types.includes('locality')) {
+                    city = component.long_name;
+                }
+
+                if (component.types.includes('administrative_area_level_1')) {
+                    state = component.short_name;
+                }
+
+                if (component.types.includes('country')) {
+                    country = component.long_name;
+                }
+            }
+
+            setCity(city);
+            setState(state);
+            setCountry(country);
+        } catch (error) {
+            console.error("Failed to get address details:", error);
+        }
     };
 
     const {isLoaded} = useLoadScript({
         googleMapsApiKey: mapApiKey,
         libraries: libraries
     });
+    const debouncedGeocode = debounce((address) => {
+        geocodeByAddress(address)
+            .then((results) => getLatLng(results[0]))
+            .catch(() => {
+            });
+    }, 2000);
+
+    useEffect(() => {
+        if (selectedAddress) {
+            debouncedGeocode(selectedAddress);
+        }
+    }, [selectedAddress]);
 
     const handleCreateEventClick = () => {
         setShowCreateEventForm(true);
@@ -568,8 +619,8 @@ const Volunteer = () => {
                                     {isLoaded ? (
                                         <PlacesAutocomplete
                                             value={selectedAddress}
-                                            onChange={handleAddressSelect}
-                                            onSelect={handleAddressSelect}
+                                            onChange={setSelectedAddress}
+                                            onSelect={(address, result) => handleAddressSelect(address, result)}
                                         >
                                             {({getInputProps, suggestions, getSuggestionItemProps, loading}) => (
                                                 <div>
