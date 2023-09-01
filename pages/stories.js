@@ -44,6 +44,23 @@ function Stories() {
     const [postComments, setPostComments] = useState({});
     const commentInputRef = useRef();
     const submitButtonRef = useRef(null);
+    const [showBackToTop, setShowBackToTop] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 50) {
+                setShowBackToTop(true);
+            } else {
+                setShowBackToTop(false);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
 
     const handleClickOutside = (event) => {
         if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -573,6 +590,17 @@ function Stories() {
                             <button className="custom-file-button" onClick={fetchAndSetPosts}>View More Posts</button> // Add the Load More button here
                         )}
                         {isLoading && <div>Loading more posts...</div>}
+                        {
+                            !isLoading && showBackToTop && (
+                                <button
+                                    className="back-to-top-button"
+                                    onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}
+                                >
+                                    Back to Top
+                                </button>
+                            )
+                        }
+
                     </div>
 
                 </div>

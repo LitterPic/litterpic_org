@@ -369,6 +369,18 @@
   }
 }
 
+.back-to-top-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: $litterpic-green;
+  color: $white;
+  border: none;
+  border-radius: .5rem;
+  cursor: pointer;
+  z-index: 1000;
+}
+
 
 @media (max-width: 76.5rem) {
   .profile-image {

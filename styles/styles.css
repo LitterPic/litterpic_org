@@ -3081,6 +3081,18 @@ p .index-inspire-change-text {
   width: 130px;
 }
 
+.back-to-top-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #015e41;
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  z-index: 1000;
+}
+
 @media (max-width: 76.5rem) {
   .profile-image {
     justify-content: center;
@@ -4162,6 +4174,18 @@ textarea.event-description-input {
   display: inline-block;
   padding: 0;
   width: 130px;
+}
+
+.back-to-top-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #015e41;
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  z-index: 1000;
 }
 
 @media (max-width: 76.5rem) {
