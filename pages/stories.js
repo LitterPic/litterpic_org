@@ -586,20 +586,28 @@ function Stories() {
                                 );
                             })}
                         </Masonry>
-                        {!isLoading && hasMorePosts && (
-                            <button className="custom-file-button" onClick={fetchAndSetPosts}>View More Posts</button> // Add the Load More button here
-                        )}
-                        {isLoading && <div>Loading more posts...</div>}
-                        {
-                            !isLoading && showBackToTop && (
-                                <button
-                                    className="back-to-top-button"
-                                    onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}
-                                >
-                                    Back to Top
-                                </button>
-                            )
-                        }
+
+                        <div className="button-container">
+                            
+                            {!isLoading && hasMorePosts && (
+                                <button className="custom-file-button" onClick={fetchAndSetPosts}>View More
+                                    Posts</button> // Add the Load More button here
+                            )}
+
+
+                            {isLoading && <div>Loading more posts...</div>}
+
+                            {
+                                !isLoading && showBackToTop && (
+                                    <button
+                                        className="back-to-top-button"
+                                        onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}
+                                    >
+                                        Back to Top
+                                    </button>
+                                )
+                            }
+                        </div>
 
                     </div>
 

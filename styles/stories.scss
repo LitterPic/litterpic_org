@@ -370,15 +370,26 @@
 }
 
 .back-to-top-button {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
   background-color: $litterpic-green;
+  border: 0;
   color: $white;
   border: none;
   border-radius: .5rem;
   cursor: pointer;
+  font-family: Poppins, sans-serif;
+  font-size: 1rem;
+  margin-left: auto;
+  padding: 0.25rem 0.5rem;
+  text-align: center;
+  text-decoration: none;
   z-index: 1000;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
 }
 
 
