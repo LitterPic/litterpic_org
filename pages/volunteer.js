@@ -581,11 +581,8 @@ const Volunteer = () => {
                         active
                         role. Register for volunteering events to lend your support or create a volunteering event for
                         your
-                        community. To create a volunteering event, simply utilize the interactive calendar below. Click
-                        on
-                        the plus sign located at the upper right-hand corner of the calendar or select the desired day
-                        for
-                        your event.</p>
+                        community. To create a volunteering event, simply log in, and utilize the Create Event button
+                        below!</p>
                     <button className="community-service-button" onClick={handleButtonClick}>Community Service</button>
                     <div title={!user ? "Please login to create an event" : ""}>
                         <button className="create-event-button"
