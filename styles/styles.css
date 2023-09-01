@@ -3082,15 +3082,26 @@ p .index-inspire-change-text {
 }
 
 .back-to-top-button {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
   background-color: #015e41;
+  border: 0;
   color: #fff;
   border: none;
   border-radius: 0.5rem;
   cursor: pointer;
+  font-family: Poppins, sans-serif;
+  font-size: 1rem;
+  margin-left: auto;
+  padding: 0.25rem 0.5rem;
+  text-align: center;
+  text-decoration: none;
   z-index: 1000;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
 }
 
 @media (max-width: 76.5rem) {
@@ -4177,15 +4188,26 @@ textarea.event-description-input {
 }
 
 .back-to-top-button {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
   background-color: #015e41;
+  border: 0;
   color: #fff;
   border: none;
   border-radius: 0.5rem;
   cursor: pointer;
+  font-family: Poppins, sans-serif;
+  font-size: 1rem;
+  margin-left: auto;
+  padding: 0.25rem 0.5rem;
+  text-align: center;
+  text-decoration: none;
   z-index: 1000;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
 }
 
 @media (max-width: 76.5rem) {
