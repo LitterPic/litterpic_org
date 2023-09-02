@@ -3,6 +3,7 @@ import {collection, doc, getDoc, getDocs, limit, orderBy, query} from 'firebase/
 import {getDownloadURL, ref} from 'firebase/storage';
 import {db, storage} from '../lib/firebase';
 import 'firebase/firestore';
+import Head from 'next/head';
 
 async function fetchRecentPosts() {
     const postsQuery = query(
@@ -141,6 +142,9 @@ export default function Index() {
 
     return (
         <div>
+            <Head>
+                <title>LitterPic</title>
+            </Head>
             <div className="banner">
                 <img src="/images/homeBanner.webp" alt="Banner Image"/>
 
