@@ -52,28 +52,30 @@ export default function Index() {
     const [totalWeight, setTotalWeight] = useState(0);
 
     useEffect(() => {
-        // Create an SNS instance
-        const sns = new AWS.SNS();
-
-        // Function to send a message to the SNS topic
-        const sendNotification = async () => {
+        async function sendNotification() {
+            const sns = new AWS.SNS();
             const topicArn = 'arn:aws:sns:us-east-1:710280486241:litterpicOrgNewVisitor';
-            const message = 'A user visited your website!';
-
-            const params = {
-                Message: message,
-                TopicArn: topicArn
-            };
 
             try {
-                await sns.publish(params).promise();
-                console.log('Notification sent successfully!');
-            } catch (error) {
-                console.error('Error sending notification:', error);
-            }
-        };
+                const response = await fetch('/api/get-user-location');
+                const locationData = await response.json();
 
-        // Call the function when the component mounts (user visits the page)
+                if (locationData) {
+                    const {city, region, country} = locationData;
+                    const message = `A user from ${city}, ${region}, ${country} visited your website!`;
+
+                    const params = {
+                        Message: message,
+                        TopicArn: topicArn
+                    };
+
+                    await sns.publish(params).promise();
+                }
+            } catch (error) {
+
+            }
+        }
+
         sendNotification();
     }, []);
 
