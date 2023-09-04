@@ -18,6 +18,7 @@ export default function SignInForm() {
     const [isMigratedUser, setIsMigratedUser] = useState(false);
     const [userId, setUserId] = useState(null);
     const [showMigratedUserError, setShowMigratedUserError] = useState(false);
+    const [showIcon, setShowIcon] = useState(false);
 
 
     const clearError = () => {
@@ -148,12 +149,14 @@ export default function SignInForm() {
                            placeholder="Password"
                            required
                            readOnly={isMigratedUser}
+                           onFocus={() => setShowIcon(true)}
                     />
-                    <FontAwesomeIcon
-                        icon={showPassword ? faEyeSlash : faEye}
-                        className="signup-password-toggle-icon"
-                        onClick={togglePasswordVisibility}
-                    />
+                    {showIcon && (<FontAwesomeIcon
+                            icon={showPassword ? faEyeSlash : faEye}
+                            className="signup-password-toggle-icon"
+                            onClick={togglePasswordVisibility}
+                        />
+                    )}
                 </div>
                 <a
                     className="sign-in-forgot-password"
@@ -200,5 +203,6 @@ export default function SignInForm() {
                 )}
             </form>
         </div>
-    );
+    )
+        ;
 }
