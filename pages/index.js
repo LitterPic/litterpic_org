@@ -5,6 +5,12 @@ import {db, storage} from '../lib/firebase';
 import 'firebase/firestore';
 import Head from 'next/head';
 
+const AWS = require('aws-sdk');
+
+AWS.config.update({
+    region: 'us-east-1'
+});
+
 async function fetchRecentPosts() {
     const postsQuery = query(
         collection(db, 'userPosts'),
@@ -42,6 +48,32 @@ export default function Index() {
     const [recentPosts, setRecentPosts] = useState([]);
     const [images, setImages] = useState([]);
     const [totalWeight, setTotalWeight] = useState(0);
+
+    useEffect(() => {
+        // Create an SNS instance
+        const sns = new AWS.SNS();
+
+        // Function to send a message to the SNS topic
+        const sendNotification = async () => {
+            const topicArn = 'arn:aws:sns:us-east-1:710280486241:litterpicOrgNewVisitor';
+            const message = 'A user visited your website!';
+
+            const params = {
+                Message: message,
+                TopicArn: topicArn
+            };
+
+            try {
+                await sns.publish(params).promise();
+                console.log('Notification sent successfully!');
+            } catch (error) {
+                console.error('Error sending notification:', error);
+            }
+        };
+
+        // Call the function when the component mounts (user visits the page)
+        sendNotification();
+    }, []);
 
     useEffect(() => {
         const fetchPosts = async () => {
