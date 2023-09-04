@@ -144,6 +144,26 @@ export default function Index() {
         <div>
             <Head>
                 <title>LitterPic</title>
+                <meta name="description"
+                      content="LitterPic Inc. is dedicated to creating a litter-free world. Harnessing technology, we
+                      empower individuals to combat litter, facilitate cleanups, and share impactful stories. Our innovative
+                      solutions include a mobile app for community collaboration and a vision for self-driving vacuum trucks
+                      for urban cleanups. Join LitterPic in making a cleaner, safer planet."/>
+                <meta name="robots" content="index, follow"/>
+                <link rel="canonical" href="https://litterpic.org"/>
+
+                <meta property="og:title" content="LitterPic"/>
+                <meta property="og:description"
+                      content="LitterPic Inc. is dedicated to creating a litter-free world..."/>
+                <meta property="og:image" content="https://litterpic.org/images/litter_pic_logo.png"/>
+                <meta property="og:url" content="https://litterpic.org"/>
+                <meta property="og:type" content="website"/>
+
+                <meta name="twitter:card" content="summary_large_image"/>
+                <meta name="twitter:title" content="LitterPic"/>
+                <meta name="twitter:description"
+                      content="LitterPic Inc. is dedicated to creating a litter-free world..."/>
+                <meta name="twitter:image" content="https://litterpic.org/images/litter_pic_logo.png"/>
             </Head>
             <div className="banner">
                 <img src="/images/homeBanner.webp" alt="Banner Image"/>

@@ -23,6 +23,7 @@ import {getAuth, onAuthStateChanged} from "firebase/auth";
 import PlacesAutocomplete, {geocodeByAddress, getLatLng} from 'react-places-autocomplete';
 import {useLoadScript} from "@react-google-maps/api";
 import Link from "next/link";
+import Head from "next/head";
 
 const libraries = ['places'];
 const mapApiKey = process.env.NEXT_PUBLIC_PLACES_API_KEY;
@@ -568,6 +569,34 @@ const Volunteer = () => {
 
     return (
         <div>
+            <Head>
+                <title>Volunteer with LitterPic</title>
+                <meta name="description"
+                      content="Join LitterPic's Environmental Protection Movement as a volunteer. Empower change from within
+                      by registering for events or creating community clean-up initiatives. Get started with the 'Create Event'
+                      button after logging in. Make a difference today!"/>
+                <meta name="robots" content="index, follow"/>
+                <link rel="canonical" href="https://litterpic.org/volunteer"/>
+
+                <meta property="og:title" content="LitterPic"/>
+                <meta property="og:description"
+                      content="Join LitterPic's Environmental Protection Movement as a volunteer. Empower change from within
+                      by registering for events or creating community clean-up initiatives. Get started with the 'Create Event'
+                      button after logging in. Make a difference today!"/>
+                <meta property="og:image"
+                      content="https://firebasestorage.googleapis.com/v0/b/litterpic-fa0bb.appspot.com/o/userPosts%2F1vsOyQTdD4iMdteFj4E1%2F1.webp?alt=media&token=9e92eeb7-9cb3-4c94-86dd-b520ef7d3563"/>
+                <meta property="og:url" content="https://litterpic.org/volunteer"/>
+                <meta property="og:type" content="website"/>
+
+                <meta name="twitter:card" content="summary_large_image"/>
+                <meta name="twitter:title" content="LitterPic"/>
+                <meta name="twitter:description"
+                      content="Join LitterPic's Environmental Protection Movement as a volunteer. Empower change from within
+                      by registering for events or creating community clean-up initiatives. Get started with the 'Create Event'
+                      button after logging in. Make a difference today!"/>
+                <meta name="twitter:image"
+                      content="https://firebasestorage.googleapis.com/v0/b/litterpic-fa0bb.appspot.com/o/userPosts%2F1vsOyQTdD4iMdteFj4E1%2F1.webp?alt=media&token=9e92eeb7-9cb3-4c94-86dd-b520ef7d3563"/>
+            </Head>
             <div className="banner">
                 <img src="/images/volunteer_banner.webp" alt="Banner Image"/>
             </div>

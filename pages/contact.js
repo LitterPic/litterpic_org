@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Head from "next/head";
 
 const Contact = () => {
     const [firstName, setFirstName] = useState('');
@@ -43,6 +44,34 @@ const Contact = () => {
 
     return (
         <div>
+            <Head>
+                <title>Contact LitterPic</title>
+                <meta name="description"
+                      content="Reach out to LitterPic's dedicated team via our 'Contact Us' page. Whether you have
+                      questions, feedback, or collaboration ideas, we're here to listen and assist. Let's connect and
+                      work towards a cleaner planet together!"/>
+                <meta name="robots" content="index, follow"/>
+                <link rel="canonical" href="https://litterpic.org/contact"/>
+
+                <meta property="og:title" content="LitterPic"/>
+                <meta property="og:description"
+                      content="Reach out to LitterPic's dedicated team via our 'Contact Us' page. Whether you have
+                      questions, feedback, or collaboration ideas, we're here to listen and assist. Let's connect and
+                      work towards a cleaner planet together!"/>
+                <meta property="og:image"
+                      content="https://litterpic.org/images/litter_pic_logo.png"/>
+                <meta property="og:url" content="https://litterpic.org/contact"/>
+                <meta property="og:type" content="website"/>
+
+                <meta name="twitter:card" content="summary_large_image"/>
+                <meta name="twitter:title" content="LitterPic"/>
+                <meta name="twitter:description"
+                      content="Reach out to LitterPic's dedicated team via our 'Contact Us' page. Whether you have
+                      questions, feedback, or collaboration ideas, we're here to listen and assist. Let's connect and
+                      work towards a cleaner planet together!"/>
+                <meta name="twitter:image"
+                      content="https://litterpic.org/images/litter_pic_logo.png"/>
+            </Head>
             <div className="banner">
                 <img src="/images/contact_us_banner.webp" alt="Banner Image"/>
             </div>
