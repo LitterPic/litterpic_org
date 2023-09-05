@@ -4,7 +4,6 @@ import {getDownloadURL, ref} from 'firebase/storage';
 import {db, storage} from '../lib/firebase';
 import 'firebase/firestore';
 import Head from 'next/head';
-import axios from "axios";
 
 const AWS = require('aws-sdk');
 
@@ -58,20 +57,14 @@ export default function Index() {
             const topicArn = 'arn:aws:sns:us-east-1:710280486241:litterpicOrgNewVisitor';
 
             try {
-                const response = await axios.get('/api/get-user-location');
-                const locationData = response.data;
+                const message = `A user has visited LitterPic.org!`;
 
-                if (locationData) {
-                    const {city, region, country} = locationData;
-                    const message = `A user from ${city}, ${region}, ${country} visited your website!`;
+                const params = {
+                    Message: message,
+                    TopicArn: topicArn,
+                };
 
-                    const params = {
-                        Message: message,
-                        TopicArn: topicArn,
-                    };
-
-                    await sns.publish(params).promise();
-                }
+                await sns.publish(params).promise();
             } catch (error) {
 
             }
