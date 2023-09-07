@@ -576,7 +576,7 @@ const Volunteer = () => {
                       by registering for events or creating community clean-up initiatives. Get started with the 'Create Event'
                       button after logging in. Make a difference today!"/>
                 <meta name="robots" content="index, follow"/>
-                <link rel="canonical" href="https://litterpic.org/volunteer"/>
+                {/*<link rel="canonical" href="https://litterpic.org/volunteer"/>*/}
 
                 <meta property="og:title" content="LitterPic"/>
                 <meta property="og:description"

@@ -54,7 +54,7 @@ const About = () => {
                       action against litter, offer a community-connecting app, and envision self-driving trucks for urban
                       cleanup. Join our mission for a cleaner planet."/>
                 <meta name="robots" content="index, follow"/>
-                <link rel="canonical" href="https://litterpic.org/about"/>
+                {/*<link rel="canonical" href="https://litterpic.org/about"/>*/}
 
                 <meta property="og:title" content="LitterPic"/>
                 <meta property="og:description"
