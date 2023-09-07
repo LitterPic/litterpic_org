@@ -51,7 +51,7 @@ const Contact = () => {
                       questions, feedback, or collaboration ideas, we're here to listen and assist. Let's connect and
                       work towards a cleaner planet together!"/>
                 <meta name="robots" content="index, follow"/>
-                <link rel="canonical" href="https://litterpic.org/contact"/>
+                {/*<link rel="canonical" href="https://litterpic.org/contact"/>*/}
 
                 <meta property="og:title" content="LitterPic"/>
                 <meta property="og:description"

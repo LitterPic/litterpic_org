@@ -11,7 +11,7 @@ const Community_Service_Hours = () => {
                       Ensure safe cleanups, post before-and-after photos, and request validation at contact@litterpic.org.
                       We verify all submissions for authenticity and provide proof of service. Join us in making communities cleaner!"/>
                 <meta name="robots" content="index, follow"/>
-                <link rel="canonical" href="https://litterpic.org/community_service_hours"/>
+                {/*<link rel="canonical" href="https://litterpic.org/community_service_hours"/>*/}
 
                 <meta property="og:title" content="LitterPic"/>
                 <meta property="og:description"
