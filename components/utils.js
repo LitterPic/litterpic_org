@@ -132,22 +132,28 @@ export async function toggleLike(post) {
         return;
     }
 
-    // Get the user's UID
+    // Get the user's UID and construct the DocumentReference
     const userId = currentUser.uid;
-
-    // Construct the document reference using the post ID
     const db = getFirestore();
+    const userDocRef = doc(db, 'users', userId);
+
+    // Construct the document reference for the post
     const postRef = doc(db, 'userPosts', post.id);
+
+    console.log('Checking for existing like...');
 
     // Check if the user has already liked the post
     if (!post.likeIds || !Array.isArray(post.likeIds)) {
-        await updateDoc(postRef, {likes: arrayUnion(userId)});
+        console.log('No existing likes found. Adding like...');
+        await updateDoc(postRef, {likes: arrayUnion(userDocRef)});
         return true;
-    } else if (post.likeIds.includes(userId)) {
-        await updateDoc(postRef, {likes: arrayRemove(userId)});
+    } else if (post.likeIds.some(ref => ref.path === userDocRef.path)) {
+        console.log('Existing like found. Removing like...');
+        await updateDoc(postRef, {likes: arrayRemove(userDocRef)});
         return false;
     } else {
-        await updateDoc(postRef, {likes: arrayUnion(userId)});
+        console.log('No like from current user found. Adding like...');
+        await updateDoc(postRef, {likes: arrayUnion(userDocRef)});
         return true;
     }
 }

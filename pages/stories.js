@@ -126,15 +126,23 @@ function Stories() {
 
             // update the local state
             let updatedPosts = [...posts];
+
+            const db = getFirestore();
+            const userDocRef = doc(db, 'users', user.uid);  // Create the actual DocumentReference object
+
             if (didLike) {
                 if (!Array.isArray(updatedPosts[postIndex].likeIds)) {
                     updatedPosts[postIndex].likeIds = []; // Initialize likeIds if it doesn't exist
                 }
-                updatedPosts[postIndex].likeIds.push(user.uid);
+
+                // Add the DocumentReference to the likeIds array
+                updatedPosts[postIndex].likeIds.push(userDocRef);
+
                 updatedPosts[postIndex].likes += 1;
                 updatedPosts[postIndex].currentUserLiked = true;
             } else {
-                updatedPosts[postIndex].likeIds = updatedPosts[postIndex].likeIds.filter(id => id !== user.uid);
+                // Filter out the DocumentReference from the likeIds array based on its path
+                updatedPosts[postIndex].likeIds = updatedPosts[postIndex].likeIds.filter(ref => ref.path !== userDocRef.path);
                 updatedPosts[postIndex].likes -= 1;
                 updatedPosts[postIndex].currentUserLiked = false;
             }
@@ -144,6 +152,7 @@ function Stories() {
             console.error('Error toggling like:', error);
         }
     };
+
 
     const handleCommentChange = (event, postId) => {
         setComments({
@@ -588,7 +597,7 @@ function Stories() {
                         </Masonry>
 
                         <div className="button-container">
-                            
+
                             {!isLoading && hasMorePosts && (
                                 <button className="custom-file-button" onClick={fetchAndSetPosts}>View More
                                     Posts</button> // Add the Load More button here
