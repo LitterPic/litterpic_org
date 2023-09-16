@@ -5,6 +5,7 @@ out/
 
 #environment
 .env.development.local
+.env.local
 /.idea/codeStyles/codeStyleConfig.xml
 /.idea/git_toolbox_prj.xml
 .vercel
