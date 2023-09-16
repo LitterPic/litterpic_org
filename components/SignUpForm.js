@@ -68,6 +68,25 @@ export default function SignInForm() {
                 first_login: true,
             }, {merge: true});
 
+            // Add user to Mailchimp subscription list
+            const mailchimpResponse = await fetch('/api/subscribe', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: user.email,
+                }),
+            });
+
+            const mailchimpData = await mailchimpResponse.json();
+
+            if (mailchimpData.success) {
+                console.log('Successfully added to Mailchimp');
+            } else {
+                console.log('Failed to add to Mailchimp');
+            }
+
             // Log out the user immediately after account creation
             await signOut(auth);
 
