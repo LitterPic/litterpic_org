@@ -54,25 +54,21 @@ export default function Index() {
     useEffect(() => {
         async function sendNotification() {
             try {
-                console.log("Entered page");
                 // Step 1: Get the user's IP Address
                 const res = await fetch('https://api64.ipify.org?format=json');
                 const data = await res.json();
                 const ipAddress = data.ip;
-                console.log("IP", ipAddress);
 
                 // Step 2: Get Geographical Info (Example using ipstack)
                 const apiKey = process.env.NEXT_PUBLIC_IPSTACK_ACCESS_TOKEN;
                 const geoRes = await fetch(`http://api.ipstack.com/${ipAddress}?access_key=${apiKey}`);
                 const geoData = await geoRes.json();
                 const location = geoData.city + ', ' + geoData.region_name;
-                console.log("Location:", location);
 
                 // Step 3: Send SNS notification
                 const sns = new AWS.SNS();
                 const topicArn = 'arn:aws:sns:us-east-1:710280486241:litterpicOrgNewVisitor';
                 const message = `A user from ${location} has visited LitterPic.org!`;
-                console.log("Sent to AWS SNS");
 
                 const params = {
                     Message: message,
