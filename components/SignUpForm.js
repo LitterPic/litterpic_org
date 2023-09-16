@@ -82,9 +82,9 @@ export default function SignInForm() {
             const mailchimpData = await mailchimpResponse.json();
 
             if (mailchimpData.success) {
-                console.log('Successfully added to Mailchimp');
+
             } else {
-                console.log('Failed to add to Mailchimp');
+
             }
 
             // Log out the user immediately after account creation
