@@ -61,7 +61,7 @@ export default function Index() {
 
                 // Step 2: Get Geographical Info (Example using ipstack)
                 const apiKey = process.env.NEXT_PUBLIC_IPSTACK_ACCESS_TOKEN;
-                const geoRes = await fetch(`http://api.ipstack.com/${ipAddress}?access_key=${apiKey}`);
+                const geoRes = await fetch(`https://api.ipstack.com/${ipAddress}?access_key=${apiKey}`);
                 const geoData = await geoRes.json();
                 const location = geoData.city + ', ' + geoData.region_name;
 
