@@ -107,7 +107,7 @@ const Volunteer = () => {
     const [showCreateEventForm, setShowCreateEventForm] = useState(false);
     const [selectedAddress, setSelectedAddress] = useState('');
     const [addressModified, setAddressModified] = useState(false);
-    const [latLng, setLatLng] = useState('');
+    const [latLng, setLatLng] = useState({});
     const [eventsChanged, setEventsChanged] = useState(false);
     const [city, setCity] = useState('');
     const [state, setState] = useState('');
@@ -159,12 +159,18 @@ const Volunteer = () => {
         googleMapsApiKey: mapApiKey,
         libraries: libraries
     });
+
     const debouncedGeocode = debounce((address) => {
         geocodeByAddress(address)
             .then((results) => getLatLng(results[0]))
+            .then((latLng) => {
+                // Update state with the newly fetched latLng
+                setLatLng(latLng);
+            })
             .catch(() => {
+                // Handle error
             });
-    }, 2000);
+    }, 2500);
 
     useEffect(() => {
         if (selectedAddress) {
