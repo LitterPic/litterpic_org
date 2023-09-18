@@ -7,6 +7,7 @@ import {
     collection,
     deleteDoc,
     doc,
+    GeoPoint,
     getDoc,
     getDocs,
     onSnapshot,
@@ -107,7 +108,7 @@ const Volunteer = () => {
     const [showCreateEventForm, setShowCreateEventForm] = useState(false);
     const [selectedAddress, setSelectedAddress] = useState('');
     const [addressModified, setAddressModified] = useState(false);
-    const [latLng, setLatLng] = useState({});
+    const [latLng, setLatLng] = useState(null);
     const [eventsChanged, setEventsChanged] = useState(false);
     const [city, setCity] = useState('');
     const [state, setState] = useState('');
@@ -164,8 +165,11 @@ const Volunteer = () => {
         geocodeByAddress(address)
             .then((results) => getLatLng(results[0]))
             .then((latLng) => {
-                // Update state with the newly fetched latLng
-                setLatLng(latLng);
+                // Create a Firestore GeoPoint
+                const geoPoint = new GeoPoint(latLng.lat, latLng.lng);
+
+                // Update state with the newly fetched GeoPoint
+                setLatLng(geoPoint);
             })
             .catch(() => {
                 // Handle error
@@ -251,7 +255,7 @@ const Volunteer = () => {
             };
 
             //send email to event organizer
-            const eventConfirmTemplateId = "d-bfd47c94859e43118922941af2890044";
+            const eventConfirmTemplateId = "d-691c9d30786c47d3b005e3a3bc896c68";
             const eventConfirmTemplateData = {
                 eventDate: date.toLocaleDateString('en-US', options),
                 eventStartTime: eventStartTime.toLocaleTimeString([], {
@@ -337,7 +341,7 @@ const Volunteer = () => {
                         setShowThankYou(true);
 
                         //send email to person who RSVP'd
-                        const participantRsvpTemplateId = "d-d1420f7a054b4424bf7bb990524db1ae";
+                        const participantRsvpTemplateId = "d-06e757b5a0464ed7a043a33b3f9fa686";
                         const participantTemplateData = {
                             eventDate: selectedEventInfo.start.toDateString(),
                             eventStartTime: selectedEventInfo.eventStartTime?.toDate().toLocaleTimeString([], {
@@ -375,9 +379,9 @@ const Volunteer = () => {
                             });
 
                         //send email to event organizer
-                        const organizerRsvpTemplateId = "d-60649fab1ee8435db38e1ff3ce8f4645"
+                        const organizerRsvpTemplateId = "d-4d8f6c48259f43f2b40f38bc6267e4fa"
                         const organizerTemplateData = {
-                            participantName: participantData.display_name,
+                            participantName: participantData.display_name || participantData.email,
                             eventDate: selectedEventInfo.start.toDateString(),
                             eventStartTime: selectedEventInfo.eventStartTime?.toDate().toLocaleTimeString([], {
                                 hour: 'numeric',
