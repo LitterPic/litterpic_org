@@ -270,7 +270,7 @@ const Volunteer = () => {
                         hour12: true,
                     })
                     : 'N/A',
-                eventLocation: selectedAddress,
+                eventLocation: "selectedAddress",
             };
 
             fetch("/api/sendEmail", {
@@ -356,7 +356,7 @@ const Volunteer = () => {
                                     hour12: true,
                                 })
                                 : 'N/A',
-                            eventLocation: selectedEventInfo.location,
+                            eventLocation: "selectedEventInfo.location",
 
                         };
 
@@ -395,7 +395,7 @@ const Volunteer = () => {
                                     hour12: true,
                                 })
                                 : 'N/A',
-                            eventLocation: selectedEventInfo.location,
+                            eventLocation: "selectedEventInfo.location",
                             participantEmail: user.email,
                             numberOfAttendees: rsvpData.numberAttending,
                             participantNote: rsvpData.noteToOrganizer,
