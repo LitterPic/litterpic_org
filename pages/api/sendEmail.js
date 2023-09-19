@@ -27,10 +27,12 @@ async function sendDynamicTemplateEmail(email, templateId, templateData) {
     };
 
     try {
-        console.log("Preparing to send email:", msg);  // Log the message object
-        await sgMail.send(msg);
-        console.log("Email sent successfully.");  // Log success
+        console.log("Preparing to send email:", msg);
+        await sgMail.send(msg);  // Make sure to await
+        console.log("Email sent successfully.");
     } catch (error) {
-        console.error("Error sending email:", error);  // Log the error
+        console.error("Error sending email:", error);
+    } finally {
+        console.log("Exiting sendDynamicTemplateEmail function.");  // This will always be logged
     }
 }
