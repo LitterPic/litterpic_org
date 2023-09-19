@@ -375,7 +375,7 @@ const Volunteer = () => {
                             .then(() => {
                             })
                             .catch(() => {
-
+                                console.log("error sending event owner an email");
                             });
 
                         //send email to event organizer
@@ -416,12 +416,12 @@ const Volunteer = () => {
                             .then(() => {
                             })
                             .catch(() => {
-
+                                console.log("error sending event owner an email");
                             });
                     }
                 )
                 .catch(() => {
-
+                    console.log("error with the RSVP");
                 });
         }
     };
