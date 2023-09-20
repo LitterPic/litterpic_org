@@ -285,12 +285,14 @@ const Volunteer = () => {
                 }),
             })
                 .then((response) => response.json())
-                .then(() => {
+                .then((parsedResponse) => {
+                    console.log("Fetch response:", parsedResponse);
                 })
-                .catch(() => {
+                .catch((error) => {
+                    console.error("Fetch error:", error);
                 });
         } catch (error) {
-
+            console.error("Error in handleCreateEventFormSubmit:", error);
         }
     };
 
@@ -372,10 +374,11 @@ const Volunteer = () => {
                             }),
                         })
                             .then((response) => response.json())
-                            .then(() => {
+                            .then((parsedResponse) => {
+                                console.log("Fetch response:", parsedResponse);
                             })
-                            .catch(() => {
-                                console.log("error sending event owner an email");
+                            .catch((error) => {
+                                console.error("Fetch error:", error);
                             });
 
                         //send email to event organizer
@@ -413,10 +416,11 @@ const Volunteer = () => {
                             }),
                         })
                             .then((response) => response.json())
-                            .then(() => {
+                            .then((parsedResponse) => {
+                                console.log("Fetch response:", parsedResponse);
                             })
-                            .catch(() => {
-                                console.log("error sending event owner an email");
+                            .catch((error) => {
+                                console.log("Fetch error: ", error);
                             });
                     }
                 )
