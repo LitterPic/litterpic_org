@@ -2,7 +2,7 @@ import sgMail from "@sendgrid/mail";
 
 sgMail.setApiKey(process.env.NEXT_PUBLIC_SENDGRID_API_KEY);
 
-export default function handler(req, res) {
+export default async function handler(req, res) {  // Make the function async
     if (req.method === "POST") {
         const {email, templateId, templateData} = req.body;
 
@@ -10,13 +10,18 @@ export default function handler(req, res) {
             return res.status(400).json({error: "Invalid request parameters."});
         }
 
-        sendDynamicTemplateEmail(email, templateId, templateData);
-
-        return res.status(200).json({message: "Email sent successfully."});
+        try {
+            await sendDynamicTemplateEmail(email, templateId, templateData);  // Await the function
+            return res.status(200).json({message: "Email sent successfully."});
+        } catch (error) {
+            console.error("Error sending email:", error);
+            return res.status(500).json({error: "Email sending failed."});
+        }
     } else {
         return res.status(405).json({error: "Method not allowed."});
     }
 }
+
 
 async function sendDynamicTemplateEmail(email, templateId, templateData) {
     const msg = {
