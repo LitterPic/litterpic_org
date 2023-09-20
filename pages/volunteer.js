@@ -124,7 +124,7 @@ const Volunteer = () => {
             const addressComponents = results[0]?.address_components || [];
 
             if (addressComponents.length === 0) {
-                console.error("addressComponents is missing or empty!");
+
                 return;
             }
 
@@ -152,7 +152,7 @@ const Volunteer = () => {
             setState(state);
             setCountry(country);
         } catch (error) {
-            console.error("Failed to get address details:", error);
+
         }
     };
 
@@ -270,7 +270,7 @@ const Volunteer = () => {
                         hour12: true,
                     })
                     : 'N/A',
-                eventLocation: "selectedAddress",
+                eventLocation: selectedAddress,
             };
 
             fetch("/api/sendEmail", {
@@ -285,14 +285,14 @@ const Volunteer = () => {
                 }),
             })
                 .then((response) => response.json())
-                .then((parsedResponse) => {
-                    console.log("Fetch response:", parsedResponse);
+                .then(() => {
+
                 })
-                .catch((error) => {
-                    console.error("Fetch error:", error);
+                .catch(() => {
+
                 });
         } catch (error) {
-            console.error("Error in handleCreateEventFormSubmit:", error);
+
         }
     };
 
@@ -358,7 +358,7 @@ const Volunteer = () => {
                                     hour12: true,
                                 })
                                 : 'N/A',
-                            eventLocation: "selectedEventInfo.location",
+                            eventLocation: selectedEventInfo.location,
 
                         };
 
@@ -374,11 +374,11 @@ const Volunteer = () => {
                             }),
                         })
                             .then((response) => response.json())
-                            .then((parsedResponse) => {
-                                console.log("Fetch response:", parsedResponse);
+                            .then(() => {
+
                             })
-                            .catch((error) => {
-                                console.error("Fetch error:", error);
+                            .catch(() => {
+
                             });
 
                         //send email to event organizer
@@ -398,7 +398,7 @@ const Volunteer = () => {
                                     hour12: true,
                                 })
                                 : 'N/A',
-                            eventLocation: "selectedEventInfo.location",
+                            eventLocation: selectedEventInfo.location,
                             participantEmail: user.email,
                             numberOfAttendees: rsvpData.numberAttending,
                             participantNote: rsvpData.noteToOrganizer,
@@ -416,16 +416,16 @@ const Volunteer = () => {
                             }),
                         })
                             .then((response) => response.json())
-                            .then((parsedResponse) => {
-                                console.log("Fetch response:", parsedResponse);
+                            .then(() => {
+
                             })
-                            .catch((error) => {
-                                console.log("Fetch error: ", error);
+                            .catch(() => {
+
                             });
                     }
                 )
                 .catch(() => {
-                    console.log("error with the RSVP");
+
                 });
         }
     };

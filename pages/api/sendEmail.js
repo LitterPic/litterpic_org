@@ -14,7 +14,6 @@ export default async function handler(req, res) {  // Make the function async
             await sendDynamicTemplateEmail(email, templateId, templateData);  // Await the function
             return res.status(200).json({message: "Email sent successfully."});
         } catch (error) {
-            console.error("Error sending email:", error);
             return res.status(500).json({error: "Email sending failed."});
         }
     } else {
@@ -32,12 +31,8 @@ async function sendDynamicTemplateEmail(email, templateId, templateData) {
     };
 
     try {
-        console.log("Preparing to send email:", msg);
         await sgMail.send(msg);  // Make sure to await
-        console.log("Email sent successfully.");
     } catch (error) {
-        console.error("Error sending email:", error);
-    } finally {
-        console.log("Exiting sendDynamicTemplateEmail function.");  // This will always be logged
+
     }
 }
