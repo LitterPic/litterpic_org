@@ -80,7 +80,7 @@ const Layout = ({children}) => {
                             <div onClick={() => handleNavLinkClick("/about")}>About Us</div>
                         </Link>
                         <Link href="/volunteer" passHref>
-                            <div onClick={() => handleNavLinkClick("/volunteer")}>Volunteer</div>
+                            <div onClick={() => handleNavLinkClick("/volunteer")}>Take Action</div>
                         </Link>
                         <Link href="/stories" passHref>
                             <div onClick={() => handleNavLinkClick("/stories")}>User Stories</div>
