@@ -9,6 +9,7 @@ import {useLoadScript} from '@react-google-maps/api';
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {resizeImage} from "../components/utils";
+import {capitalizeFirstWordOfSentences} from "../utils/textUtils";
 
 const libraries = ['places'];
 const mapApiKey = process.env.NEXT_PUBLIC_PLACES_API_KEY;
@@ -82,7 +83,8 @@ function CreatePost() {
 
 
     const onDescriptionChange = (e) => {
-        setPostDescription(e.target.value);
+        const capitalizedText = capitalizeFirstWordOfSentences(e.target.value);
+        setPostDescription(capitalizedText);
     };
 
     const handleAddressSelect = async (address, placeId) => {

@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Head from "next/head";
+import {capitalizeFirstWordOfSentences} from "../utils/textUtils";
 
 const Contact = () => {
     const [firstName, setFirstName] = useState('');
@@ -153,7 +154,10 @@ const Contact = () => {
                                     <textarea
                                         id="message"
                                         value={message}
-                                        onChange={(e) => setMessage(e.target.value)}
+                                        onChange={(e) => {
+                                            const capitalizedText = capitalizeFirstWordOfSentences(e.target.value);
+                                            setMessage(capitalizedText);
+                                        }}
                                         required
                                     ></textarea>
                                 </div>

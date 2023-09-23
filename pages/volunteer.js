@@ -25,6 +25,7 @@ import PlacesAutocomplete, {geocodeByAddress, getLatLng} from 'react-places-auto
 import {useLoadScript} from "@react-google-maps/api";
 import Link from "next/link";
 import Head from "next/head";
+import {capitalizeFirstWordOfSentences} from "../utils/textUtils";
 
 const libraries = ['places'];
 const mapApiKey = process.env.NEXT_PUBLIC_PLACES_API_KEY;
@@ -209,8 +210,8 @@ const Volunteer = () => {
 
         const eventData = {
             date: date,
-            description: event.target.description.value,
-            event_title: event.target.event_title.value,
+            description: capitalizeFirstWordOfSentences(event.target.description.value),
+            event_title: capitalizeFirstWordOfSentences(event.target.event_title.value),
             latLng: latLng,
             location: selectedAddress,
             eventStartTime: eventStartTime,
@@ -432,9 +433,11 @@ const Volunteer = () => {
 
     const handleRsvpInputChange = (event) => {
         const {name, value} = event.target;
+        const capitalizedValue = capitalizeFirstWordOfSentences(value);
+
         setRsvpFormData((prevState) => ({
             ...prevState,
-            [name]: value,
+            [name]: capitalizedValue,
         }));
     };
 

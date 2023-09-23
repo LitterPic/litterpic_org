@@ -24,6 +24,7 @@ import {
     where
 } from 'firebase/firestore';
 import {db} from "../lib/firebase";
+import {capitalizeFirstWordOfSentences} from "../utils/textUtils";
 
 
 function Stories() {
@@ -155,9 +156,10 @@ function Stories() {
 
 
     const handleCommentChange = (event, postId) => {
+        const capitalizedText = capitalizeFirstWordOfSentences(event.target.value); // Capitalize the text
         setComments({
             ...comments,
-            [postId]: event.target.value,
+            [postId]: capitalizedText, // Update the comment with capitalized text
         });
     };
 

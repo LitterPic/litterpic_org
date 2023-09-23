@@ -5,6 +5,7 @@ import {updateProfile} from 'firebase/auth';
 import {collection, doc, getDocs, query, setDoc, where} from 'firebase/firestore';
 import {getDownloadURL, getStorage, ref, uploadBytes} from 'firebase/storage';
 import {resizeImage} from "../components/utils";
+import {capitalizeFirstWordOfSentences} from "../utils/textUtils";
 
 export default function EditProfilePage() {
     const {user} = useAuth();
@@ -137,7 +138,10 @@ export default function EditProfilePage() {
                                 Bio:
                                 <textarea className="edit-profile-bio-textarea"
                                           value={bio}
-                                          onChange={(e) => setBio(e.target.value)}
+                                          onChange={(e) => {
+                                              const capitalizedText = capitalizeFirstWordOfSentences(e.target.value);
+                                              setBio(capitalizedText);
+                                          }}
                                 ></textarea>
                             </label>
                             <label className="edit-profile-label">
