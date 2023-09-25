@@ -50,6 +50,7 @@ export default function Index() {
     const [recentPosts, setRecentPosts] = useState([]);
     const [images, setImages] = useState([]);
     const [totalWeight, setTotalWeight] = useState(0);
+    const [isDataLoaded, setIsDataLoaded] = useState(false);
 
     useEffect(() => {
         async function sendNotification() {
@@ -127,6 +128,7 @@ export default function Index() {
                 }
 
                 setTotalWeight(totalWeight);
+                setIsDataLoaded(true);
             } catch (error) {
                 console.error('Error fetching total weight:', error);
             }
@@ -210,13 +212,15 @@ export default function Index() {
             <div className="banner">
                 <img src="/images/homeBanner.webp" alt="Banner Image"/>
 
-                <div className="overlay">
-                    <div className="weight-box">
-                        <p className="litter-weight">{parseInt(totalWeight).toLocaleString()}<span
-                            className="pounds-text"> pounds of litter collected</span>
-                        </p>
+                {isDataLoaded && (
+                    <div className="overlay">
+                        <div className="weight-box">
+                            <p className="litter-weight">{parseInt(totalWeight).toLocaleString()}<span
+                                className="pounds-text"> pounds of litter collected</span>
+                            </p>
+                        </div>
                     </div>
-                </div>
+                )}
             </div>
 
             <div className="page">
@@ -226,10 +230,14 @@ export default function Index() {
                         <div className="index-column-one-row-one">
                             <h1 className="index-starting-text">Starting with LitterPic is a breeze.</h1>
                             <br/>
-                            <p>It's crucial that we come together and do something about litter. Our goal should be to
-                                encourage and inspire others to join in the fight against it. A cleaner and healthier
-                                environment is vital to enhancing everyone's quality of life. Let's collaborate and make
-                                a constructive difference in creating a better tomorrow. Share your stories and photos
+                            <p>It's crucial that we come together and do something about litter. Our goal should be
+                                to
+                                encourage and inspire others to join in the fight against it. A cleaner and
+                                healthier
+                                environment is vital to enhancing everyone's quality of life. Let's collaborate and
+                                make
+                                a constructive difference in creating a better tomorrow. Share your stories and
+                                photos
                                 and <span className="index-inspire-change-text">Inspire Change</span>.</p>
                         </div>
                         <div className="index-column-two-row-one">
@@ -237,7 +245,8 @@ export default function Index() {
 
                                 <li>To begin, pick a time and place you want to clean. You do not need to seek
                                     sponsorship
-                                    from the city, but if you need any resources or support, feel free to contact them.
+                                    from the city, but if you need any resources or support, feel free to contact
+                                    them.
                                     Consult our Events Calendar for any local events already scheduled in your area.
                                 </li>
 
@@ -250,17 +259,20 @@ export default function Index() {
                                 </li>
 
 
-                                <li>Stay safe by wearing fluorescent safety gear available at your local hardware store.
+                                <li>Stay safe by wearing fluorescent safety gear available at your local hardware
+                                    store.
                                     Get
                                     your hands on our LitterPic branded fluorescent t-shirts and safety vests by
                                     donating to
-                                    support the LitterPic initiative. Contact us via email to learn more about how you
+                                    support the LitterPic initiative. Contact us via email to learn more about how
+                                    you
                                     can
                                     score some branded merchandise.
                                 </li>
 
 
-                                <li>Please take a picture before you start and then another after you finish, and post
+                                <li>Please take a picture before you start and then another after you finish, and
+                                    post
                                     them
                                     on this site to share your efforts and inspire others to join the fight for a
                                     healthier,
@@ -273,7 +285,8 @@ export default function Index() {
                     <div className="home-carousel-section">
                         <Carousel className="carousel" images={images}/>
 
-                        <h2 className="home-carousel-section-text">Take a look at all of our volunteer's stories and get
+                        <h2 className="home-carousel-section-text">Take a look at all of our volunteer's stories and
+                            get
                             inspired by more!
                             <a className="index-more-stories-button" href="/stories">
                                 <button type="button">User Stories</button>
