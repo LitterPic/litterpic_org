@@ -226,6 +226,20 @@ export default function Index() {
             <div className="page">
                 <div className="content">
                     <h1 className="heading-text">Inspire Change</h1>
+                    <div className="home-carousel-section">
+                        <Carousel className="carousel" images={images}/>
+
+                        <h2 className="home-carousel-section-text">Take a look at all of our volunteer's stories
+                            and
+                            get
+                            inspired by more!
+                            <a className="index-more-stories-button" href="/stories">
+                                <button type="button">User Stories</button>
+                            </a>
+                        </h2>
+                    </div>
+                    <br/>
+                    <br/>
                     <div className="index-wrapper">
                         <div className="index-column-one-row-one">
                             <h1 className="index-starting-text">Starting with LitterPic is a breeze.</h1>
@@ -282,18 +296,6 @@ export default function Index() {
                         </div>
 
                     </div>
-                    <div className="home-carousel-section">
-                        <Carousel className="carousel" images={images}/>
-
-                        <h2 className="home-carousel-section-text">Take a look at all of our volunteer's stories and
-                            get
-                            inspired by more!
-                            <a className="index-more-stories-button" href="/stories">
-                                <button type="button">User Stories</button>
-                            </a>
-                        </h2>
-                    </div>
-
                 </div>
             </div>
         </div>
