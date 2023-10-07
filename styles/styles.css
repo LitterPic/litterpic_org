@@ -3896,7 +3896,16 @@ input::placeholder {
   margin-left: 1.5rem;
 }
 
+.date-label-mobile {
+  display: none;
+}
+
 @media (max-width: 768px) {
+  .date-label-mobile {
+    display: block;
+    align-self: start;
+    margin-left: 2%;
+  }
   .report-optional-text {
     color: grey;
     font-size: 12px;
@@ -3916,8 +3925,9 @@ input::placeholder {
   .report-form-select {
     margin-left: 0;
     margin-right: 0;
-    width: 95%;
+    text-align: left;
     -webkit-appearance: none;
+    width: 95%;
   }
   .input-row {
     margin-bottom: 1rem;
@@ -3943,6 +3953,7 @@ input::placeholder {
     margin-left: 2.5%;
   }
   .report-reset-button {
+    font-weight: bold;
     margin-left: 2.5%;
   }
 }

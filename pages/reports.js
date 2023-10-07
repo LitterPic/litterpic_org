@@ -237,11 +237,13 @@ const ReportsPage = () => {
                     <form onSubmit={handleSubmit}>
                         <div className="report-form-group">
                             <div className="input-row">
+                                <div className="date-label-mobile">From</div>
                                 <input className="report-form-select"
                                        type="date"
                                        value={startDate}
                                        onChange={(e) => setStartDate(e.target.value)}
                                 />
+                                <div className="date-label-mobile">To</div>
                                 <input className="report-form-select"
                                        type="date"
                                        value={endDate}

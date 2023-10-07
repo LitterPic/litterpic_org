@@ -146,7 +146,17 @@ input::placeholder {
   margin-left: 1.5rem;
 }
 
+.date-label-mobile {
+  display: none;
+}
+
 @media (max-width: 768px) {
+  .date-label-mobile {
+    display: block;
+    align-self: start;
+    margin-left: 2%;
+  }
+
   .report-optional-text {
     color: grey;
     font-size: 12px;
