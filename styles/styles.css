@@ -3917,6 +3917,7 @@ input::placeholder {
     margin-left: 0;
     margin-right: 0;
     width: 95%;
+    -webkit-appearance: none;
   }
   .input-row {
     margin-bottom: 1rem;
