@@ -3831,6 +3831,12 @@ textarea.event-description-input {
   direction: ltr;
 }
 
+.report-no-data-message {
+  font-size: 1.5rem;
+  font-weight: bolder;
+  text-align: center;
+}
+
 @media (max-width: 768px) {
   .report-form-group {
     padding: 0;

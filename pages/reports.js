@@ -14,6 +14,7 @@ const ReportsPage = () => {
     const [selectedGroup, setSelectedGroup] = useState('');
     const [totalWeight, setTotalWeight] = useState(0);
     const [cityWeights, setCityWeights] = useState([]);
+    const [isSubmitted, setIsSubmitted] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -120,6 +121,7 @@ const ReportsPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsSubmitted(true);
         try {
             // Step 1: Get user IDs belonging to the selected group
             let userIds = [];
@@ -262,29 +264,38 @@ const ReportsPage = () => {
                         </div>
                     </form>
                     <div>
-                        {cityWeights.length > 0 && (
-                            <div>
-                                <div className="report-total-weight">Litter Collected:
-                                    <span className="report-weight-value">{totalWeight}</span>
-                                    lbs
-                                </div>
-                                <table className="results-table">
-                                    <thead>
-                                    <tr>
-                                        <th>Location</th>
-                                        <th>Weight (lbs)</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {cityWeights.sort((a, b) => b[1] - a[1]).map(([key, weight]) => (
-                                        <tr key={key}>
-                                            <td>{key}</td>
-                                            <td className="report-td-weight">{weight}</td>
-                                        </tr>
-                                    ))}
-                                    </tbody>
-                                </table>
-                            </div>
+                        {isSubmitted && (
+                            cityWeights.length > 0
+                                ? (
+                                    <div>
+                                        <div className="report-total-weight">Litter Collected:
+                                            <span className="report-weight-value">{totalWeight}</span>
+                                            lbs
+
+                                        </div>
+                                        <table className="results-table">
+                                            <thead>
+                                            <tr>
+                                                <th>Location</th>
+                                                <th>Weight (lbs)</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {cityWeights.sort((a, b) => b[1] - a[1]).map(([key, weight]) => (
+                                                <tr key={key}>
+                                                    <td>{key}</td>
+                                                    <td className="report-td-weight">{weight}</td>
+                                                </tr>
+                                            ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                ) : (
+                                    <div className="report-no-data-message">
+                                        <br/>No Data Yet <br/><br/>Let's change that, get out there and clean up some
+                                        litter!
+                                    </div>
+                                )
                         )}
                     </div>
 
