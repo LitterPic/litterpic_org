@@ -25,6 +25,8 @@ const ReportsPage = () => {
         setSelectedState('');
         setSelectedCity('');
         setSelectedGroup('');
+        setStartDate('');
+        setEndDate('');
         setTotalWeight(0);
         setCityWeights([]);
         setIsSubmitted(false);
