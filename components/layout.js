@@ -85,6 +85,9 @@ const Layout = ({children}) => {
                         <Link href="/stories" passHref>
                             <div onClick={() => handleNavLinkClick("/stories")}>User Stories</div>
                         </Link>
+                        <Link href="/reports" passHref>
+                            <div onClick={() => handleNavLinkClick("/reports")}>Litter Stats</div>
+                        </Link>
                         <Link href="/contact" passHref>
                             <div onClick={() => handleNavLinkClick("/contact")}>Contact</div>
                         </Link>

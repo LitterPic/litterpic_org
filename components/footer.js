@@ -24,7 +24,7 @@ const Footer = () => {
             </div>
             <div className="footer-column-3">
                 <div className="footer-links">
-                    <Link href="/reports">Reports</Link>
+                    {/*<Link href="/reports">Reports</Link>*/}
                     <Link href="/privacy">Privacy</Link>
                 </div>
             </div>

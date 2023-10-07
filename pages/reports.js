@@ -205,7 +205,7 @@ const ReportsPage = () => {
             </div>
             <div className="page">
                 <div className="content">
-                    <h1 className="heading-text">Reports</h1>
+                    <h1 className="heading-text">Litter Stats</h1>
                     <form onSubmit={handleSubmit}>
                         <div className="report-form-group">
                             <div className="input-row">
