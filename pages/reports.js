@@ -15,6 +15,20 @@ const ReportsPage = () => {
     const [totalWeight, setTotalWeight] = useState(0);
     const [cityWeights, setCityWeights] = useState([]);
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
+    const [startDateType, setStartDateType] = useState("text");
+    const [endDateType, setEndDateType] = useState("text");
+
+    const resetForm = () => {
+        setSelectedCountry('');
+        setSelectedState('');
+        setSelectedCity('');
+        setSelectedGroup('');
+        setTotalWeight(0);
+        setCityWeights([]);
+        setIsSubmitted(false);
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -158,6 +172,20 @@ const ReportsPage = () => {
                     where('City', '==', selectedCity)
                 );
             }
+
+            if (startDate) {
+                weightQuery = query(
+                    weightQuery,
+                    where('timePosted', '>=', new Date(startDate))
+                );
+            }
+
+            if (endDate) {
+                weightQuery = query(
+                    weightQuery,
+                    where('timePosted', '<=', new Date(endDate))
+                );
+            }
             const weightSnapshot = await getDocs(weightQuery);
 
             let total = 0;
@@ -209,6 +237,22 @@ const ReportsPage = () => {
                     <form onSubmit={handleSubmit}>
                         <div className="report-form-group">
                             <div className="input-row">
+                                <input className="report-form-select"
+                                       type={startDateType}
+                                       placeholder="Search Start Date"
+                                       onFocus={() => setStartDateType("date")}
+                                       onBlur={() => setStartDateType(startDate ? "date" : "text")}
+                                       value={startDate}
+                                       onChange={(e) => setStartDate(e.target.value)}
+                                />
+                                <input className="report-form-select"
+                                       type={endDateType}
+                                       placeholder="Search End Date"
+                                       onFocus={() => setEndDateType("date")}
+                                       onBlur={() => setEndDateType(endDate ? "date" : "text")}
+                                       value={endDate}
+                                       onChange={(e) => setEndDate(e.target.value)}
+                                />
                                 <select
                                     className={`report-form-select ${groups.length > 10 ? 'report-scrollable-dropdown' : ''}`}
                                     value={selectedGroup}
@@ -260,7 +304,9 @@ const ReportsPage = () => {
                                     ))}
                                 </select>
                             </div>
+                            <div className="report-optional-text">** All search criteria is optional</div>
                             <button className="report-submit-button" type="submit">Submit</button>
+                            <button className="report-reset-button" type="button" onClick={resetForm}>Reset</button>
                         </div>
                     </form>
                     <div>

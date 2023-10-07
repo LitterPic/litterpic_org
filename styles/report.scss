@@ -72,6 +72,12 @@
 }
 
 .report-submit-button {
+  border-radius: .5rem;
+  margin-left: 1.25%;
+}
+
+.report-reset-button {
+  border-radius: .5rem;
   margin-left: 1.25%;
 }
 
@@ -87,8 +93,68 @@
   text-align: center;
 }
 
+/* For WebKit browsers like Chrome and Safari */
+input::-webkit-input-placeholder {
+  color: #333;
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  padding-left: .15rem;
+}
+
+/* For Mozilla Firefox */
+input::-moz-placeholder {
+  color: #333;
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  padding-left: .15rem;
+}
+
+/* For Internet Explorer */
+input:-ms-input-placeholder {
+  color: #333;
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  padding-left: .15rem;
+}
+
+/* For Microsoft Edge */
+input::-ms-input-placeholder {
+  color: #333;
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  padding-left: .15rem;
+}
+
+/* Standard syntax */
+input::placeholder {
+  color: #333;
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  padding-left: .15rem;
+}
+
+.report-optional-text {
+  color: grey;
+  font-size: 12px;
+  margin-top: -2rem;
+  margin-bottom: 3rem;
+  margin-left: 1.5rem;
+}
 
 @media (max-width: 768px) {
+  .report-optional-text {
+    color: grey;
+    font-size: 12px;
+    margin-top: -1.5rem;
+    margin-bottom: 2rem;
+    margin-left: 1.5rem;
+  }
+
   .report-form-group {
     padding: 0;
   }
@@ -133,6 +199,10 @@
   }
 
   .report-submit-button {
+    margin-left: 2.5%;
+  }
+
+  .report-reset-button {
     margin-left: 2.5%;
   }
 }
