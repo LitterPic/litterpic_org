@@ -206,72 +206,72 @@ const ReportsPage = () => {
                     <h1 className="heading-text">Reports</h1>
                     <form onSubmit={handleSubmit}>
                         <div className="report-form-group">
-                            <div className="label-row">
-                                <label className="report-form-label">Organization</label>
-                                <label className="report-form-label">Country</label>
-                                <label className="report-form-label">State</label>
-                                <label className="report-form-label">City</label>
-                            </div>
                             <div className="input-row">
-                                <select className="report-form-select"
-                                        value={selectedGroup}
-                                        onChange={(e) => setSelectedGroup(e.target.value)}
+                                <select
+                                    className={`report-form-select ${groups.length > 10 ? 'report-scrollable-dropdown' : ''}`}
+                                    value={selectedGroup}
+                                    onChange={(e) => setSelectedGroup(e.target.value)}
                                 >
-                                    <option value="">Select your Group</option>
-                                    {groups.map((group) => (
+                                    <option value="">All Organizations</option>
+                                    {groups.sort((a, b) => a.localeCompare(b)).map((group) => (
                                         <option key={group} value={group}>
                                             {group}
                                         </option>
                                     ))}
                                 </select>
-                                <select className="report-form-select"
-                                        value={selectedCountry}
-                                        onChange={(e) => setSelectedCountry(e.target.value)}
+                                <select
+                                    className={`report-form-select ${countries.length > 10 ? 'report-scrollable-dropdown' : ''}`}
+                                    value={selectedCountry}
+                                    onChange={(e) => setSelectedCountry(e.target.value)}
                                 >
-                                    <option value="">Select a country</option>
-                                    {countries.map((country) => (
+                                    <option value="">All Countries</option>
+                                    {countries.sort((a, b) => a.localeCompare(b)).map((country) => (
                                         <option key={country} value={country}>
                                             {country}
                                         </option>
                                     ))}
                                 </select>
-                                <select className="report-form-select"
-                                        value={selectedState}
-                                        onChange={(e) => setSelectedState(e.target.value)}
-                                        disabled={!selectedCountry}
+                                <select
+                                    className={`report-form-select ${states.length > 10 ? 'report-scrollable-dropdown' : ''}`}
+                                    value={selectedState}
+                                    onChange={(e) => setSelectedState(e.target.value)}
+                                    disabled={!selectedCountry}
                                 >
-                                    <option value="">Select a state</option>
-                                    {states.map((state) => (
+                                    <option value="">All States</option>
+                                    {states.sort((a, b) => a.localeCompare(b)).map((state) => (
                                         <option key={state} value={state}>
                                             {state}
                                         </option>
                                     ))}
                                 </select>
-                                <select className="report-form-select"
-                                        value={selectedCity}
-                                        onChange={(e) => setSelectedCity(e.target.value)}
-                                        disabled={!selectedState}
+                                <select
+                                    className={`report-form-select ${cities.length > 10 ? 'report-scrollable-dropdown' : ''}`}
+                                    value={selectedCity}
+                                    onChange={(e) => setSelectedCity(e.target.value)}
+                                    disabled={!selectedState}
                                 >
-                                    <option value="">Select a city</option>
-                                    {cities.map((city) => (
+                                    <option value="">All Cities</option>
+                                    {cities.sort((a, b) => a.localeCompare(b)).map((city) => (
                                         <option key={city} value={city}>
                                             {city}
                                         </option>
                                     ))}
                                 </select>
                             </div>
-                            <button type="submit">Submit</button>
+                            <button className="report-submit-button" type="submit">Submit</button>
                         </div>
                     </form>
                     <div>
                         {cityWeights.length > 0 && (
                             <div>
-                                <div className="report-total-weight">Total Weight: <span
-                                    className="report-weight-value"> {totalWeight}</span></div>
+                                <div className="report-total-weight">Litter Collected:
+                                    <span className="report-weight-value">{totalWeight}</span>
+                                    lbs
+                                </div>
                                 <table className="results-table">
                                     <thead>
                                     <tr>
-                                        <th>City</th>
+                                        <th>Location</th>
                                         <th>Weight (lbs)</th>
                                     </tr>
                                     </thead>
@@ -279,7 +279,7 @@ const ReportsPage = () => {
                                     {cityWeights.sort((a, b) => b[1] - a[1]).map(([key, weight]) => (
                                         <tr key={key}>
                                             <td>{key}</td>
-                                            <td>{weight}</td>
+                                            <td className="report-td-weight">{weight}</td>
                                         </tr>
                                     ))}
                                     </tbody>

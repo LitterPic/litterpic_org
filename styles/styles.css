@@ -3798,7 +3798,12 @@ textarea.event-description-input {
 }
 
 .results-table th {
+  text-align: center;
   background-color: #f2f2f2;
+}
+
+.report-td-weight {
+  text-align: center !important;
 }
 
 .report-total-weight {
@@ -3813,8 +3818,58 @@ textarea.event-description-input {
   color: #015e41;
   font-weight: bolder;
   margin-left: 0.5rem;
+  margin-right: 0.15rem;
 }
 
+.report-submit-button {
+  margin-left: 1.25%;
+}
+
+.report-scrollable-dropdown {
+  max-height: 150px;
+  overflow-y: auto;
+  direction: ltr;
+}
+
+@media (max-width: 768px) {
+  .report-form-group {
+    padding: 0;
+  }
+  .label-row,
+  .input-row {
+    flex-direction: column;
+    align-items: center;
+  }
+  .report-form-label,
+  .report-form-select {
+    margin-left: 0;
+    margin-right: 0;
+    width: 95%;
+  }
+  .input-row {
+    margin-bottom: 1rem;
+  }
+  .results-table {
+    font-size: 0.8rem;
+  }
+  .results-table th,
+  .results-table td {
+    font-size: 12px;
+    padding: 4px;
+  }
+  .results-table th {
+    text-align: center;
+  }
+  .report-td-weight {
+    text-align: center !important;
+  }
+  .report-total-weight {
+    font-size: 1.2rem;
+  }
+  .report-submit-button {
+    margin-left: 2.5%;
+  }
+}
 .signup-form {
   align-items: center;
   display: flex;
