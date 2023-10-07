@@ -17,20 +17,15 @@
   margin-bottom: 2rem;
 }
 
-.report-form-label {
-  flex: 1;
-  text-align: center;
-  margin-bottom: 0.5rem;
-  margin-left: 1rem;
-  margin-right: 1rem;
-  width: 100%;
+.label-row,
+.input-row {
+  display: flex;
+  justify-content: space-between;
 }
 
+.report-form-label,
 .report-form-select {
-  flex: 1;
-  margin-left: 1rem;
-  margin-right: 1rem;
-  width: 100%;
+  text-align: center;
 }
 
 .results-table {
@@ -150,8 +145,26 @@ input::placeholder {
   display: none;
 }
 
+.report-label-mobile {
+  display: none;
+}
+
+.grid-layout {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-gap: 0 10px;
+}
+
+.input-smaller {
+  height: 1.75rem;
+}
+
 @media (max-width: 768px) {
-  .date-label-mobile {
+  .report-form-label {
+    display: none;
+  }
+
+  .report-label-mobile {
     display: block;
     align-self: start;
     margin-left: 2%;
@@ -165,41 +178,16 @@ input::placeholder {
     margin-left: 1.5rem;
   }
 
-  .report-form-group {
-    padding: 0;
-  }
-
-  .label-row,
   .input-row {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .report-form-label,
-  .report-form-select {
-    margin-left: 0;
-    margin-right: 0;
-    text-align: left;
-    -webkit-appearance: none;
-    width: 95%;
-  }
-
-  .input-row {
-    margin-bottom: 1rem;
-  }
-
-  .results-table {
-    font-size: 0.8rem;
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 0.25rem;
   }
 
   .results-table th,
   .results-table td {
-    font-size: 12px;
-    padding: 4px;
-  }
-
-  .results-table th {
-    text-align: center;
+    font-size: 10px;
+    padding: 3px;
   }
 
   .report-td-weight {
@@ -211,6 +199,7 @@ input::placeholder {
   }
 
   .report-submit-button {
+    font-weight: bold;
     margin-left: 2.5%;
   }
 

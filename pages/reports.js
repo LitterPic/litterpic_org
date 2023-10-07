@@ -173,46 +173,38 @@ const ReportsPage = () => {
                 );
             }
 
-            if (startDate) {
-                weightQuery = query(
-                    weightQuery,
-                    where('timePosted', '>=', new Date(startDate))
-                );
-            }
-
-            if (endDate) {
-                weightQuery = query(
-                    weightQuery,
-                    where('timePosted', '<=', new Date(endDate))
-                );
-            }
             const weightSnapshot = await getDocs(weightQuery);
 
             let total = 0;
             const cityWeightMap = new Map();
-
-            // Additional filtering based on userIds
+            
             weightSnapshot.forEach((doc) => {
-                const postUserRef = doc.data().postUser;
-                const userId = postUserRef.id;
+                const timePosted = doc.data().timePosted.toDate(); // Convert Firestore timestamp to JavaScript Date object
+                const postDate = new Date(timePosted);
 
-                if (selectedGroup && userIds.length === 0) {
-                    return;
-                }
+                // Check if the post falls within the selected date range
+                if (postDate >= new Date(startDate) && postDate <= new Date(endDate)) {
+                    const postUserRef = doc.data().postUser;
+                    const userId = postUserRef.id;
 
-                if (userIds.length === 0 || userIds.includes(userId)) {
-                    const city = doc.data().City;
-                    const state = doc.data().State;
-                    const country = doc.data().Country;
-                    const litterWeight = doc.data().litterWeight;
-                    total += litterWeight;
+                    if (selectedGroup && userIds.length === 0) {
+                        return;
+                    }
 
-                    if (!selectedCity || city === selectedCity) {
-                        const key = `${city ? city + ',' : ''} ${state ? state + ',' : ''} ${country}`;
-                        if (cityWeightMap.has(key)) {
-                            cityWeightMap.set(key, cityWeightMap.get(key) + litterWeight);
-                        } else {
-                            cityWeightMap.set(key, litterWeight);
+                    if (userIds.length === 0 || userIds.includes(userId)) {
+                        const city = doc.data().City;
+                        const state = doc.data().State;
+                        const country = doc.data().Country;
+                        const litterWeight = doc.data().litterWeight;
+                        total += litterWeight;
+
+                        if (!selectedCity || city === selectedCity) {
+                            const key = `${city ? city + ',' : ''} ${state ? state + ',' : ''} ${country}`;
+                            if (cityWeightMap.has(key)) {
+                                cityWeightMap.set(key, cityWeightMap.get(key) + litterWeight);
+                            } else {
+                                cityWeightMap.set(key, litterWeight);
+                            }
                         }
                     }
                 }
@@ -235,20 +227,30 @@ const ReportsPage = () => {
                 <div className="content">
                     <h1 className="heading-text">Litter Stats</h1>
                     <form onSubmit={handleSubmit}>
+                        <div className="report-optional-text">** Search criteria is optional</div>
                         <div className="report-form-group">
-                            <div className="input-row">
-                                <div className="date-label-mobile">From</div>
-                                <input className="report-form-select"
+                            <div className="label-row grid-layout">
+                                <div className="report-form-label">From</div>
+                                <div className="report-form-label">To</div>
+                                <div className="report-form-label">Organization</div>
+                                <div className="report-form-label">Country</div>
+                                <div className="report-form-label">State</div>
+                                <div className="report-form-label">City</div>
+                            </div>
+                            <div className="input-row grid-layout">
+                                <div className="report-label-mobile">From</div>
+                                <input className="report-form-select input-smaller"
                                        type="date"
                                        value={startDate}
                                        onChange={(e) => setStartDate(e.target.value)}
                                 />
-                                <div className="date-label-mobile">To</div>
-                                <input className="report-form-select"
+                                <div className="report-label-mobile">To</div>
+                                <input className="report-form-select input-smaller"
                                        type="date"
                                        value={endDate}
                                        onChange={(e) => setEndDate(e.target.value)}
                                 />
+                                <div className="report-label-mobile">Organization</div>
                                 <select
                                     className={`report-form-select ${groups.length > 10 ? 'report-scrollable-dropdown' : ''}`}
                                     value={selectedGroup}
@@ -261,6 +263,7 @@ const ReportsPage = () => {
                                         </option>
                                     ))}
                                 </select>
+                                <div className="report-label-mobile">Country</div>
                                 <select
                                     className={`report-form-select ${countries.length > 10 ? 'report-scrollable-dropdown' : ''}`}
                                     value={selectedCountry}
@@ -273,6 +276,7 @@ const ReportsPage = () => {
                                         </option>
                                     ))}
                                 </select>
+                                <div className="report-label-mobile">State</div>
                                 <select
                                     className={`report-form-select ${states.length > 10 ? 'report-scrollable-dropdown' : ''}`}
                                     value={selectedState}
@@ -286,6 +290,7 @@ const ReportsPage = () => {
                                         </option>
                                     ))}
                                 </select>
+                                <div className="report-label-mobile">City</div>
                                 <select
                                     className={`report-form-select ${cities.length > 10 ? 'report-scrollable-dropdown' : ''}`}
                                     value={selectedCity}
@@ -300,7 +305,6 @@ const ReportsPage = () => {
                                     ))}
                                 </select>
                             </div>
-                            <div className="report-optional-text">** Search criteria is optional</div>
                             <button className="report-submit-button" type="submit">Submit</button>
                             <button className="report-reset-button" type="button" onClick={resetForm}>Reset</button>
                         </div>
