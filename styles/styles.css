@@ -3897,10 +3897,6 @@ input::placeholder {
 }
 
 @media (max-width: 768px) {
-  input[type=date] {
-    min-width: 550px;
-    -webkit-appearance: none;
-  }
   .report-optional-text {
     color: grey;
     font-size: 12px;

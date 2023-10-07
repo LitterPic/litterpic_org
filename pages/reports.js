@@ -15,18 +15,16 @@ const ReportsPage = () => {
     const [totalWeight, setTotalWeight] = useState(0);
     const [cityWeights, setCityWeights] = useState([]);
     const [isSubmitted, setIsSubmitted] = useState(false);
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
-    const [startDateType, setStartDateType] = useState("text");
-    const [endDateType, setEndDateType] = useState("text");
+    const [startDate, setStartDate] = useState("2022-01-01");
+    const [endDate, setEndDate] = useState(new Date().toISOString().split("T")[0]);
 
     const resetForm = () => {
         setSelectedCountry('');
         setSelectedState('');
         setSelectedCity('');
         setSelectedGroup('');
-        setStartDate('');
-        setEndDate('');
+        setStartDate('2022-01-01');
+        setEndDate(new Date().toISOString().split("T")[0]);
         setTotalWeight(0);
         setCityWeights([]);
         setIsSubmitted(false);
@@ -240,18 +238,12 @@ const ReportsPage = () => {
                         <div className="report-form-group">
                             <div className="input-row">
                                 <input className="report-form-select"
-                                       type={startDateType}
-                                       placeholder="Search Start Date"
-                                       onFocus={() => setStartDateType("date")}
-                                       onBlur={() => setStartDateType(startDate ? "date" : "text")}
+                                       type="date"
                                        value={startDate}
                                        onChange={(e) => setStartDate(e.target.value)}
                                 />
                                 <input className="report-form-select"
-                                       type={endDateType}
-                                       placeholder="Search End Date"
-                                       onFocus={() => setEndDateType("date")}
-                                       onBlur={() => setEndDateType(endDate ? "date" : "text")}
+                                       type="date"
                                        value={endDate}
                                        onChange={(e) => setEndDate(e.target.value)}
                                 />
@@ -306,7 +298,7 @@ const ReportsPage = () => {
                                     ))}
                                 </select>
                             </div>
-                            <div className="report-optional-text">** All search criteria is optional</div>
+                            <div className="report-optional-text">** Search criteria is optional</div>
                             <button className="report-submit-button" type="submit">Submit</button>
                             <button className="report-reset-button" type="button" onClick={resetForm}>Reset</button>
                         </div>
