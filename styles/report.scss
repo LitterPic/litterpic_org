@@ -14,7 +14,7 @@
 }
 
 .input-row {
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 .label-row,
@@ -88,6 +88,16 @@
   text-align: center;
 }
 
+.report-top-litter-pickers,
+.interactive-litter-stats-header {
+  font-family: Poppins, sans-serif;
+  font-size: 1.75rem;
+}
+
+.interactive-litter-stats-header {
+  margin-bottom: 1rem;
+}
+
 /* For WebKit browsers like Chrome and Safari */
 input::-webkit-input-placeholder {
   color: #333;
@@ -133,14 +143,6 @@ input::placeholder {
   padding-left: .15rem;
 }
 
-.report-optional-text {
-  color: grey;
-  font-size: 12px;
-  margin-top: -2rem;
-  margin-bottom: 3rem;
-  margin-left: 1.5rem;
-}
-
 .date-label-mobile {
   display: none;
 }
@@ -159,7 +161,48 @@ input::placeholder {
   height: 1.75rem;
 }
 
+.report-is-loading {
+  display: flex;
+  font-size: 1.5rem;
+  font-weight: bold;
+  justify-content: center;
+}
+
+.leaderboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 16px;
+  margin-top: 1rem;
+  margin-bottom: 3rem;
+}
+
+.leaderboard-grid table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.leaderboard-grid th,
+.leaderboard-grid td {
+  border: 1px solid #ccc;
+  text-align: center;
+  padding: 8px;
+}
+
+.leaderboard-grid th {
+  background-color: $litterpic-green;
+  color: white;
+}
+
+
 @media (max-width: 768px) {
+  .leaderboard-grid th,
+  .leaderboard-grid td {
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    text-align: center;
+    padding: 3px;
+  }
+
   .report-form-label {
     display: none;
   }

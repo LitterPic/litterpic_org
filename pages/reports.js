@@ -15,8 +15,10 @@ const ReportsPage = () => {
     const [totalWeight, setTotalWeight] = useState(0);
     const [cityWeights, setCityWeights] = useState([]);
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [startDate, setStartDate] = useState("2022-01-01");
     const [endDate, setEndDate] = useState(new Date().toISOString().split("T")[0]);
+    const [leaderboard, setLeaderboard] = useState([]);
 
     const resetForm = () => {
         setSelectedCountry('');
@@ -29,6 +31,36 @@ const ReportsPage = () => {
         setCityWeights([]);
         setIsSubmitted(false);
     };
+
+    useEffect(() => {
+        const fetchLeaderboard = async () => {
+            try {
+                const usersSnapshot = await getDocs(collection(db, 'users'));
+                const leaderboardData = [];
+
+                for (const userDoc of usersSnapshot.docs) {
+                    const userName = userDoc.data().display_name;
+                    const organization = userDoc.data().organization;
+                    const litterWeight = userDoc.data().totalWeight;
+
+                    leaderboardData.push({
+                        name: userName,
+                        organization: organization,
+                        litterWeight: litterWeight,
+                    });
+                }
+
+                // Sort by litterWeight and take the top 5
+                const sortedLeaderboard = leaderboardData.sort((a, b) => b.litterWeight - a.litterWeight).slice(0, 5);
+                setLeaderboard(sortedLeaderboard);
+
+            } catch (error) {
+                console.error("Error fetching leaderboard:", error);
+            }
+        };
+
+        fetchLeaderboard();
+    }, []);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -135,6 +167,7 @@ const ReportsPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
         setIsSubmitted(true);
         try {
             // Step 1: Get user IDs belonging to the selected group
@@ -177,7 +210,7 @@ const ReportsPage = () => {
 
             let total = 0;
             const cityWeightMap = new Map();
-            
+
             weightSnapshot.forEach((doc) => {
                 const timePosted = doc.data().timePosted.toDate(); // Convert Firestore timestamp to JavaScript Date object
                 const postDate = new Date(timePosted);
@@ -216,6 +249,7 @@ const ReportsPage = () => {
         } catch (error) {
 
         }
+        setIsLoading(false);
     };
 
     return (
@@ -226,8 +260,31 @@ const ReportsPage = () => {
             <div className="page">
                 <div className="content">
                     <h1 className="heading-text">Litter Stats</h1>
+                    <div className="leaderboard">
+                        <h2 className="report-top-litter-pickers">Top Litter Pickers</h2>
+                        <div className="leaderboard-grid">
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Organization</th>
+                                    <th>Litter Weight</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {leaderboard.map((entry, index) => (
+                                    <tr key={index}>
+                                        <td>{entry.name}</td>
+                                        <td>{entry.organization}</td>
+                                        <td>{entry.litterWeight}</td>
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                     <form onSubmit={handleSubmit}>
-                        <div className="report-optional-text">** Search criteria is optional</div>
+                        <div className="interactive-litter-stats-header">Interactive Litter Stats</div>
                         <div className="report-form-group">
                             <div className="label-row grid-layout">
                                 <div className="report-form-label">From</div>
@@ -310,7 +367,9 @@ const ReportsPage = () => {
                         </div>
                     </form>
                     <div>
-                        {isSubmitted && (
+                        {isLoading ? (
+                            <div className="report-is-loading">Loading...</div>
+                        ) : isSubmitted && (
                             cityWeights.length > 0
                                 ? (
                                     <div>
