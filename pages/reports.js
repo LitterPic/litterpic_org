@@ -382,7 +382,7 @@ const ReportsPage = () => {
                                             <thead>
                                             <tr>
                                                 <th>Location</th>
-                                                <th>Weight (lbs)</th>
+                                                <th>Litter Weight (lbs)</th>
                                             </tr>
                                             </thead>
                                             <tbody>
