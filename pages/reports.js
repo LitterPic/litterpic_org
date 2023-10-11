@@ -19,6 +19,7 @@ const ReportsPage = () => {
     const [startDate, setStartDate] = useState("2022-01-01");
     const [endDate, setEndDate] = useState(new Date().toISOString().split("T")[0]);
     const [leaderboard, setLeaderboard] = useState([]);
+    const [orgLeaderboard, setOrgLeaderboard] = useState([]);
 
     const resetForm = () => {
         setSelectedCountry('');
@@ -36,23 +37,40 @@ const ReportsPage = () => {
         const fetchLeaderboard = async () => {
             try {
                 const usersSnapshot = await getDocs(collection(db, 'users'));
-                const leaderboardData = [];
+                const userLeaderboardData = [];
+                const orgLeaderboardData = {};
 
                 for (const userDoc of usersSnapshot.docs) {
                     const userName = userDoc.data().display_name;
                     const organization = userDoc.data().organization;
                     const litterWeight = userDoc.data().totalWeight || 0;
 
-                    leaderboardData.push({
+                    userLeaderboardData.push({
                         name: userName,
                         organization: organization,
                         litterWeight: litterWeight,
                     });
+
+                    // Group by organization and sum up the litterWeight
+                    if (organization) {
+                        if (!orgLeaderboardData[organization]) {
+                            orgLeaderboardData[organization] = 0;
+                        }
+                        orgLeaderboardData[organization] += litterWeight;
+                    }
                 }
 
-                // Sort by litterWeight and take the top 5
-                const sortedLeaderboard = leaderboardData.sort((a, b) => b.litterWeight - a.litterWeight).slice(0, 5);
-                setLeaderboard(sortedLeaderboard);
+                // Sort by litterWeight and take the top 5 for users
+                const sortedUserLeaderboard = userLeaderboardData.sort((a, b) => b.litterWeight - a.litterWeight).slice(0, 5);
+                setLeaderboard(sortedUserLeaderboard);
+
+                // Sort by litterWeight and take the top 5 for organizations
+                const sortedOrgLeaderboard = Object.entries(orgLeaderboardData)
+                    .sort(([, a], [, b]) => b - a)
+                    .slice(0, 5)
+                    .map(([org, weight]) => ({organization: org, litterWeight: weight}));
+
+                setOrgLeaderboard(sortedOrgLeaderboard);
 
             } catch (error) {
                 console.error("Error fetching leaderboard:", error);
@@ -61,6 +79,7 @@ const ReportsPage = () => {
 
         fetchLeaderboard();
     }, []);
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -268,7 +287,7 @@ const ReportsPage = () => {
                                 <tr>
                                     <th>Name</th>
                                     <th>Organization</th>
-                                    <th>Litter Weight (lbs)</th>
+                                    <th>Litter Weight Collected (lbs)</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -283,6 +302,29 @@ const ReportsPage = () => {
                             </table>
                         </div>
                     </div>
+
+                    <div className="leaderboard">
+                        <h2 className="report-top-litter-pickers">Top Litter Picking Organizations</h2>
+                        <div className="leaderboard-grid">
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th>Organization</th>
+                                    <th>Litter Weight Collected (lbs)</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {orgLeaderboard.map((entry, index) => (
+                                    <tr key={index}>
+                                        <td>{entry.organization}</td>
+                                        <td>{entry.litterWeight}</td>
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
                     <form onSubmit={handleSubmit}>
                         <div className="interactive-litter-stats-header">Interactive Litter Stats</div>
                         <div className="report-form-group">
