@@ -3794,7 +3794,8 @@ textarea.event-description-input {
 
 .results-table th {
   text-align: center;
-  background-color: #f2f2f2;
+  background-color: #015e41;
+  color: white;
 }
 
 .report-td-weight {

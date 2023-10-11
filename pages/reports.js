@@ -268,7 +268,7 @@ const ReportsPage = () => {
                                 <tr>
                                     <th>Name</th>
                                     <th>Organization</th>
-                                    <th>Litter Weight</th>
+                                    <th>Litter Weight (lbs)</th>
                                 </tr>
                                 </thead>
                                 <tbody>
