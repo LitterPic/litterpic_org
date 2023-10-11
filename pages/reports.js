@@ -295,7 +295,7 @@ const ReportsPage = () => {
                                     <tr key={index}>
                                         <td>{entry.name}</td>
                                         <td>{entry.organization}</td>
-                                        <td>{entry.litterWeight}</td>
+                                        <td>{entry.litterWeight.toLocaleString()}</td>
                                     </tr>
                                 ))}
                                 </tbody>
@@ -317,7 +317,7 @@ const ReportsPage = () => {
                                 {orgLeaderboard.map((entry, index) => (
                                     <tr key={index}>
                                         <td>{entry.organization}</td>
-                                        <td>{entry.litterWeight}</td>
+                                        <td>{entry.litterWeight.toLocaleString()}</td>
                                     </tr>
                                 ))}
                                 </tbody>
