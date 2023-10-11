@@ -155,8 +155,13 @@ function CreatePost() {
         e.preventDefault();
 
         // Validation checks
+        if (litterWeight === '' || Number(litterWeight) < 0) {
+            toast.error('Please enter litter weight collected');
+            return;
+        }
+
         if (postImages.length === 0) {
-            toast.error('At least 1 photo is required');
+            toast.error('Please add at least 1 photo');
             return;
         }
 
