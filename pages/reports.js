@@ -41,7 +41,7 @@ const ReportsPage = () => {
                 for (const userDoc of usersSnapshot.docs) {
                     const userName = userDoc.data().display_name;
                     const organization = userDoc.data().organization;
-                    const litterWeight = userDoc.data().totalWeight;
+                    const litterWeight = userDoc.data().totalWeight || 0;
 
                     leaderboardData.push({
                         name: userName,
