@@ -88,14 +88,17 @@
     padding-right: 10px;
   }
 
+  &.volunteer-event-organizer-photo {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
+
+  img {
+    padding: .25rem;
+  }
 }
 
-
-.volunteer-event-organizer-photo {
-  align-items: center;
-  display: flex;
-  justify-content: center;
-}
 
 .highlight {
   background-color: $table-highlight-green;

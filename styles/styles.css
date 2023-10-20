@@ -3302,11 +3302,13 @@ p .index-inspire-change-text {
   padding-left: 10px;
   padding-right: 10px;
 }
-
-.volunteer-event-organizer-photo {
+.table.volunteer-event-organizer-photo {
   align-items: center;
   display: flex;
   justify-content: center;
+}
+.table img {
+  padding: 0.25rem;
 }
 
 .highlight {
@@ -4668,11 +4670,13 @@ input::placeholder {
   padding-left: 10px;
   padding-right: 10px;
 }
-
-.volunteer-event-organizer-photo {
+.table.volunteer-event-organizer-photo {
   align-items: center;
   display: flex;
   justify-content: center;
+}
+.table img {
+  padding: 0.25rem;
 }
 
 .highlight {
