@@ -14,6 +14,18 @@ const ProfilePage = () => {
     const [userOrganization, setUserOrganization] = useState('');
     const [litterCollected, setLitterCollected] = useState(0);
 
+    const renderCollected = () => {
+        if (userOrganization === 'Blue Ocean Society') {
+            return (
+                <a href="https://www.blueoceansociety.org/" target="_blank" rel="noopener noreferrer">
+                    Visit Blue Ocean Society
+                </a>
+            );
+        } else {
+            return `${litterCollected} pounds`;
+        }
+    };
+
     useEffect(() => {
         const fetchUserProfile = async () => {
             if (user) {
@@ -90,7 +102,7 @@ const ProfilePage = () => {
                             <p className="profile-item">Organization</p>
                             <p className="profile-value">{userOrganization}</p>
                             <p className="profile-item">Collected</p>
-                            <p className="profile-value">{litterCollected} pounds</p>
+                            <p className="profile-value">{renderCollected()}</p>
                             <p className="profile-item">Bio</p>
                             <p className="profile-value">{userBio}</p>
                             <p className="profile-item">Member</p>

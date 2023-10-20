@@ -3295,9 +3295,18 @@ p .index-inspire-change-text {
 .table td,
 .table th {
   border: 0.06rem solid #ddd;
+  font-size: 0.7rem;
   max-width: 125px;
   text-align: center;
   word-wrap: break-word;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.volunteer-event-organizer-photo {
+  align-items: center;
+  display: flex;
+  justify-content: center;
 }
 
 .highlight {
@@ -4652,9 +4661,18 @@ input::placeholder {
 .table td,
 .table th {
   border: 0.06rem solid #ddd;
+  font-size: 0.7rem;
   max-width: 125px;
   text-align: center;
   word-wrap: break-word;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.volunteer-event-organizer-photo {
+  align-items: center;
+  display: flex;
+  justify-content: center;
 }
 
 .highlight {

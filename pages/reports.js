@@ -21,6 +21,30 @@ const ReportsPage = () => {
     const [leaderboard, setLeaderboard] = useState([]);
     const [orgLeaderboard, setOrgLeaderboard] = useState([]);
 
+    const renderNoDataMessage = () => {
+        if (selectedGroup === 'Blue Ocean Society') {
+            return (
+                <>
+                    <div className="report-no-data-message">
+                        <br/>
+                        Please Visit the <a href="https://www.blueoceansociety.org/" target="_blank"
+                                            rel="noopener noreferrer">Blue Ocean Society</a> for their amazing litter
+                        collecting stats.
+                        <br/><br/>
+                    </div>
+                </>
+            );
+        } else {
+            return (
+                <>
+                    <div className="report-no-data-message">
+                        <br/>No Data Yet <br/><br/>Let's change that, get out there and clean up some litter!
+                    </div>
+                </>
+            );
+        }
+    };
+
     const resetForm = () => {
         setSelectedCountry('');
         setSelectedState('');
@@ -438,10 +462,7 @@ const ReportsPage = () => {
                                         </table>
                                     </div>
                                 ) : (
-                                    <div className="report-no-data-message">
-                                        <br/>No Data Yet <br/><br/>Let's change that, get out there and clean up some
-                                        litter!
-                                    </div>
+                                    renderNoDataMessage()
                                 )
                         )}
                     </div>

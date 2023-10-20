@@ -71,7 +71,6 @@
   font-size: 1.25rem;
 }
 
-
 // Volunteer Events Table
 .table {
   border-collapse: collapse;
@@ -81,10 +80,21 @@
   td,
   th {
     border: .06rem solid $table-gray;
+    font-size: .7rem;
     max-width: 125px;
     text-align: center;
     word-wrap: break-word;
+    padding-left: 10px;
+    padding-right: 10px;
   }
+
+}
+
+
+.volunteer-event-organizer-photo {
+  align-items: center;
+  display: flex;
+  justify-content: center;
 }
 
 .highlight {
@@ -212,6 +222,7 @@
     text-align: end;
   }
 }
+
 
 // RSVP Attendee Details
 .rsvp-details-table {

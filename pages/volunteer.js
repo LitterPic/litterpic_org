@@ -26,6 +26,8 @@ import {useLoadScript} from "@react-google-maps/api";
 import Link from "next/link";
 import Head from "next/head";
 import {capitalizeFirstWordOfSentences} from "../utils/textUtils";
+import {getFunctions, httpsCallable} from "firebase/functions";
+
 
 const libraries = ['places'];
 const mapApiKey = process.env.NEXT_PUBLIC_PLACES_API_KEY;
@@ -114,6 +116,33 @@ const Volunteer = () => {
     const [city, setCity] = useState('');
     const [state, setState] = useState('');
     const [country, setCountry] = useState('');
+    const [ownerPhotos, setOwnerPhotos] = useState({});
+    const [ownerEmails, setOwnerEmails] = useState({});
+
+    useEffect(() => {
+        const fetchOwnerData = async () => {
+            const newOwnerPhotos = {};
+            const newOwnerEmails = {};
+
+            for (const event of events) {
+                const ownerRef = event.owner;
+
+                if (ownerRef) {
+                    const ownerData = await getDoc(ownerRef);
+                    if (ownerData.exists()) {
+                        newOwnerPhotos[event.id] = ownerData.data().photo_url;
+                        newOwnerEmails[event.id] = ownerData.data().email; // Fetch the email
+                    }
+                }
+            }
+
+            setOwnerPhotos(newOwnerPhotos);
+            setOwnerEmails(newOwnerEmails);
+        };
+
+        fetchOwnerData();
+    }, [events]);
+
 
     const handleAddressSelect = async (address, placeId) => {
         setSelectedAddress(address);
@@ -441,25 +470,49 @@ const Volunteer = () => {
         }));
     };
 
-    const handleRsvpClick = (eventId) => {
+    const handleRsvpClick = async (eventId) => {
+        console.log("handleRsvpClick called with Event ID:", eventId);  // Log when the function is called
+
+        const selectedEvent = events.find((event) => event.id === eventId);
+        console.log("Selected Event:", selectedEvent);  // Log the found event
+
+        // If the event is a Blue Ocean Society event, then skip the login requirement
+        const functions = getFunctions();
+        const createBlueOceanRsvp = httpsCallable(functions, 'createBlueOceanRsvp');
+
+        if (ownerEmails[eventId] === 'programs@blueoceansociety.org') {
+            const loggedInUserId = user ? user.uid : null;
+            const payload = {eventId, loggedInUserId};
+            try {
+                const result = await createBlueOceanRsvp(payload);
+                console.log(result.data);
+                window.open('https://www.blueoceansociety.org/cleanup', '_blank');
+                return;
+            } catch (error) {
+                console.error("There was an error with the function call:", error);
+                return;
+            }
+        }
+
+        // For all other events, enforce login
         if (!user) {
             router.push('/login');
-        } else {
-            const selectedEvent = events.find((event) => event.id === eventId);
-            if (selectedEvent) {
-                setRsvpFormData({
-                    eventId: eventId,
-                    numberAttending: 1,
-                    note: '',
+            return;
+        }
+
+        if (selectedEvent) {
+            setRsvpFormData({
+                eventId: eventId,
+                numberAttending: 1,
+                note: '',
+            });
+            setSelectedEventInfo(selectedEvent);
+            setTimeout(() => {
+                rsvpFormContainerRef.current.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'end',
                 });
-                setSelectedEventInfo(selectedEvent);
-                setTimeout(() => {
-                    rsvpFormContainerRef.current.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'end',
-                    });
-                }, 5);
-            }
+            }, 5);
         }
     };
 
@@ -731,11 +784,13 @@ const Volunteer = () => {
                         <table className="table">
                             <thead>
                             <tr>
+                                <th>Organizer</th>
                                 <th>Event</th>
                                 <th>Description</th>
                                 <th>Date</th>
                                 <th>Location</th>
                                 <th className="start-time-column">Start Time</th>
+                                <th className="start-time-column">End Time</th>
                                 <th>Attendees</th>
                                 <th>RSVP</th>
                             </tr>
@@ -750,6 +805,12 @@ const Volunteer = () => {
                                     return eventRef && eventRef.id === event.id && userRef.id === currentUserID && doc.data().noteToOrganizer === "Auto Owner RSVP";
                                 });
 
+                                const attendingEvent = rsvpSnapshot.find(doc => {
+                                    const eventRef = doc.data().eventAssociation;
+                                    const userRef = doc.data().user;
+                                    return eventRef && eventRef.id === event.id && userRef.id === currentUserID;
+                                });
+
                                 const isHostingEvent = Boolean(rsvpForEvent);
                                 const userEmail = auth && auth.currentUser && auth.currentUser.email ? auth.currentUser.email : '';
                                 const shouldShowLink = isHostingEvent || userEmail === 'alek@litterpic.org';
@@ -757,11 +818,20 @@ const Volunteer = () => {
                                 return (
                                     <tr key={index}
                                         className={event.start.toISOString().split('T')[0] === selectedDate ? 'highlight' : ''}>
+                                        <td className="volunteer-event-organizer-photo">
+                                            <img src={ownerPhotos[event.id] || 'default_image_url'} alt="Owner"
+                                                 width="50"/>
+                                        </td>
                                         <td>{event.event_title}</td>
                                         <td>{event.description}</td>
                                         <td>{event.start.toLocaleDateString()}</td>
                                         <td>{event.location}</td>
                                         <td className="start-time-column">{event.eventStartTime?.toDate().toLocaleTimeString([], {
+                                            hour: 'numeric',
+                                            minute: '2-digit',
+                                            hour12: true
+                                        })}</td>
+                                        <td className="start-time-column">{event.eventEndTime?.toDate().toLocaleTimeString([], {
                                             hour: 'numeric',
                                             minute: '2-digit',
                                             hour12: true
@@ -779,7 +849,7 @@ const Volunteer = () => {
                                         <td>
                                             {isHostingEvent ? (
                                                 "You're hosting this event"
-                                            ) : currentUserID && rsvps[event.id] ? (
+                                            ) : attendingEvent && rsvps[event.id] ? (
                                                 <>
                                                     You're attending this event
                                                     <br/>
@@ -792,7 +862,7 @@ const Volunteer = () => {
                                                 </>
                                             ) : (
                                                 <a href="#" onClick={() => handleRsvpClick(event.id)}>
-                                                    RSVP
+                                                    {ownerEmails[event.id] === 'programs@blueoceansociety.org' ? 'RSVP with Blue Ocean Society' : 'RSVP'}
                                                 </a>
                                             )}
                                         </td>
