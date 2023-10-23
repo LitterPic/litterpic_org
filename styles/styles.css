@@ -3295,7 +3295,7 @@ p .index-inspire-change-text {
 .table td,
 .table th {
   border: 0.06rem solid #ddd;
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   max-width: 125px;
   text-align: center;
   word-wrap: break-word;
@@ -3307,6 +3307,12 @@ p .index-inspire-change-text {
   display: flex;
   justify-content: center;
 }
+.table .medium-column {
+  width: 125px;
+}
+.table .narrow-column {
+  width: 55px;
+}
 .table img {
   padding: 0.25rem;
 }
@@ -3314,10 +3320,6 @@ p .index-inspire-change-text {
 .highlight {
   background-color: #4caf50;
   color: #fff;
-}
-
-.start-time-column {
-  width: 3.75rem;
 }
 
 .form-container {
@@ -4663,7 +4665,7 @@ input::placeholder {
 .table td,
 .table th {
   border: 0.06rem solid #ddd;
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   max-width: 125px;
   text-align: center;
   word-wrap: break-word;
@@ -4675,6 +4677,12 @@ input::placeholder {
   display: flex;
   justify-content: center;
 }
+.table .medium-column {
+  width: 125px;
+}
+.table .narrow-column {
+  width: 55px;
+}
 .table img {
   padding: 0.25rem;
 }
@@ -4682,10 +4690,6 @@ input::placeholder {
 .highlight {
   background-color: #4caf50;
   color: #fff;
-}
-
-.start-time-column {
-  width: 3.75rem;
 }
 
 .form-container {

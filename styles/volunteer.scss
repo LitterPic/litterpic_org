@@ -80,7 +80,7 @@
   td,
   th {
     border: .06rem solid $table-gray;
-    font-size: .7rem;
+    font-size: .65rem;
     max-width: 125px;
     text-align: center;
     word-wrap: break-word;
@@ -94,6 +94,14 @@
     justify-content: center;
   }
 
+  .medium-column {
+    width: 125px;
+  }
+
+  .narrow-column {
+    width: 55px;
+  }
+
   img {
     padding: .25rem;
   }
@@ -103,10 +111,6 @@
 .highlight {
   background-color: $table-highlight-green;
   color: $white;
-}
-
-.start-time-column {
-  width: 3.75rem;
 }
 
 

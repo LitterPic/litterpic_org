@@ -784,15 +784,15 @@ const Volunteer = () => {
                         <table className="table">
                             <thead>
                             <tr>
-                                <th>Organizer</th>
-                                <th>Event</th>
-                                <th>Description</th>
-                                <th>Date</th>
-                                <th>Location</th>
-                                <th className="start-time-column">Start Time</th>
-                                <th className="start-time-column">End Time</th>
-                                <th>Attendees</th>
-                                <th>RSVP</th>
+                                <th className="narrow-column">Organizer</th>
+                                <th className="medium-column">Event</th>
+                                <th className="wide-column">Description</th>
+                                <th className="narrow-column">Date</th>
+                                <th className="medium-column">Location</th>
+                                <th className="narrow-column">Start Time</th>
+                                <th className="narrow-column">End Time</th>
+                                <th className="narrow-column">Attendees</th>
+                                <th className="medium-column">RSVP</th>
                             </tr>
                             </thead>
                             <tbody>
