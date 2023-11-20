@@ -194,7 +194,7 @@ export default function Index() {
                       solutions include a mobile app for community collaboration and a vision for self-driving vacuum trucks
                       for urban cleanups. Join LitterPic in making a cleaner, safer planet."/>
                 <meta name="robots" content="index, follow"/>
-                {/*<link rel="canonical" href="https://litterpic.org"/>*/}
+                <link rel="icon" href="/favicon.ico"/>
 
                 <meta property="og:title" content="LitterPic"/>
                 <meta property="og:description"
