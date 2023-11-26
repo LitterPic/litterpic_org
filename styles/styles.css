@@ -2973,6 +2973,11 @@ p .index-inspire-change-text {
   width: auto;
 }
 
+.recent-location-select {
+  font-size: 0.9rem;
+  width: 605px;
+}
+
 .create-post-content {
   display: flex;
   justify-content: center;
@@ -4330,6 +4335,11 @@ input::placeholder {
   height: auto;
   padding: 1rem 2rem;
   width: auto;
+}
+
+.recent-location-select {
+  font-size: 0.9rem;
+  width: 605px;
 }
 
 .create-post-content {
