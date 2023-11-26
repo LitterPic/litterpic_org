@@ -463,6 +463,10 @@
     left: 63%;
   }
 
+  .recent-location-select {
+    width: 350px;
+  }
+
   .create-post-content {
     display: flex;
     justify-content: center;
@@ -547,6 +551,10 @@
     object-fit: fill;
     overflow: hidden;
     width: 300px;
+  }
+
+  .recent-location-select {
+    width: 460px;
   }
 
 }

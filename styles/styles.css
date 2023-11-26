@@ -3163,6 +3163,9 @@ p .index-inspire-change-text {
   .post-dropdown-menu {
     left: 63%;
   }
+  .recent-location-select {
+    width: 350px;
+  }
   .create-post-content {
     display: flex;
     justify-content: center;
@@ -3230,6 +3233,9 @@ p .index-inspire-change-text {
     object-fit: fill;
     overflow: hidden;
     width: 300px;
+  }
+  .recent-location-select {
+    width: 460px;
   }
 }
 .volunteer-top-paragraph {
@@ -4527,6 +4533,9 @@ input::placeholder {
   .post-dropdown-menu {
     left: 63%;
   }
+  .recent-location-select {
+    width: 350px;
+  }
   .create-post-content {
     display: flex;
     justify-content: center;
@@ -4594,6 +4603,9 @@ input::placeholder {
     object-fit: fill;
     overflow: hidden;
     width: 300px;
+  }
+  .recent-location-select {
+    width: 460px;
   }
 }
 .ok-button {
