@@ -102,7 +102,7 @@ function CreatePost() {
     const handleAddressSelect = async (address, placeId) => {
         setSelectedAddress(address);
         setAddressModified(false);
-        setLocationSelected(true);
+        // setLocationSelected(true);
 
         try {
             const results = await geocodeByAddress(address);
@@ -125,13 +125,13 @@ function CreatePost() {
             setState(state);
             setCountry(country);
 
-            // Cache the location
             if (user?.uid) {
                 await cacheLocation(user.uid, {
                     name: address,
                     address: address,
                     lat: latLng.lat,
-                    lng: latLng.lng
+                    lng: latLng.lng,
+                    city, state, country
                 });
                 getRecentLocations(user.uid).then(setCachedLocations);
             }
@@ -141,16 +141,10 @@ function CreatePost() {
     };
 
     const handleCachedLocationSelect = (location) => {
-        setSelectedAddress(location.name);
+        setSelectedAddress(location.address);
         setCity(location.city || '');
         setState(location.state || '');
         setCountry(location.country || '');
-        setLocationSelected(true);
-    };
-
-    const showNewLocationInput = () => {
-        setShowRecentLocations(false);
-        setSelectedAddress('');
     };
 
     const uploadImages = async (postDocRef) => {
@@ -326,28 +320,27 @@ function CreatePost() {
                             </div>
                             <div>
                                 {showRecentLocations ? (
-                                        <div>
-                                            <select
+                                        <select className="recent-location-select"
                                                 onChange={(e) => {
                                                     const value = e.target.value;
                                                     if (value === 'new-location') {
-                                                        showNewLocationInput();
+                                                        setShowRecentLocations(false);
+                                                        setSelectedAddress('');
                                                     } else if (value !== 'default') {
-                                                        const location = cachedLocations.find(loc => loc.name === value);
+                                                        const location = cachedLocations.find(loc => loc.address === value);
                                                         location && handleCachedLocationSelect(location);
                                                     }
                                                 }}
                                                 value={selectedAddress || 'default'}
-                                            >
-                                                <option value="default" disabled>Choose a location</option>
-                                                {cachedLocations.map((location, index) => (
-                                                    <option key={index} value={location.address}>
-                                                        {location.address}
-                                                    </option>
-                                                ))}
-                                                <option value="new-location">Choose a new location</option>
-                                            </select>
-                                        </div>
+                                        >
+                                            <option value="default" disabled>Choose a location</option>
+                                            {cachedLocations.map((location, index) => (
+                                                <option key={index} value={location.address}>
+                                                    {location.address}
+                                                </option>
+                                            ))}
+                                            <option value="new-location">Choose a new location</option>
+                                        </select>
                                     )
                                     : (<PlacesAutocomplete
                                             value={selectedAddress}
