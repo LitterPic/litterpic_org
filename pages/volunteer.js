@@ -27,6 +27,7 @@ import Link from "next/link";
 import Head from "next/head";
 import {capitalizeFirstWordOfSentences} from "../utils/textUtils";
 import {getFunctions, httpsCallable} from "firebase/functions";
+import {createBlueOceanRsvp} from "../functions";
 
 
 const libraries = ['places'];

@@ -21,10 +21,10 @@ exports.createBlueOceanRsvp = functions.https.onRequest((request, response) => {
                 timestamp: new Date(),
             };
             await admin.firestore().collection('rsvp').add(rsvp);
-            response.status(200).json({status: "RSVP Created"});
+            response.status(200).json({data: {status: "RSVP Created"}});
         } catch (error) {
             console.error("Error adding RSVP: ", error);
-            response.status(500).json({status: "Internal Server Error", error: error});
+            response.status(500).json({data: {status: "Internal Server Error", error: error}});
         }
     });
 });
