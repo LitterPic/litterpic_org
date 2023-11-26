@@ -299,7 +299,7 @@ function Stories() {
             }
 
             if (!fetchedPosts) {
-                fetchedPosts = await fetchPosts(page, 6);
+                fetchedPosts = await fetchPosts(page, 10);
 
                 // Cache the fetched posts for the current page with timestamp
                 localStorage.setItem(

@@ -27,7 +27,7 @@ import Link from "next/link";
 import Head from "next/head";
 import {capitalizeFirstWordOfSentences} from "../utils/textUtils";
 import {getFunctions, httpsCallable} from "firebase/functions";
-import {createBlueOceanRsvp} from "../functions";
+import {cacheLocation, getRecentLocations} from "../utils/locationCache";
 
 
 const libraries = ['places'];
@@ -119,6 +119,8 @@ const Volunteer = () => {
     const [country, setCountry] = useState('');
     const [ownerPhotos, setOwnerPhotos] = useState({});
     const [ownerEmails, setOwnerEmails] = useState({});
+    const [cachedLocations, setCachedLocations] = useState([]);
+    const [showRecentLocations, setShowRecentLocations] = useState(true);
 
     useEffect(() => {
         const fetchOwnerData = async () => {
@@ -144,37 +146,29 @@ const Volunteer = () => {
         fetchOwnerData();
     }, [events]);
 
+    useEffect(() => {
+        if (user) {
+            getRecentLocations(user.uid).then(setCachedLocations);
+        }
+    }, [user]);
 
     const handleAddressSelect = async (address, placeId) => {
         setSelectedAddress(address);
         setAddressModified(false);
 
         try {
-            // Use geocodeByAddress to get address details using the placeId
             const results = await geocodeByAddress(address);
+            const latLng = await getLatLng(results[0]);
             const addressComponents = results[0]?.address_components || [];
 
-            if (addressComponents.length === 0) {
+            let city = '', state = '', country = '';
 
-                return;
-            }
-
-            let city = '';
-            let state = '';
-            let country = '';
-
-            for (let i = 0; i < addressComponents.length; i++) {
-                const component = addressComponents[i];
-
+            for (const component of addressComponents) {
                 if (component.types.includes('locality')) {
                     city = component.long_name;
-                }
-
-                if (component.types.includes('administrative_area_level_1')) {
+                } else if (component.types.includes('administrative_area_level_1')) {
                     state = component.short_name;
-                }
-
-                if (component.types.includes('country')) {
+                } else if (component.types.includes('country')) {
                     country = component.long_name;
                 }
             }
@@ -182,8 +176,41 @@ const Volunteer = () => {
             setCity(city);
             setState(state);
             setCountry(country);
-        } catch (error) {
 
+            if (user?.uid) {
+                await cacheLocation(user.uid, {
+                    name: address,
+                    address: address,
+                    lat: latLng.lat,
+                    lng: latLng.lng,
+                    city, state, country
+                });
+                getRecentLocations(user.uid).then(setCachedLocations);
+            }
+        } catch (error) {
+            console.error("Failed to get address details:", error);
+        }
+    };
+
+    const handleCachedLocationSelect = (location) => {
+        setSelectedAddress(location.address);
+        setCity(location.city || '');
+        setState(location.state || '');
+        setCountry(location.country || '');
+
+        // Check if the cached location has latitude and longitude, then set them
+        if (location.lat && location.lng) {
+            setLatLng(new GeoPoint(location.lat, location.lng));
+        } else {
+            // If not, geocode the address to get latLng
+            geocodeByAddress(location.address)
+                .then((results) => getLatLng(results[0]))
+                .then((latLng) => {
+                    setLatLng(new GeoPoint(latLng.lat, latLng.lng));
+                })
+                .catch((error) => {
+                    console.error("Error getting latLng from geocode:", error);
+                });
         }
     };
 
@@ -713,13 +740,41 @@ const Volunteer = () => {
                                     <input type="time" name="eventEndTime"/>
 
                                     <label htmlFor="location" className="event-location">Event Location</label>
-                                    {isLoaded ? (
+
+                                    {showRecentLocations ? (
+                                        <select
+                                            onChange={(e) => {
+                                                const value = e.target.value;
+                                                if (value === 'new-location') {
+                                                    setShowRecentLocations(false);
+                                                    setSelectedAddress('');
+                                                } else if (value !== 'default') {
+                                                    const location = cachedLocations.find(loc => loc.address === value);
+                                                    location && handleCachedLocationSelect(location);
+                                                }
+                                            }}
+                                            value={selectedAddress || 'default'}
+                                        >
+                                            <option value="default" disabled>Choose a location</option>
+                                            {cachedLocations.map((location, index) => (
+                                                <option key={index} value={location.address}>
+                                                    {location.address}
+                                                </option>
+                                            ))}
+                                            <option value="new-location">Choose a new location</option>
+                                        </select>
+                                    ) : (
                                         <PlacesAutocomplete
                                             value={selectedAddress}
                                             onChange={setSelectedAddress}
-                                            onSelect={(address, result) => handleAddressSelect(address, result)}
+                                            onSelect={handleAddressSelect}
                                         >
-                                            {({getInputProps, suggestions, getSuggestionItemProps, loading}) => (
+                                            {({
+                                                  getInputProps,
+                                                  suggestions,
+                                                  getSuggestionItemProps,
+                                                  loading
+                                              }) => (
                                                 <div>
                                                     <input
                                                         {...getInputProps({
@@ -750,8 +805,6 @@ const Volunteer = () => {
                                                 </div>
                                             )}
                                         </PlacesAutocomplete>
-                                    ) : (
-                                        <div>Loading...</div>
                                     )}
                                 </div>
 
@@ -874,7 +927,8 @@ const Volunteer = () => {
                         </table>
                     </div>
 
-                    {/* RSVP Form */}
+                    {/* RSVP Form */
+                    }
                     <div>
                         {rsvpFormData.eventId && (
                             <div>
@@ -949,7 +1003,8 @@ const Volunteer = () => {
                 </div>
             </div>
         </div>
-    );
+    )
+        ;
 };
 
 export default Volunteer;
