@@ -3,6 +3,7 @@ import {db, useAuth} from '../lib/firebase';
 import {useEffect, useState} from 'react';
 import {doc, getDoc} from "firebase/firestore";
 import {useRouter} from 'next/router';
+import Head from "next/head";
 
 const ProfilePage = () => {
     const router = useRouter();
@@ -67,6 +68,35 @@ const ProfilePage = () => {
 
     return (
         <div>
+            <Head>
+                <title>Your Profile - LitterPic</title>
+                <meta name="description"
+                      content="View and manage your LitterPic profile, including your posts, likes, and settings."/>
+                <meta name="robots" content="index, follow"/>
+                <link rel="icon" href="/favicon.ico"/>
+                <link rel="canonical" href="https://litterpic.org/profile"/>
+
+                <meta property="og:title" content="Your Profile - LitterPic"/>
+                <meta property="og:description"
+                      content="View and manage your LitterPic profile, including your posts, likes, and settings."/>
+                <meta property="og:image"
+                      content="https://firebasestorage.googleapis.com/v0/b/litterpic-fa0bb.appspot.com/o/users%2F9mumST0cjAOdZydKAYMd1HLfwTr2%2Fuploads%2FprofilePhoto?alt=media&token=a5e0151c-ad9f-4e38-87b4-973f3ffed784"/>
+                <meta property="og:url" content="https://litterpic.org/profile"/>
+                <meta property="og:type" content="website"/>
+
+                <meta name="twitter:card" content="summary_large_image"/>
+                <meta name="twitter:title" content="Your Profile - LitterPic"/>
+                <meta name="twitter:description"
+                      content="View and manage your LitterPic profile, including your posts, likes, and settings."/>
+                <meta name="twitter:image"
+                      content="https://firebasestorage.googleapis.com/v0/b/litterpic-fa0bb.appspot.com/o/users%2F9mumST0cjAOdZydKAYMd1HLfwTr2%2Fuploads%2FprofilePhoto?alt=media&token=a5e0151c-ad9f-4e38-87b4-973f3ffed784"/>
+                <meta name="twitter:url" content="https://litterpic.org/profile"/>
+
+                <meta name="keywords"
+                      content="profile, user profile, account settings, LitterPic profile, social media profile"/>
+                <meta name="author" content="LitterPic Inc."/>
+            </Head>
+
             <div className="banner">
                 <img src="/images/user_posts_banner.webp" alt="Banner Image"/>
             </div>

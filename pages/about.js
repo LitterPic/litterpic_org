@@ -72,6 +72,11 @@ const About = () => {
                       action against litter, offer a community-connecting app, and envision self-driving trucks for urban
                       cleanup. Join our mission for a cleaner planet."/>
                 <meta name="twitter:image" content="https://litterpic.org/images/litter_pic_logo.png"/>
+                <meta name="twitter:url" content="https://litterpic.org/about"/>
+
+                <meta name="keywords"
+                      content="litter, litterpicking, litter collection, community cleanups, environmental conservation, inspiring stories"/>
+                <meta name="author" content="LitterPic Inc."/>
             </Head>
             <div className="banner">
                 <img src="/images/pine_trees_banner.webp" alt="Banner Image"/>

@@ -3,7 +3,7 @@ import {collection, doc, getDoc, getDocs, limit, orderBy, query} from 'firebase/
 import {getDownloadURL, ref} from 'firebase/storage';
 import {db, storage} from '../lib/firebase';
 import 'firebase/firestore';
-import Head from 'next/head';
+import Head from "next/head";
 
 const AWS = require('aws-sdk');
 
@@ -51,39 +51,6 @@ export default function Index() {
     const [images, setImages] = useState([]);
     const [totalWeight, setTotalWeight] = useState(0);
     const [isDataLoaded, setIsDataLoaded] = useState(false);
-
-    useEffect(() => {
-        async function sendNotification() {
-            try {
-                // Get the user's IP Address
-                const res = await fetch('https://api64.ipify.org?format=json');
-                const data = await res.json();
-                const ipAddress = data.ip;
-
-                // Get Geographical Info using ipstack
-                const apiKey = process.env.NEXT_PUBLIC_IPSTACK_ACCESS_TOKEN;
-                const geoRes = await fetch(`https://api.ipstack.com/${ipAddress}?access_key=${apiKey}`);
-                const geoData = await geoRes.json();
-                const location = geoData.city + ', ' + geoData.region_name + ', ' + geoData.country_name;
-
-                // Send SNS notification
-                const sns = new AWS.SNS();
-                const topicArn = 'arn:aws:sns:us-east-1:710280486241:litterpicOrgNewVisitor';
-                const message = `A user from ${location} has visited LitterPic.org!`;
-
-                const params = {
-                    Message: message,
-                    TopicArn: topicArn,
-                };
-
-                await sns.publish(params).promise();
-            } catch (error) {
-                console.error("Error sending notification: ", error.message);
-            }
-        }
-
-        sendNotification();
-    }, []);
 
 
     useEffect(() => {
@@ -194,7 +161,7 @@ export default function Index() {
                       solutions include a mobile app for community collaboration and a vision for self-driving vacuum trucks
                       for urban cleanups. Join LitterPic in making a cleaner, safer planet."/>
                 <meta name="robots" content="index, follow"/>
-                {/*<link rel="icon" href="/favicon.ico"/>*/}
+                <link rel="icon" href="/favicon.ico"/>
 
                 <meta property="og:title" content="LitterPic"/>
                 <meta property="og:description"
@@ -208,6 +175,11 @@ export default function Index() {
                 <meta name="twitter:description"
                       content="LitterPic Inc. is dedicated to creating a litter-free world..."/>
                 <meta name="twitter:image" content="https://litterpic.org/images/litter_pic_logo.png"/>
+                <meta name="twitter:url" content="https://litterpic.org"/>
+
+                <meta name="keywords"
+                      content="litter, litterpicking, litter collection, community cleanups, environmental conservation, inspiring stories"/>
+                <meta name="author" content="LitterPic Inc."/>
             </Head>
             <div className="banner">
                 <img src="/images/homeBanner.webp" alt="Banner Image"/>
