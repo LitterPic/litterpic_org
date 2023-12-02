@@ -282,7 +282,7 @@ function Stories() {
             }
 
             if (!fetchedPosts) {
-                fetchedPosts = await fetchPosts(page, 10);
+                fetchedPosts = await fetchPosts(page, 7);
 
                 localStorage.setItem(
                     `posts_page_${page}`,
