@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Masonry from 'react-masonry-css';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faComment as farComment, faHeart as farHeart} from '@fortawesome/free-regular-svg-icons';
-import {faComment, faEllipsisV, faHeart} from '@fortawesome/free-solid-svg-icons';
+import {faComment, faHeart} from '@fortawesome/free-solid-svg-icons';
 import {getAuth} from 'firebase/auth';
 import {useRouter} from 'next/router';
 import {
@@ -25,10 +25,11 @@ import {
 } from 'firebase/firestore';
 import {db} from "../lib/firebase";
 import {capitalizeFirstWordOfSentences} from "../utils/textUtils";
+import Head from "next/head";
 
 
 function Stories() {
-    const CACHE_EXPIRATION_TIME = 5 * 60 * 1000; // 5 minutes
+    const CACHE_EXPIRATION_TIME = 5 * 60 * 1000;
 
     const router = useRouter();
     const dropdownRef = useRef(null);
@@ -87,7 +88,6 @@ function Stories() {
         };
     }, []);
 
-    // Separate useEffect for auth state changes
     useEffect(() => {
         const auth = getAuth();
         const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -98,51 +98,43 @@ function Stories() {
         return () => unsubscribe();
     }, []);
 
-    // UseEffect for posts fetching
     useEffect(() => {
-        if (!loadingUser) { // User's authentication state has been determined
+        if (!loadingUser) {
             if (user) {
-                // User is logged in, fetch posts with user's UID
                 fetchAndSetPosts(user.uid);
             } else {
-                // User is not logged in, fetch posts without user's UID
                 fetchAndSetPosts();
             }
         }
     }, [user, loadingUser]);
 
     const handleToggleLike = async (postId) => {
-        // User is not logged in
         if (!user) {
             router.push('/login');
             return;
         }
 
         try {
-            // Find the post with the given postId in the posts array
             const postIndex = posts.findIndex((post) => post.id === postId);
             const postToUpdate = posts[postIndex];
 
             const didLike = await toggleLike(postToUpdate, posts);
 
-            // update the local state
             let updatedPosts = [...posts];
 
             const db = getFirestore();
-            const userDocRef = doc(db, 'users', user.uid);  // Create the actual DocumentReference object
+            const userDocRef = doc(db, 'users', user.uid);
 
             if (didLike) {
                 if (!Array.isArray(updatedPosts[postIndex].likeIds)) {
-                    updatedPosts[postIndex].likeIds = []; // Initialize likeIds if it doesn't exist
+                    updatedPosts[postIndex].likeIds = [];
                 }
 
-                // Add the DocumentReference to the likeIds array
                 updatedPosts[postIndex].likeIds.push(userDocRef);
 
                 updatedPosts[postIndex].likes += 1;
                 updatedPosts[postIndex].currentUserLiked = true;
             } else {
-                // Filter out the DocumentReference from the likeIds array based on its path
                 updatedPosts[postIndex].likeIds = updatedPosts[postIndex].likeIds.filter(ref => ref.path !== userDocRef.path);
                 updatedPosts[postIndex].likes -= 1;
                 updatedPosts[postIndex].currentUserLiked = false;
@@ -156,10 +148,10 @@ function Stories() {
 
 
     const handleCommentChange = (event, postId) => {
-        const capitalizedText = capitalizeFirstWordOfSentences(event.target.value); // Capitalize the text
+        const capitalizedText = capitalizeFirstWordOfSentences(event.target.value);
         setComments({
             ...comments,
-            [postId]: capitalizedText, // Update the comment with capitalized text
+            [postId]: capitalizedText,
         });
     };
 
@@ -168,7 +160,6 @@ function Stories() {
     };
 
     const submitComment = async (postId) => {
-        // User is not logged in
         if (!user) {
             router.push('/login');
             return;
@@ -178,7 +169,6 @@ function Stories() {
             return;
         }
 
-        // Get the comment from the state
         const comment = comments[postId];
         if (comment) {
             const db = getFirestore();
@@ -189,33 +179,30 @@ function Stories() {
                     postAssociation: doc(db, 'userPosts', postId),
                     timePosted: serverTimestamp(),
                 });
-                // Update the numComments field in the userPosts document
                 const postRef = doc(db, 'userPosts', postId);
                 await updateDoc(postRef, {
                     numComments: increment(1)
                 });
 
-                // Update the local state for numComments
                 const postIndex = posts.findIndex((post) => post.id === postId);
                 const updatedPosts = [...posts];
                 updatedPosts[postIndex].numComments = (updatedPosts[postIndex].numComments || 0) + 1;
                 setPosts(updatedPosts);
 
-                // Update the local state for postComments
                 const updatedPostComments = {...postComments};
                 updatedPostComments[postId] = [
                     ...(updatedPostComments[postId] || []),
                     {
                         comment,
-                        commentUser: {name: user.displayName},  // Assuming user.displayName exists
+                        commentUser: {name: user.displayName},
                         postAssociation: postId,
-                        timePosted: new Date(),  // This will be the local time, not the server time
+                        timePosted: new Date(),
                     },
                 ];
                 setPostComments(updatedPostComments);
 
-                setComments({...comments, [postId]: ''});  // Clear the comment field
-                setOpenCommentInput(null);  // Close the comment input
+                setComments({...comments, [postId]: ''});
+                setOpenCommentInput(null);
             } catch (error) {
                 console.error('Error adding comment:', error);
             }
@@ -253,9 +240,8 @@ function Stories() {
     }, []);
 
     const fetchAndSetUsers = async (userIds) => {
-        userIds = userIds.filter(Boolean); // Ensure no undefined or null values
+        userIds = userIds.filter(Boolean);
 
-        // Load cached users (if available)
         const cachedUsers = localStorage.getItem('users');
         if (cachedUsers) {
             setUsers(JSON.parse(cachedUsers));
@@ -276,10 +262,8 @@ function Stories() {
             }
         }
 
-        // Update state with latest users data
         setUsers(prevUsers => ({...prevUsers, ...usersData}));
 
-        // Update cache with latest users data
         localStorage.setItem('users', JSON.stringify(usersData));
     };
 
@@ -288,7 +272,6 @@ function Stories() {
         try {
             let fetchedPosts;
 
-            // Check for cached posts for the current page
             const cachedData = localStorage.getItem(`posts_page_${page}`);
             if (cachedData) {
                 const {posts, timestamp} = JSON.parse(cachedData);
@@ -301,7 +284,6 @@ function Stories() {
             if (!fetchedPosts) {
                 fetchedPosts = await fetchPosts(page, 10);
 
-                // Cache the fetched posts for the current page with timestamp
                 localStorage.setItem(
                     `posts_page_${page}`,
                     JSON.stringify({posts: fetchedPosts, timestamp: Date.now()})
@@ -313,21 +295,17 @@ function Stories() {
             } else {
                 const uniquePosts = filterUniquePosts(fetchedPosts);
 
-                // Collect the user IDs related to the fetched posts
                 const userIds = uniquePosts.map(post => {
                     return post.user && post.user._key && post.user._key.path && post.user._key.path.segments ? post.user._key.path.segments[6] : null;
                 }).filter(Boolean);
 
-                // Fetch and set the users related to the fetched posts
                 await fetchAndSetUsers(userIds);
 
-                // Fetch and store the liked user UIDs for each post
                 const likedUsersPromises = uniquePosts.map((post) =>
                     getUsersWhoLikedPost(post.id)
                 );
                 const likedUsersLists = await Promise.all(likedUsersPromises);
 
-                // Update the posts state by adding likedUsers for each post
                 const updatedPosts = uniquePosts.map((post, index) => {
                     const currentUserLiked = user ? likedUsersLists[index].includes(user.uid) : false;
                     return {
@@ -350,7 +328,6 @@ function Stories() {
         let isCancelled = false;
 
         const fetchAndSetPostComments = async () => {
-            // Load cached post comments (if available)
             const cachedPostComments = localStorage.getItem('postComments');
             if (cachedPostComments) {
                 setPostComments(JSON.parse(cachedPostComments));
@@ -358,7 +335,7 @@ function Stories() {
 
             const db = getFirestore();
             const fetchedPostComments = {};
-            const commenterUserIds = new Set();  // To store user IDs from comments
+            const commenterUserIds = new Set();
 
             for (const post of posts) {
                 const q = query(collection(db, 'storyComments'), where('postAssociation', '==', doc(db, 'userPosts', post.id)), orderBy('timePosted'));
@@ -373,12 +350,11 @@ function Stories() {
 
                     return {
                         ...doc.data(),
-                        id: doc.id  // Include the document ID
+                        id: doc.id
                     };
                 });
             }
 
-            // Fetch and set users from comments (and combine with post users)
             const postUserIds = posts.map(post => post.userId).filter(Boolean);
             await fetchAndSetUsers([...new Set([...postUserIds, ...commenterUserIds])]);
 
@@ -397,43 +373,32 @@ function Stories() {
 
     const deletePost = async (postId) => {
         try {
-            // Reference to the post document
             const postRef = doc(db, 'userPosts', postId);
 
-            // Reference to the totalWeight document
             const statsRef = doc(db, 'stats', 'totalWeight');
 
-            // Run a transaction to delete the post and update the total weight
             await runTransaction(db, async (transaction) => {
-                // Retrieve the post document to get the litterWeight
                 const postDoc = await transaction.get(postRef);
                 const postLitterWeight = postDoc.data().litterWeight;
-                const postUserId = postDoc.data().postUser.id; // Extracting userId from post
+                const postUserId = postDoc.data().postUser.id;
 
-                // Retrieve the current total weight
                 const statsDoc = await transaction.get(statsRef);
                 const currentTotalWeight = statsDoc.data().totalWeight;
 
-                // Reference to user document
                 const userRef = doc(db, 'users', postUserId);
                 const userDoc = await transaction.get(userRef);
                 const currentUserTotalWeight = userDoc.data().totalWeight || 0;
 
-                // Delete the post
                 transaction.delete(postRef);
 
-                // Decrement the total weight by the litterWeight of the deleted post
                 transaction.update(statsRef, {totalWeight: currentTotalWeight - postLitterWeight});
 
-                // Update the user's totalWeight
                 transaction.update(userRef, {totalWeight: currentUserTotalWeight - postLitterWeight});
             });
 
-            // Invalidate the cache for the current page containing the deleted post
             localStorage.removeItem(`posts_page_1`);
             localStorage.removeItem('totalWeight');
 
-            // Update the local state to reflect the deleted post
             setPosts(prevPosts => prevPosts.filter(post => post.id !== postId));
 
         } catch (error) {
@@ -457,6 +422,33 @@ function Stories() {
 
     return (
         <div>
+            <Head>
+                <title>LitterPic Inspiring Stories</title>
+                <meta name="description"
+                      content="Join LitterPic in making the world cleaner and safer. Explore inspiring litter collection photos and stories."/>
+                <meta name="robots" content="index, follow"/>
+                <link rel="icon" href="/favicon.ico"/>
+                <link rel="canonical" href="https://litterpic.org/stories"/>
+
+                <meta property="og:title" content="LitterPic - Inspiring Stories"/>
+                <meta property="og:description"
+                      content="Join LitterPic in making the world cleaner and safer. Explore inspiring litter collection photos and stories."/>
+                <meta property="og:image" content="https://litterpic.org/images/litter_pic_logo.png"/>
+                <meta property="og:url" content="https://litterpic.org/stories"/>
+                <meta property="og:type" content="website"/>
+
+                <meta name="twitter:card" content="summary_large_image"/>
+                <meta name="twitter:title" content="LitterPic - Inspiring Litter Collection"/>
+                <meta name="twitter:description"
+                      content="Join LitterPic in making the world cleaner and safer. Explore inspiring litter collection photos and stories, and get involved in community cleanups."/>
+                <meta name="twitter:image" content="https://litterpic.org/images/litter_pic_logo.png"/>
+                <meta name="twitter:url" content="https://litterpic.org/stories"/>
+
+                <meta name="keywords"
+                      content="litter, litterpicking, litter collection, community cleanups, environmental conservation, inspiring stories"/>
+                <meta name="author" content="LitterPic Inc."/>
+            </Head>
+
             <div className="banner">
                 <img src="/images/user_posts_banner.webp" alt="Banner Image"/>
             </div>
@@ -486,19 +478,16 @@ function Stories() {
                                 const likes = post.likes !== undefined ? post.likes : 0;
                                 const {numComments} = post;
 
-                                // Check if the current user's UID exists in the likedUsers array for this post
                                 const currentUserLiked = post.currentUserLiked;
 
                                 return (
                                     <div key={post.id} className="post">
                                         <div className="post-header">
-                                            <FontAwesomeIcon icon={faEllipsisV}
-                                                             className="meatball-menu"
-                                                             onClick={() => {
-                                                                 setOpenMenuId(openMenuId !== post.id ? post.id : null);
-                                                                 setOpenCommentInput(null);
-                                                             }}
-                                            />
+                                            <i className="fa fa-ellipsis-v meatball-menu" aria-hidden="true"
+                                               onClick={() => {
+                                                   setOpenMenuId(openMenuId !== post.id ? post.id : null);
+                                                   setOpenCommentInput(null);
+                                               }}></i>
                                         </div>
                                         <div className={`post-dropdown-menu ${openMenuId === post.id ? 'show' : ''}`}
                                              ref={openMenuId === post.id ? dropdownRef : null}>
@@ -602,7 +591,7 @@ function Stories() {
 
                             {!isLoading && hasMorePosts && (
                                 <button className="custom-file-button" onClick={fetchAndSetPosts}>View More
-                                    Posts</button> // Add the Load More button here
+                                    Posts</button>
                             )}
 
 

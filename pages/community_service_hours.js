@@ -11,7 +11,7 @@ const Community_Service_Hours = () => {
                       Ensure safe cleanups, post before-and-after photos, and request validation at contact@litterpic.org.
                       We verify all submissions for authenticity and provide proof of service. Join us in making communities cleaner!"/>
                 <meta name="robots" content="index, follow"/>
-                {/*<link rel="canonical" href="https://litterpic.org/community_service_hours"/>*/}
+                <link rel="canonical" href="https://litterpic.org/community_service_hours"/>
 
                 <meta property="og:title" content="LitterPic"/>
                 <meta property="og:description"
@@ -31,6 +31,11 @@ const Community_Service_Hours = () => {
                       We verify all submissions for authenticity and provide proof of service. Join us in making communities cleaner!"/>
                 <meta name="twitter:image"
                       content="https://firebasestorage.googleapis.com/v0/b/litterpic-fa0bb.appspot.com/o/userPosts%2FgiV8aaisrLNCA6pQYSOS%2F1.webp?alt=media&token=a62f6ea3-2b54-4930-aa91-4e4d2076c39e"/>
+                <meta name="twitter:url" content="https://litterpic.org/community_service_hours"/>
+
+                <meta name="keywords"
+                      content="litter, litterpicking, litter collection, community cleanups, environmental conservation, inspiring stories"/>
+                <meta name="author" content="LitterPic Inc."/>
             </Head>
             <div className="banner">
                 <img src="/images/AboutUsBanner.webp" alt="Banner Image"/>

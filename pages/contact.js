@@ -52,7 +52,7 @@ const Contact = () => {
                       questions, feedback, or collaboration ideas, we're here to listen and assist. Let's connect and
                       work towards a cleaner planet together!"/>
                 <meta name="robots" content="index, follow"/>
-                {/*<link rel="canonical" href="https://litterpic.org/contact"/>*/}
+                <link rel="canonical" href="https://litterpic.org/contact"/>
 
                 <meta property="og:title" content="LitterPic"/>
                 <meta property="og:description"
@@ -72,6 +72,11 @@ const Contact = () => {
                       work towards a cleaner planet together!"/>
                 <meta name="twitter:image"
                       content="https://litterpic.org/images/litter_pic_logo.png"/>
+                <meta name="twitter:url" content="https://litterpic.org/contact"/>
+
+                <meta name="keywords"
+                      content="litter, litterpicking, litter collection, community cleanups, environmental conservation, inspiring stories"/>
+                <meta name="author" content="LitterPic Inc."/>
             </Head>
             <div className="banner">
                 <img src="/images/contact_us_banner.webp" alt="Banner Image"/>

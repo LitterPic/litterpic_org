@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {db} from '../lib/firebase'; // Assuming the db object is exported from your firebase.js file
 import {collection, getDocs, query, where} from 'firebase/firestore';
 import withAuth from '../components/withAuth';
+import Head from "next/head";
 
 const ReportsPage = () => {
     const [countries, setCountries] = useState([]);
@@ -297,6 +298,33 @@ const ReportsPage = () => {
 
     return (
         <div>
+            <Head>
+                <title>LitterPic Statistics</title>
+                <meta name="description"
+                      content="Explore reports and statistics related to litter collection and environmental conservation efforts."/>
+                <meta name="robots" content="index, follow"/>
+                <link rel="icon" href="/favicon.ico"/>
+                <link rel="canonical" href="https://litterpic.org/reports"/>
+
+                <meta property="og:title" content="Reports - LitterPic"/>
+                <meta property="og:description"
+                      content="Explore reports and statistics related to litter collection and environmental conservation efforts."/>
+                <meta property="og:image" content="https://litterpic.org/images/litter_pic_logo.png"/>
+                <meta property="og:url" content="https://litterpic.org/reports"/>
+                <meta property="og:type" content="website"/>
+
+                <meta name="twitter:card" content="summary_large_image"/>
+                <meta name="twitter:title" content="Reports - LitterPic"/>
+                <meta name="twitter:description"
+                      content="Explore reports and statistics related to litter collection and environmental conservation efforts."/>
+                <meta name="twitter:image" content="https://litterpic.org/images/litter_pic_logo.png"/>
+                <meta name="twitter:url" content="https://litterpic.org/reports"/>
+
+                <meta name="keywords"
+                      content="reports, statistics, litter collection reports, environmental conservation reports"/>
+                <meta name="author" content="LitterPic Inc."/>
+            </Head>
+
             <div className="banner">
                 <img src="/images/reports_banner.webp" alt="Banner Image"/>
             </div>
