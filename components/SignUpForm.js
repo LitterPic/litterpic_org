@@ -61,6 +61,7 @@ export default function SignInForm() {
             const userDocRef = doc(db, 'users', user.uid);
 
             await setDoc(userDocRef, {
+                ambassador: false,
                 created_time: serverTimestamp(),
                 email: user.email,
                 uid: user.uid,
