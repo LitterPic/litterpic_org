@@ -52,6 +52,38 @@ export default function Index() {
     const [totalWeight, setTotalWeight] = useState(0);
     const [isDataLoaded, setIsDataLoaded] = useState(false);
 
+    useEffect(() => {
+        async function sendNotification() {
+            try {
+                // Get the user's IP Address
+                const res = await fetch('https://api64.ipify.org?format=json');
+                const data = await res.json();
+                const ipAddress = data.ip;
+
+                // Get Geographical Info using ipstack
+                const apiKey = process.env.NEXT_PUBLIC_IPSTACK_ACCESS_TOKEN;
+                const geoRes = await fetch(`https://api.ipstack.com/${ipAddress}?access_key=${apiKey}`);
+                const geoData = await geoRes.json();
+                const location = geoData.city + ', ' + geoData.region_name + ', ' + geoData.country_name;
+
+                // Send SNS notification
+                const sns = new AWS.SNS();
+                const topicArn = 'arn:aws:sns:us-east-1:710280486241:litterpicOrgNewVisitor';
+                const message = `A user from ${location} has visited LitterPic.org!`;
+
+                const params = {
+                    Message: message,
+                    TopicArn: topicArn,
+                };
+
+                await sns.publish(params).promise();
+            } catch (error) {
+                console.error("Error sending notification: ", error.message);
+            }
+        }
+
+        sendNotification();
+    }, []);
 
     useEffect(() => {
         const fetchPosts = async () => {
