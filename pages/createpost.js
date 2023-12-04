@@ -10,7 +10,6 @@ import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {resizeImage} from "../components/utils";
 import {capitalizeFirstWordOfSentences} from "../utils/textUtils";
-import {cacheLocation, getRecentLocations} from "../utils/locationCache";
 
 const libraries = ['places'];
 const mapApiKey = process.env.NEXT_PUBLIC_PLACES_API_KEY;
@@ -40,19 +39,8 @@ function CreatePost() {
     const [locationSelected, setLocationSelected] = useState(false);
     const [isAddressModified, setAddressModified] = useState(false);
     const [uploading, setUploading] = useState(false);
-    const [cachedLocations, setCachedLocations] = useState([]);
-    const [showRecentLocations, setShowRecentLocations] = useState(false);
     const router = useRouter();
     const fileInputRef = React.useRef(null);
-
-    useEffect(() => {
-        if (user) {
-            getRecentLocations(user.uid).then((locations) => {
-                setCachedLocations(locations);
-                setShowRecentLocations(locations.length > 0);
-            });
-        }
-    }, [user]);
 
     const {isLoaded} = useLoadScript({
         googleMapsApiKey: mapApiKey,
@@ -102,21 +90,34 @@ function CreatePost() {
     const handleAddressSelect = async (address, placeId) => {
         setSelectedAddress(address);
         setAddressModified(false);
-        // setLocationSelected(true);
+        setLocationSelected(true);
 
         try {
+            // Use geocodeByAddress to get address details using the placeId
             const results = await geocodeByAddress(address);
-            const latLng = await getLatLng(results[0]);
             const addressComponents = results[0]?.address_components || [];
 
-            let city = '', state = '', country = '';
+            if (addressComponents.length === 0) {
+                console.error("addressComponents is missing or empty!");
+                return;
+            }
 
-            for (const component of addressComponents) {
+            let city = '';
+            let state = '';
+            let country = '';
+
+            for (let i = 0; i < addressComponents.length; i++) {
+                const component = addressComponents[i];
+
                 if (component.types.includes('locality')) {
                     city = component.long_name;
-                } else if (component.types.includes('administrative_area_level_1')) {
+                }
+
+                if (component.types.includes('administrative_area_level_1')) {
                     state = component.short_name;
-                } else if (component.types.includes('country')) {
+                }
+
+                if (component.types.includes('country')) {
                     country = component.long_name;
                 }
             }
@@ -124,28 +125,11 @@ function CreatePost() {
             setCity(city);
             setState(state);
             setCountry(country);
-
-            if (user?.uid) {
-                await cacheLocation(user.uid, {
-                    name: address,
-                    address: address,
-                    lat: latLng.lat,
-                    lng: latLng.lng,
-                    city, state, country
-                });
-                getRecentLocations(user.uid).then(setCachedLocations);
-            }
         } catch (error) {
             console.error("Failed to get address details:", error);
         }
     };
 
-    const handleCachedLocationSelect = (location) => {
-        setSelectedAddress(location.address);
-        setCity(location.city || '');
-        setState(location.state || '');
-        setCountry(location.country || '');
-    };
 
     const uploadImages = async (postDocRef) => {
         setUploading(true);
@@ -319,64 +303,40 @@ function CreatePost() {
                                 />
                             </div>
                             <div>
-                                {showRecentLocations ? (
-                                        <select className="recent-location-select"
-                                                onChange={(e) => {
-                                                    const value = e.target.value;
-                                                    if (value === 'new-location') {
-                                                        setShowRecentLocations(false);
-                                                        setSelectedAddress('');
-                                                    } else if (value !== 'default') {
-                                                        const location = cachedLocations.find(loc => loc.address === value);
-                                                        location && handleCachedLocationSelect(location);
-                                                    }
-                                                }}
-                                                value={selectedAddress || 'default'}
-                                        >
-                                            <option value="default" disabled>Choose a location</option>
-                                            {cachedLocations.map((location, index) => (
-                                                <option key={index} value={location.address}>
-                                                    {location.address}
-                                                </option>
-                                            ))}
-                                            <option value="new-location">Choose a new location</option>
-                                        </select>
-                                    )
-                                    : (<PlacesAutocomplete
-                                            value={selectedAddress}
-                                            onChange={setSelectedAddress}
-                                            onSelect={handleAddressSelect}
-                                        >
-                                            {({getInputProps, suggestions, getSuggestionItemProps, loading}) => (
-                                                <div>
-                                                    <input
-                                                        {...getInputProps({
-                                                            placeholder: 'Enter a location',
-                                                            className: 'location-input',
-                                                            onKeyDown: (e) => {
-                                                                if ((e.key === 'Backspace' || e.key === 'Delete') && selectedAddress !== '') {
-                                                                    setAddressModified(true);
-                                                                }
-                                                            },
+                                <PlacesAutocomplete
+                                    value={selectedAddress}
+                                    onChange={setSelectedAddress}
+                                    onSelect={(address, result) => handleAddressSelect(address, result)}
+                                >
+                                    {({getInputProps, suggestions, getSuggestionItemProps, loading}) => (
+                                        <div>
+                                            <input
+                                                {...getInputProps({
+                                                    placeholder: 'Enter a location',
+                                                    className: 'location-input',
+                                                    onKeyDown: (e) => {
+                                                        if ((e.key === 'Backspace' || e.key === 'Delete') && selectedAddress !== '') {
+                                                            setAddressModified(true);
+                                                        }
+                                                    },
+                                                })}
+                                            />
+                                            <div className="autocomplete-dropdown-container">
+                                                {loading && <div>Loading...</div>}
+                                                {suggestions.map((suggestion, index) => (
+                                                    <div
+                                                        key={index}
+                                                        {...getSuggestionItemProps(suggestion, {
+                                                            className: suggestion.active ? 'suggestion-item active' : 'suggestion-item',
                                                         })}
-                                                    />
-                                                    <div className="autocomplete-dropdown-container">
-                                                        {loading && <div>Loading...</div>}
-                                                        {suggestions.map((suggestion, index) => (
-                                                            <div
-                                                                key={index}
-                                                                {...getSuggestionItemProps(suggestion, {
-                                                                    className: suggestion.active ? 'suggestion-item active' : 'suggestion-item',
-                                                                })}
-                                                            >
-                                                                <span>{suggestion.description}</span>
-                                                            </div>
-                                                        ))}
+                                                    >
+                                                        <span>{suggestion.description}</span>
                                                     </div>
-                                                </div>
-                                            )}
-                                        </PlacesAutocomplete>
+                                                ))}
+                                            </div>
+                                        </div>
                                     )}
+                                </PlacesAutocomplete>
                             </div>
                             <div>
                                 <button
