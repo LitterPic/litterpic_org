@@ -152,7 +152,6 @@ export default function SignInForm() {
                            onFocus={() => setShowIcon(true)}
                     />
                     {showIcon && (<FontAwesomeIcon
-                            size={"lg"}
                             icon={showPassword ? faEyeSlash : faEye}
                             className="signup-password-toggle-icon"
                             onClick={togglePasswordVisibility}

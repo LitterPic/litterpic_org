@@ -2747,6 +2747,18 @@ p .index-inspire-change-text {
   font-size: 0.75rem;
 }
 
+/* For regular (non-mobile) view, make the icon large */
+@media screen and (min-width: 768px) {
+  .signup-password-toggle-icon {
+    font-size: 24px;
+  }
+}
+/* For mobile view, make the icon small */
+@media screen and (max-width: 767px) {
+  .signup-password-toggle-icon {
+    font-size: 16px;
+  }
+}
 .stories-top-bar {
   display: flex;
   justify-content: space-between;
@@ -4117,6 +4129,18 @@ input::placeholder {
   font-size: 0.75rem;
 }
 
+/* For regular (non-mobile) view, make the icon large */
+@media screen and (min-width: 768px) {
+  .signup-password-toggle-icon {
+    font-size: 24px;
+  }
+}
+/* For mobile view, make the icon small */
+@media screen and (max-width: 767px) {
+  .signup-password-toggle-icon {
+    font-size: 16px;
+  }
+}
 .stories-top-bar {
   display: flex;
   justify-content: space-between;

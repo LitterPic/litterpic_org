@@ -106,3 +106,18 @@
     font-size: .75rem;
   }
 }
+
+
+/* For regular (non-mobile) view, make the icon large */
+@media screen and (min-width: 768px) {
+  .signup-password-toggle-icon {
+    font-size: 24px;
+  }
+}
+
+/* For mobile view, make the icon small */
+@media screen and (max-width: 767px) {
+  .signup-password-toggle-icon {
+    font-size: 16px;
+  }
+}
