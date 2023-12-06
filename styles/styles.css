@@ -2542,6 +2542,10 @@ p .index-inspire-change-text {
   display: flex;
 }
 
+h1.heading-text.profile-heading {
+  margin-bottom: 1rem;
+}
+
 .profile-page-picture {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -2616,7 +2620,31 @@ p .index-inspire-change-text {
   padding-top: 1rem;
 }
 
+.ambassador {
+  align-items: center;
+  display: inline-flex;
+  margin-bottom: 1rem;
+}
+.ambassador-text {
+  font-size: 1rem;
+}
+
+.ambassador-icon {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+@media screen and (min-width: 768px) {
+  .ambassador-icon {
+    color: #015e41;
+    font-size: 24px;
+  }
+}
 @media (max-width: 76.5rem) {
+  .ambassador-icon {
+    color: #015e41;
+    font-size: 16px;
+  }
   .profile-page-picture {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -3684,6 +3712,10 @@ textarea.event-description-input {
   display: flex;
 }
 
+h1.heading-text.profile-heading {
+  margin-bottom: 1rem;
+}
+
 .profile-page-picture {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -3758,7 +3790,31 @@ textarea.event-description-input {
   padding-top: 1rem;
 }
 
+.ambassador {
+  align-items: center;
+  display: inline-flex;
+  margin-bottom: 1rem;
+}
+.ambassador-text {
+  font-size: 1rem;
+}
+
+.ambassador-icon {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+@media screen and (min-width: 768px) {
+  .ambassador-icon {
+    color: #015e41;
+    font-size: 24px;
+  }
+}
 @media (max-width: 76.5rem) {
+  .ambassador-icon {
+    color: #015e41;
+    font-size: 16px;
+  }
   .profile-page-picture {
     display: grid;
     grid-template-columns: repeat(4, 1fr);

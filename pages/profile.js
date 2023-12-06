@@ -4,6 +4,8 @@ import {useEffect, useState} from 'react';
 import {doc, getDoc} from "firebase/firestore";
 import {useRouter} from 'next/router';
 import Head from "next/head";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faSeedling} from "@fortawesome/free-solid-svg-icons";
 
 const ProfilePage = () => {
     const router = useRouter();
@@ -14,6 +16,7 @@ const ProfilePage = () => {
     const [userEmail, setUserEmail] = useState('');
     const [userOrganization, setUserOrganization] = useState('');
     const [litterCollected, setLitterCollected] = useState(0);
+    const [isAmbassador, setIsAmbassador] = useState(false);
 
     const renderCollected = () => {
         if (userOrganization === 'Blue Ocean Society') {
@@ -44,6 +47,10 @@ const ProfilePage = () => {
 
                         const totalWeight = userData.totalWeight || 0;
                         setLitterCollected(totalWeight);
+
+                        // Check if the user is an ambassador
+                        const ambassadorStatus = userData.ambassador || false;
+                        setIsAmbassador(ambassadorStatus);
                     }
                 } catch (error) {
                     console.error('Error retrieving user profile:', error);
@@ -103,7 +110,15 @@ const ProfilePage = () => {
 
             <div className="page">
                 <div className="content">
-                    <h1 className="heading-text">Profile</h1>
+                    <h1 className="heading-text profile-heading">Profile</h1>
+                    {isAmbassador && (
+                        <div className="ambassador">
+                            <FontAwesomeIcon
+                                icon={faSeedling}
+                                className="ambassador-icon"/>
+                            <p className="ambassador-text">LitterPic Ambassador</p>
+                        </div>
+                    )}
                     <div className="profile-page-picture">
                         {userPhoto ? (
                             <img src={userPhoto} alt="Profile Picture"/>
