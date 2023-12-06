@@ -152,6 +152,7 @@ export default function SignInForm() {
                            onFocus={() => setShowIcon(true)}
                     />
                     {showIcon && (<FontAwesomeIcon
+                            size={"lg"}
                             icon={showPassword ? faEyeSlash : faEye}
                             className="signup-password-toggle-icon"
                             onClick={togglePasswordVisibility}
@@ -178,6 +179,7 @@ export default function SignInForm() {
                     <div className="error-container">
                         <p className="error-message">{error}</p>
                         <FontAwesomeIcon
+                            size={"lg"}
                             icon={faTimes}
                             className="error-clear-icon"
                             onClick={clearError}
@@ -195,6 +197,7 @@ export default function SignInForm() {
                             link.
                         </p>
                         <FontAwesomeIcon
+                            size={"lg"}
                             icon={faTimes}
                             className="error-clear-icon"
                             onClick={() => setShowMigratedUserError(false)}
