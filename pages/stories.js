@@ -511,6 +511,7 @@ function Stories() {
                                         <div className="likes-comments">
                                             <span className="likes-comments-likes-field">
                                                 <FontAwesomeIcon
+                                                    size={"lg"}
                                                     icon={currentUserLiked ? faHeart : farHeart}
                                                     onClick={() => handleToggleLike(post.id)}
                                                     className={currentUserLiked ? 'filled-heart' : 'empty-heart'}
@@ -519,6 +520,7 @@ function Stories() {
                                             </span>
                                             <span className="likes-comments-comment-field">
                                                 <FontAwesomeIcon
+                                                    size={"lg"}
                                                     icon={numComments > 0 ? faComment : farComment}
                                                     className={numComments > 0 ? 'filled-comment' : 'empty-comment'}
                                                     onClick={() => setOpenCommentInput(openCommentInput !== post.id ? post.id : null)}

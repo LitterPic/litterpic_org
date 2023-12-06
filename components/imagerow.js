@@ -21,6 +21,7 @@ const ImageRow = ({images, onSwipeLeft, onSwipeRight}) => {
         <div className="image-row-container">
             <div className="image-row__scroll-arrow" onClick={handleArrowClick}>
                 <FontAwesomeIcon
+                    size={"lg"}
                     icon={faChevronRight}
                     className="image-row__scroll-arrow-icon"
                 />

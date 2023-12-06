@@ -146,6 +146,7 @@ export default function SignInForm() {
                     required
                 />
                 <FontAwesomeIcon
+                    size={"lg"}
                     icon={showPassword ? faEyeSlash : faEye}
                     className="signup-password-toggle-icon"
                     onClick={togglePasswordVisibility}

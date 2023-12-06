@@ -122,6 +122,7 @@ const Logobar = () => {
                                     <img src={userPhoto} alt={displayName} className="profile-picture"/>
                                 )}
                                 <FontAwesomeIcon
+                                    size={"lg"}
                                     icon={faCaretDown}
                                     className={`dropdown-icon ${showDropdown ? 'rotate' : ''}`}
                                     onClick={handleDropdownIconClick}
