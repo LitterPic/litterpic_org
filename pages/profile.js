@@ -17,6 +17,7 @@ const ProfilePage = () => {
     const [userOrganization, setUserOrganization] = useState('');
     const [litterCollected, setLitterCollected] = useState(0);
     const [isAmbassador, setIsAmbassador] = useState(false);
+    const [ambassadorDate, setAmbassadorDate] = useState(null)
 
     const renderCollected = () => {
         if (userOrganization === 'Blue Ocean Society') {
@@ -51,6 +52,12 @@ const ProfilePage = () => {
                         // Check if the user is an ambassador
                         const ambassadorStatus = userData.ambassador || false;
                         setIsAmbassador(ambassadorStatus);
+
+                        if (ambassadorStatus) {
+                            const timestamp = userData.ambassador_date;
+                            const date = timestamp.toDate();
+                            setAmbassadorDate(date);
+                        }
                     }
                 } catch (error) {
                     console.error('Error retrieving user profile:', error);
@@ -115,8 +122,9 @@ const ProfilePage = () => {
                         <div className="ambassador">
                             <FontAwesomeIcon
                                 icon={faSeedling}
-                                className="ambassador-icon"/>
-                            <p className="ambassador-text">LitterPic Ambassador</p>
+                                className="ambassador-icon"
+                            />
+                            <p className="ambassador-text">{`LitterPic Ambassador since ${new Date(ambassadorDate).toLocaleDateString()}`}</p>
                         </div>
                     )}
                     <div className="profile-page-picture">
