@@ -123,4 +123,4 @@ async function updateAmbassadors(userFilter = 'all_users') {
 
 // To run against all users, call the function without specifying a parameter.
 // To run against a specific user by email, pass in the email, as a string, as the parameter ('alek@litterpic.org').
-updateAmbassadors('alek@litterpic.org'); // To run against all users
+updateAmbassadors(); // To run against all users
