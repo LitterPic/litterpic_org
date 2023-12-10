@@ -10,3 +10,4 @@ out/
 /.idea/git_toolbox_prj.xml
 .vercel
 /utils/sumLitterWeight.js
+/secrets/
