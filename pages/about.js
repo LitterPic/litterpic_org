@@ -18,20 +18,20 @@ const boardMembers = [
             'care of our planet, and we can make a difference, one step at a time!',
     },
     {
-        name: 'Sally Weiss  - Secretary',
-        image: '/images/Sally.webp',
-        content: 'As a native of beautiful Mount Desert Island, ME, I am passionate about the environment and ' +
-            'keeping it healthy for future generations. I believe that everybody must do their part to contribute ' +
-            'to a sustainable future, and I am excited to join the LitterPic initiative to help inspire others to ' +
-            'do the same. Get outside!',
-    },
-    {
         name: 'Jennifer Babich  - Treasurer',
         image: '/images/Jen.webp',
         content: 'I enjoy cooking, baking, and seeing new places with my family. When driving to a new destination, ' +
             'first impressions are everything, and seeing trash on the road isn\'t fun. We like to repeat trips to ' +
             'areas that are taken care of and clean; it makes the experience more pleasant and unforgettable. I ' +
             'joined LitterPic to make a difference, to make the destination clean!',
+    },
+    {
+        name: 'Sally Weiss  - Board Member',
+        image: '/images/Sally.webp',
+        content: 'As a native of beautiful Mount Desert Island, ME, I am passionate about the environment and ' +
+            'keeping it healthy for future generations. I believe that everybody must do their part to contribute ' +
+            'to a sustainable future, and I am excited to join the LitterPic initiative to help inspire others to ' +
+            'do the same. Get outside!',
     },
     {
         name: 'Jason Toussaint  - Board Member',
