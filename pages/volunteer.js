@@ -775,7 +775,7 @@ const Volunteer = () => {
                             events={events}
                             startAccessor="start"
                             endAccessor="end"
-                            style={{height: 500}}
+                            style={{height: 800}}
                             onSelectEvent={onEventSelect}
                             views={['month']}
                             components={{
@@ -785,6 +785,7 @@ const Volunteer = () => {
                             eventPropGetter={eventStyleGetter}
                         />
                     </div>
+
 
                     <div>
                         <table className="table">
