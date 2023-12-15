@@ -279,7 +279,7 @@ function Stories() {
             }
 
             if (!fetchedPosts) {
-                fetchedPosts = await fetchPosts(page, 7);
+                fetchedPosts = await fetchPosts(page, 6);
 
                 localStorage.setItem(
                     `posts_page_${page}`,
@@ -596,8 +596,8 @@ function Stories() {
                         <div className="button-container">
 
                             {!isLoading && hasMorePosts && (
-                                <button className="custom-file-button" onClick={fetchAndSetPosts}>View More
-                                    Posts</button>
+                                <button className="custom-file-button" onClick={fetchAndSetPosts}>See More
+                                    Stories</button>
                             )}
 
 
