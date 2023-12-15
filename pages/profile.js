@@ -4,8 +4,6 @@ import {useEffect, useState} from 'react';
 import {doc, getDoc} from "firebase/firestore";
 import {useRouter} from 'next/router';
 import Head from "next/head";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faSeedling} from "@fortawesome/free-solid-svg-icons";
 
 const ProfilePage = () => {
     const router = useRouter();
@@ -120,12 +118,11 @@ const ProfilePage = () => {
                     <h1 className="heading-text profile-heading">Profile</h1>
                     {isAmbassador && (
                         <div className="ambassador">
-                            <FontAwesomeIcon
-                                icon={faSeedling}
-                                className="ambassador-icon"
-                            />
-                            <p className="ambassador-text">{`LitterPic Ambassador since ${new Date(ambassadorDate).toLocaleDateString()}`}</p>
+                            <i className="material-icons ambassador-icon">spa</i>
+                            <p className="ambassador-text">{`LitterPic Ambassador since
+                                ${new Date(ambassadorDate).toLocaleDateString()}`}</p>
                         </div>
+
                     )}
                     <div className="profile-page-picture">
                         {userPhoto ? (

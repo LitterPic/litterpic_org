@@ -3,9 +3,6 @@ import Post from '../components/post';
 import {fetchPosts, getUsersWhoLikedPost, toggleLike} from '../components/utils';
 import Link from 'next/link';
 import Masonry from 'react-masonry-css';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faComment as farComment, faHeart as farHeart} from '@fortawesome/free-regular-svg-icons';
-import {faComment, faHeart} from '@fortawesome/free-solid-svg-icons';
 import {getAuth} from 'firebase/auth';
 import {useRouter} from 'next/router';
 import {
@@ -307,13 +304,18 @@ function Stories() {
                 const likedUsersLists = await Promise.all(likedUsersPromises);
 
                 const updatedPosts = uniquePosts.map((post, index) => {
-                    const currentUserLiked = user ? likedUsersLists[index].includes(user.uid) : false;
+                    // Ensure likedUsersLists[index] is an array before using .includes
+                    const currentUserLiked = user && Array.isArray(likedUsersLists[index])
+                        ? likedUsersLists[index].includes(user.uid)
+                        : false;
+
                     return {
                         ...post,
                         likedUsers: likedUsersLists[index] || [],
                         currentUserLiked: currentUserLiked,
                     };
                 });
+
 
                 setPosts((prevPosts) => [...prevPosts, ...updatedPosts]);
                 setPage((prevPage) => prevPage + 1);
@@ -510,21 +512,23 @@ function Stories() {
                                         <Post post={post}/>
                                         <div className="likes-comments">
                                             <span className="likes-comments-likes-field">
-                                                <FontAwesomeIcon
-                                                    size={"lg"}
-                                                    icon={currentUserLiked ? faHeart : farHeart}
+                                                <i
+                                                    className={`material-icons ${currentUserLiked ? 'filled-heart' : 'empty-heart'}`}
                                                     onClick={() => handleToggleLike(post.id)}
-                                                    className={currentUserLiked ? 'filled-heart' : 'empty-heart'}
-                                                />
+                                                >
+                                                    {currentUserLiked ? 'favorite' : 'favorite_border'}
+                                                </i>
+
                                                 <span className="like-count">{likes}</span>
                                             </span>
                                             <span className="likes-comments-comment-field">
-                                                <FontAwesomeIcon
-                                                    size={"lg"}
-                                                    icon={numComments > 0 ? faComment : farComment}
-                                                    className={numComments > 0 ? 'filled-comment' : 'empty-comment'}
+                                                <i
+                                                    className={`material-icons ${numComments > 0 ? 'filled-comment' : 'empty-comment'}`}
                                                     onClick={() => setOpenCommentInput(openCommentInput !== post.id ? post.id : null)}
-                                                />
+                                                >
+                                                    mode_comment
+                                                </i>
+
                                                 <span className="comment-count">{numComments}</span>
                                             </span>
                                         </div>

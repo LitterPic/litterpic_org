@@ -36,17 +36,9 @@
 }
 
 .signup-password-container {
+  align-items: center;
   display: flex;
   position: relative;
-
-  .signup-password-toggle-icon {
-    color: $litterpic-green;
-    cursor: pointer;
-    position: absolute;
-    right: .5rem;
-    top: 50%;
-    transform: translateY(-50%);
-  }
 }
 
 .signup-button {
@@ -76,10 +68,6 @@
   text-align: center;
 }
 
-.error-clear-icon {
-  cursor: pointer;
-}
-
 .signup-legal {
   font-size: .65rem;
   font-style: italic;
@@ -104,20 +92,5 @@
 
   p {
     font-size: .75rem;
-  }
-}
-
-
-/* For regular (non-mobile) view, make the icon large */
-@media screen and (min-width: 768px) {
-  .signup-password-toggle-icon {
-    font-size: 24px;
-  }
-}
-
-/* For mobile view, make the icon small */
-@media screen and (max-width: 767px) {
-  .signup-password-toggle-icon {
-    font-size: 16px;
   }
 }

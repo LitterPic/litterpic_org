@@ -97,24 +97,8 @@ h1.heading-text.profile-heading {
   }
 }
 
-.ambassador-icon {
-  margin-left: .5rem;
-  margin-right: .5rem;
-}
-
-@media screen and (min-width: 768px) {
-  .ambassador-icon {
-    color: $litterpic_green;
-    font-size: 24px;
-  }
-}
 
 @media (max-width: 76.5rem) {
-  .ambassador-icon {
-    color: $litterpic_green;
-    font-size: 16px;
-  }
-
   .profile-page-picture {
     display: grid;
     grid-template-columns: repeat(4, 1fr);

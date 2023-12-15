@@ -1,16 +1,22 @@
 import React from "react";
+import Head from 'next/head'; // Import Head from next/head
 import Layout from "../components/layout";
-import {library} from '@fortawesome/fontawesome-svg-core';
-import {faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons';
 import '../styles/styles.scss'
-
-library.add(faEye, faEyeSlash);
 
 const MyApp = ({Component, pageProps}) => {
     return (
-        <Layout>
-            <Component {...pageProps} />
-        </Layout>
+        <>
+            <Head>
+                {/* Add the Material Icons stylesheet */}
+                <link
+                    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+                    rel="stylesheet"
+                />
+            </Head>
+            <Layout>
+                <Component {...pageProps} />
+            </Layout>
+        </>
     );
 };
 
