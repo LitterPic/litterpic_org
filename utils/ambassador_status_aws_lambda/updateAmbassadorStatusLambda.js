@@ -1,31 +1,50 @@
+const AWS = require('aws-sdk');
 const admin = require('firebase-admin');
 
-// Initialize Firebase Admin with your service account
-const serviceAccount = require('./litterpic-fa0bb-key.json');
+const secretsManager = new AWS.SecretsManager();
 
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    databaseURL: "https://litterpic-fa0bb.firebaseio.com"
-});
+async function getFirebaseServiceAccountKey() {
+    const secretName = 'firebaseServiceAccountKey';
+    const data = await secretsManager.getSecretValue({SecretId: secretName}).promise();
 
-const db = admin.firestore();
+    if ('SecretString' in data) {
+        console.log("Secret retrieved successfully");
+        return JSON.parse(data.SecretString);
+    } else {
+        throw new Error('Error retrieving Firebase service account key');
+    }
+}
 
-async function updateAmbassadors(userFilter = 'all_users') {
+exports.handler = async (event) => {
     try {
+        // Retrieve the Firebase service account key
+        const serviceAccountKey = await getFirebaseServiceAccountKey();
+
+        // Initialize Firebase Admin
+        if (admin.apps.length === 0) {
+            admin.initializeApp({
+                credential: admin.credential.cert(serviceAccountKey),
+                databaseURL: "https://litterpic-fa0bb.firebaseio.com" // Replace with your actual Firebase database URL
+            });
+        }
+
+        const db = admin.firestore();
+        const userFilter = event.userFilter || 'all_users';
         let usersSnapshot;
 
         if (userFilter === 'all_users') {
-            // Query all users
             const usersQuery = db.collection('users');
             usersSnapshot = await usersQuery.get();
         } else {
-            // Query the user with the specified email
             const userQuery = db.collection('users').where('email', '==', userFilter);
             usersSnapshot = await userQuery.get();
 
             if (usersSnapshot.empty) {
                 console.log(`No user found with email ${userFilter}`);
-                return;
+                return {
+                    statusCode: 404,
+                    body: JSON.stringify({message: `No user found with email ${userFilter}`})
+                };
             }
         }
 
@@ -33,7 +52,6 @@ async function updateAmbassadors(userFilter = 'all_users') {
             const userId = userDoc.id;
             const userEmail = userDoc.data().email;
 
-            // Check if the user should be excluded from ambassador updates
             if (userEmail === 'alek@litterpic.org' || userEmail === 'melanie.tolman@gmail.com') {
                 console.log(`User with email ${userEmail} is excluded from updates.`);
                 continue;
@@ -43,7 +61,6 @@ async function updateAmbassadors(userFilter = 'all_users') {
             const ninetyDaysAgo = new Date(currentDate.getTime() - 90 * 24 * 60 * 60 * 1000);
             const thirtyDaysAgo = new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000);
 
-            // Query userPosts to get posts for this user within the specified date ranges
             const userPostsQuery = db.collection('userPosts')
                 .where('postUser', '==', db.doc('users/' + userId))
                 .where('timePosted', '>=', ninetyDaysAgo)
@@ -51,15 +68,10 @@ async function updateAmbassadors(userFilter = 'all_users') {
 
             const userPostsSnapshot = await userPostsQuery.get();
             const userPosts = userPostsSnapshot.docs;
-
-            // Calculate post counts and check if the user meets the criteria
             const postCount = userPosts.length;
-
-            // Check if the user is currently an ambassador
             const isAmbassador = userDoc.data().ambassador;
 
             if (postCount > 5) {
-                // Check if the user has made a post in the last 30 days
                 const lastPostQuery = db.collection('userPosts')
                     .where('postUser', '==', db.doc('users/' + userId))
                     .where('timePosted', '>=', thirtyDaysAgo)
@@ -71,48 +83,42 @@ async function updateAmbassadors(userFilter = 'all_users') {
 
                 if (lastPost) {
                     if (!isAmbassador) {
-                        // User becomes an ambassador for the first time
                         await db.doc('users/' + userId).update({
                             ambassador: true,
                             ambassador_date: lastPost.data().timePosted,
                         });
-
                         console.log(`User with ID ${userId} updated as an ambassador.`);
                     }
                 } else {
                     if (isAmbassador) {
-                        // User no longer qualifies as an ambassador
                         await db.doc('users/' + userId).update({
                             ambassador: false,
                             ambassador_date: null,
                         });
-
                         console.log(`User with ID ${userId} no longer qualifies as an ambassador.`);
                     }
                 }
             } else {
                 if (isAmbassador) {
-                    // User no longer qualifies as an ambassador
                     await db.doc('users/' + userId).update({
                         ambassador: false,
                         ambassador_date: null,
                     });
-
                     console.log(`User with ID ${userId} no longer qualifies as an ambassador.`);
                 }
             }
         }
 
-        if (userFilter === 'all_users') {
-            console.log('Ambassador updates for all users completed.');
-        } else {
-            console.log(`Ambassador updates for user with email ${userFilter} completed.`);
-        }
+        console.log(userFilter === 'all_users' ? 'Ambassador updates for all users completed.' : `Ambassador updates for user with email ${userFilter} completed.`);
+        return {
+            statusCode: 200,
+            body: JSON.stringify({message: 'Ambassador update process completed successfully'})
+        };
     } catch (error) {
-        console.error('Error processing users:', error);
+        console.error('Error in ambassador update process:', error);
+        return {
+            statusCode: 500,
+            body: JSON.stringify({message: 'Error occurred during the ambassador update process'})
+        };
     }
-}
-
-// To run against all users, call the function without specifying a parameter.
-// To run against a specific user by email, pass in the email, as a string, as the parameter ('alek@litterpic.org').
-updateAmbassadors(); // To run against all users
+};
