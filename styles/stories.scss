@@ -208,9 +208,21 @@
   }
 }
 
-.post-user-name {
+.post-ambassador {
   align-items: center;
+  display: inline-flex;;
+  font-weight: normal;
+  margin-left: 2rem;
+
+  &-text {
+    font-size: .75rem;
+  }
+}
+
+.post-user-name {
+  align-items: start;
   display: flex;
+  flex-direction: column;
   font-weight: bold;
 }
 

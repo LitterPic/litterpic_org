@@ -6,6 +6,8 @@ function Post({post}) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [userName, setUserName] = useState('');
     const [userPhoto, setUserPhoto] = useState('');
+    const [isAmbassador, setIsAmbassador] = useState(false);
+    const [ambassadorDate, setAmbassadorDate] = useState(null)
 
     useEffect(() => {
         const fetchUserInfo = async () => {
@@ -19,6 +21,16 @@ function Post({post}) {
                 setUserPhoto('https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg');
             }
         };
+
+        // Check if the user is an ambassador
+        const ambassadorStatus = post.user.ambassador || false;
+        setIsAmbassador(ambassadorStatus);
+
+        if (ambassadorStatus && post.user.ambassador_date) {
+            const timestamp = post.user.ambassador_date;
+            const date = timestamp.toDate();
+            setAmbassadorDate(date);
+        }
 
         fetchUserInfo();
     }, [post]);
@@ -71,7 +83,8 @@ function Post({post}) {
                         />
                     )}
                 </div>
-                <div className="post-user-name">{userName}</div>
+                <div className="post-user-name">{userName}
+                </div>
                 <div className="post-location">
                     <a
                         href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
@@ -85,8 +98,18 @@ function Post({post}) {
                 </div>
                 <div className="post-time">{formatDate(post.dateCreated)}</div>
             </div>
+            <div>
+                {isAmbassador && (
+                    <div className="post-ambassador">
+                        <i className="material-icons post-ambassador-icon">public</i>
+                        <p className="post-ambassador-text">{`LitterPic Ambassador since
+                                ${new Date(ambassadorDate).toLocaleDateString()}`}</p>
+                    </div>
+
+                )}
+            </div>
             <div className="post-description">
-                {post.description ? post.description : 'No description available'}
+                 {post.description ? post.description : 'No description available'}
             </div>
             <div className="post-carousel" {...handlers}>
                 {hasMultiplePhotos && (

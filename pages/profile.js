@@ -118,7 +118,7 @@ const ProfilePage = () => {
                     <h1 className="heading-text profile-heading">Profile</h1>
                     {isAmbassador && (
                         <div className="ambassador">
-                            <i className="material-icons ambassador-icon">spa</i>
+                            <i className="material-icons ambassador-icon">public</i>
                             <p className="ambassador-text">{`LitterPic Ambassador since
                                 ${new Date(ambassadorDate).toLocaleDateString()}`}</p>
                         </div>
