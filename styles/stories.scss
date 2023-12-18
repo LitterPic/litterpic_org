@@ -186,14 +186,12 @@
 }
 
 .post-time {
-  align-items: center;
+  align-items: start;
   display: flex;
   font-size: .75rem;
-  grid-column: 3;
+  grid-column: 2;
   grid-row: 2;
-  justify-content: flex-end;
-  margin-top: -.5rem;
-  padding-right: 1rem;
+  justify-content: flex-start;
 }
 
 .profile-image {
@@ -213,6 +211,7 @@
   display: inline-flex;;
   font-weight: normal;
   margin-left: 2rem;
+  margin-top: .5rem;
 
   &-text {
     font-size: .75rem;
@@ -224,6 +223,7 @@
   display: flex;
   flex-direction: column;
   font-weight: bold;
+  justify-content: center;
 }
 
 .post-location {
@@ -231,8 +231,8 @@
   color: $dark-blue;
   display: flex;
   font-size: .75rem;
-  justify-self: end;
-  padding-right: 1rem;
+  grid-row: auto;
+  justify-content: center;
 }
 
 .post-title {
@@ -417,7 +417,7 @@
 
   .post-username-location {
     display: grid;
-    grid-template-columns: 20% 40% 40%;
+    grid-template-columns: 15% 55% 30%;
     justify-content: space-between;
     padding-left: .5rem;
     padding-right: .5rem;
@@ -425,10 +425,9 @@
   }
 
   .post-user-name {
-    align-items: center;
     display: flex;
-    font-size: .75rem;
-    justify-content: flex-start;
+    font-size: 1rem;
+    justify-content: center;
   }
 
   .post-location {
