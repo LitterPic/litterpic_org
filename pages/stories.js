@@ -601,7 +601,7 @@ function Stories() {
                             )}
 
 
-                            {isLoading && <div>Loading more posts...</div>}
+                            {isLoading && <div>Loading more stories...</div>}
 
                             {
                                 !isLoading && showBackToTop && (
