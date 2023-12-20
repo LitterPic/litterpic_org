@@ -97,8 +97,6 @@ function Post({post}) {
                     </a>
                 </div>
                 <div className="post-time">{formatDate(post.dateCreated)}</div>
-            </div>
-            <div>
                 {isAmbassador && (
                     <div className="post-ambassador">
                         <i className="material-icons post-ambassador-icon">public</i>
@@ -109,7 +107,7 @@ function Post({post}) {
                 )}
             </div>
             <div className="post-description">
-                 {post.description ? post.description : 'No description available'}
+                {post.description ? post.description : 'No description available'}
             </div>
             <div className="post-carousel" {...handlers}>
                 {hasMultiplePhotos && (
@@ -131,12 +129,12 @@ function Post({post}) {
                 )}
             </div>
             <div className="post-litter-weight-collected">
-                {post.litterWeight > 0 && (
-                    <span>
+                 {post.litterWeight > 0 && (
+                     <span>
                         Collected <span>{post.litterWeight}</span>{' '}
-                        {post.litterWeight === 1 ? 'pound' : 'pounds'} of litter!
+                         {post.litterWeight === 1 ? 'pound' : 'pounds'} of litter!
                     </span>
-                )}
+                 )}
             </div>
 
         </div>

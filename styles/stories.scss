@@ -179,24 +179,27 @@
 
 .post-username-location {
   display: grid;
-  grid-template-columns: 10% 40% 50%;
+  grid-template-columns: 7% 38% 55%;
   justify-content: space-between;
   padding-left: 2rem;
   padding-top: 1rem;
 }
 
 .post-time {
-  align-items: start;
+  align-items: flex-start;
   display: flex;
   font-size: .75rem;
-  grid-column: 2;
+  grid-column: 3;
   grid-row: 2;
-  justify-content: flex-start;
+  justify-content: flex-end;
 }
 
 .profile-image {
+  align-content: flex-end;
   display: flex;
   justify-content: flex-start;
+  grid-column: 1;
+  grid-row: 1 / span 2;
 
   img {
     border-radius: 50%;
@@ -207,32 +210,37 @@
 }
 
 .post-ambassador {
-  align-items: center;
-  display: inline-flex;;
+  align-content: start;
+  display: flex;
   font-weight: normal;
-  margin-left: 2rem;
-  margin-top: .5rem;
+  justify-content: flex-start;
+  flex-direction: row;
+  grid-column: 2;
+  grid-row: 2;
 
   &-text {
-    font-size: .75rem;
+    font-size: .7rem;
   }
 }
 
 .post-user-name {
-  align-items: start;
+  align-items: flex-start;
   display: flex;
   flex-direction: column;
   font-weight: bold;
-  justify-content: center;
+  justify-content: flex-end;
+  grid-column: 2;
+  grid-row: 1;
 }
 
 .post-location {
-  align-items: center;
+  align-items: flex-end;
   color: $dark-blue;
   display: flex;
   font-size: .75rem;
-  grid-row: auto;
-  justify-content: center;
+  justify-content: flex-end;
+  grid-column: 3;
+  grid-row: 1;
 }
 
 .post-title {
@@ -426,15 +434,33 @@
 
   .post-user-name {
     display: flex;
-    font-size: 1rem;
+    font-size: .7rem;
     justify-content: center;
   }
 
   .post-location {
     a {
-      font-size: .75rem;
+      font-size: .5rem;
     }
   }
+
+  .post-time {
+    font-size: .5rem;
+  }
+
+  .post-ambassador {
+    font-weight: normal;
+    justify-content: flex-start;
+    flex-direction: row;
+    grid-column: 2;
+    grid-row: 2;
+
+    &-text {
+      font-size: .5rem;
+      margin-top: 4px;
+    }
+  }
+
 
   .post {
     border: .01rem solid $litterpic-green;
@@ -509,8 +535,9 @@
   }
 
   .post-username-location {
+    align-content: flex-start;
     display: grid;
-    grid-template-columns: 20% 40% 40%;
+    //grid-template-columns: 7% 38% 55%;
     justify-content: space-between;
     padding-left: .5rem;
     padding-right: .5rem;
@@ -518,7 +545,7 @@
   }
 
   .post-user-name {
-    align-items: center;
+    align-items: flex-start;
     display: flex;
     font-size: .75rem;
     justify-content: flex-start;
@@ -526,14 +553,8 @@
 
   .post-location {
     a {
-      font-size: .75rem;
+      font-size: .5rem;
     }
-  }
-
-  .post {
-    border: .01rem solid $litterpic-green;
-    border-radius: .5rem;
-    margin-bottom: .5rem;
   }
 
   .carousel-chevron {
