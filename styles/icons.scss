@@ -1,0 +1,113 @@
+@import 'colors';
+@import 'fonts';
+
+
+.material-icons {
+  font-size: 24px; /* Example size */
+  color: green; /* Example color */
+}
+
+.ambassador-icon {
+  font-size: 24px;
+  color: $litterpic-green;
+  padding-right: .25rem;
+  padding-bottom: .5rem;
+}
+
+.post-ambassador-icon {
+  font-size: 18px;
+  color: $litterpic-green;
+  padding-right: .5rem;
+}
+
+.error-clear-icon {
+  font-size: 24px;
+  color: red;
+  cursor: pointer;
+}
+
+.signup-password-toggle-icon {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+}
+
+.image-row__scroll-arrow-icon {
+  font-size: 24px;
+  color: $litterpic-green;
+}
+
+.filled-heart {
+  font-size: 24px;
+  color: red;
+}
+
+.empty-heart {
+  font-size: 24px;
+  color: grey;
+}
+
+.filled-comment {
+  font-size: 24px;
+  color: $litterpic-green;
+}
+
+.empty-comment {
+  font-size: 24px;
+  color: grey;
+}
+
+
+.dropdown-icon {
+  font-size: 2.5rem;
+  color: $black;
+
+  &:hover {
+    color: $table-highlight-green;
+  }
+}
+
+.dropdown-icon.rotate-up {
+  transform: rotate(180deg);
+  transition: transform 0.3s ease;
+}
+
+.dropdown-icon.rotate-down {
+  transform: rotate(360deg);
+  transition: transform 0.3s ease;
+}
+
+.social-icons {
+  align-items: center;
+  column-gap: 1.6rem;
+  display: flex;
+  justify-content: flex-start;
+
+  a {
+    font-size: 1.3rem;
+  }
+}
+
+.facebook-icon {
+  color: $facebook-blue;
+  display: flex;
+  height: 30%;
+}
+
+.instagram-icon {
+  color: $instagram-pink;
+}
+
+.linkedin-icon {
+  color: $linkedin-blue;
+}
+
+.image-row__scroll-arrow-icon {
+  color: $white;
+  font-size: 36px;
+  font-weight: bolder;
+
+  &:hover {
+    color: $litterpic-green;
+  }
+}

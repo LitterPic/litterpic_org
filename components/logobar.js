@@ -4,8 +4,6 @@ import {onAuthStateChanged, signOut} from 'firebase/auth';
 import {auth, db} from '../lib/firebase';
 import {doc, getDoc} from 'firebase/firestore';
 import CustomButton from './CustomButton';
-import {faCaretDown} from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 const Logobar = () => {
     const dropdownRef = useRef(null);
@@ -115,18 +113,19 @@ const Logobar = () => {
             </div>
             {user ? (
                     <div className="logo-bar-right-content">
-                        <CustomButton href="/donate">Donate</CustomButton>
+                        <CustomButton href="/donate">Click to Donate</CustomButton>
                         <div className="profile-dropdown">
                             <div className="profile-picture-wrapper" onClick={toggleDropdown}>
                                 {isUserDataLoaded && (
                                     <img src={userPhoto} alt={displayName} className="profile-picture"/>
                                 )}
-                                <FontAwesomeIcon
-                                    size={"lg"}
-                                    icon={faCaretDown}
-                                    className={`dropdown-icon ${showDropdown ? 'rotate' : ''}`}
+                                <i
+                                    className={`material-icons dropdown-icon ${showDropdown ? 'rotate-up' : 'rotate-down'}`}
                                     onClick={handleDropdownIconClick}
-                                />
+                                >
+                                    arrow_drop_down
+                                </i>
+
                             </div>
                             {showDropdown && (
                                 <div className="dropdown-menu">

@@ -3,8 +3,6 @@ import {createUserWithEmailAndPassword, sendEmailVerification, signOut} from 'fi
 import {auth} from '../lib/firebase'
 import {useRouter} from 'next/router';
 import {doc, getFirestore, serverTimestamp, setDoc} from 'firebase/firestore';
-import {faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -130,11 +128,12 @@ export default function SignInForm() {
                     placeholder="Password"
                     required
                 />
-                <FontAwesomeIcon
-                    icon={showPassword ? faEyeSlash : faEye}
-                    className="signup-password-toggle-icon"
+                <i
+                    className={`material-icons signup-password-toggle-icon`}
                     onClick={togglePasswordVisibility}
-                />
+                >
+                    {showPassword ? 'visibility_off' : 'visibility'}
+                </i>
             </div>
             <div className="signup-password-container">
                 <input
@@ -145,12 +144,13 @@ export default function SignInForm() {
                     placeholder="Confirm Password"
                     required
                 />
-                <FontAwesomeIcon
-                    size={"lg"}
-                    icon={showPassword ? faEyeSlash : faEye}
-                    className="signup-password-toggle-icon"
+                <i
+                    className="material-icons signup-password-toggle-icon"
                     onClick={togglePasswordVisibility}
-                />
+                >
+                    {showPassword ? 'visibility_off' : 'visibility'}
+                </i>
+
             </div>
             {(password !== '' || confirmPassword !== '') && (
                 <div className="signup-password-requirements">

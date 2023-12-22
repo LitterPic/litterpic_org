@@ -3,8 +3,6 @@ import {sendPasswordResetEmail, signInWithEmailAndPassword} from 'firebase/auth'
 import {collection, doc, getDoc, getDocs, query, updateDoc, where} from 'firebase/firestore';
 import {auth, db} from '../lib/firebase';
 import {useRouter} from 'next/router';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faEye, faEyeSlash, faTimes} from "@fortawesome/free-solid-svg-icons";
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {debounce} from 'lodash';
@@ -151,12 +149,15 @@ export default function SignInForm() {
                            readOnly={isMigratedUser}
                            onFocus={() => setShowIcon(true)}
                     />
-                    {showIcon && (<FontAwesomeIcon
-                            icon={showPassword ? faEyeSlash : faEye}
-                            className="signup-password-toggle-icon"
+                    {showIcon && (
+                        <i
+                            className="material-icons signup-password-toggle-icon"
                             onClick={togglePasswordVisibility}
-                        />
+                        >
+                            {showPassword ? 'visibility_off' : 'visibility'}
+                        </i>
                     )}
+
                 </div>
                 <a
                     className="sign-in-forgot-password"
@@ -177,13 +178,11 @@ export default function SignInForm() {
                 {error && (
                     <div className="error-container">
                         <p className="error-message">{error}</p>
-                        <FontAwesomeIcon
-                            size={"lg"}
-                            icon={faTimes}
-                            className="error-clear-icon"
-                            onClick={clearError}
-                        />
+                        <i className="material-icons error-clear-icon" onClick={clearError}>
+                            cancel
+                        </i>
                     </div>
+
                 )}
                 {showMigratedUserError && (
                     <div className="error-container">
@@ -195,12 +194,13 @@ export default function SignInForm() {
                                onClick={(e) => handleForgotPassword(e, userId)}> Forgot Password </a>
                             link.
                         </p>
-                        <FontAwesomeIcon
-                            size={"lg"}
-                            icon={faTimes}
-                            className="error-clear-icon"
+                        <i
+                            className="material-icons error-clear-icon"
                             onClick={() => setShowMigratedUserError(false)}
-                        />
+                        >
+                            cancel
+                        </i>
+
                     </div>
                 )}
             </form>

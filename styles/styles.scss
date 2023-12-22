@@ -10,6 +10,7 @@
 @import 'footer';
 @import 'home';
 @import 'homeimagerow';
+@import 'icons';
 @import 'login';
 @import 'logobar';
 @import 'navbar';
@@ -123,7 +124,7 @@ textarea {
 
 .page {
   align-items: flex-start;
-  background-color: $gray;
+  background-color: $light-gray;
   display: flex;
   justify-content: center;
   min-height: 100vh;
@@ -137,7 +138,7 @@ textarea {
   margin-right: auto;
   min-height: 35vh;
   padding: 1.5rem;
-  width: 70%;
+  width: 80%;
 }
 
 // Media Query for Mobile Devices
