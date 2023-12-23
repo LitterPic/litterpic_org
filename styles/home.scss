@@ -78,6 +78,21 @@ p {
   }
 }
 
+.ambassador-wrapper {
+  column-gap: 3rem;
+  display: grid;
+  grid-template-columns: 1.4fr 2fr;
+}
+
+.ambassador-paragraph {
+  line-height: 1.5;
+}
+
+.ambassador-heading-text-with-icon {
+  display: flex;
+  flex-direction: row;
+}
+
 .image-row {
   margin-bottom: 2rem;
 }
