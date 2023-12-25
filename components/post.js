@@ -23,12 +23,13 @@ function Post({post}) {
         };
 
         // Check if the user is an ambassador
+        console.log("User", post.user);
         const ambassadorStatus = post.user.ambassador || false;
         setIsAmbassador(ambassadorStatus);
 
         if (ambassadorStatus && post.user.ambassador_date) {
             const timestamp = post.user.ambassador_date;
-            const date = timestamp.toDate();
+            const date = timestamp.toDate() || timestamp.now()
             setAmbassadorDate(date);
         }
 

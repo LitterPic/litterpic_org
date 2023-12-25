@@ -191,7 +191,7 @@ p {
 }
 
 @media (max-width: 76.5rem) {
-  .index-wrapper {
+  .index-wrapper, .ambassador-wrapper {
     column-gap: 5rem;
     display: flex;
     flex-direction: column;
@@ -252,6 +252,9 @@ p {
     }
   }
 
+  .home-bottom-carousel-section {
+    display: none;
+  }
 
   .home-carousel-section {
     align-items: center;
