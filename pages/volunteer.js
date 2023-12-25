@@ -471,10 +471,7 @@ const Volunteer = () => {
     };
 
     const handleRsvpClick = async (eventId) => {
-        console.log("handleRsvpClick called with Event ID:", eventId);  // Log when the function is called
-
         const selectedEvent = events.find((event) => event.id === eventId);
-        console.log("Selected Event:", selectedEvent);  // Log the found event
 
         // If the event is a Blue Ocean Society event, then skip the login requirement
         const functions = getFunctions();
@@ -485,7 +482,6 @@ const Volunteer = () => {
             const payload = {eventId, loggedInUserId};
             try {
                 const result = await createBlueOceanRsvp(payload);
-                console.log(result.data);
                 window.open('https://www.blueoceansociety.org/cleanup', '_blank');
                 return;
             } catch (error) {

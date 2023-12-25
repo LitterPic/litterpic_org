@@ -27,12 +27,7 @@ async function updateUserPostCounts() {
             await db.doc('users/' + userId).update({
                 numberOfPosts: postCount
             });
-
-            console.log(`Updated numberOfPosts for user with ID ${userId} to ${postCount}.`);
         }
-
-        console.log('Post count updates for all users completed.');
-
     } catch (error) {
         console.error('Error updating user post counts:', error);
     }
