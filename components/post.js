@@ -29,7 +29,7 @@ function Post({post}) {
 
         if (ambassadorStatus && post.user.ambassador_date) {
             const timestamp = post.user.ambassador_date;
-            const date = timestamp.toDate() || timestamp.now()
+            const date = new Date(timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000);
             setAmbassadorDate(date);
         }
 
