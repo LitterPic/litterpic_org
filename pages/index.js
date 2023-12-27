@@ -17,21 +17,27 @@ async function fetchRecentPosts() {
     const postsQuery = query(
         collection(db, 'userPosts'),
         orderBy('timePosted', 'desc'),
-        limit(3)
+        limit(10)
     );
     const postsSnapshot = await getDocs(postsQuery);
 
     const posts = [];
+    let totalPhotosCount = 0;
 
     for (const postDoc of postsSnapshot.docs) {
         const postData = postDoc.data();
         const photos = [];
 
         if (Array.isArray(postData.postPhotos)) {
-            for (const pictureRef of postData.postPhotos) {
+            const remainingPhotosCount = 10 - totalPhotosCount;
+            const limitedPhotos = postData.postPhotos.slice(0, remainingPhotosCount);
+
+            for (const pictureRef of limitedPhotos) {
                 const pictureUrl = await getDownloadURL(ref(storage, pictureRef));
                 photos.push(pictureUrl);
             }
+
+            totalPhotosCount += limitedPhotos.length;
         }
 
         posts.push({
@@ -39,6 +45,10 @@ async function fetchRecentPosts() {
             photos: photos,
             dateCreated: postData.timePosted.toDate(),
         });
+
+        if (totalPhotosCount >= 10) {
+            break;
+        }
     }
 
     return posts;
