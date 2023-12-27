@@ -446,7 +446,8 @@ input:checked + .custom-checkbox::after {
 
 .donorbox-container {
   flex: 0 0 auto;
-  margin-top: 1.25rem;
+  margin-left: 3rem;
+  margin-top: 3rem;
 }
 
 .donate-image-container {
@@ -457,8 +458,35 @@ input:checked + .custom-checkbox::after {
 
 .donorbox-widget {
   display: flex;
-  justify-content: left;
+  flex-direction: row;
+  justify-content: center;
   margin-bottom: 1.25rem;
+}
+
+.donate-use-image {
+  margin-left: 40px;
+}
+
+.donate-grid-container {
+  display: grid;
+  grid-template-columns: repeat(4, 190px);
+  gap: 35px;
+  margin-left: 80px;
+}
+
+.donate-grid-item {
+  text-align: center;
+}
+
+.donorbox-images-container {
+  display: none;
+}
+
+.donorbox-images-container-desktop {
+  display: flex;
+  height: 100px;
+  justify-content: center;
+  margin-bottom: 1rem;
 }
 
 @media (max-width: 76.5rem) {
@@ -477,6 +505,7 @@ input:checked + .custom-checkbox::after {
   }
   .donorbox-container {
     flex: 0 0 auto;
+    margin-left: 0;
     margin-top: 1.25rem;
   }
   .donate-image-container {
@@ -494,22 +523,8 @@ input:checked + .custom-checkbox::after {
   .legal {
     margin-right: 2.5rem;
   }
-}
-@media (min-width: 76.5rem) {
-  .donorbox-images-container {
+  .donation-use {
     display: none;
-  }
-  .donorbox-images-container-desktop {
-    display: flex;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .donate-image-desktop {
-    height: 250px;
-    margin-left: 2rem;
-    margin-right: 1rem;
-    margin-top: 7rem;
-    width: auto;
   }
 }
 .edit-profile-container {
@@ -1791,7 +1806,8 @@ p .index-inspire-change-text {
 
 .donorbox-container {
   flex: 0 0 auto;
-  margin-top: 1.25rem;
+  margin-left: 3rem;
+  margin-top: 3rem;
 }
 
 .donate-image-container {
@@ -1802,8 +1818,35 @@ p .index-inspire-change-text {
 
 .donorbox-widget {
   display: flex;
-  justify-content: left;
+  flex-direction: row;
+  justify-content: center;
   margin-bottom: 1.25rem;
+}
+
+.donate-use-image {
+  margin-left: 40px;
+}
+
+.donate-grid-container {
+  display: grid;
+  grid-template-columns: repeat(4, 190px);
+  gap: 35px;
+  margin-left: 80px;
+}
+
+.donate-grid-item {
+  text-align: center;
+}
+
+.donorbox-images-container {
+  display: none;
+}
+
+.donorbox-images-container-desktop {
+  display: flex;
+  height: 100px;
+  justify-content: center;
+  margin-bottom: 1rem;
 }
 
 @media (max-width: 76.5rem) {
@@ -1822,6 +1865,7 @@ p .index-inspire-change-text {
   }
   .donorbox-container {
     flex: 0 0 auto;
+    margin-left: 0;
     margin-top: 1.25rem;
   }
   .donate-image-container {
@@ -1839,22 +1883,8 @@ p .index-inspire-change-text {
   .legal {
     margin-right: 2.5rem;
   }
-}
-@media (min-width: 76.5rem) {
-  .donorbox-images-container {
+  .donation-use {
     display: none;
-  }
-  .donorbox-images-container-desktop {
-    display: flex;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .donate-image-desktop {
-    height: 250px;
-    margin-left: 2rem;
-    margin-right: 1rem;
-    margin-top: 7rem;
-    width: auto;
   }
 }
 .address-link:hover {
