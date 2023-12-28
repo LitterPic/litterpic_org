@@ -24,7 +24,6 @@ function Post({post}) {
         };
 
         // Check if the user is an ambassador
-        console.log("User", post.user);
         const ambassadorStatus = post.user.ambassador || false;
         setIsAmbassador(ambassadorStatus);
 

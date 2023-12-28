@@ -23,6 +23,7 @@ import {
 import {db} from "../lib/firebase";
 import {capitalizeFirstWordOfSentences} from "../utils/textUtils";
 import Head from "next/head";
+import LikePopup from "../components/LikePopup";
 
 
 function Stories() {
@@ -44,6 +45,10 @@ function Stories() {
     const commentInputRef = useRef();
     const submitButtonRef = useRef(null);
     const [showBackToTop, setShowBackToTop] = useState(false);
+    const [likePopupVisible, setLikePopupVisible] = useState(false);
+    const [likedUsers, setLikedUsers] = useState([]);
+    const [hoveredPostId, setHoveredPostId] = useState(null);
+    const [masonryKey, setMasonryKey] = useState(Date.now().toString());
 
     useEffect(() => {
         const handleScroll = () => {
@@ -60,6 +65,43 @@ function Stories() {
             window.removeEventListener('scroll', handleScroll);
         };
     }, []);
+
+    // Use useEffect to update likedUsers once the data is fetched
+    useEffect(() => {
+        setLikedUsers(likedUsers);
+    }, [likedUsers]);
+
+    const handleLikeHover = async (post) => {
+        const likedUserIds = await getUsersWhoLikedPost(post.id);
+
+        const likedUsersPromises = likedUserIds.map(async (uid) => {
+            const userRef = doc(getFirestore(), 'users', uid);
+            const userSnap = await getDoc(userRef);
+
+            if (userSnap.exists()) {
+                return userSnap.data();
+            } else {
+                return null; // or handle it accordingly
+            }
+        });
+
+        const likedUsers = await Promise.all(likedUsersPromises);
+
+        // Generate a unique identifier for the hovered post
+        const postIdentifier = `${post.id}_post`;
+
+        // Set hovered post identifier in state immediately
+        setHoveredPostId(postIdentifier);
+        setLikePopupVisible(true);
+        setLikedUsers(likedUsers);
+    };
+
+
+    const handleLeaveHover = () => {
+        setLikePopupVisible(false);
+        setHoveredPostId(null);
+        setLikedUsers([]);
+    }
 
     const handleClickOutside = (event) => {
         if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -472,37 +514,52 @@ function Stories() {
 
                     <div className="story-posts">
                         <Masonry
+                            key={masonryKey}
                             breakpointCols={{default: 2, 700: 1}}
                             className="post-grid"
                             columnClassName="post-grid-column"
                         >
-                            {posts.map((post) => {
+                            {posts.map((post, index) => {
                                 const likes = post.likes !== undefined ? post.likes : 0;
                                 const {numComments} = post;
-
                                 const currentUserLiked = post.currentUserLiked;
+                                const postMasonryKey = `${index}_${post.id}_post`;
 
                                 return (
-                                    <div key={post.id} className="post">
+                                    <div key={postMasonryKey} className="post">
                                         <div className="post-header">
-                                            <i className="fa fa-ellipsis-v meatball-menu" aria-hidden="true"
-                                               onClick={() => {
-                                                   setOpenMenuId(openMenuId !== post.id ? post.id : null);
-                                                   setOpenCommentInput(null);
-                                               }}></i>
+                                            <i
+                                                className="fa fa-ellipsis-v meatball-menu"
+                                                aria-hidden="true"
+                                                onClick={() => {
+                                                    setOpenMenuId(openMenuId !== post.id ? post.id : null);
+                                                    setOpenCommentInput(null);
+                                                }}
+                                            ></i>
                                         </div>
-                                        <div className={`post-dropdown-menu ${openMenuId === post.id ? 'show' : ''}`}
-                                             ref={openMenuId === post.id ? dropdownRef : null}>
+                                        <div
+                                            className={`post-dropdown-menu ${
+                                                openMenuId === post.id ? 'show' : ''
+                                            }`}
+                                            ref={openMenuId === post.id ? dropdownRef : null}
+                                        >
                                             <ul className="meatball-post-menu">
-
                                                 <li
                                                     onClick={() => {
-                                                        if (user && post.user && user.uid === post.user.uid) {
+                                                        if (
+                                                            user &&
+                                                            post.user &&
+                                                            user.uid === post.user.uid
+                                                        ) {
                                                             deletePost(post.id);
                                                         }
                                                     }}
                                                     className={
-                                                        user && post.user && user.uid === post.user.uid ? '' : 'grayed-out'
+                                                        user &&
+                                                        post.user &&
+                                                        user.uid === post.user.uid
+                                                            ? ''
+                                                            : 'grayed-out'
                                                     }
                                                 >
                                                     Delete Post
@@ -511,77 +568,138 @@ function Stories() {
                                         </div>
                                         <Post post={post}/>
                                         <div className="likes-comments">
-                                            <span className="likes-comments-likes-field">
-                                                <i
-                                                    className={`material-icons ${currentUserLiked ? 'filled-heart' : 'empty-heart'}`}
-                                                    onClick={() => handleToggleLike(post.id)}
-                                                >
-                                                    {currentUserLiked ? 'favorite' : 'favorite_border'}
-                                                </i>
+                    <span
+                        className="likes-comments-likes-field"
+                        onMouseEnter={() => handleLikeHover(post)}
+                        onMouseLeave={() => handleLeaveHover()}
+                    >
+                        <i
+                            className={`material-icons ${
+                                currentUserLiked
+                                    ? 'filled-heart'
+                                    : 'empty-heart'
+                            }`}
+                            onClick={() => handleToggleLike(post.id)}
+                        >
+                            {currentUserLiked
+                                ? 'favorite'
+                                : 'favorite_border'}
+                        </i>
 
-                                                <span className="like-count">{likes}</span>
-                                            </span>
+                        <span className="like-count">{likes}</span>
+
+                        {likePopupVisible &&
+                            hoveredPostId === `${post.id}_post` && (<LikePopup likedUsers={likedUsers}/>)
+                        }
+                    </span>
                                             <span className="likes-comments-comment-field">
-                                                <i
-                                                    className={`material-icons ${numComments > 0 ? 'filled-comment' : 'empty-comment'}`}
-                                                    onClick={() => setOpenCommentInput(openCommentInput !== post.id ? post.id : null)}
-                                                >
-                                                    mode_comment
-                                                </i>
+                        <i
+                            className={`material-icons ${
+                                numComments > 0
+                                    ? 'filled-comment'
+                                    : 'empty-comment'
+                            }`}
+                            onClick={() =>
+                                setOpenCommentInput(
+                                    openCommentInput !== post.id
+                                        ? post.id
+                                        : null
+                                )
+                            }
+                        >
+                            mode_comment
+                        </i>
 
-                                                <span className="comment-count">{numComments}</span>
-                                            </span>
+                        <span className="comment-count">{numComments}</span>
+                    </span>
                                         </div>
                                         <div className="story-comment-input">
                                             {openCommentInput === post.id && (
                                                 <>
-                                                    {postComments[post.id] && postComments[post.id].map((commentData) => {
-                                                        const commentUserId = commentData?.commentUser?._key?.path?.segments?.[6] || null;
-                                                        const commentUser = users?.[commentUserId] || {};
-                                                        const commentTime = commentData.timePosted && typeof commentData.timePosted.toDate === 'function' ? commentData.timePosted.toDate() : null;
-                                                        return (
-                                                            <div key={commentData.id} className="comment">
-                                                                {commentUser && (
-                                                                    <>
-                                                                        <img src={commentUser.photo_url}
-                                                                             alt={commentUser.display_name}/>
-                                                                        <div className="comment-text">
-                                                                            <span
-                                                                                className="comment-user">{commentUser.display_name}</span>
-                                                                            {commentTime && commentTime instanceof Date && (
-                                                                                <span className="comment-time">
-                                                                                    {
-                                                                                        commentTime &&
-                                                                                        commentTime.toLocaleString('en-US', {
-                                                                                            year: 'numeric',
-                                                                                            month: '2-digit',
-                                                                                            day: '2-digit',
-                                                                                            hour: '2-digit',
-                                                                                            minute: '2-digit'
-                                                                                        })
-                                                                                    }
-                                                                                </span>
-                                                                            )}
-                                                                            <div
-                                                                                className="comment-text-content">{commentData.comment}</div>
-                                                                        </div>
-                                                                    </>
-                                                                )}
-                                                            </div>
-                                                        );
-                                                    })}
+                                                    {postComments[post.id] &&
+                                                        postComments[post.id].map((commentData) => {
+                                                            const commentUserId =
+                                                                commentData?.commentUser?._key?.path?.segments?.[6] ||
+                                                                null;
+                                                            const commentUser =
+                                                                users?.[commentUserId] || {};
+                                                            const commentTime =
+                                                                commentData.timePosted &&
+                                                                typeof commentData.timePosted.toDate ===
+                                                                'function'
+                                                                    ? commentData.timePosted.toDate()
+                                                                    : null;
+                                                            return (
+                                                                <div
+                                                                    key={commentData.id}
+                                                                    className="comment"
+                                                                >
+                                                                    {commentUser && (
+                                                                        <>
+                                                                            <img
+                                                                                src={commentUser.photo_url}
+                                                                                alt={
+                                                                                    commentUser.display_name
+                                                                                }
+                                                                            />
+                                                                            <div className="comment-text">
+                                                        <span className="comment-user">
+                                                            {
+                                                                commentUser.display_name
+                                                            }
+                                                        </span>
+                                                                                {commentTime &&
+                                                                                    commentTime instanceof
+                                                                                    Date && (
+                                                                                        <span className="comment-time">
+                                                                    {commentTime &&
+                                                                        commentTime.toLocaleString(
+                                                                            'en-US',
+                                                                            {
+                                                                                year:
+                                                                                    'numeric',
+                                                                                month:
+                                                                                    '2-digit',
+                                                                                day:
+                                                                                    '2-digit',
+                                                                                hour:
+                                                                                    '2-digit',
+                                                                                minute:
+                                                                                    '2-digit',
+                                                                            }
+                                                                        )}
+                                                                </span>
+                                                                                    )}
+                                                                                <div className="comment-text-content">
+                                                                                    {commentData.comment}
+                                                                                </div>
+                                                                            </div>
+                                                                        </>
+                                                                    )}
+                                                                </div>
+                                                            );
+                                                        })}
                                                     <textarea
                                                         className="comment-text-input"
-                                                        ref={openCommentInput === post.id ? commentInputRef : null}
+                                                        ref={
+                                                            openCommentInput === post.id
+                                                                ? commentInputRef
+                                                                : null
+                                                        }
                                                         value={comments[post.id] || ''}
-                                                        onChange={(event) => handleCommentChange(event, post.id)}
+                                                        onChange={(event) =>
+                                                            handleCommentChange(event, post.id)
+                                                        }
                                                         placeholder="Add a comment..."
                                                     />
                                                     <button
                                                         className="comment-submit-button"
                                                         ref={submitButtonRef}
                                                         onClick={() => handleSubmit(post.id)}
-                                                        disabled={!comments[post.id] || comments[post.id].trim().length < 1}
+                                                        disabled={
+                                                            !comments[post.id] ||
+                                                            comments[post.id].trim().length < 1
+                                                        }
                                                     >
                                                         Submit
                                                     </button>
@@ -592,6 +710,7 @@ function Stories() {
                                 );
                             })}
                         </Masonry>
+
 
                         <div className="button-container">
 
@@ -620,7 +739,8 @@ function Stories() {
                 </div>
             </div>
         </div>
-    );
+    )
+        ;
 }
 
 export default Stories;
