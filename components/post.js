@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useSwipeable} from 'react-swipeable';
 import {FaChevronLeft, FaChevronRight} from 'react-icons/fa';
+import Link from "next/link";
 
 function Post({post}) {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -75,17 +76,16 @@ function Post({post}) {
         <div className="fetch-post">
             <div className="post-username-location">
                 <div className="profile-image">
-                    {userPhoto ? (
-                        <img src={userPhoto} alt="Profile"/>
-                    ) : (
+                    {userPhoto ? (<img src={userPhoto} alt="Profile"/>) : (
                         <img
                             src="https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg"
                             alt="Default Profile"
                         />
                     )}
                 </div>
-                <div className="post-user-name">{userName}
-                </div>
+                <Link className="post-user-name" href={`/profile/${post.user.uid}`} passHref>
+                    <div>{userName}</div>
+                </Link>
                 <div className="post-location">
                     <a
                         href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
@@ -130,12 +130,12 @@ function Post({post}) {
                 )}
             </div>
             <div className="post-litter-weight-collected">
-                 {post.litterWeight > 0 && (
-                     <span>
+                {post.litterWeight > 0 && (
+                    <span>
                         Collected <span>{post.litterWeight}</span>{' '}
-                         {post.litterWeight === 1 ? 'pound' : 'pounds'} of litter!
+                        {post.litterWeight === 1 ? 'pound' : 'pounds'} of litter!
                     </span>
-                 )}
+                )}
             </div>
 
         </div>

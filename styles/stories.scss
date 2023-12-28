@@ -225,12 +225,12 @@
 
 .post-user-name {
   align-items: flex-start;
+  color: $black;
   display: flex;
   flex-direction: column;
   font-weight: bold;
   justify-content: flex-end;
-  grid-column: 2;
-  grid-row: 1;
+  text-decoration: none;
 }
 
 .post-location {

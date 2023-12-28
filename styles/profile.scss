@@ -87,6 +87,27 @@ h1.heading-text.profile-heading {
   padding-top: 1rem;
 }
 
+.member-profile-info {
+  display: grid;
+  grid-template-columns: .5fr 2fr;
+  padding-left: .5rem;
+  row-gap: 1rem;
+}
+
+.member-profile-item {
+  color: $profile-text-gray;
+  font-size: .75rem;
+  font-weight: bold;
+  justify-content: end;
+  margin-bottom: auto;
+  margin-top: auto;
+}
+
+.member-profile-value {
+  font-size: 1rem;
+  justify-content: flex-start;
+}
+
 .ambassador {
   align-items: center;
   display: inline-flex;
@@ -129,6 +150,28 @@ h1.heading-text.profile-heading {
     &::before {
       white-space: normal;
     }
+  }
+
+  .member-profile-info {
+    display: grid;
+    grid-template-columns: 1.5fr 2fr;
+    padding-left: .5rem;
+    row-gap: 1rem;
+  }
+
+  .member-profile-item {
+    color: $profile-text-gray;
+    font-size: .75rem;
+    font-weight: bold;
+    justify-content: end;
+    margin-bottom: auto;
+    margin-top: auto;
+  }
+
+  .member-profile-value {
+    font-size: 1rem;
+    justify-content: flex-start;
+    margin-left: 1rem;
   }
 }
 

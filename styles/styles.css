@@ -2670,6 +2670,27 @@ h1.heading-text.profile-heading {
   padding-top: 1rem;
 }
 
+.member-profile-info {
+  display: grid;
+  grid-template-columns: 0.5fr 2fr;
+  padding-left: 0.5rem;
+  row-gap: 1rem;
+}
+
+.member-profile-item {
+  color: #aaa;
+  font-size: 0.75rem;
+  font-weight: bold;
+  justify-content: end;
+  margin-bottom: auto;
+  margin-top: auto;
+}
+
+.member-profile-value {
+  font-size: 1rem;
+  justify-content: flex-start;
+}
+
 .ambassador {
   align-items: center;
   display: inline-flex;
@@ -2707,6 +2728,25 @@ h1.heading-text.profile-heading {
   }
   .edit-profile-button::before {
     white-space: normal;
+  }
+  .member-profile-info {
+    display: grid;
+    grid-template-columns: 1.5fr 2fr;
+    padding-left: 0.5rem;
+    row-gap: 1rem;
+  }
+  .member-profile-item {
+    color: #aaa;
+    font-size: 0.75rem;
+    font-weight: bold;
+    justify-content: end;
+    margin-bottom: auto;
+    margin-top: auto;
+  }
+  .member-profile-value {
+    font-size: 1rem;
+    justify-content: flex-start;
+    margin-left: 1rem;
   }
 }
 .signup-form {
@@ -3004,12 +3044,12 @@ h1.heading-text.profile-heading {
 
 .post-user-name {
   align-items: flex-start;
+  color: #000;
   display: flex;
   flex-direction: column;
   font-weight: bold;
   justify-content: flex-end;
-  grid-column: 2;
-  grid-row: 1;
+  text-decoration: none;
 }
 
 .post-location {
@@ -3830,6 +3870,27 @@ h1.heading-text.profile-heading {
   padding-top: 1rem;
 }
 
+.member-profile-info {
+  display: grid;
+  grid-template-columns: 0.5fr 2fr;
+  padding-left: 0.5rem;
+  row-gap: 1rem;
+}
+
+.member-profile-item {
+  color: #aaa;
+  font-size: 0.75rem;
+  font-weight: bold;
+  justify-content: end;
+  margin-bottom: auto;
+  margin-top: auto;
+}
+
+.member-profile-value {
+  font-size: 1rem;
+  justify-content: flex-start;
+}
+
 .ambassador {
   align-items: center;
   display: inline-flex;
@@ -3867,6 +3928,25 @@ h1.heading-text.profile-heading {
   }
   .edit-profile-button::before {
     white-space: normal;
+  }
+  .member-profile-info {
+    display: grid;
+    grid-template-columns: 1.5fr 2fr;
+    padding-left: 0.5rem;
+    row-gap: 1rem;
+  }
+  .member-profile-item {
+    color: #aaa;
+    font-size: 0.75rem;
+    font-weight: bold;
+    justify-content: end;
+    margin-bottom: auto;
+    margin-top: auto;
+  }
+  .member-profile-value {
+    font-size: 1rem;
+    justify-content: flex-start;
+    margin-left: 1rem;
   }
 }
 .report-form-group {
@@ -4404,12 +4484,12 @@ input::placeholder {
 
 .post-user-name {
   align-items: flex-start;
+  color: #000;
   display: flex;
   flex-direction: column;
   font-weight: bold;
   justify-content: flex-end;
-  grid-column: 2;
-  grid-row: 1;
+  text-decoration: none;
 }
 
 .post-location {
