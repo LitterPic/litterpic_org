@@ -282,6 +282,11 @@
   font-weight: bold;
   justify-content: flex-end;
   text-decoration: none;
+
+  :hover {
+    color: $litterpic-green;
+    transform: scale(1.1);
+  }
 }
 
 .post-location {
@@ -292,6 +297,11 @@
   justify-content: flex-end;
   grid-column: 3;
   grid-row: 1;
+
+  :hover {
+    color: $litterpic-green;
+    transform: scale(1.05);
+  }
 }
 
 .post-title {

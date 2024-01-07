@@ -3103,6 +3103,10 @@ h1.heading-text.profile-heading {
   justify-content: flex-end;
   text-decoration: none;
 }
+.post-user-name :hover {
+  color: #015e41;
+  transform: scale(1.1);
+}
 
 .post-location {
   align-items: flex-end;
@@ -3112,6 +3116,10 @@ h1.heading-text.profile-heading {
   justify-content: flex-end;
   grid-column: 3;
   grid-row: 1;
+}
+.post-location :hover {
+  color: #015e41;
+  transform: scale(1.05);
 }
 
 .post-title {
@@ -4620,6 +4628,10 @@ input::placeholder {
   justify-content: flex-end;
   text-decoration: none;
 }
+.post-user-name :hover {
+  color: #015e41;
+  transform: scale(1.1);
+}
 
 .post-location {
   align-items: flex-end;
@@ -4629,6 +4641,10 @@ input::placeholder {
   justify-content: flex-end;
   grid-column: 3;
   grid-row: 1;
+}
+.post-location :hover {
+  color: #015e41;
+  transform: scale(1.05);
 }
 
 .post-title {
