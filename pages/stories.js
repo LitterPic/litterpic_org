@@ -49,6 +49,7 @@ function Stories() {
     const [likedUsers, setLikedUsers] = useState([]);
     const [hoveredPostId, setHoveredPostId] = useState(null);
     const [masonryKey, setMasonryKey] = useState(Date.now().toString());
+    const debounceTimers = {};
 
     useEffect(() => {
         const handleScroll = () => {
@@ -72,36 +73,56 @@ function Stories() {
     }, [likedUsers]);
 
     const handleLikeHover = async (post) => {
-        const likedUserIds = await getUsersWhoLikedPost(post.id);
+        const postKey = post.id;
 
-        const likedUsersPromises = likedUserIds.map(async (uid) => {
-            const userRef = doc(getFirestore(), 'users', uid);
-            const userSnap = await getDoc(userRef);
+        if (debounceTimers[postKey]) {
+            clearTimeout(debounceTimers[postKey]);
+        }
 
-            if (userSnap.exists()) {
-                return userSnap.data();
-            } else {
-                return null; // or handle it accordingly
-            }
-        });
+        debounceTimers[postKey] = setTimeout(async () => {
+            const likedUserIds = await getUsersWhoLikedPost(post.id);
 
-        const likedUsers = await Promise.all(likedUsersPromises);
+            const likedUsersPromises = likedUserIds.map(async (uid) => {
+                const userRef = doc(getFirestore(), 'users', uid);
+                const userSnap = await getDoc(userRef);
 
-        // Generate a unique identifier for the hovered post
-        const postIdentifier = `${post.id}_post`;
+                if (userSnap.exists()) {
+                    return userSnap.data();
+                } else {
+                    return null;
+                }
+            });
 
-        // Set hovered post identifier in state immediately
-        setHoveredPostId(postIdentifier);
-        setLikePopupVisible(true);
-        setLikedUsers(likedUsers);
+            const likedUsers = await Promise.all(likedUsersPromises);
+
+            // Generate a unique identifier for the hovered post
+            const postIdentifier = `${post.id}_post`;
+
+            // Set hovered post identifier in state immediately
+            setHoveredPostId(postIdentifier);
+            setLikePopupVisible(true);
+            setLikedUsers(likedUsers);
+
+            // Clear the timer in the map after execution
+            delete debounceTimers[postKey];
+        }, 500);
     };
 
 
-    const handleLeaveHover = () => {
+    const handleLeaveHover = (post) => {
+        const postKey = post.id;
+
+        // Clear the debounce timer for this specific post
+        if (debounceTimers[postKey]) {
+            clearTimeout(debounceTimers[postKey]);
+            delete debounceTimers[postKey];
+        }
+
+        // Set the state to hide the popup and clear the hovered post and liked users
         setLikePopupVisible(false);
         setHoveredPostId(null);
         setLikedUsers([]);
-    }
+    };
 
     const handleClickOutside = (event) => {
         if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -571,7 +592,7 @@ function Stories() {
                     <span
                         className="likes-comments-likes-field"
                         onMouseEnter={() => handleLikeHover(post)}
-                        onMouseLeave={() => handleLeaveHover()}
+                        onMouseLeave={() => handleLeaveHover(post)}
                     >
                         <i
                             className={`material-icons ${

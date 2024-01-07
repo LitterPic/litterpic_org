@@ -8,7 +8,6 @@ async function getFirebaseServiceAccountKey() {
     const data = await secretsManager.getSecretValue({SecretId: secretName}).promise();
 
     if ('SecretString' in data) {
-        console.log("Secret retrieved successfully");
         return JSON.parse(data.SecretString);
     } else {
         throw new Error('Error retrieving Firebase service account key');
@@ -73,10 +72,8 @@ exports.handler = async (event) => {
                 totalWeight: sum,
             });
 
-            console.log(`Updated totalWeight for user ${userId} to:`, sum);
         }
 
-        console.log('TotalWeight update completed.');
         return {
             statusCode: 200,
             body: JSON.stringify({message: 'TotalWeight update process completed successfully'})

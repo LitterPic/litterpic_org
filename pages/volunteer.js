@@ -11,9 +11,11 @@ import {
     getDoc,
     getDocs,
     onSnapshot,
+    query,
     serverTimestamp,
     setDoc,
-    updateDoc
+    updateDoc,
+    where
 } from "firebase/firestore";
 import {auth, db} from "../lib/firebase";
 import {Calendar, momentLocalizer, Navigate} from 'react-big-calendar';
@@ -73,14 +75,17 @@ const EventComponent = ({event}) => {
 const addRsvpDocument = async (eventId, userId, numberAttending, note) => {
     const rsvpCollection = collection(db, "rsvp");
     const newRsvpDocRef = doc(rsvpCollection);
-    const currentTime = serverTimestamp();
 
+    // Check if userId is not null before accessing its properties
+    const userDocRef = userId ? doc(db, "users", userId) : null;
+
+    // Use setDoc instead of addDoc to set the data on the specific document
     await setDoc(newRsvpDocRef, {
         eventAssociation: doc(db, "events", eventId),
-        user: doc(db, "users", userId),
+        user: userDocRef,
         numberAttending: numberAttending,
         noteToOrganizer: note,
-        timeOfRSVP: currentTime,
+        timeOfRSVP: new Date(),
     });
 
     return newRsvpDocRef.id;
@@ -118,6 +123,13 @@ const Volunteer = () => {
     const [country, setCountry] = useState('');
     const [ownerPhotos, setOwnerPhotos] = useState({});
     const [ownerEmails, setOwnerEmails] = useState({});
+    const [rsvpFormData, setRsvpFormData] = useState({
+        eventId: null,
+        numberAttending: 1,
+        note: "",
+        email: "",
+        name: "",
+    });
 
     useEffect(() => {
         const fetchOwnerData = async () => {
@@ -326,139 +338,186 @@ const Volunteer = () => {
         }
     };
 
-    const
-        [rsvpFormData, setRsvpFormData] = useState({
-            eventId: null,
-            numberAttending: 1,
-            note: "",
-        });
-
     const handleCancel = () => {
         setRsvpFormData({
             eventId: null,
             numberAttending: 1,
             note: "",
+            email: "",
+            name: "",
         });
     };
 
-    const handleRsvpFormSubmit = (event) => {
+    const handleRsvpFormSubmit = async (event) => {
         event.preventDefault();
 
-        const {eventId, numberAttending, note} = rsvpFormData;
+        const {eventId, numberAttending, note, email, name} = rsvpFormData;
+
+        // Check if the user is logged in
+        const userUid = user ? user.uid : null;
+
+        // Determine whether to use userUid or email based on user authentication
+        const userEmail = user?.uid || email;
+
+        // If the user is not logged in, check if the email exists in the database
+        let existingUserUid = null;
+        if (!userUid) {
+            const usersRef = collection(db, 'users');
+            const q = query(usersRef, where('email', '==', userEmail));
+
+            const querySnapshot = await getDocs(q);
+            if (!querySnapshot.empty) {
+                existingUserUid = querySnapshot.docs[0].id;
+            }
+        }
+
         if (eventId) {
-            addRsvpDocument(eventId, user.uid, parseInt(numberAttending), note)
-                .then(async (rsvpId) => {
-                        const eventDocRef = doc(db, "events", eventId);
-                        const rsvpsArray = arrayUnion(doc(db, "rsvp", rsvpId));
-                        updateDoc(eventDocRef, {rsvps: rsvpsArray});
-                        const rsvpDocRef = doc(db, "rsvp", rsvpId);
-                        const rsvpDoc = await getDoc(rsvpDocRef);
-                        const rsvpData = rsvpDoc.data();
+            try {
+                let participantDocRef;
+                let userDocId = null;
 
-                        const participantId = rsvpData.user.id;
+                // Trim the email to handle potential whitespace
+                const trimmedUserIdOrEmail = userEmail.trim();
 
-                        const participantDocRef = doc(db, "users", participantId);
-                        const participantSnapshot = await getDoc(participantDocRef);
-                        const participantData = participantSnapshot.data();
+                // Check if userIdOrEmail is an email address
+                if (trimmedUserIdOrEmail.includes("@")) {
+                    // If it contains '@', treat it as an email address
+                    const usersCollection = collection(db, 'users');
+                    const userQuerySnapshot = await getDocs(query(usersCollection, where('email', '==', trimmedUserIdOrEmail)));
 
-                        const eventSnapshot = await getDoc(eventDocRef);
-                        const eventData = eventSnapshot.data();
-
-                        const ownerId = eventData.owner.id;
-
-                        const ownerDocRef = doc(db, "users", ownerId);
-                        const ownerSnapshot = await getDoc(ownerDocRef);
-                        const ownerData = ownerSnapshot.data();
-
-                        setShowThankYou(true);
-
-                        //send email to person who RSVP'd
-                        const participantRsvpTemplateId = "d-06e757b5a0464ed7a043a33b3f9fa686";
-                        const participantTemplateData = {
-                            eventDate: selectedEventInfo.start.toDateString(),
-                            eventStartTime: selectedEventInfo.eventStartTime?.toDate().toLocaleTimeString([], {
-                                hour: 'numeric',
-                                minute: '2-digit',
-                                hour12: true
-                            }),
-                            eventEndTime: selectedEventInfo.eventEndTime
-                                ? selectedEventInfo.eventEndTime.toDate().toLocaleTimeString([], {
-                                    hour: 'numeric',
-                                    minute: '2-digit',
-                                    hour12: true,
-                                })
-                                : 'N/A',
-                            eventLocation: selectedEventInfo.location,
-
+                    // If the user with the provided email doesn't exist, create a new user document
+                    if (!userQuerySnapshot.empty) {
+                        participantDocRef = userQuerySnapshot.docs[0].ref;
+                    } else {
+                        const defaultUserData = {
+                            created_time: new Date(),
+                            email: userEmail,
+                            display_name: name,
+                            first_login: true,
+                            createdForRSVP: true,
                         };
 
-                        fetch("/api/sendEmail", {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                            },
-                            body: JSON.stringify({
-                                email: user.email,
-                                templateId: participantRsvpTemplateId,
-                                templateData: participantTemplateData,
-                            }),
-                        })
-                            .then((response) => response.json())
-                            .then(() => {
+                        const userDocRef = await addDoc(usersCollection, defaultUserData);
+                        userDocId = userDocRef.id;
+                        await updateDoc(userDocRef, {uid: userDocId});
 
-                            })
-                            .catch(() => {
-
-                            });
-
-                        //send email to event organizer
-                        const organizerRsvpTemplateId = "d-4d8f6c48259f43f2b40f38bc6267e4fa"
-                        const organizerTemplateData = {
-                            participantName: participantData.display_name || participantData.email,
-                            eventDate: selectedEventInfo.start.toDateString(),
-                            eventStartTime: selectedEventInfo.eventStartTime?.toDate().toLocaleTimeString([], {
-                                hour: 'numeric',
-                                minute: '2-digit',
-                                hour12: true
-                            }),
-                            eventEndTime: selectedEventInfo.eventEndTime
-                                ? selectedEventInfo.eventEndTime.toDate().toLocaleTimeString([], {
-                                    hour: 'numeric',
-                                    minute: '2-digit',
-                                    hour12: true,
-                                })
-                                : 'N/A',
-                            eventLocation: selectedEventInfo.location,
-                            participantEmail: user.email,
-                            numberOfAttendees: rsvpData.numberAttending,
-                            participantNote: rsvpData.noteToOrganizer,
-                        };
-
-                        fetch("/api/sendEmail", {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                            },
-                            body: JSON.stringify({
-                                email: ownerData.email,
-                                templateId: organizerRsvpTemplateId,
-                                templateData: organizerTemplateData,
-                            }),
-                        })
-                            .then((response) => response.json())
-                            .then(() => {
-
-                            })
-                            .catch(() => {
-
-                            });
+                        // Use the userDocRef as participantDocRef for a new user
+                        participantDocRef = userDocRef;
                     }
-                )
-                .catch(() => {
+                } else {
+                    // If it doesn't contain '@', treat it as a user ID
+                    participantDocRef = doc(db, "users", userUid);
+                }
 
-                });
+                const userIdOrEmail = userUid || userDocId || existingUserUid;
+
+                const eventDocRef = doc(db, "events", eventId);
+                const rsvpDocRef = doc(db, "rsvp", await addRsvpDocument(eventId, userIdOrEmail, parseInt(numberAttending), note));
+                const rsvpData = (await getDoc(rsvpDocRef)).data();
+
+                const participantSnapshot = await getDoc(participantDocRef);
+                const participantData = participantSnapshot.data();
+
+                const eventSnapshot = await getDoc(eventDocRef);
+                const eventData = eventSnapshot.data();
+
+                const ownerId = eventData.owner.id;
+                const ownerDocRef = doc(db, "users", ownerId);
+                const ownerSnapshot = await getDoc(ownerDocRef);
+                const ownerData = ownerSnapshot.data();
+
+                // Update the rsvps array in the events document
+                const updatedRsvpsArray = arrayUnion(rsvpDocRef);
+                await updateDoc(eventDocRef, {rsvps: updatedRsvpsArray});
+
+                setShowThankYou(true);
+
+                //send email to person who RSVP'd
+                const participantRsvpTemplateId = "d-06e757b5a0464ed7a043a33b3f9fa686";
+                const participantTemplateData = {
+                    eventDate: selectedEventInfo.start.toDateString(),
+                    eventStartTime: selectedEventInfo.eventStartTime?.toDate().toLocaleTimeString([], {
+                        hour: 'numeric',
+                        minute: '2-digit',
+                        hour12: true
+                    }),
+                    eventEndTime: selectedEventInfo.eventEndTime
+                        ? selectedEventInfo.eventEndTime.toDate().toLocaleTimeString([], {
+                            hour: 'numeric',
+                            minute: '2-digit',
+                            hour12: true,
+                        })
+                        : 'N/A',
+                    eventLocation: selectedEventInfo.location,
+                };
+
+                fetch("/api/sendEmail", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        email: rsvpFormData.email,
+                        templateId: participantRsvpTemplateId,
+                        templateData: participantTemplateData,
+                    }),
+                })
+                    .then((response) => response.json())
+                    .then(() => {
+
+                    })
+                    .catch((error) => {
+                        console.error("Error sending email to participant:", error);
+                    });
+
+                //send email to event organizer
+                const organizerRsvpTemplateId = "d-4d8f6c48259f43f2b40f38bc6267e4fa";
+                const organizerTemplateData = {
+                    participantName: rsvpFormData.name || rsvpFormData.email,
+                    eventDate: selectedEventInfo.start.toDateString(),
+                    eventStartTime: selectedEventInfo.eventStartTime?.toDate().toLocaleTimeString([], {
+                        hour: 'numeric',
+                        minute: '2-digit',
+                        hour12: true
+                    }),
+                    eventEndTime: selectedEventInfo.eventEndTime
+                        ? selectedEventInfo.eventEndTime.toDate().toLocaleTimeString([], {
+                            hour: 'numeric',
+                            minute: '2-digit',
+                            hour12: true,
+                        })
+                        : 'N/A',
+                    eventLocation: selectedEventInfo.location,
+                    participantEmail: rsvpFormData.email,
+                    numberOfAttendees: rsvpData.numberAttending,
+                    participantNote: rsvpData.noteToOrganizer,
+                };
+
+                fetch("/api/sendEmail", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        email: ownerData.email,
+                        templateId: organizerRsvpTemplateId,
+                        templateData: organizerTemplateData,
+                    }),
+                })
+                    .then((response) => response.json())
+                    .then(() => {
+
+                    })
+                    .catch((error) => {
+                        console.error("Error sending email to organizer:", error);
+                    });
+
+            } catch (error) {
+                console.error("Error in addRsvpDocument:", error);
+            }
         }
     };
+
 
     const handleRsvpInputChange = (event) => {
         const {name, value} = event.target;
@@ -472,7 +531,7 @@ const Volunteer = () => {
 
     const handleRsvpClick = async (eventId) => {
         const selectedEvent = events.find((event) => event.id === eventId);
-
+        let userData = null;
         // If the event is a Blue Ocean Society event, then skip the login requirement
         const functions = getFunctions();
         const createBlueOceanRsvp = httpsCallable(functions, 'createBlueOceanRsvp');
@@ -490,10 +549,11 @@ const Volunteer = () => {
             }
         }
 
-        // For all other events, enforce login
-        if (!user) {
-            router.push('/login');
-            return;
+        if (user) {
+            const userRef = user.uid;
+            const userDocRef = doc(db, "users", userRef);
+            const ownerSnapshot = await getDoc(userDocRef);
+            userData = ownerSnapshot.data();
         }
 
         if (selectedEvent) {
@@ -501,6 +561,8 @@ const Volunteer = () => {
                 eventId: eventId,
                 numberAttending: 1,
                 note: '',
+                email: user ? user.email : '',
+                name: user && userData ? userData.display_name : '',
             });
             setSelectedEventInfo(selectedEvent);
             setTimeout(() => {
@@ -544,6 +606,8 @@ const Volunteer = () => {
             eventId: null,
             numberAttending: 1,
             note: "",
+            email: "",
+            name: "",
         });
         router.push('/stories');
     };
@@ -805,13 +869,17 @@ const Volunteer = () => {
                                 const rsvpForEvent = rsvpSnapshot.find(doc => {
                                     const eventRef = doc.data().eventAssociation;
                                     const userRef = doc.data().user;
-                                    return eventRef && eventRef.id === event.id && userRef.id === currentUserID && doc.data().noteToOrganizer === "Auto Owner RSVP";
+
+                                    // Add null check for userRef
+                                    return eventRef && eventRef.id === event.id && userRef && userRef.id === currentUserID && doc.data().noteToOrganizer === "Auto Owner RSVP";
                                 });
 
                                 const attendingEvent = rsvpSnapshot.find(doc => {
                                     const eventRef = doc.data().eventAssociation;
                                     const userRef = doc.data().user;
-                                    return eventRef && eventRef.id === event.id && userRef.id === currentUserID;
+
+                                    // Add null check for userRef
+                                    return eventRef && eventRef.id === event.id && userRef && userRef.id === currentUserID;
                                 });
 
                                 const isHostingEvent = Boolean(rsvpForEvent);
@@ -925,6 +993,26 @@ const Volunteer = () => {
                                                     required
                                                     className="input-small"
                                                     min="1"
+                                                />
+                                                <br/>
+                                                <label htmlFor="email">Email Address:</label>
+                                                <input
+                                                    type="email"
+                                                    name="email"
+                                                    value={rsvpFormData.email}
+                                                    onChange={handleRsvpInputChange}
+                                                    className="input-medium"
+                                                    required
+                                                />
+                                                <br/>
+                                                <label htmlFor="name">Name:</label>
+                                                <input
+                                                    type="text"
+                                                    name="name"
+                                                    value={rsvpFormData.name}
+                                                    onChange={handleRsvpInputChange}
+                                                    className="input-medium"
+                                                    required
                                                 />
                                                 <br/>
                                                 <label htmlFor="note">Note for event organizer:</label>

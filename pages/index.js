@@ -92,7 +92,9 @@ export default function Index() {
             }
         }
 
-        sendNotification();
+        (async () => {
+            await sendNotification();
+        })();
     }, []);
 
     useEffect(() => {
@@ -101,7 +103,9 @@ export default function Index() {
             setRecentPosts(posts);
         };
 
-        fetchPosts();
+        (async () => {
+            await fetchPosts();
+        })();
     }, []);
 
     useEffect(() => {
@@ -143,7 +147,9 @@ export default function Index() {
             }
         };
 
-        fetchTotalWeight();
+        (async () => {
+            await fetchTotalWeight();
+        })();
     }, []);
 
     function Carousel({images}) {

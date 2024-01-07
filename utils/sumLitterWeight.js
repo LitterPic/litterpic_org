@@ -25,7 +25,6 @@ async function getSumOfLitterWeight() {
 }
 
 getSumOfLitterWeight().then((sum) => {
-    console.log("The sum of all litterWeight fields is:", sum);
 }).catch((error) => {
     console.error("An error occurred:", error);
 });

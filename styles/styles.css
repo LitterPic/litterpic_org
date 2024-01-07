@@ -3520,14 +3520,32 @@ h1.heading-text.profile-heading {
   grid-column: 2;
   grid-row: 1;
 }
-.form-container label[for=note] {
+.form-container label[for=email] {
   grid-column: 1;
   grid-row: 2;
   text-align: center;
 }
-.form-container textarea[name=note] {
+.form-container input[name=email] {
   grid-column: 2;
   grid-row: 2;
+}
+.form-container label[for=name] {
+  grid-column: 1;
+  grid-row: 3;
+  text-align: center;
+}
+.form-container input[name=name] {
+  grid-column: 2;
+  grid-row: 3;
+}
+.form-container label[for=note] {
+  grid-column: 1;
+  grid-row: 4;
+  text-align: center;
+}
+.form-container textarea[name=note] {
+  grid-column: 2;
+  grid-row: 4;
 }
 
 .form-input {
@@ -3541,6 +3559,13 @@ h1.heading-text.profile-heading {
   border: 1px solid #015e41;
   border-radius: 5px;
   height: 60px;
+  padding: 5px;
+  width: 80%;
+}
+
+.input-medium {
+  border: 1px solid #015e41;
+  border-radius: 5px;
   padding: 5px;
   width: 80%;
 }
@@ -5023,14 +5048,32 @@ input::placeholder {
   grid-column: 2;
   grid-row: 1;
 }
-.form-container label[for=note] {
+.form-container label[for=email] {
   grid-column: 1;
   grid-row: 2;
   text-align: center;
 }
-.form-container textarea[name=note] {
+.form-container input[name=email] {
   grid-column: 2;
   grid-row: 2;
+}
+.form-container label[for=name] {
+  grid-column: 1;
+  grid-row: 3;
+  text-align: center;
+}
+.form-container input[name=name] {
+  grid-column: 2;
+  grid-row: 3;
+}
+.form-container label[for=note] {
+  grid-column: 1;
+  grid-row: 4;
+  text-align: center;
+}
+.form-container textarea[name=note] {
+  grid-column: 2;
+  grid-row: 4;
 }
 
 .form-input {
@@ -5044,6 +5087,13 @@ input::placeholder {
   border: 1px solid #015e41;
   border-radius: 5px;
   height: 60px;
+  padding: 5px;
+  width: 80%;
+}
+
+.input-medium {
+  border: 1px solid #015e41;
+  border-radius: 5px;
   padding: 5px;
   width: 80%;
 }
