@@ -51,6 +51,57 @@
   }
 }
 
+.like-list-container {
+  font-size: 9px;
+  left: 50%;
+  position: absolute;
+  text-align: start;
+  top: 98%;
+  transform: translateX(-75%);
+  z-index: 1;
+}
+
+.like-list {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  background-color: $light-gray;
+}
+
+.like-user {
+  display: block;
+  margin-top: .5rem;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.user-photo {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.user-name {
+  flex-grow: 1;
+}
+
+.like-date {
+  margin-left: 10px;
+}
+
+.like-user.loading {
+  opacity: 0;
+}
+
+.like-user.loaded {
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
 
 .like-count,
 .comment-count {
@@ -225,12 +276,17 @@
 
 .post-user-name {
   align-items: flex-start;
+  color: $black;
   display: flex;
   flex-direction: column;
   font-weight: bold;
   justify-content: flex-end;
-  grid-column: 2;
-  grid-row: 1;
+  text-decoration: none;
+
+  :hover {
+    color: $litterpic-green;
+    transform: scale(1.1);
+  }
 }
 
 .post-location {
@@ -241,6 +297,11 @@
   justify-content: flex-end;
   grid-column: 3;
   grid-row: 1;
+
+  :hover {
+    color: $litterpic-green;
+    transform: scale(1.05);
+  }
 }
 
 .post-title {

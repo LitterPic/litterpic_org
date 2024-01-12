@@ -59,13 +59,13 @@ h1 {
 
 h2 {
   font-family: Rubik, Times, sans-serif;
-  font-weight: normal;
+  font-weight: bold;
 
   &.heading-text {
     color: $litterpic-green;
     margin-bottom: .3rem;
     margin-top: 2.5rem;
-    text-align: center;
+    text-align: left;
   }
 }
 

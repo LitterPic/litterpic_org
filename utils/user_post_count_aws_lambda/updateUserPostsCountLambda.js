@@ -8,9 +8,12 @@ async function getFirebaseServiceAccountKey() {
     const data = await secretsManager.getSecretValue({SecretId: secretName}).promise();
 
     if ('SecretString' in data) {
-        console.log("Secret retrieved successfully"); // Log for successful retrieval
         const parsedSecret = JSON.parse(data.SecretString);
-        console.log("Parsed Secret: ", {project_id: parsedSecret.project_id}); // Log part of the parsed secret
+        art
+        of
+        the
+        parsed
+        secret
         return parsedSecret;
     } else {
         throw new Error('Error parsing secret');
@@ -48,10 +51,8 @@ exports.handler = async (event) => {
                 numberOfPosts: postCount
             });
 
-            console.log(`Updated numberOfPosts for user with ID ${userId} to ${postCount}.`);
         }
 
-        console.log('Post count updates for all users completed.');
         return {
             statusCode: 200,
             body: JSON.stringify('Update successful')

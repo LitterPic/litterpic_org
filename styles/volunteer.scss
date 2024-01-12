@@ -107,12 +107,10 @@
   }
 }
 
-
 .highlight {
   background-color: $table-highlight-green;
   color: $white;
 }
-
 
 .form-container {
   display: grid;
@@ -132,15 +130,37 @@
     grid-row: 1;
   }
 
-  label[for='note'] {
+  label[for='email'] {
     grid-column: 1;
     grid-row: 2;
     text-align: center;
   }
 
-  textarea[name='note'] {
+  input[name='email'] {
     grid-column: 2;
     grid-row: 2;
+  }
+
+  label[for='name'] {
+    grid-column: 1;
+    grid-row: 3;
+    text-align: center;
+  }
+
+  input[name='name'] {
+    grid-column: 2;
+    grid-row: 3;
+  }
+
+  label[for='note'] {
+    grid-column: 1;
+    grid-row: 4;
+    text-align: center;
+  }
+
+  textarea[name='note'] {
+    grid-column: 2;
+    grid-row: 4;
   }
 }
 
@@ -155,6 +175,13 @@
   border: 1px solid $litterpic-green;
   border-radius: 5px;
   height: 60px;
+  padding: 5px;
+  width: 80%;
+}
+
+.input-medium {
+  border: 1px solid $litterpic-green;
+  border-radius: 5px;
   padding: 5px;
   width: 80%;
 }

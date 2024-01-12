@@ -24,7 +24,6 @@ async function updateAmbassadors(userFilter = 'all_users') {
             usersSnapshot = await userQuery.get();
 
             if (usersSnapshot.empty) {
-                console.log(`No user found with email ${userFilter}`);
                 return;
             }
         }
@@ -35,7 +34,6 @@ async function updateAmbassadors(userFilter = 'all_users') {
 
             // Check if the user should be excluded from ambassador updates
             if (userEmail === 'alek@litterpic.org' || userEmail === 'melanie.tolman@gmail.com') {
-                console.log(`User with email ${userEmail} is excluded from updates.`);
                 continue;
             }
 
@@ -77,7 +75,6 @@ async function updateAmbassadors(userFilter = 'all_users') {
                             ambassador_date: lastPost.data().timePosted,
                         });
 
-                        console.log(`User with ID ${userId} updated as an ambassador.`);
                     }
                 } else {
                     if (isAmbassador) {
@@ -87,7 +84,6 @@ async function updateAmbassadors(userFilter = 'all_users') {
                             ambassador_date: null,
                         });
 
-                        console.log(`User with ID ${userId} no longer qualifies as an ambassador.`);
                     }
                 }
             } else {
@@ -98,15 +94,8 @@ async function updateAmbassadors(userFilter = 'all_users') {
                         ambassador_date: null,
                     });
 
-                    console.log(`User with ID ${userId} no longer qualifies as an ambassador.`);
                 }
             }
-        }
-
-        if (userFilter === 'all_users') {
-            console.log('Ambassador updates for all users completed.');
-        } else {
-            console.log(`Ambassador updates for user with email ${userFilter} completed.`);
         }
     } catch (error) {
         console.error('Error processing users:', error);

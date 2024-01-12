@@ -28,8 +28,16 @@ const RsvpDetails = () => {
                         if (rsvpDoc.exists()) {
                             const rsvpData = rsvpDoc.data();
 
-                            // Fetch the user document associated with the RSVP
-                            const userDocRef = rsvpData.user;
+                            // Ensure userDocRef is a Firestore document reference
+                            let userDocRef;
+                            if (typeof rsvpData.user === 'string') {
+                                // If rsvpData.user is a string, assume it's a document ID and get the reference
+                                userDocRef = doc(db, 'users', rsvpData.user);
+                            } else {
+                                // If rsvpData.user is already a document reference
+                                userDocRef = rsvpData.user;
+                            }
+
                             const userDoc = await getDoc(userDocRef);
                             if (userDoc.exists()) {
                                 const userData = userDoc.data();

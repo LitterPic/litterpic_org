@@ -8,7 +8,6 @@ async function getFirebaseServiceAccountKey() {
     const data = await secretsManager.getSecretValue({SecretId: secretName}).promise();
 
     if ('SecretString' in data) {
-        console.log("Secret retrieved successfully");
         return JSON.parse(data.SecretString);
     } else {
         throw new Error('Error retrieving Firebase service account key');
@@ -40,7 +39,6 @@ exports.handler = async (event) => {
             usersSnapshot = await userQuery.get();
 
             if (usersSnapshot.empty) {
-                console.log(`No user found with email ${userFilter}`);
                 return {
                     statusCode: 404,
                     body: JSON.stringify({message: `No user found with email ${userFilter}`})
@@ -53,7 +51,6 @@ exports.handler = async (event) => {
             const userEmail = userDoc.data().email;
 
             if (userEmail === 'alek@litterpic.org' || userEmail === 'melanie.tolman@gmail.com') {
-                console.log(`User with email ${userEmail} is excluded from updates.`);
                 continue;
             }
 
@@ -87,7 +84,6 @@ exports.handler = async (event) => {
                             ambassador: true,
                             ambassador_date: lastPost.data().timePosted,
                         });
-                        console.log(`User with ID ${userId} updated as an ambassador.`);
                     }
                 } else {
                     if (isAmbassador) {
@@ -95,7 +91,6 @@ exports.handler = async (event) => {
                             ambassador: false,
                             ambassador_date: null,
                         });
-                        console.log(`User with ID ${userId} no longer qualifies as an ambassador.`);
                     }
                 }
             } else {
@@ -104,12 +99,9 @@ exports.handler = async (event) => {
                         ambassador: false,
                         ambassador_date: null,
                     });
-                    console.log(`User with ID ${userId} no longer qualifies as an ambassador.`);
                 }
             }
         }
-
-        console.log(userFilter === 'all_users' ? 'Ambassador updates for all users completed.' : `Ambassador updates for user with email ${userFilter} completed.`);
         return {
             statusCode: 200,
             body: JSON.stringify({message: 'Ambassador update process completed successfully'})

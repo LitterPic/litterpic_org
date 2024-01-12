@@ -116,12 +116,18 @@ export async function getUsersWhoLikedPost(postId) {
         const postData = postSnap.data();
         const likedUsersRefs = postData.likes || [];
 
+        // Log the user document IDs
+        const userDocIds = likedUsersRefs.map((userRef) => {
+            return userRef.id;
+        });
+
         // Extract the UIDs from each user reference
-        return likedUsersRefs.map((userRef) => userRef.id);
+        return [...new Set(userDocIds)];
     } else {
         return [];
     }
 }
+
 
 export async function toggleLike(post) {
     const auth = getAuth();

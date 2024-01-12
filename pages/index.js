@@ -17,21 +17,27 @@ async function fetchRecentPosts() {
     const postsQuery = query(
         collection(db, 'userPosts'),
         orderBy('timePosted', 'desc'),
-        limit(3)
+        limit(10)
     );
     const postsSnapshot = await getDocs(postsQuery);
 
     const posts = [];
+    let totalPhotosCount = 0;
 
     for (const postDoc of postsSnapshot.docs) {
         const postData = postDoc.data();
         const photos = [];
 
         if (Array.isArray(postData.postPhotos)) {
-            for (const pictureRef of postData.postPhotos) {
+            const remainingPhotosCount = 10 - totalPhotosCount;
+            const limitedPhotos = postData.postPhotos.slice(0, remainingPhotosCount);
+
+            for (const pictureRef of limitedPhotos) {
                 const pictureUrl = await getDownloadURL(ref(storage, pictureRef));
                 photos.push(pictureUrl);
             }
+
+            totalPhotosCount += limitedPhotos.length;
         }
 
         posts.push({
@@ -39,6 +45,10 @@ async function fetchRecentPosts() {
             photos: photos,
             dateCreated: postData.timePosted.toDate(),
         });
+
+        if (totalPhotosCount >= 10) {
+            break;
+        }
     }
 
     return posts;
@@ -82,7 +92,9 @@ export default function Index() {
             }
         }
 
-        sendNotification();
+        (async () => {
+            await sendNotification();
+        })();
     }, []);
 
     useEffect(() => {
@@ -91,7 +103,9 @@ export default function Index() {
             setRecentPosts(posts);
         };
 
-        fetchPosts();
+        (async () => {
+            await fetchPosts();
+        })();
     }, []);
 
     useEffect(() => {
@@ -133,7 +147,9 @@ export default function Index() {
             }
         };
 
-        fetchTotalWeight();
+        (async () => {
+            await fetchTotalWeight();
+        })();
     }, []);
 
     function Carousel({images}) {
@@ -298,10 +314,96 @@ export default function Index() {
                                 </li>
                             </ul>
                         </div>
+                    </div>
+                    <br/>
+                    <div className="ambassador-heading-text-with-icon">
+                        <h2 className="heading-text">Become a LitterPic Ambassador</h2>
+                        <div className="material-icons ambassador-heading-icon">public</div>
+                    </div>
 
+                    <div className="ambassador-wrapper">
+                        <div>
+                            Here's how you can join the ranks of change-makers and inspire the world:
+                            <br/>
+                            <br/>
+                            <ol>
+                                <li>
+                                    Post your passion: Share your impactful photos and stories of cleanups,
+                                    transformations,
+                                    and environmental victories. Every image and tale has the power to spark action in
+                                    others.
+                                </li>
+
+                                <li>
+                                    Stay active: After you created your 5th post, keep the momentum going by posting at
+                                    least once every 30 days. Consistency is key to keeping the fight for a cleaner
+                                    planet at the forefront.
+                                </li>
+
+                                <li>
+                                    Connect and collaborate: Engage with fellow LitterPic users, share tips and
+                                    encouragement, and amplify each other's voices. Together, we're louder than ever.
+                                </li>
+
+                                <li>
+                                    Spread the word: Share your LitterPic journey on social media, tag friends, and
+                                    encourage
+                                    them to join the movement. Let's grow our community of planet protectors!
+                                </li>
+
+                                <li>
+                                    Embrace the spirit: Be a champion for positive change, a beacon of hope, and an
+                                    embodiment of LitterPic's values. Your passion is contagious, so let it shine!
+                                </li>
+
+                            </ol>
+                            Remember, every action, big or small, makes a difference. By becoming a LitterPic
+                            Ambassador, you're not just joining a program, you're becoming part of a global movement to
+                            heal our planet, one inspiring photo at a time.
+                        </div>
+                        <div>
+                            <p className="ambassador-paragraph">
+                                LitterPic isn't just a platform for sharing inspirational photos – it's a movement. A
+                                movement of everyday heroes, united by a passion for our planet. And at the heart of
+                                this movement stand our LitterPic Ambassadors. These dedicated individuals are more
+                                than just posters; they're the spark that ignites change, the ripple that becomes a
+                                wave.
+                                <br/>
+                                <br/>
+                                As an Ambassador, you're not just beautifying your local park or documenting a
+                                breathtaking cleanup – you're inspiring others to join the fight. Every post, every
+                                like, every comment becomes a beacon, a rallying cry for those who care. You're the
+                                living, breathing embodiment of LitterPic's mission, a testament to the power of
+                                collective action.
+
+                                <br/>
+                                <br/>
+                                But being an Ambassador is more than just recognition – it's a journey of growth.
+                                With each post, you hone your storytelling skills, capturing the essence of
+                                environmental action in a way that resonates. You connect with a community of
+                                like-minded individuals, forging friendships and sharing tips. And after six months of
+                                unwavering dedication, you earn a special reward: a LitterPic t-shirt, a badge of honor
+                                you can wear with pride.
+
+                                <br/>
+                                <br/>
+                                So, are you ready to step up, to be the change you wish to see in the world? Join
+                                the LitterPic Ambassador program and become a beacon of hope, a catalyst for action. Let
+                                your photos ignite a fire, your stories inspire a generation, and your t-shirt
+                                become a symbol of a planet reborn. Remember, every action, no matter how small, ripples
+                                outward. Together, we can make a difference.
+                            </p>
+                            <br/>
+                            <div className="home-bottom-carousel-section">
+                                <Carousel className="carousel" images={images}/>
+                            </div>
+                        </div>
+                        <br/>
+                        <br/>
                     </div>
                 </div>
             </div>
         </div>
-    );
+    )
+        ;
 }

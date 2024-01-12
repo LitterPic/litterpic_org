@@ -41,13 +41,39 @@ const Donate = () => {
                     <h1 className="heading-text">Donate</h1>
                     <div className="donate">
                         <div className="donorbox-widget">
+                            <div className="donation-use">
+                                <img className="donate-use-image" src="/images/2024_Donation_Use.jpg"
+                                     alt="What we use donations for"/>
+
+                                <div className="donate-grid-container">
+                                    <div className="donate-grid-item">
+                                        <p>By contributing, you're helping us organize impactful community events and
+                                            cleanups, uniting individuals in the common goal of keeping our
+                                            neighborhoods clean and green.</p>
+                                    </div>
+
+                                    <div className="donate-grid-item">
+                                        <p>With your donations, we invest in cutting-edge technology and innovative
+                                            solutions, amplifying our ability to address litter issues efficiently and
+                                            pave the way for a cleaner future.
+                                        </p>
+                                    </div>
+
+                                    <div className="donate-grid-item">
+                                        <p>Your support helps us create and distribute educational materials, fostering
+                                            awareness about the consequences of litter and promoting sustainable
+                                            practices.</p>
+                                    </div>
+
+                                    <div className="donate-grid-item">
+                                        <p>With your generous donations, we provide essential cleanup supplies like
+                                            gloves and bags, empowering volunteers to make a tangible impact on our
+                                            environment.</p>
+                                    </div>
+                                </div>
+                            </div>
                             <div className="donorbox-container">
                                 <DonorBox/>
-                            </div>
-                            <div className="donorbox-images-container-desktop">
-                                <img className="donate-image-desktop" src="/images/501(c)(3).webp" alt="501(c)(3)"/>
-                                <img className="donate-image-desktop" src="/images/nonprofit_seal.webp"
-                                     alt="Nonprofit Seal"/>
                             </div>
                         </div>
                         <p className="donate-tax">
@@ -129,6 +155,9 @@ const Donate = () => {
                                 well-being of our planet.
                             </p>
                             <br/>
+                        </div>
+                        <div className="donorbox-images-container-desktop">
+                            <img className="donate-image-desktop" src="/images/501(c)(3).webp" alt="501(c)(3)"/>
                         </div>
                         <div className="donorbox-images-container">
                             <div className="donate-image-container">
