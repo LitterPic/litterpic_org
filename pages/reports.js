@@ -5,6 +5,9 @@ import withAuth from '../components/withAuth';
 import Head from "next/head";
 
 const ReportsPage = () => {
+    const currentDate = new Date();
+    const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+
     const [countries, setCountries] = useState([]);
     const [states, setStates] = useState([]);
     const [cities, setCities] = useState([]);
@@ -17,7 +20,7 @@ const ReportsPage = () => {
     const [cityWeights, setCityWeights] = useState([]);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [startDate, setStartDate] = useState("2022-01-01");
+    const [startDate, setStartDate] = useState(firstDayOfMonth.toISOString().split("T")[0]);
     const [endDate, setEndDate] = useState(new Date().toISOString().split("T")[0]);
     const [leaderboard, setLeaderboard] = useState([]);
     const [orgLeaderboard, setOrgLeaderboard] = useState([]);
@@ -47,11 +50,14 @@ const ReportsPage = () => {
     };
 
     const resetForm = () => {
+        const currentDate = new Date();
+        const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+
         setSelectedCountry('');
         setSelectedState('');
         setSelectedCity('');
         setSelectedGroup('');
-        setStartDate('2022-01-01');
+        setStartDate(firstDayOfMonth.toISOString().split("T")[0]);
         setEndDate(new Date().toISOString().split("T")[0]);
         setTotalWeight(0);
         setCityWeights([]);
@@ -251,16 +257,19 @@ const ReportsPage = () => {
             }
 
             const weightSnapshot = await getDocs(weightQuery);
+            console.log("snapshot:", weightSnapshot);
 
             let total = 0;
             const cityWeightMap = new Map();
 
             weightSnapshot.forEach((doc) => {
-                const timePosted = doc.data().timePosted.toDate(); // Convert Firestore timestamp to JavaScript Date object
+                const timePosted = doc.data().timePosted.toDate();
                 const postDate = new Date(timePosted);
+                const location = doc.data().location || '';
 
                 // Check if the post falls within the selected date range
                 if (postDate >= new Date(startDate) && postDate <= new Date(endDate)) {
+                    console.log("Found post:", doc.data());
                     const postUserRef = doc.data().postUser;
                     const userId = postUserRef.id;
 
@@ -269,11 +278,14 @@ const ReportsPage = () => {
                     }
 
                     if (userIds.length === 0 || userIds.includes(userId)) {
-                        const city = doc.data().City;
-                        const state = doc.data().State;
-                        const country = doc.data().Country;
                         const litterWeight = doc.data().litterWeight;
                         total += litterWeight;
+
+                        // Split the location string into city, state, and country
+                        const locationParts = location.split(',').map(part => part.trim());
+                        const city = locationParts[0] || '';
+                        const state = locationParts[1] || '';
+                        const country = locationParts.slice(2).join(', ') || '';
 
                         if (!selectedCity || city === selectedCity) {
                             const key = `${city ? city + ',' : ''} ${state ? state + ',' : ''} ${country}`;
@@ -287,11 +299,12 @@ const ReportsPage = () => {
                 }
             });
 
+
             setTotalWeight(total);
             setCityWeights(Array.from(cityWeightMap.entries()));
 
         } catch (error) {
-
+            console.log("Error:", error);
         }
         setIsLoading(false);
     };
