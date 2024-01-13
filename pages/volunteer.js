@@ -29,7 +29,7 @@ import Link from "next/link";
 import Head from "next/head";
 import {capitalizeFirstWordOfSentences} from "../utils/textUtils";
 import {getFunctions, httpsCallable} from "firebase/functions";
-
+import {subscribeUserToMailchimp} from '../utils/subscribeUserToMailchimp';
 
 const libraries = ['places'];
 const mapApiKey = process.env.NEXT_PUBLIC_PLACES_API_KEY;
@@ -400,6 +400,9 @@ const Volunteer = () => {
                         const userDocRef = await addDoc(usersCollection, defaultUserData);
                         userDocId = userDocRef.id;
                         await updateDoc(userDocRef, {uid: userDocId});
+
+                        // Add user to Mailchimp subscription list
+                        await subscribeUserToMailchimp(userEmail);
 
                         // Use the userDocRef as participantDocRef for a new user
                         participantDocRef = userDocRef;
