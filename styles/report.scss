@@ -1,103 +1,126 @@
-@import 'colors';
-@import 'fonts';
-
-.report-form-group {
-  margin-bottom: 1rem;
-  padding: 0;
-}
-
-.label-row,
-.input-row {
-  display: flex;
-  justify-content: space-around;
-  width: 100%;
-}
-
-.input-row {
-  margin-bottom: 1rem;
-}
+@use 'colors';
+@use 'fonts';
 
 .label-row,
 .input-row {
   display: flex;
   justify-content: space-between;
+  width: 100%;
 }
 
-.report-form-label,
-.report-form-select {
-  text-align: center;
+.input- {
+  &row {
+    margin-bottom: 1rem;
+  }
+
+  &smaller {
+    height: 1.75rem;
+  }
 }
 
 .results-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 1rem;
+
+  th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+  }
+
+  th {
+    text-align: center;
+    background-color: $litterpic-green;
+    color: white;
+  }
 }
 
-.results-table th,
-.results-table td {
-  border: 1px solid #ccc;
-  padding: 8px;
-  text-align: left;
+.report- {
+  &td-weight {
+    text-align: center !important;
+  }
+
+  &total-weight {
+    display: flex;
+    font-size: 1.5rem;
+    font-weight: bold;
+    justify-content: center;
+    margin-top: 1.5rem;
+  }
+
+  &weight-value {
+    color: $litterpic-green;
+    font-weight: bolder;
+    margin-left: .5rem;
+    margin-right: .15rem;
+  }
+
+  &submit-button {
+    border-radius: .5rem;
+    margin-left: 1.25%;
+  }
+
+  &reset-button {
+    border-radius: .5rem;
+    margin-left: 1.25%;
+  }
+
+  &scrollable-dropdown {
+    max-height: 150px;
+    overflow-y: auto;
+    direction: ltr;
+  }
+
+  &no-data-message {
+    font-size: 1.5rem;
+    font-weight: bolder;
+    text-align: center;
+  }
+
+  &top-litter-pickers {
+    font-family: Poppins, sans-serif;
+    font-size: 1.75rem;
+  }
+
+  &form-group {
+    margin-bottom: 1rem;
+    padding: 0;
+  }
+
+  &label-mobile {
+    display: none;
+  }
+
+  &is-loading {
+    display: flex;
+    font-size: 1.5rem;
+    font-weight: bold;
+    justify-content: center;
+  }
+
+  &form-label,
+  &form-select {
+    text-align: center;
+  }
+
+  // end report-
 }
 
-.results-table th {
-  text-align: center;
-  background-color: $litterpic-green;
-  color: white;
+
+.interactive- {
+  &litter-stats-header {
+    font-family: Poppins, sans-serif;
+    font-size: 1.75rem;
+  }
+
+  &litter-stats-header {
+    margin-bottom: 1rem;
+  }
+
+  // end interactive-
 }
 
-.report-td-weight {
-  text-align: center !important;
-}
-
-
-.report-total-weight {
-  display: flex;
-  font-size: 1.5rem;
-  font-weight: bold;
-  justify-content: center;
-  margin-top: 1.5rem;
-}
-
-.report-weight-value {
-  color: $litterpic-green;
-  font-weight: bolder;
-  margin-left: .5rem;
-  margin-right: .15rem;
-}
-
-.report-submit-button {
-  border-radius: .5rem;
-  margin-left: 1.25%;
-}
-
-.report-reset-button {
-  border-radius: .5rem;
-  margin-left: 1.25%;
-}
-
-.report-scrollable-dropdown {
-  max-height: 150px;
-  overflow-y: auto;
-  direction: ltr;
-}
-
-.report-no-data-message {
-  font-size: 1.5rem;
-  font-weight: bolder;
-  text-align: center;
-}
-
-.report-top-litter-pickers,
-.interactive-litter-stats-header {
-  font-family: Poppins, sans-serif;
-  font-size: 1.75rem;
-}
-
-.interactive-litter-stats-header {
-  margin-bottom: 1rem;
-}
 
 /* For WebKit browsers like Chrome and Safari */
 input::-webkit-input-placeholder {
@@ -148,25 +171,10 @@ input::placeholder {
   display: none;
 }
 
-.report-label-mobile {
-  display: none;
-}
-
 .grid-layout {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   grid-gap: 0 10px;
-}
-
-.input-smaller {
-  height: 1.75rem;
-}
-
-.report-is-loading {
-  display: flex;
-  font-size: 1.5rem;
-  font-weight: bold;
-  justify-content: center;
 }
 
 .leaderboard-grid {
@@ -175,23 +183,24 @@ input::placeholder {
   gap: 16px;
   margin-top: 1rem;
   margin-bottom: 3rem;
-}
 
-.leaderboard-grid table {
-  width: 100%;
-  border-collapse: collapse;
-}
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
 
-.leaderboard-grid th,
-.leaderboard-grid td {
-  border: 1px solid #ccc;
-  text-align: center;
-  padding: 8px;
-}
+  th, td {
+    border: 1px solid #ccc;
+    text-align: center;
+    padding: 8px;
+  }
 
-.leaderboard-grid th {
-  background-color: $litterpic-green;
-  color: white;
+  th {
+    background-color: $litterpic-green;
+    color: white;
+  }
+
+  // end leaderboard-grid
 }
 
 
@@ -204,23 +213,46 @@ input::placeholder {
     padding: 3px;
   }
 
-  .report-form-label {
-    display: none;
+  .report- {
+    &form-label {
+      display: none;
+    }
+
+    &label-mobile {
+      display: block;
+      align-self: start;
+      margin-left: 2%;
+    }
+
+    &optional-text {
+      color: grey;
+      font-size: 12px;
+      margin-top: -1.5rem;
+      margin-bottom: 2rem;
+      margin-left: 1.5rem;
+    }
+
+    &td-weight {
+      text-align: center !important;
+    }
+
+    &total-weight {
+      font-size: 1.2rem;
+    }
+
+    &submit-button {
+      font-weight: bold;
+      margin-left: 2.5%;
+    }
+
+    &reset-button {
+      font-weight: bold;
+      margin-left: 2.5%;
+    }
+
+    // end mobile .report-
   }
 
-  .report-label-mobile {
-    display: block;
-    align-self: start;
-    margin-left: 2%;
-  }
-
-  .report-optional-text {
-    color: grey;
-    font-size: 12px;
-    margin-top: -1.5rem;
-    margin-bottom: 2rem;
-    margin-left: 1.5rem;
-  }
 
   .input-row {
     display: grid;
@@ -232,23 +264,5 @@ input::placeholder {
   .results-table td {
     font-size: 10px;
     padding: 3px;
-  }
-
-  .report-td-weight {
-    text-align: center !important;
-  }
-
-  .report-total-weight {
-    font-size: 1.2rem;
-  }
-
-  .report-submit-button {
-    font-weight: bold;
-    margin-left: 2.5%;
-  }
-
-  .report-reset-button {
-    font-weight: bold;
-    margin-left: 2.5%;
   }
 }
