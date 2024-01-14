@@ -19,7 +19,7 @@ const Footer = () => {
                 <p id="phone-number">207-200-1496</p>
             </div>
             <div className="footer-column-2">
-                <p>©2022</p>
+                <p>©2024</p>
                 <p>LitterPic</p>
             </div>
             <div className="footer-column-3">
