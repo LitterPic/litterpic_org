@@ -401,8 +401,8 @@ const Volunteer = () => {
                         userDocId = userDocRef.id;
                         await updateDoc(userDocRef, {uid: userDocId});
 
-                        // Add user to Mailchimp subscription list
-                        await subscribeUserToMailchimp(userEmail);
+                        // Add user to SendGrid subscription list
+                        await subscribeUserToMail(userEmail, "RSVP");
 
                         // Use the userDocRef as participantDocRef for a new user
                         participantDocRef = userDocRef;
