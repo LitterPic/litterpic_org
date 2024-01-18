@@ -29,7 +29,7 @@ import Link from "next/link";
 import Head from "next/head";
 import {capitalizeFirstWordOfSentences} from "../utils/textUtils";
 import {getFunctions, httpsCallable} from "firebase/functions";
-import {subscribeUserToMailchimp} from '../utils/subscribeUserToMailchimp';
+import {subscribeUserToMail} from '../utils/subscribeUserToMail';
 
 const libraries = ['places'];
 const mapApiKey = process.env.NEXT_PUBLIC_PLACES_API_KEY;
