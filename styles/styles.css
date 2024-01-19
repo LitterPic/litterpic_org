@@ -3416,6 +3416,56 @@ h1.heading-text.profile-heading {
   .recent-location-select {
     width: 460px;
   }
+  .litter-container {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+  }
+  .litter-container input {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 9px;
+    padding: 10px;
+    width: 100%;
+  }
+  .litter-container .radio-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 9px;
+  }
+  .litter-container .radio-buttons label {
+    align-items: center;
+    display: flex;
+    margin-right: 12px;
+  }
+  .litter-container .radio-buttons label input[type=radio] {
+    appearance: none;
+    border: 2px solid #015e41;
+    border-radius: 50%;
+    cursor: pointer;
+    height: 20px;
+    margin-right: 6px;
+    outline: none;
+    width: 20px;
+  }
+  .litter-container .radio-buttons label input[type=radio]:checked {
+    background-color: #015e41;
+  }
+  .litter-container .radio-buttons label:last-child {
+    margin-right: 0;
+  }
+  .litter-container .radio-buttons label span {
+    font-size: 14px;
+  }
+}
+@media screen and (max-width: 102.25rem) and (orientation: landscape) and (max-width: 600px) {
+  .litter-container .radio-buttons {
+    align-items: flex-start;
+  }
+  .litter-container label {
+    margin-bottom: 6px;
+  }
 }
 .volunteer-top-paragraph {
   font-size: 1rem;
@@ -4917,6 +4967,56 @@ input::placeholder {
   }
   .recent-location-select {
     width: 460px;
+  }
+  .litter-container {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+  }
+  .litter-container input {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 9px;
+    padding: 10px;
+    width: 100%;
+  }
+  .litter-container .radio-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 9px;
+  }
+  .litter-container .radio-buttons label {
+    align-items: center;
+    display: flex;
+    margin-right: 12px;
+  }
+  .litter-container .radio-buttons label input[type=radio] {
+    appearance: none;
+    border: 2px solid #015e41;
+    border-radius: 50%;
+    cursor: pointer;
+    height: 20px;
+    margin-right: 6px;
+    outline: none;
+    width: 20px;
+  }
+  .litter-container .radio-buttons label input[type=radio]:checked {
+    background-color: #015e41;
+  }
+  .litter-container .radio-buttons label:last-child {
+    margin-right: 0;
+  }
+  .litter-container .radio-buttons label span {
+    font-size: 14px;
+  }
+}
+@media screen and (max-width: 102.25rem) and (orientation: landscape) and (max-width: 600px) {
+  .litter-container .radio-buttons {
+    align-items: flex-start;
+  }
+  .litter-container label {
+    margin-bottom: 6px;
   }
 }
 .ok-button {

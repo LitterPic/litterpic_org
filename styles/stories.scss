@@ -649,4 +649,68 @@
     width: 460px;
   }
 
+//make sure it's in alphabetical order
+
+.litter-container {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+
+  input {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 9px;
+    padding: 10px;
+    width: 100%;
+  }
+
+  .radio-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 9px;
+
+
+    label {
+       align-items: center;
+       display: flex;
+       margin-right: 12px;
+
+      input[type="radio"] {
+        appearance: none;
+        border: 2px solid $litterpic-green;
+        border-radius: 50%;
+        cursor: pointer;
+        height: 20px;
+        margin-right: 6px;
+        outline: none;
+        width: 20px;
+
+        &:checked {
+          background-color: $litterpic-green;
+        }
+      }
+      &:last-child {
+        margin-right: 0;
+      }
+
+      span {
+        font-size: 14px;
+      }
+    }
+  }
+     
+ 
+  @media screen and (max-width: 600px) {
+    .radio-buttons {
+      // flex-direction: row; 
+      // flex-wrap: wrap;
+     align-items: flex-start;
+    }
+
+    label {
+      margin-bottom: 6px; 
+    }
+  }
+}
 }
