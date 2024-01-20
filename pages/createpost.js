@@ -10,7 +10,7 @@ import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {capitalizeFirstWordOfSentences} from "../utils/textUtils";
 
- 
+
 const libraries = ['places'];
 const mapApiKey = process.env.NEXT_PUBLIC_PLACES_API_KEY;
 
@@ -43,15 +43,15 @@ function CreatePost() {
     const router = useRouter();
     const fileInputRef = React.useRef(null);
 
-    
-// we can useEffect to handle the conversion when the unit  changes
-//useEffect runs after the components rendered
-// when the unit changes, the #'s of that unit change
-useEffect(() => {
-    if (litterWeight !== '') {
-    const conversionFactor = unit === 'kg' ? 1 / 2.20462 : 2.20462;
-    setLitterWeight((parseFloat(litterWeight) * conversionFactor).toFixed(2));
-    }
+
+    // we can useEffect to handle the conversion when the unit  changes
+    //useEffect runs after the components rendered
+    // when the unit changes, the #'s of that unit change
+    useEffect(() => {
+        if (litterWeight !== '') {
+            const conversionFactor = unit === 'kg' ? 1 / 2.20462 : 2.20462;
+            setLitterWeight((parseFloat(litterWeight) * conversionFactor).toFixed(2));
+        }
     }, [unit]);
 
     const {isLoaded} = useLoadScript({
@@ -300,13 +300,13 @@ useEffect(() => {
                                 />
                             </div>
 
-                            
-                             <div className="litter-container">
+
+                            <div className="litter-container">
                                 <input
                                     type="number"
                                     min="0"
                                     step="1"
-                                    placeholder="Total amount of litter collected" 
+                                    placeholder="Total amount of litter collected"
                                     value={litterWeight}
                                     onChange={(e) => {
                                         const value = e.target.value;
@@ -319,25 +319,25 @@ useEffect(() => {
                                 <div className="radio-buttons">
                                     <label>
                                         <input
-                                        type="radio"
-                                        name="unitRadio"
-                                        value="lbs"
-                                        checked={unit === 'lbs'}
-                                        onChange={() =>setUnit('lbs')}
-                                     />
-                                    <span>lbs</span> 
+                                            type="radio"
+                                            name="unitRadio"
+                                            value="lbs"
+                                            checked={unit === 'lbs'}
+                                            onChange={() => setUnit('lbs')}
+                                        />
+                                        <span>lbs</span>
                                     </label>
                                     <label>
                                         <input
-                                        type="radio"
-                                        name="unitRadio"
-                                        value="kg"
-                                        checked={unit === 'kg'}
-                                        onChange={() =>setUnit('kg')}
+                                            type="radio"
+                                            name="unitRadio"
+                                            value="kg"
+                                            checked={unit === 'kg'}
+                                            onChange={() => setUnit('kg')}
                                         />
                                         <span>kg</span>
                                     </label>
-                            </div>  
+                                </div>
                             </div>
                             <div>
                                 <PlacesAutocomplete

@@ -3181,6 +3181,38 @@ h1.heading-text.profile-heading {
   width: 600px;
 }
 
+.litter-container {
+  margin-bottom: 9px;
+}
+.litter-container .radio-buttons {
+  display: flex;
+  justify-content: flex-start;
+}
+.litter-container .radio-buttons label {
+  align-items: center;
+  display: flex;
+  margin-right: 12px;
+}
+.litter-container .radio-buttons label input[type=radio] {
+  appearance: none;
+  border: 2px solid #015e41;
+  border-radius: 50%;
+  cursor: pointer;
+  height: 20px;
+  margin-right: 6px;
+  outline: none;
+  width: 20px;
+}
+.litter-container .radio-buttons label input[type=radio]:checked {
+  background-color: #015e41;
+}
+.litter-container .radio-buttons label:last-child {
+  margin-right: 0;
+}
+.litter-container .radio-buttons label span {
+  font-size: 14px;
+}
+
 .create-post-limit-message {
   color: #015e41;
   font-size: 0.7rem;
@@ -3359,6 +3391,9 @@ h1.heading-text.profile-heading {
     object-fit: cover;
   }
   .create-post-content input {
+    border-style: inset;
+    border-width: 1px;
+    border-color: initial;
     width: 80vw;
   }
   .create-post-content textarea {
@@ -3367,6 +3402,37 @@ h1.heading-text.profile-heading {
   }
   .create-post-limit-message {
     font-size: 0.6rem;
+  }
+  .litter-container {
+    margin-bottom: 9px;
+  }
+  .litter-container .radio-buttons {
+    display: flex;
+    justify-content: flex-start;
+  }
+  .litter-container .radio-buttons label {
+    align-items: center;
+    display: flex;
+    margin-right: 12px;
+  }
+  .litter-container .radio-buttons label input[type=radio] {
+    appearance: none;
+    border: 2px solid #015e41;
+    border-radius: 50%;
+    cursor: pointer;
+    height: 20px;
+    margin-right: 6px;
+    outline: none;
+    width: 20px;
+  }
+  .litter-container .radio-buttons label input[type=radio]:checked {
+    background-color: #015e41;
+  }
+  .litter-container .radio-buttons label:last-child {
+    margin-right: 0;
+  }
+  .litter-container .radio-buttons label span {
+    font-size: 14px;
   }
 }
 @media (max-width: 102.25rem) and (orientation: landscape) {
@@ -3457,14 +3523,6 @@ h1.heading-text.profile-heading {
   }
   .litter-container .radio-buttons label span {
     font-size: 14px;
-  }
-}
-@media screen and (max-width: 102.25rem) and (orientation: landscape) and (max-width: 600px) {
-  .litter-container .radio-buttons {
-    align-items: flex-start;
-  }
-  .litter-container label {
-    margin-bottom: 6px;
   }
 }
 .volunteer-top-paragraph {
@@ -4733,6 +4791,38 @@ input::placeholder {
   width: 600px;
 }
 
+.litter-container {
+  margin-bottom: 9px;
+}
+.litter-container .radio-buttons {
+  display: flex;
+  justify-content: flex-start;
+}
+.litter-container .radio-buttons label {
+  align-items: center;
+  display: flex;
+  margin-right: 12px;
+}
+.litter-container .radio-buttons label input[type=radio] {
+  appearance: none;
+  border: 2px solid #015e41;
+  border-radius: 50%;
+  cursor: pointer;
+  height: 20px;
+  margin-right: 6px;
+  outline: none;
+  width: 20px;
+}
+.litter-container .radio-buttons label input[type=radio]:checked {
+  background-color: #015e41;
+}
+.litter-container .radio-buttons label:last-child {
+  margin-right: 0;
+}
+.litter-container .radio-buttons label span {
+  font-size: 14px;
+}
+
 .create-post-limit-message {
   color: #015e41;
   font-size: 0.7rem;
@@ -4911,6 +5001,9 @@ input::placeholder {
     object-fit: cover;
   }
   .create-post-content input {
+    border-style: inset;
+    border-width: 1px;
+    border-color: initial;
     width: 80vw;
   }
   .create-post-content textarea {
@@ -4919,6 +5012,37 @@ input::placeholder {
   }
   .create-post-limit-message {
     font-size: 0.6rem;
+  }
+  .litter-container {
+    margin-bottom: 9px;
+  }
+  .litter-container .radio-buttons {
+    display: flex;
+    justify-content: flex-start;
+  }
+  .litter-container .radio-buttons label {
+    align-items: center;
+    display: flex;
+    margin-right: 12px;
+  }
+  .litter-container .radio-buttons label input[type=radio] {
+    appearance: none;
+    border: 2px solid #015e41;
+    border-radius: 50%;
+    cursor: pointer;
+    height: 20px;
+    margin-right: 6px;
+    outline: none;
+    width: 20px;
+  }
+  .litter-container .radio-buttons label input[type=radio]:checked {
+    background-color: #015e41;
+  }
+  .litter-container .radio-buttons label:last-child {
+    margin-right: 0;
+  }
+  .litter-container .radio-buttons label span {
+    font-size: 14px;
   }
 }
 @media (max-width: 102.25rem) and (orientation: landscape) {
@@ -5009,14 +5133,6 @@ input::placeholder {
   }
   .litter-container .radio-buttons label span {
     font-size: 14px;
-  }
-}
-@media screen and (max-width: 102.25rem) and (orientation: landscape) and (max-width: 600px) {
-  .litter-container .radio-buttons {
-    align-items: flex-start;
-  }
-  .litter-container label {
-    margin-bottom: 6px;
   }
 }
 .ok-button {
