@@ -358,6 +358,18 @@
     width: 600px;
   }
 
+  /* Hide input arrows - For Chrome, Safari, Edge, Opera */
+  .no-increment-decrement::-webkit-outer-spin-button,
+  .no-increment-decrement::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Hide input arrows - For Firefox */
+  .no-increment-decrement[type=number] {
+    -moz-appearance: textfield;
+  }
+
   textarea {
     cursor: text;
     font-size: .9rem;

@@ -3152,6 +3152,8 @@ h1.heading-text.profile-heading {
 .create-post-content {
   display: flex;
   justify-content: center;
+  /* Hide input arrows - For Chrome, Safari, Edge, Opera */
+  /* Hide input arrows - For Firefox */
 }
 .create-post-content button {
   border-radius: 0.5em;
@@ -3171,6 +3173,14 @@ h1.heading-text.profile-heading {
 .create-post-content input {
   font-size: 0.9rem;
   width: 600px;
+}
+.create-post-content .no-increment-decrement::-webkit-outer-spin-button,
+.create-post-content .no-increment-decrement::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.create-post-content .no-increment-decrement[type=number] {
+  -moz-appearance: textfield;
 }
 .create-post-content textarea {
   cursor: text;
@@ -4762,6 +4772,8 @@ input::placeholder {
 .create-post-content {
   display: flex;
   justify-content: center;
+  /* Hide input arrows - For Chrome, Safari, Edge, Opera */
+  /* Hide input arrows - For Firefox */
 }
 .create-post-content button {
   border-radius: 0.5em;
@@ -4781,6 +4793,14 @@ input::placeholder {
 .create-post-content input {
   font-size: 0.9rem;
   width: 600px;
+}
+.create-post-content .no-increment-decrement::-webkit-outer-spin-button,
+.create-post-content .no-increment-decrement::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.create-post-content .no-increment-decrement[type=number] {
+  -moz-appearance: textfield;
 }
 .create-post-content textarea {
   cursor: text;

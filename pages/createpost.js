@@ -185,11 +185,12 @@ function CreatePost() {
         let postDocRef;
 
         try {
-            const postLitterWeight = litterWeight ? parseInt(litterWeight) : 0;
+            const postLitterWeightInPounds = unit === 'kg' ? parseFloat(litterWeight) * 2.20462 : parseFloat(litterWeight);
+
             // Create a new post document in Firestore
             postDocRef = await addDoc(collection(db, 'userPosts'), {
                 postDescription: postDescription,
-                litterWeight: postLitterWeight,
+                litterWeight: postLitterWeightInPounds.toFixed(2),
                 timePosted: new Date(),
                 postUser: doc(db, `users/${user.uid}`),
                 location: selectedAddress,
@@ -223,7 +224,7 @@ function CreatePost() {
             const userRef = doc(db, `users/${user.uid}`);
             const userDoc = await getDoc(userRef);
             const currentUserTotalWeight = userDoc.data().totalWeight || 0;
-            await updateDoc(userRef, {totalWeight: currentUserTotalWeight + postLitterWeight});
+            await updateDoc(userRef, {totalWeight: currentUserTotalWeight + postLitterWeightInPounds});
 
             // Clear the form
             setPostDescription('');
@@ -259,7 +260,6 @@ function CreatePost() {
                 <img src="/images/create-post-banner.jpeg" alt="Banner Image"/>
                 <ToastContainer/>
             </div>
-
             <div className="page">
                 <div className="content">
                     <h1 className="heading-text">Create Post</h1>
@@ -299,23 +299,20 @@ function CreatePost() {
                                     placeholder="Description"
                                 />
                             </div>
-
-
                             <div className="litter-container">
                                 <input
+                                    className="no-increment-decrement"
                                     type="number"
                                     min="0"
-                                    step="1"
                                     placeholder="Total amount of litter collected"
                                     value={litterWeight}
                                     onChange={(e) => {
                                         const value = e.target.value;
-                                        if ((Number(value) >= 0 && Number.isInteger(Number(value))) || value === '') {
+                                        if ((Number(value) >= 0 && !isNaN(value)) || value === '') {
                                             setLitterWeight(value);
                                         }
                                     }}
                                 />
-
                                 <div className="radio-buttons">
                                     <label>
                                         <input
