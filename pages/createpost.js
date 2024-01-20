@@ -190,7 +190,7 @@ function CreatePost() {
             // Create a new post document in Firestore
             postDocRef = await addDoc(collection(db, 'userPosts'), {
                 postDescription: postDescription,
-                litterWeight: postLitterWeightInPounds.toFixed(2),
+                litterWeight: postLitterWeightInPounds.toFixed(),
                 timePosted: new Date(),
                 postUser: doc(db, `users/${user.uid}`),
                 location: selectedAddress,
@@ -304,6 +304,7 @@ function CreatePost() {
                                     className="no-increment-decrement"
                                     type="number"
                                     min="0"
+                                    step="any"
                                     placeholder="Total amount of litter collected"
                                     value={litterWeight}
                                     onChange={(e) => {
