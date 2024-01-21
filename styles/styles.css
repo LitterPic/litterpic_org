@@ -3504,6 +3504,24 @@ h1.heading-text.profile-heading {
 .table .narrow-column {
   width: 55px;
 }
+.table .narrow-column .date-input-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.table .narrow-column .date-dropdown {
+  border: none;
+  cursor: pointer;
+  font-size: 0.65rem;
+  font-weight: bold;
+  margin: auto;
+  outline: none;
+  padding: 0;
+  text-align: center;
+}
 .table img {
   padding: 0.25rem;
 }
@@ -3800,6 +3818,24 @@ textarea.event-description-input {
   }
   .table a {
     font-size: 0.7rem;
+  }
+  .table .narrow-column .date-input-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  .table .narrow-column .date-dropdown {
+    border: none;
+    cursor: pointer;
+    font-size: 0.65rem;
+    font-weight: bold;
+    margin: auto;
+    outline: none;
+    padding: 0;
+    text-align: center;
   }
   .cancel-rsvp-button {
     font-size: 0.5rem;
@@ -5040,6 +5076,24 @@ input::placeholder {
 .table .narrow-column {
   width: 55px;
 }
+.table .narrow-column .date-input-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.table .narrow-column .date-dropdown {
+  border: none;
+  cursor: pointer;
+  font-size: 0.65rem;
+  font-weight: bold;
+  margin: auto;
+  outline: none;
+  padding: 0;
+  text-align: center;
+}
 .table img {
   padding: 0.25rem;
 }
@@ -5336,6 +5390,24 @@ textarea.event-description-input {
   }
   .table a {
     font-size: 0.7rem;
+  }
+  .table .narrow-column .date-input-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  .table .narrow-column .date-dropdown {
+    border: none;
+    cursor: pointer;
+    font-size: 0.65rem;
+    font-weight: bold;
+    margin: auto;
+    outline: none;
+    padding: 0;
+    text-align: center;
   }
   .cancel-rsvp-button {
     font-size: 0.5rem;
