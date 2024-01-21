@@ -107,7 +107,6 @@ const Volunteer = () => {
     const rsvpFormContainerRef = useRef(null);
     const router = useRouter();
     const [events, setEvents] = useState([]);
-    const [selectedDate, setSelectedDate] = useState(null);
     const [user, setUser] = useState(null);
     const [rsvps, setRsvps] = useState({});
     const [showThankYou, setShowThankYou] = useState(false);
@@ -130,6 +129,45 @@ const Volunteer = () => {
         email: "",
         name: "",
     });
+    const [selectedDate, setSelectedDate] = useState('');
+    const [filteredEvents, setFilteredEvents] = useState(events);
+
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const uniqueDates = Array.from(new Set(events.map(event => {
+        return event.start instanceof Date ? event.start : new Date(event.start);
+    })))
+        .filter(date => date >= today)
+        .map(date => ({
+            raw: date.toISOString().split('T')[0],
+            formatted: date.toLocaleDateString('en-US', {
+                year: '2-digit',
+                month: '2-digit',
+                day: '2-digit'
+            })
+        }))
+        .sort((a, b) => a.raw.localeCompare(b.raw));
+
+
+    useEffect(() => {
+        if (selectedDate) {
+            const filtered = events.filter(event => {
+                // Create a local date from event.start
+                const eventStartDate = new Date(event.start);
+                const eventStartDateStr = `${eventStartDate.getFullYear()}-${String(eventStartDate.getMonth() + 1).padStart(2, '0')}-${String(eventStartDate.getDate()).padStart(2, '0')}`;
+
+                return eventStartDateStr === selectedDate;
+            });
+
+            console.log(`Filtered Events for ${selectedDate}:`, filtered);
+            setFilteredEvents(filtered);
+        } else {
+            setFilteredEvents(events); // If no date selected, show all events
+        }
+    }, [events, selectedDate]);
+
 
     useEffect(() => {
         const fetchOwnerData = async () => {
@@ -857,7 +895,22 @@ const Volunteer = () => {
                                 <th className="narrow-column">Organizer</th>
                                 <th className="medium-column">Event</th>
                                 <th className="wide-column">Description</th>
-                                <th className="narrow-column">Date</th>
+                                <th className="narrow-column">
+                                    <div className="date-input-container">
+                                        <select
+                                            className="date-dropdown"
+                                            value={selectedDate}
+                                            onChange={(e) => setSelectedDate(e.target.value)}
+                                        >
+                                            <option value="">All Dates</option>
+                                            {uniqueDates.map(dateObj => (
+                                                <option
+                                                    key={dateObj.raw}
+                                                    value={dateObj.raw}>{dateObj.formatted}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                </th>
                                 <th className="medium-column">Location</th>
                                 <th className="narrow-column">Start Time</th>
                                 <th className="narrow-column">End Time</th>
@@ -866,7 +919,7 @@ const Volunteer = () => {
                             </tr>
                             </thead>
                             <tbody>
-                            {events.filter(event => event && event.start && new Date(event.start.toISOString().split('T')[0]) >= new Date()).map((event, index) => {
+                            {filteredEvents.map((event, index) => {
                                 const currentUserID = auth && auth.currentUser && auth.currentUser.uid;
 
                                 const rsvpForEvent = rsvpSnapshot.find(doc => {
@@ -890,15 +943,18 @@ const Volunteer = () => {
                                 const shouldShowLink = isHostingEvent || userEmail === 'alek@litterpic.org';
 
                                 return (
-                                    <tr key={index}
-                                        className={event.start.toISOString().split('T')[0] === selectedDate ? 'highlight' : ''}>
+                                    <tr key={index}>
                                         <td className="volunteer-event-organizer-photo">
                                             <img src={ownerPhotos[event.id] || 'default_image_url'} alt="Owner"
                                                  width="50"/>
                                         </td>
                                         <td>{event.event_title}</td>
                                         <td>{event.description}</td>
-                                        <td>{event.start.toLocaleDateString()}</td>
+                                        <td>{event.start.toLocaleDateString('en-US', { // Formatted for display
+                                            year: '2-digit',
+                                            month: '2-digit',
+                                            day: '2-digit'
+                                        })}</td>
                                         <td>{event.location}</td>
                                         <td className="start-time-column">{event.eventStartTime?.toDate().toLocaleTimeString([], {
                                             hour: 'numeric',
