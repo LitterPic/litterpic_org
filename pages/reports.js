@@ -257,7 +257,6 @@ const ReportsPage = () => {
             }
 
             const weightSnapshot = await getDocs(weightQuery);
-            console.log("snapshot:", weightSnapshot);
 
             let total = 0;
             const cityWeightMap = new Map();
@@ -269,7 +268,6 @@ const ReportsPage = () => {
 
                 // Check if the post falls within the selected date range
                 if (postDate >= new Date(startDate) && postDate <= new Date(endDate)) {
-                    console.log("Found post:", doc.data());
                     const postUserRef = doc.data().postUser;
                     const userId = postUserRef.id;
 
@@ -304,7 +302,7 @@ const ReportsPage = () => {
             setCityWeights(Array.from(cityWeightMap.entries()));
 
         } catch (error) {
-            console.log("Error:", error);
+            // Explicitly not exposing the error in a log
         }
         setIsLoading(false);
     };

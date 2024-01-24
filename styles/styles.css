@@ -3082,7 +3082,7 @@ h1.heading-text.profile-heading {
 }
 
 .post-ambassador {
-  align-content: start;
+  align-content: flex-start;
   display: flex;
   font-weight: normal;
   justify-content: flex-start;
@@ -4370,7 +4370,7 @@ input::placeholder {
   }
   .report-label-mobile {
     display: block;
-    align-self: start;
+    align-self: flex-start;
     margin-left: 2%;
   }
   .report-optional-text {
@@ -4738,7 +4738,7 @@ input::placeholder {
 }
 
 .post-ambassador {
-  align-content: start;
+  align-content: flex-start;
   display: flex;
   font-weight: normal;
   justify-content: flex-start;
