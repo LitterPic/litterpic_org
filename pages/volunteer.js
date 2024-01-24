@@ -152,19 +152,24 @@ const Volunteer = () => {
 
 
     useEffect(() => {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // Set today to the start of the day
+
         if (selectedDate) {
+            // If a specific date is selected, filter events for that date
             const filtered = events.filter(event => {
-                // Create a local date from event.start
                 const eventStartDate = new Date(event.start);
                 const eventStartDateStr = `${eventStartDate.getFullYear()}-${String(eventStartDate.getMonth() + 1).padStart(2, '0')}-${String(eventStartDate.getDate()).padStart(2, '0')}`;
-
                 return eventStartDateStr === selectedDate;
             });
-
-            console.log(`Filtered Events for ${selectedDate}:`, filtered);
             setFilteredEvents(filtered);
         } else {
-            setFilteredEvents(events); // If no date selected, show all events
+            // If no date is selected, show events from today or in the future
+            const futureEvents = events.filter(event => {
+                const eventStartDate = new Date(event.start);
+                return eventStartDate >= today;
+            });
+            setFilteredEvents(futureEvents);
         }
     }, [events, selectedDate]);
 
