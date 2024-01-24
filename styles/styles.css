@@ -3152,6 +3152,8 @@ h1.heading-text.profile-heading {
 .create-post-content {
   display: flex;
   justify-content: center;
+  /* Hide input arrows - For Chrome, Safari, Edge, Opera */
+  /* Hide input arrows - For Firefox */
 }
 .create-post-content button {
   border-radius: 0.5em;
@@ -3172,6 +3174,14 @@ h1.heading-text.profile-heading {
   font-size: 0.9rem;
   width: 600px;
 }
+.create-post-content .no-increment-decrement::-webkit-outer-spin-button,
+.create-post-content .no-increment-decrement::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.create-post-content .no-increment-decrement[type=number] {
+  -moz-appearance: textfield;
+}
 .create-post-content textarea {
   cursor: text;
   font-size: 0.9rem;
@@ -3179,6 +3189,38 @@ h1.heading-text.profile-heading {
   line-height: 1.5;
   padding: 5px;
   width: 600px;
+}
+
+.litter-container {
+  margin-bottom: 9px;
+}
+.litter-container .radio-buttons {
+  display: flex;
+  justify-content: flex-start;
+}
+.litter-container .radio-buttons label {
+  align-items: center;
+  display: flex;
+  margin-right: 12px;
+}
+.litter-container .radio-buttons label input[type=radio] {
+  appearance: none;
+  border: 2px solid #015e41;
+  border-radius: 50%;
+  cursor: pointer;
+  height: 20px;
+  margin-right: 6px;
+  outline: none;
+  width: 20px;
+}
+.litter-container .radio-buttons label input[type=radio]:checked {
+  background-color: #015e41;
+}
+.litter-container .radio-buttons label:last-child {
+  margin-right: 0;
+}
+.litter-container .radio-buttons label span {
+  font-size: 14px;
 }
 
 .create-post-limit-message {
@@ -3359,6 +3401,9 @@ h1.heading-text.profile-heading {
     object-fit: cover;
   }
   .create-post-content input {
+    border-style: inset;
+    border-width: 1px;
+    border-color: initial;
     width: 80vw;
   }
   .create-post-content textarea {
@@ -3367,6 +3412,37 @@ h1.heading-text.profile-heading {
   }
   .create-post-limit-message {
     font-size: 0.6rem;
+  }
+  .litter-container {
+    margin-bottom: 9px;
+  }
+  .litter-container .radio-buttons {
+    display: flex;
+    justify-content: flex-start;
+  }
+  .litter-container .radio-buttons label {
+    align-items: center;
+    display: flex;
+    margin-right: 12px;
+  }
+  .litter-container .radio-buttons label input[type=radio] {
+    appearance: none;
+    border: 2px solid #015e41;
+    border-radius: 50%;
+    cursor: pointer;
+    height: 20px;
+    margin-right: 6px;
+    outline: none;
+    width: 20px;
+  }
+  .litter-container .radio-buttons label input[type=radio]:checked {
+    background-color: #015e41;
+  }
+  .litter-container .radio-buttons label:last-child {
+    margin-right: 0;
+  }
+  .litter-container .radio-buttons label span {
+    font-size: 14px;
   }
 }
 @media (max-width: 102.25rem) and (orientation: landscape) {
@@ -3415,6 +3491,48 @@ h1.heading-text.profile-heading {
   }
   .recent-location-select {
     width: 460px;
+  }
+  .litter-container {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+  }
+  .litter-container input {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 9px;
+    padding: 10px;
+    width: 100%;
+  }
+  .litter-container .radio-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 9px;
+  }
+  .litter-container .radio-buttons label {
+    align-items: center;
+    display: flex;
+    margin-right: 12px;
+  }
+  .litter-container .radio-buttons label input[type=radio] {
+    appearance: none;
+    border: 2px solid #015e41;
+    border-radius: 50%;
+    cursor: pointer;
+    height: 20px;
+    margin-right: 6px;
+    outline: none;
+    width: 20px;
+  }
+  .litter-container .radio-buttons label input[type=radio]:checked {
+    background-color: #015e41;
+  }
+  .litter-container .radio-buttons label:last-child {
+    margin-right: 0;
+  }
+  .litter-container .radio-buttons label span {
+    font-size: 14px;
   }
 }
 .volunteer-top-paragraph {
@@ -4070,31 +4188,18 @@ h1.heading-text.profile-heading {
     margin-left: 1rem;
   }
 }
-.report-form-group {
-  margin-bottom: 1rem;
-  padding: 0;
-}
-
 .label-row,
 .input-row {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   width: 100%;
 }
 
 .input-row {
   margin-bottom: 1rem;
 }
-
-.label-row,
-.input-row {
-  display: flex;
-  justify-content: space-between;
-}
-
-.report-form-label,
-.report-form-select {
-  text-align: center;
+.input-smaller {
+  height: 1.75rem;
 }
 
 .results-table {
@@ -4102,14 +4207,11 @@ h1.heading-text.profile-heading {
   border-collapse: collapse;
   margin-top: 1rem;
 }
-
-.results-table th,
-.results-table td {
+.results-table th, .results-table td {
   border: 1px solid #ccc;
   padding: 8px;
   text-align: left;
 }
-
 .results-table th {
   text-align: center;
   background-color: #015e41;
@@ -4119,7 +4221,6 @@ h1.heading-text.profile-heading {
 .report-td-weight {
   text-align: center !important;
 }
-
 .report-total-weight {
   display: flex;
   font-size: 1.5rem;
@@ -4127,42 +4228,55 @@ h1.heading-text.profile-heading {
   justify-content: center;
   margin-top: 1.5rem;
 }
-
 .report-weight-value {
   color: #015e41;
   font-weight: bolder;
   margin-left: 0.5rem;
   margin-right: 0.15rem;
 }
-
 .report-submit-button {
   border-radius: 0.5rem;
   margin-left: 1.25%;
 }
-
 .report-reset-button {
   border-radius: 0.5rem;
   margin-left: 1.25%;
 }
-
 .report-scrollable-dropdown {
   max-height: 150px;
   overflow-y: auto;
   direction: ltr;
 }
-
 .report-no-data-message {
   font-size: 1.5rem;
   font-weight: bolder;
   text-align: center;
 }
+.report-top-litter-pickers {
+  font-family: Poppins, sans-serif;
+  font-size: 1.75rem;
+}
+.report-form-group {
+  margin-bottom: 1rem;
+  padding: 0;
+}
+.report-label-mobile {
+  display: none;
+}
+.report-is-loading {
+  display: flex;
+  font-size: 1.5rem;
+  font-weight: bold;
+  justify-content: center;
+}
+.report-form-label, .report-form-select {
+  text-align: center;
+}
 
-.report-top-litter-pickers,
 .interactive-litter-stats-header {
   font-family: Poppins, sans-serif;
   font-size: 1.75rem;
 }
-
 .interactive-litter-stats-header {
   margin-bottom: 1rem;
 }
@@ -4216,25 +4330,10 @@ input::placeholder {
   display: none;
 }
 
-.report-label-mobile {
-  display: none;
-}
-
 .grid-layout {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   grid-gap: 0 10px;
-}
-
-.input-smaller {
-  height: 1.75rem;
-}
-
-.report-is-loading {
-  display: flex;
-  font-size: 1.5rem;
-  font-weight: bold;
-  justify-content: center;
 }
 
 .leaderboard-grid {
@@ -4244,19 +4343,15 @@ input::placeholder {
   margin-top: 1rem;
   margin-bottom: 3rem;
 }
-
 .leaderboard-grid table {
   width: 100%;
   border-collapse: collapse;
 }
-
-.leaderboard-grid th,
-.leaderboard-grid td {
+.leaderboard-grid th, .leaderboard-grid td {
   border: 1px solid #ccc;
   text-align: center;
   padding: 8px;
 }
-
 .leaderboard-grid th {
   background-color: #015e41;
   color: white;
@@ -4285,16 +4380,6 @@ input::placeholder {
     margin-bottom: 2rem;
     margin-left: 1.5rem;
   }
-  .input-row {
-    display: grid;
-    grid-template-columns: auto auto;
-    gap: 0.25rem;
-  }
-  .results-table th,
-  .results-table td {
-    font-size: 10px;
-    padding: 3px;
-  }
   .report-td-weight {
     text-align: center !important;
   }
@@ -4308,6 +4393,16 @@ input::placeholder {
   .report-reset-button {
     font-weight: bold;
     margin-left: 2.5%;
+  }
+  .input-row {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 0.25rem;
+  }
+  .results-table th,
+  .results-table td {
+    font-size: 10px;
+    padding: 3px;
   }
 }
 .signup-form {
@@ -4713,6 +4808,8 @@ input::placeholder {
 .create-post-content {
   display: flex;
   justify-content: center;
+  /* Hide input arrows - For Chrome, Safari, Edge, Opera */
+  /* Hide input arrows - For Firefox */
 }
 .create-post-content button {
   border-radius: 0.5em;
@@ -4733,6 +4830,14 @@ input::placeholder {
   font-size: 0.9rem;
   width: 600px;
 }
+.create-post-content .no-increment-decrement::-webkit-outer-spin-button,
+.create-post-content .no-increment-decrement::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.create-post-content .no-increment-decrement[type=number] {
+  -moz-appearance: textfield;
+}
 .create-post-content textarea {
   cursor: text;
   font-size: 0.9rem;
@@ -4740,6 +4845,38 @@ input::placeholder {
   line-height: 1.5;
   padding: 5px;
   width: 600px;
+}
+
+.litter-container {
+  margin-bottom: 9px;
+}
+.litter-container .radio-buttons {
+  display: flex;
+  justify-content: flex-start;
+}
+.litter-container .radio-buttons label {
+  align-items: center;
+  display: flex;
+  margin-right: 12px;
+}
+.litter-container .radio-buttons label input[type=radio] {
+  appearance: none;
+  border: 2px solid #015e41;
+  border-radius: 50%;
+  cursor: pointer;
+  height: 20px;
+  margin-right: 6px;
+  outline: none;
+  width: 20px;
+}
+.litter-container .radio-buttons label input[type=radio]:checked {
+  background-color: #015e41;
+}
+.litter-container .radio-buttons label:last-child {
+  margin-right: 0;
+}
+.litter-container .radio-buttons label span {
+  font-size: 14px;
 }
 
 .create-post-limit-message {
@@ -4920,6 +5057,9 @@ input::placeholder {
     object-fit: cover;
   }
   .create-post-content input {
+    border-style: inset;
+    border-width: 1px;
+    border-color: initial;
     width: 80vw;
   }
   .create-post-content textarea {
@@ -4928,6 +5068,37 @@ input::placeholder {
   }
   .create-post-limit-message {
     font-size: 0.6rem;
+  }
+  .litter-container {
+    margin-bottom: 9px;
+  }
+  .litter-container .radio-buttons {
+    display: flex;
+    justify-content: flex-start;
+  }
+  .litter-container .radio-buttons label {
+    align-items: center;
+    display: flex;
+    margin-right: 12px;
+  }
+  .litter-container .radio-buttons label input[type=radio] {
+    appearance: none;
+    border: 2px solid #015e41;
+    border-radius: 50%;
+    cursor: pointer;
+    height: 20px;
+    margin-right: 6px;
+    outline: none;
+    width: 20px;
+  }
+  .litter-container .radio-buttons label input[type=radio]:checked {
+    background-color: #015e41;
+  }
+  .litter-container .radio-buttons label:last-child {
+    margin-right: 0;
+  }
+  .litter-container .radio-buttons label span {
+    font-size: 14px;
   }
 }
 @media (max-width: 102.25rem) and (orientation: landscape) {
@@ -4976,6 +5147,48 @@ input::placeholder {
   }
   .recent-location-select {
     width: 460px;
+  }
+  .litter-container {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+  }
+  .litter-container input {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 9px;
+    padding: 10px;
+    width: 100%;
+  }
+  .litter-container .radio-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 9px;
+  }
+  .litter-container .radio-buttons label {
+    align-items: center;
+    display: flex;
+    margin-right: 12px;
+  }
+  .litter-container .radio-buttons label input[type=radio] {
+    appearance: none;
+    border: 2px solid #015e41;
+    border-radius: 50%;
+    cursor: pointer;
+    height: 20px;
+    margin-right: 6px;
+    outline: none;
+    width: 20px;
+  }
+  .litter-container .radio-buttons label input[type=radio]:checked {
+    background-color: #015e41;
+  }
+  .litter-container .radio-buttons label:last-child {
+    margin-right: 0;
+  }
+  .litter-container .radio-buttons label span {
+    font-size: 14px;
   }
 }
 .ok-button {

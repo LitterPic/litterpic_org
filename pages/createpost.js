@@ -8,8 +8,8 @@ import PlacesAutocomplete, {geocodeByAddress, getLatLng} from 'react-places-auto
 import {useLoadScript} from '@react-google-maps/api';
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {resizeImage} from "../components/utils";
 import {capitalizeFirstWordOfSentences} from "../utils/textUtils";
+
 
 const libraries = ['places'];
 const mapApiKey = process.env.NEXT_PUBLIC_PLACES_API_KEY;
@@ -39,8 +39,20 @@ function CreatePost() {
     const [locationSelected, setLocationSelected] = useState(false);
     const [isAddressModified, setAddressModified] = useState(false);
     const [uploading, setUploading] = useState(false);
+    const [unit, setUnit] = useState('lbs');
     const router = useRouter();
     const fileInputRef = React.useRef(null);
+
+
+    // we can useEffect to handle the conversion when the unit  changes
+    //useEffect runs after the components rendered
+    // when the unit changes, the #'s of that unit change
+    useEffect(() => {
+        if (litterWeight !== '') {
+            const conversionFactor = unit === 'kg' ? 1 / 2.20462 : 2.20462;
+            setLitterWeight((parseFloat(litterWeight) * conversionFactor).toFixed(2));
+        }
+    }, [unit]);
 
     const {isLoaded} = useLoadScript({
         googleMapsApiKey: mapApiKey,
@@ -137,10 +149,10 @@ function CreatePost() {
 
         for (let i = 0; i < postImages.length; i++) {
             const file = postImages[i];
-            const resizedFile = await resizeImage(file, 600, 600);
+            // const resizedFile = await resizeImage(file, 600, 600);
 
             const storageRef = ref(storage, `userPosts/${postDocRef.id}/${file.name}`);
-            const task = uploadBytesResumable(storageRef, resizedFile);
+            const task = uploadBytesResumable(storageRef, file);
             const snapshot = await task;
 
             const imageUrl = await getDownloadURL(snapshot.ref);
@@ -173,11 +185,12 @@ function CreatePost() {
         let postDocRef;
 
         try {
-            const postLitterWeight = litterWeight ? parseInt(litterWeight) : 0;
+            const postLitterWeightInPounds = unit === 'kg' ? parseFloat(litterWeight) * 2.20462 : parseFloat(litterWeight);
+
             // Create a new post document in Firestore
             postDocRef = await addDoc(collection(db, 'userPosts'), {
                 postDescription: postDescription,
-                litterWeight: postLitterWeight,
+                litterWeight: postLitterWeightInPounds.toFixed(),
                 timePosted: new Date(),
                 postUser: doc(db, `users/${user.uid}`),
                 location: selectedAddress,
@@ -211,7 +224,7 @@ function CreatePost() {
             const userRef = doc(db, `users/${user.uid}`);
             const userDoc = await getDoc(userRef);
             const currentUserTotalWeight = userDoc.data().totalWeight || 0;
-            await updateDoc(userRef, {totalWeight: currentUserTotalWeight + postLitterWeight});
+            await updateDoc(userRef, {totalWeight: currentUserTotalWeight + postLitterWeightInPounds});
 
             // Clear the form
             setPostDescription('');
@@ -247,7 +260,6 @@ function CreatePost() {
                 <img src="/images/create-post-banner.jpeg" alt="Banner Image"/>
                 <ToastContainer/>
             </div>
-
             <div className="page">
                 <div className="content">
                     <h1 className="heading-text">Create Post</h1>
@@ -287,20 +299,43 @@ function CreatePost() {
                                     placeholder="Description"
                                 />
                             </div>
-                            <div>
+                            <div className="litter-container">
                                 <input
+                                    className="no-increment-decrement"
                                     type="number"
                                     min="0"
-                                    step="1"
-                                    placeholder="Pounds of litter collected"
+                                    step="any"
+                                    placeholder="Total amount of litter collected"
                                     value={litterWeight}
                                     onChange={(e) => {
                                         const value = e.target.value;
-                                        if ((Number(value) >= 0 && Number.isInteger(Number(value))) || value === '') {
+                                        if ((Number(value) >= 0 && !isNaN(value)) || value === '') {
                                             setLitterWeight(value);
                                         }
                                     }}
                                 />
+                                <div className="radio-buttons">
+                                    <label>
+                                        <input
+                                            type="radio"
+                                            name="unitRadio"
+                                            value="lbs"
+                                            checked={unit === 'lbs'}
+                                            onChange={() => setUnit('lbs')}
+                                        />
+                                        <span>lbs</span>
+                                    </label>
+                                    <label>
+                                        <input
+                                            type="radio"
+                                            name="unitRadio"
+                                            value="kg"
+                                            checked={unit === 'kg'}
+                                            onChange={() => setUnit('kg')}
+                                        />
+                                        <span>kg</span>
+                                    </label>
+                                </div>
                             </div>
                             <div>
                                 <PlacesAutocomplete

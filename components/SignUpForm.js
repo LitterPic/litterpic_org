@@ -5,6 +5,7 @@ import {useRouter} from 'next/router';
 import {doc, getFirestore, serverTimestamp, setDoc} from 'firebase/firestore';
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {subscribeUserToMailchimp} from '../utils/subscribeUserToMailchimp';
 
 export default function SignInForm() {
     const [email, setEmail] = useState('');
@@ -68,23 +69,7 @@ export default function SignInForm() {
             }, {merge: true});
 
             // Add user to Mailchimp subscription list
-            const mailchimpResponse = await fetch('/api/subscribe', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    email: user.email,
-                }),
-            });
-
-            const mailchimpData = await mailchimpResponse.json();
-
-            if (mailchimpData.success) {
-
-            } else {
-
-            }
+            await subscribeUserToMailchimp(user.email);
 
             // Log out the user immediately after account creation
             await signOut(auth);
