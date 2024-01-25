@@ -65,6 +65,7 @@ export default function SignInForm() {
                 email: user.email,
                 uid: user.uid,
                 photo_url: "https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg",
+                organization: "Independent",
                 first_login: true,
             }, {merge: true});
 

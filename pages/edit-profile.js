@@ -13,7 +13,7 @@ export default function EditProfilePage() {
     const {user} = useAuth();
     const [displayName, setDisplayName] = useState('');
     const [bio, setBio] = useState('');
-    const [organization, setOrganization] = useState('');
+    const [organization, setOrganization] = useState('Independent');
     const [organizations, setOrganizations] = useState([]);
     const [photoUrl, setPhotoUrl] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -38,12 +38,13 @@ export default function EditProfilePage() {
                 setDisplayName(userData.display_name || '');
                 setBio(userData.bio || '');
                 setPhotoUrl(userData.photo_url || '');
-                setOrganization(userData.organization || '');
+                setOrganization(userData.organization || 'Independent');
 
                 // Fetch organizations
                 const orgsRef = collection(db, 'litterpickingOrganizations');
                 const orgsSnapshot = await getDocs(orgsRef);
-                let fetchedOrganizations = orgsSnapshot.docs.map(doc => doc.data().Name);
+                let fetchedOrganizations = orgsSnapshot.docs.map(doc => doc.data().Name)
+                    .filter(org => org && org.trim() !== '');
 
                 // Sort the organizations using the custom sorting function
                 let sortedOrganizations = fetchedOrganizations.sort(sortOrganizations);
@@ -62,7 +63,22 @@ export default function EditProfilePage() {
     const handleAddOrganization = async (e) => {
         e.preventDefault();
         if (newOrganization.trim() === '') {
-            toast.error('Please enter an organization name.');
+            toast.error('Please enter an organization name.', {
+                autoClose: 2000,
+            });
+            return;
+        }
+
+        // Normalize the new organization name to lower case for comparison
+        const newOrgNameNormalized = newOrganization.trim().toLowerCase();
+
+        // Check if the new organization already exists (case-insensitive)
+        const organizationExists = organizations.some(org => org.toLowerCase() === newOrgNameNormalized);
+        if (organizationExists) {
+            toast.error('An organization with the same name already exists.', {
+                autoClose: 2000,
+            });
+            setNewOrganization('');
             return;
         }
 
@@ -70,7 +86,6 @@ export default function EditProfilePage() {
         const newOrgRef = doc(collection(db, 'litterpickingOrganizations'));
         await setDoc(newOrgRef, {Name: newOrganization});
 
-        // Append 'Other' and then blank ('') at the end of the array
         let updatedOrganizations = [...organizations, newOrganization].sort(sortOrganizations);
         setOrganizations(updatedOrganizations);
 
@@ -78,7 +93,7 @@ export default function EditProfilePage() {
         setOrganization(newOrganization);
 
         toast.success("Organization added successfully.", {
-            autoClose: 1000,
+            autoClose: 2000,
         });
 
         // Send email to review newly added organization
@@ -128,7 +143,7 @@ export default function EditProfilePage() {
         // Get download URL
         const downloadURL = await getDownloadURL(snapshot.ref);
 
-        // Set the download URL in the state so it can be displayed and saved
+        // Set the download URL in the state, so it can be displayed and saved
         setPhotoUrl(downloadURL);
     };
 
@@ -166,7 +181,7 @@ export default function EditProfilePage() {
         } catch (error) {
             console.error("Error updating profile:", error);
             toast.error("Error updating profile.", {
-                autoClose: 1000,
+                autoClose: 2000,
             });
             setIsLoading(false);
         }
