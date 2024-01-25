@@ -261,13 +261,13 @@ function Stories() {
                 ];
                 setPostComments(updatedPostComments);
 
-                setComments({...comments, [postId]: ''});
-                setOpenCommentInput(null);
-            } catch (error) {
-                console.error('Error adding comment:', error);
-            }
-        }
-    };
+                  setComments({...comments, [postId]: '' });
+                //   setOpenCommentInput(null);
+             } catch (error) {
+                  console.error('Error adding comment:', error);
+         }
+     }
+      };
 
     useEffect(() => {
         const handleClickOutside = (event) => {
