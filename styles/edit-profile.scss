@@ -70,7 +70,7 @@
   width: 33%;
 }
 
-.edit-profile-organization-select {
+.edit-profile-organization-select, .edit-profile-new-organization-input {
   background-color: $white;
   border: 1px solid $med-gray;
   border-radius: 5px;
@@ -94,7 +94,8 @@
 }
 
 
-.edit-profile-submit-button {
+.edit-profile-submit-button, .edit-profile-add-organization-button {
+  border-radius: 0.5rem;
   display: block;
   margin-top: 20px;
   width: 200px;

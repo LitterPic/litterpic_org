@@ -653,14 +653,15 @@ input:checked + .custom-checkbox::after {
     width: 33%;
 }
 
-.edit-profile-organization-select {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    color: #000;
-    font-size: 0.9rem;
-    text-decoration: none;
-    width: 33%;
+
+.edit-profile-organization-select, .edit-profile-new-organization-input {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  color: #000;
+  font-size: 0.9rem;
+  text-decoration: none;
+  width: 33%;
 }
 
 .edit-profile-bio-textarea {
@@ -676,10 +677,11 @@ input:checked + .custom-checkbox::after {
     width: 90%;
 }
 
-.edit-profile-submit-button {
-    display: block;
-    margin-top: 20px;
-    width: 200px;
+.edit-profile-submit-button, .edit-profile-add-organization-button {
+  border-radius: 0.5rem;
+  display: block;
+  margin-top: 20px;
+  width: 200px;
 }
 
 [disabled] {
@@ -3448,8 +3450,8 @@ h1.heading-text.profile-heading {
 }
 
 .create-post-content {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .create-post-content button {
@@ -3483,6 +3485,12 @@ h1.heading-text.profile-heading {
 
 .create-post-content .no-increment-decrement[type=number] {
     -moz-appearance: textfield;
+}
+
+.create-post-content .no-increment-decrement::-webkit-outer-spin-button,
+.create-post-content .no-increment-decrement::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .create-post-content textarea {
@@ -3530,6 +3538,38 @@ h1.heading-text.profile-heading {
 
 .litter-container .radio-buttons label span {
     font-size: 14px;
+}
+
+.litter-container {
+  margin-bottom: 9px;
+}
+.litter-container .radio-buttons {
+  display: flex;
+  justify-content: flex-start;
+}
+.litter-container .radio-buttons label {
+  align-items: center;
+  display: flex;
+  margin-right: 12px;
+}
+.litter-container .radio-buttons label input[type=radio] {
+  appearance: none;
+  border: 2px solid #015e41;
+  border-radius: 50%;
+  cursor: pointer;
+  height: 20px;
+  margin-right: 6px;
+  outline: none;
+  width: 20px;
+}
+.litter-container .radio-buttons label input[type=radio]:checked {
+  background-color: #015e41;
+}
+.litter-container .radio-buttons label:last-child {
+  margin-right: 0;
+}
+.litter-container .radio-buttons label span {
+  font-size: 14px;
 }
 
 .create-post-limit-message {
@@ -3633,265 +3673,147 @@ h1.heading-text.profile-heading {
 
 .button-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+  }
+  .create-post-content img {
+    max-width: 99vw;
+    object-fit: cover;
+  }
+  .create-post-content input {
+    border-style: inset;
+    border-width: 1px;
+    border-color: initial;
+    width: 80vw;
+  }
+  .create-post-content textarea {
+    height: 100px;
+    width: 80vw;
+  }
+  .create-post-limit-message {
+    font-size: 0.6rem;
+  }
+  .litter-container {
+    margin-bottom: 9px;
+  }
+  .litter-container .radio-buttons {
+    display: flex;
+    justify-content: flex-start;
+  }
+  .litter-container .radio-buttons label {
     align-items: center;
-    margin-top: 1rem;
-}
-
-@media (max-width: 76.5rem) {
-    .profile-image {
-        justify-content: center;
-        padding-right: 0;
-    }
-
-    .post-username-location {
-        display: grid;
-        grid-template-columns: 15% 55% 30%;
-        justify-content: space-between;
-        padding-left: 0.5rem;
-        padding-right: 0.5rem;
-        padding-top: 1rem;
-    }
-
-    .post-user-name {
-        display: flex;
-        font-size: 0.7rem;
-        justify-content: center;
-    }
-
-    .post-location a {
-        font-size: 0.5rem;
-    }
-
-    .post-time {
-        font-size: 0.5rem;
-    }
-
-    .post-ambassador {
-        font-weight: normal;
-        justify-content: flex-start;
-        flex-direction: row;
-        grid-column: 2;
-        grid-row: 2;
-    }
-
-    .post-ambassador-text {
-        font-size: 0.5rem;
-        margin-top: 4px;
-    }
-
-    .post {
-        border: 0.01rem solid #015e41;
-        border-radius: 0.5rem;
-        margin-bottom: 0.5rem;
-    }
-
-    .carousel-chevron {
-        background-color: #fff;
-        color: #015e41;
-        height: auto;
-        position: relative;
-        z-index: 1;
-    }
-
-    .carousel-chevron:hover {
-        color: #000;
-    }
-
-    .carousel-chevron-left {
-        padding-right: 0.01rem;
-    }
-
-    .carousel-chevron-right {
-        padding-left: 0.01rem;
-    }
-
-    .carousel-image {
-        height: auto;
-        object-fit: fill;
-        overflow: hidden;
-        width: 400px;
-    }
-
-    .post-dropdown-menu {
-        left: 63%;
-    }
-
-    .recent-location-select {
-        width: 350px;
-    }
-
-    .create-post-content {
-        display: flex;
-        justify-content: center;
-    }
-
-    .create-post-content img {
-        max-width: 99vw;
-        object-fit: cover;
-    }
-
-    .create-post-content input {
-        border-style: inset;
-        border-width: 1px;
-        border-color: initial;
-        width: 80vw;
-    }
-
-    .create-post-content textarea {
-        height: 100px;
-        width: 80vw;
-    }
-
-    .create-post-limit-message {
-        font-size: 0.6rem;
-    }
-
-    .litter-container {
-        margin-bottom: 9px;
-    }
-
-    .litter-container .radio-buttons {
-        display: flex;
-        justify-content: flex-start;
-    }
-
-    .litter-container .radio-buttons label {
-        align-items: center;
-        display: flex;
-        margin-right: 12px;
-    }
-
-    .litter-container .radio-buttons label input[type=radio] {
-        appearance: none;
-        border: 2px solid #015e41;
-        border-radius: 50%;
-        cursor: pointer;
-        height: 20px;
-        margin-right: 6px;
-        outline: none;
-        width: 20px;
-    }
-
-    .litter-container .radio-buttons label input[type=radio]:checked {
-        background-color: #015e41;
-    }
-
-    .litter-container .radio-buttons label:last-child {
-        margin-right: 0;
-    }
-
-    .litter-container .radio-buttons label span {
-        font-size: 14px;
-    }
+    display: flex;
+    margin-right: 12px;
+  }
+  .litter-container .radio-buttons label input[type=radio] {
+    appearance: none;
+    border: 2px solid #015e41;
+    border-radius: 50%;
+    cursor: pointer;
+    height: 20px;
+    margin-right: 6px;
+    outline: none;
+    width: 20px;
+  }
+  .litter-container .radio-buttons label input[type=radio]:checked {
+    background-color: #015e41;
+  }
+  .litter-container .radio-buttons label:last-child {
+    margin-right: 0;
+  }
+  .litter-container .radio-buttons label span {
+    font-size: 14px;
+  }
 }
 
 @media (max-width: 102.25rem) and (orientation: landscape) {
-    .profile-image {
-        justify-content: center;
-        padding-right: 0;
-    }
-
-    .post-username-location {
-        align-content: flex-start;
-        display: grid;
-        justify-content: space-between;
-        padding-left: 0.5rem;
-        padding-right: 0.5rem;
-        padding-top: 1rem;
-    }
-
-    .post-user-name {
-        align-items: flex-start;
-        display: flex;
-        font-size: 0.75rem;
-        justify-content: flex-start;
-    }
-
-    .post-location a {
-        font-size: 0.5rem;
-    }
-
-    .carousel-chevron {
-        background-color: #fff;
-        color: #015e41;
-        height: auto;
-        position: relative;
-        z-index: 1;
-    }
-
-    .carousel-chevron:hover {
-        color: #000;
-    }
-
-    .carousel-chevron-left {
-        padding-right: 0.01rem;
-    }
-
-    .carousel-chevron-right {
-        padding-left: 0.01rem;
-    }
-
-    .carousel-image {
-        height: auto;
-        object-fit: fill;
-        overflow: hidden;
-        width: 300px;
-    }
-
-    .recent-location-select {
-        width: 460px;
-    }
-
-    .litter-container {
-        align-items: flex-start;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .litter-container input {
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        margin-bottom: 9px;
-        padding: 10px;
-        width: 100%;
-    }
-
-    .litter-container .radio-buttons {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        margin-bottom: 9px;
-    }
-
-    .litter-container .radio-buttons label {
-        align-items: center;
-        display: flex;
-        margin-right: 12px;
-    }
-
-    .litter-container .radio-buttons label input[type=radio] {
-        appearance: none;
-        border: 2px solid #015e41;
-        border-radius: 50%;
-        cursor: pointer;
-        height: 20px;
-        margin-right: 6px;
-        outline: none;
-        width: 20px;
-    }
-
-    .litter-container .radio-buttons label input[type=radio]:checked {
-        background-color: #015e41;
-    }
-
-    .litter-container .radio-buttons label:last-child {
-        margin-right: 0;
-    }
-
-    .litter-container .radio-buttons label span {
-        font-size: 14px;
-    }
+  .profile-image {
+    justify-content: center;
+    padding-right: 0;
+  }
+  .post-username-location {
+    align-content: flex-start;
+    display: grid;
+    justify-content: space-between;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 1rem;
+  }
+  .post-user-name {
+    align-items: flex-start;
+    display: flex;
+    font-size: 0.75rem;
+    justify-content: flex-start;
+  }
+  .post-location a {
+    font-size: 0.5rem;
+  }
+  .carousel-chevron {
+    background-color: #fff;
+    color: #015e41;
+    height: auto;
+    position: relative;
+    z-index: 1;
+  }
+  .carousel-chevron:hover {
+    color: #000;
+  }
+  .carousel-chevron-left {
+    padding-right: 0.01rem;
+  }
+  .carousel-chevron-right {
+    padding-left: 0.01rem;
+  }
+  .carousel-image {
+    height: auto;
+    object-fit: fill;
+    overflow: hidden;
+    width: 300px;
+  }
+  .recent-location-select {
+    width: 460px;
+  }
+  .litter-container {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+  }
+  .litter-container input {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 9px;
+    padding: 10px;
+    width: 100%;
+  }
+  .litter-container .radio-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 9px;
+  }
+  .litter-container .radio-buttons label {
+    align-items: center;
+    display: flex;
+    margin-right: 12px;
+  }
+  .litter-container .radio-buttons label input[type=radio] {
+    appearance: none;
+    border: 2px solid #015e41;
+    border-radius: 50%;
+    cursor: pointer;
+    height: 20px;
+    margin-right: 6px;
+    outline: none;
+    width: 20px;
+  }
+  .litter-container .radio-buttons label input[type=radio]:checked {
+    background-color: #015e41;
+  }
+  .litter-container .radio-buttons label:last-child {
+    margin-right: 0;
+  }
+  .litter-container .radio-buttons label span {
+    font-size: 14px;
+  }
 }
 
 .volunteer-top-paragraph {
@@ -5286,10 +5208,8 @@ input::placeholder {
 }
 
 .create-post-content {
-    display: flex;
-    justify-content: center;
-    /* Hide input arrows - For Chrome, Safari, Edge, Opera */
-    /* Hide input arrows - For Firefox */
+  display: flex;
+  justify-content: center;
 }
 
 .create-post-content button {
@@ -5315,6 +5235,15 @@ input::placeholder {
     width: 600px;
 }
 
+.create-post-content .no-increment-decrement::-webkit-outer-spin-button,
+.create-post-content .no-increment-decrement::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.create-post-content .no-increment-decrement[type=number] {
+  -moz-appearance: textfield;
+}
+
 .create-post-content textarea {
     cursor: text;
     font-size: 0.9rem;
@@ -5322,6 +5251,38 @@ input::placeholder {
     line-height: 1.5;
     padding: 5px;
     width: 600px;
+}
+
+.litter-container {
+  margin-bottom: 9px;
+}
+.litter-container .radio-buttons {
+  display: flex;
+  justify-content: flex-start;
+}
+.litter-container .radio-buttons label {
+  align-items: center;
+  display: flex;
+  margin-right: 12px;
+}
+.litter-container .radio-buttons label input[type=radio] {
+  appearance: none;
+  border: 2px solid #015e41;
+  border-radius: 50%;
+  cursor: pointer;
+  height: 20px;
+  margin-right: 6px;
+  outline: none;
+  width: 20px;
+}
+.litter-container .radio-buttons label input[type=radio]:checked {
+  background-color: #015e41;
+}
+.litter-container .radio-buttons label:last-child {
+  margin-right: 0;
+}
+.litter-container .radio-buttons label span {
+  font-size: 14px;
 }
 
 .create-post-limit-message {
@@ -5431,168 +5392,216 @@ input::placeholder {
 }
 
 @media (max-width: 76.5rem) {
-    .profile-image {
-        justify-content: center;
-        padding-right: 0;
-    }
-
-    .post-username-location {
-        display: grid;
-        grid-template-columns: 15% 55% 30%;
-        justify-content: space-between;
-        padding-left: 0.5rem;
-        padding-right: 0.5rem;
-        padding-top: 1rem;
-    }
-
-    .post-user-name {
-        display: flex;
-        font-size: 0.7rem;
-        justify-content: center;
-    }
-
-    .post-location a {
-        font-size: 0.5rem;
-    }
-
-    .post-time {
-        font-size: 0.5rem;
-    }
-
-    .post-ambassador {
-        font-weight: normal;
-        justify-content: flex-start;
-        flex-direction: row;
-        grid-column: 2;
-        grid-row: 2;
-    }
-
-    .post-ambassador-text {
-        font-size: 0.5rem;
-        margin-top: 4px;
-    }
-
-    .post {
-        border: 0.01rem solid #015e41;
-        border-radius: 0.5rem;
-        margin-bottom: 0.5rem;
-    }
-
-    .carousel-chevron {
-        background-color: #fff;
-        color: #015e41;
-        height: auto;
-        position: relative;
-        z-index: 1;
-    }
-
-    .carousel-chevron:hover {
-        color: #000;
-    }
-
-    .carousel-chevron-left {
-        padding-right: 0.01rem;
-    }
-
-    .carousel-chevron-right {
-        padding-left: 0.01rem;
-    }
-
-    .carousel-image {
-        height: auto;
-        object-fit: fill;
-        overflow: hidden;
-        width: 400px;
-    }
-
-    .post-dropdown-menu {
-        left: 63%;
-    }
-
-    .recent-location-select {
-        width: 350px;
-    }
-
-    .create-post-content {
-        display: flex;
-        justify-content: center;
-    }
-
-    .create-post-content img {
-        max-width: 99vw;
-        object-fit: cover;
-    }
-
-    .create-post-content input {
-        width: 80vw;
-    }
-
-    .create-post-content textarea {
-        height: 100px;
-        width: 80vw;
-    }
-
-    .create-post-limit-message {
-        font-size: 0.6rem;
-    }
+  .profile-image {
+    justify-content: center;
+    padding-right: 0;
+  }
+  .post-username-location {
+    display: grid;
+    grid-template-columns: 15% 55% 30%;
+    justify-content: space-between;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 1rem;
+  }
+  .post-user-name {
+    display: flex;
+    font-size: 0.7rem;
+    justify-content: center;
+  }
+  .post-location a {
+    font-size: 0.5rem;
+  }
+  .post-time {
+    font-size: 0.5rem;
+  }
+  .post-ambassador {
+    font-weight: normal;
+    justify-content: flex-start;
+    flex-direction: row;
+    grid-column: 2;
+    grid-row: 2;
+  }
+  .post-ambassador-text {
+    font-size: 0.5rem;
+    margin-top: 4px;
+  }
+  .post {
+    border: 0.01rem solid #015e41;
+    border-radius: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .carousel-chevron {
+    background-color: #fff;
+    color: #015e41;
+    height: auto;
+    position: relative;
+    z-index: 1;
+  }
+  .carousel-chevron:hover {
+    color: #000;
+  }
+  .carousel-chevron-left {
+    padding-right: 0.01rem;
+  }
+  .carousel-chevron-right {
+    padding-left: 0.01rem;
+  }
+  .carousel-image {
+    height: auto;
+    object-fit: fill;
+    overflow: hidden;
+    width: 400px;
+  }
+  .post-dropdown-menu {
+    left: 63%;
+  }
+  .recent-location-select {
+    width: 350px;
+  }
+  .create-post-content {
+    display: flex;
+    justify-content: center;
+  }
+  .create-post-content img {
+    max-width: 99vw;
+    object-fit: cover;
+  }
+  .create-post-content input {
+    border-style: inset;
+    border-width: 1px;
+    border-color: initial;
+    width: 80vw;
+  }
+  .create-post-content textarea {
+    height: 100px;
+    width: 80vw;
+  }
+  .create-post-limit-message {
+    font-size: 0.6rem;
+  }
+  .litter-container {
+    margin-bottom: 9px;
+  }
+  .litter-container .radio-buttons {
+    display: flex;
+    justify-content: flex-start;
+  }
+  .litter-container .radio-buttons label {
+    align-items: center;
+    display: flex;
+    margin-right: 12px;
+  }
+  .litter-container .radio-buttons label input[type=radio] {
+    appearance: none;
+    border: 2px solid #015e41;
+    border-radius: 50%;
+    cursor: pointer;
+    height: 20px;
+    margin-right: 6px;
+    outline: none;
+    width: 20px;
+  }
+  .litter-container .radio-buttons label input[type=radio]:checked {
+    background-color: #015e41;
+  }
+  .litter-container .radio-buttons label:last-child {
+    margin-right: 0;
+  }
+  .litter-container .radio-buttons label span {
+    font-size: 14px;
+  }
 }
 
 @media (max-width: 102.25rem) and (orientation: landscape) {
-    .profile-image {
-        justify-content: center;
-        padding-right: 0;
-    }
-
-    .post-username-location {
-        align-content: flex-start;
-        display: grid;
-        justify-content: space-between;
-        padding-left: 0.5rem;
-        padding-right: 0.5rem;
-        padding-top: 1rem;
-    }
-
-    .post-user-name {
-        align-items: flex-start;
-        display: flex;
-        font-size: 0.75rem;
-        justify-content: flex-start;
-    }
-
-    .post-location a {
-        font-size: 0.5rem;
-    }
-
-    .carousel-chevron {
-        background-color: #fff;
-        color: #015e41;
-        height: auto;
-        position: relative;
-        z-index: 1;
-    }
-
-    .carousel-chevron:hover {
-        color: #000;
-    }
-
-    .carousel-chevron-left {
-        padding-right: 0.01rem;
-    }
-
-    .carousel-chevron-right {
-        padding-left: 0.01rem;
-    }
-
-    .carousel-image {
-        height: auto;
-        object-fit: fill;
-        overflow: hidden;
-        width: 300px;
-    }
-
-    .recent-location-select {
-        width: 460px;
-    }
+  .profile-image {
+    justify-content: center;
+    padding-right: 0;
+  }
+  .post-username-location {
+    align-content: flex-start;
+    display: grid;
+    justify-content: space-between;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 1rem;
+  }
+  .post-user-name {
+    align-items: flex-start;
+    display: flex;
+    font-size: 0.75rem;
+    justify-content: flex-start;
+  }
+  .post-location a {
+    font-size: 0.5rem;
+  }
+  .carousel-chevron {
+    background-color: #fff;
+    color: #015e41;
+    height: auto;
+    position: relative;
+    z-index: 1;
+  }
+  .carousel-chevron:hover {
+    color: #000;
+  }
+  .carousel-chevron-left {
+    padding-right: 0.01rem;
+  }
+  .carousel-chevron-right {
+    padding-left: 0.01rem;
+  }
+  .carousel-image {
+    height: auto;
+    object-fit: fill;
+    overflow: hidden;
+    width: 300px;
+  }
+  .recent-location-select {
+    width: 460px;
+  }
+  .litter-container {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+  }
+  .litter-container input {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 9px;
+    padding: 10px;
+    width: 100%;
+  }
+  .litter-container .radio-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 9px;
+  }
+  .litter-container .radio-buttons label {
+    align-items: center;
+    display: flex;
+    margin-right: 12px;
+  }
+  .litter-container .radio-buttons label input[type=radio] {
+    appearance: none;
+    border: 2px solid #015e41;
+    border-radius: 50%;
+    cursor: pointer;
+    height: 20px;
+    margin-right: 6px;
+    outline: none;
+    width: 20px;
+  }
+  .litter-container .radio-buttons label input[type=radio]:checked {
+    background-color: #015e41;
+  }
+  .litter-container .radio-buttons label:last-child {
+    margin-right: 0;
+  }
+  .litter-container .radio-buttons label span {
+    font-size: 14px;
+  }
 }
 
 .ok-button {
