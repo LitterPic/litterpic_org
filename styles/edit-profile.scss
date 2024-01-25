@@ -111,6 +111,11 @@
 }
 
 @media (max-width: 76.5rem) {
+  .edit-profile-new-organization-input {
+    font-size: .75rem;
+    width: 90%;
+  }
+
   .edit-profile-container {
 
     form {
@@ -133,6 +138,7 @@
       font-size: .75rem;
       width: 90%;
     }
+
 
     &bio-textarea {
       font-size: .75rem;
