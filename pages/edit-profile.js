@@ -78,8 +78,38 @@ export default function EditProfilePage() {
         setOrganization(newOrganization);
 
         toast.success("Organization added successfully.", {
-            autoClose: 2000,
+            autoClose: 1000,
         });
+
+        // Send email to review newly added organization
+        const now = new Date();
+
+        const newOrganizationAddedTemplateId = "d-b58d5be8b6f54d939f23903badb0107a";
+        const newOrganizationTemplateData = {
+            orgId: newOrgRef.id,
+            organizationName: newOrganization,
+            addedDate: now.toDateString(),
+            userWhoAdded: auth.currentUser.email,
+        };
+
+        fetch("/api/sendEmail", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: 'alek@litterpic.org',
+                templateId: newOrganizationAddedTemplateId,
+                templateData: newOrganizationTemplateData,
+            }),
+        })
+            .then((response) => response.json())
+            .then(() => {
+
+            })
+            .catch((error) => {
+                console.error("Error sending email:", error);
+            });
 
         // Reset the new organization input field and hide it
         setNewOrganization('');
@@ -136,7 +166,7 @@ export default function EditProfilePage() {
         } catch (error) {
             console.error("Error updating profile:", error);
             toast.error("Error updating profile.", {
-                autoClose: 2000,
+                autoClose: 1000,
             });
             setIsLoading(false);
         }
