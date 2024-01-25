@@ -251,11 +251,10 @@ export default function EditProfilePage() {
                                 <>
                                     <label className="edit-profile-label">
                                         Enter A New Organization:
-                                        <input
-                                            className="edit-profile-new-organization-input"
-                                            type="text"
-                                            value={newOrganization}
-                                            onChange={(e) => setNewOrganization(e.target.value)}
+                                        <input className="edit-profile-new-organization-input"
+                                               type="text"
+                                               value={newOrganization}
+                                               onChange={(e) => setNewOrganization(e.target.value)}
                                         />
                                     </label>
                                     <button

@@ -584,21 +584,13 @@ input:checked + .custom-checkbox::after {
   background: #4267b2;
 }
 
-.edit-profile-name-input {
+.edit-profile-name-input,
+.edit-profile-organization-select,
+.edit-profile-new-organization-input {
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 0.9rem;
   padding-left: 0.5rem;
-  width: 33%;
-}
-
-.edit-profile-organization-select, .edit-profile-new-organization-input {
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  color: #000;
-  font-size: 0.9rem;
-  text-decoration: none;
   width: 33%;
 }
 

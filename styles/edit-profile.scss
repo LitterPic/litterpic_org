@@ -62,7 +62,9 @@
   }
 }
 
-.edit-profile-name-input {
+.edit-profile-name-input,
+.edit-profile-organization-select,
+.edit-profile-new-organization-input {
   border: 1px solid $med-gray;
   border-radius: 5px;
   font-size: .9rem;
@@ -70,15 +72,6 @@
   width: 33%;
 }
 
-.edit-profile-organization-select, .edit-profile-new-organization-input {
-  background-color: $white;
-  border: 1px solid $med-gray;
-  border-radius: 5px;
-  color: $black;
-  font-size: .9rem;
-  text-decoration: none;
-  width: 33%;
-}
 
 .edit-profile-bio-textarea {
   border: 1px solid $med-gray;
