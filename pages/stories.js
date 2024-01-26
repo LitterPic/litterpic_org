@@ -262,8 +262,7 @@ function Stories() {
                 setPostComments(updatedPostComments);
 
                   setComments({...comments, [postId]: '' });
-                //   setOpenCommentInput(null);
-             } catch (error) {
+            }   catch (error) {
                   console.error('Error adding comment:', error);
          }
      }
