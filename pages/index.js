@@ -77,7 +77,7 @@ export default function Index() {
                     '\nRegion: ' + geoData.region +
                     '\nPostal Code: ' + geoData.postal +
                     '\nCountry: ' + geoData.country +
-                    '\nLocation: ' + geoData.loc +
+                    '\nLocation: https://maps.google.com/?q=' + geoData.loc +
                     '\nTime Zone: ' + geoData.timezone;
 
                 // Send SNS notification
