@@ -71,15 +71,19 @@ export default function Index() {
                 const ipAddress = data.ip;
 
                 // Get Geographical Info using ipstack
-                const apiKey = process.env.NEXT_PUBLIC_IPSTACK_ACCESS_TOKEN;
-                const geoRes = await fetch(`https://api.ipstack.com/${ipAddress}?access_key=${apiKey}`);
+                const geoRes = await fetch(`https://ipinfo.io/${ipAddress}?token=6b6a41269b8130`);
                 const geoData = await geoRes.json();
-                const location = geoData.city + ', ' + geoData.region_name + ', ' + geoData.country_name;
+                const location = 'City: ' + geoData.city +
+                    '\nRegion: ' + geoData.region +
+                    '\nPostal Code: ' + geoData.postal +
+                    '\nCountry: ' + geoData.country +
+                    '\nLocation: https://maps.google.com/?q=' + geoData.loc +
+                    '\nTime Zone: ' + geoData.timezone;
 
                 // Send SNS notification
                 const sns = new AWS.SNS();
                 const topicArn = 'arn:aws:sns:us-east-1:710280486241:litterpicOrgNewVisitor';
-                const message = `A user from ${location} has visited LitterPic.org!`;
+                const message = `A user from has visited LitterPic.org! \n\n ${location}`;
 
                 const params = {
                     Message: message,

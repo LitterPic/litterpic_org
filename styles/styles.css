@@ -584,21 +584,13 @@ input:checked + .custom-checkbox::after {
   background: #4267b2;
 }
 
-.edit-profile-name-input {
+.edit-profile-name-input,
+.edit-profile-organization-select,
+.edit-profile-new-organization-input {
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 0.9rem;
   padding-left: 0.5rem;
-  width: 33%;
-}
-
-.edit-profile-organization-select {
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  color: #000;
-  font-size: 0.9rem;
-  text-decoration: none;
   width: 33%;
 }
 
@@ -615,7 +607,8 @@ input:checked + .custom-checkbox::after {
   width: 90%;
 }
 
-.edit-profile-submit-button {
+.edit-profile-submit-button, .edit-profile-add-organization-button {
+  border-radius: 0.5rem;
   display: block;
   margin-top: 20px;
   width: 200px;
@@ -631,6 +624,10 @@ input:checked + .custom-checkbox::after {
 }
 
 @media (max-width: 76.5rem) {
+  .edit-profile-new-organization-input {
+    font-size: 0.75rem;
+    width: 90%;
+  }
   .edit-profile-container form {
     max-width: 100%;
     width: 100%;
@@ -3082,7 +3079,7 @@ h1.heading-text.profile-heading {
 }
 
 .post-ambassador {
-  align-content: start;
+  align-content: flex-start;
   display: flex;
   font-weight: normal;
   justify-content: flex-start;
@@ -4370,7 +4367,7 @@ input::placeholder {
   }
   .report-label-mobile {
     display: block;
-    align-self: start;
+    align-self: flex-start;
     margin-left: 2%;
   }
   .report-optional-text {
@@ -4738,7 +4735,7 @@ input::placeholder {
 }
 
 .post-ambassador {
-  align-content: start;
+  align-content: flex-start;
   display: flex;
   font-weight: normal;
   justify-content: flex-start;

@@ -1,23 +1,27 @@
-// pages/api/subscribe.js
-
+//subscribe.js
 import axios from 'axios';
 
 export default async function handler(req, res) {
-    if (req.method === 'POST') {
+    try {
         const {email} = req.body;
 
-        // Your Mailchimp settings
-        const API_KEY = process.env.NEXT_PUBLIC_MAILCHIMP_ACCESS_TOKEN;
-        const LIST_ID = '74b6ad6a41';
-        const SERVER_PREFIX = 'us21';
+        // Your SendGrid settings
+        const API_KEY = process.env.NEXT_PUBLIC_SENDGRID_ACCESS_TOKEN;
 
-        // Mailchimp API endpoint
-        const url = `https://${SERVER_PREFIX}.api.mailchimp.com/3.0/lists/${LIST_ID}/members`;
+        // SendGrid API endpoint for adding or updating contacts
+        const url = 'https://api.sendgrid.com/v3/marketing/contacts';
 
-        // Subscriber data
+        // Define the data payload with email and list_ids
         const data = {
-            email_address: email,
-            status: 'subscribed',
+            list_ids: [],
+            contacts: [
+                {
+                    email: email.toLowerCase(),
+                    Custom_Fields: {
+                        Tag: req.body.Custom_Fields.Tag
+                    },
+                },
+            ],
         };
 
         // Request headers
@@ -28,18 +32,16 @@ export default async function handler(req, res) {
             },
         };
 
-        try {
-            const response = await axios.post(url, data, config);
+        // Make the SendGrid API request with a PUT request
+        const response = await axios.put(url, data, config);
 
-            if (response.status === 200) {
-                res.status(200).json({success: true});
-            } else {
-                res.status(400).json({success: false});
-            }
-        } catch (error) {
-            res.status(500).json({success: false, error: error.response.data});
+        // Check the response status
+        if (response.status === 202) { // Updated status code to 202
+            res.status(200).json({success: true});
+        } else {
+            res.status(400).json({success: false});
         }
-    } else {
-        res.status(405).end();
+    } catch (error) {
+        res.status(500).json({success: false, error: error.response.data});
     }
 }

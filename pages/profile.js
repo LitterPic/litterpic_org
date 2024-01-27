@@ -16,6 +16,7 @@ const ProfilePage = () => {
     const [litterCollected, setLitterCollected] = useState(0);
     const [isAmbassador, setIsAmbassador] = useState(false);
     const [ambassadorDate, setAmbassadorDate] = useState(null)
+    const [memberSince, setMemberSince] = useState(null);
 
     const renderCollected = () => {
         if (userOrganization === 'Blue Ocean Society') {
@@ -45,7 +46,7 @@ const ProfilePage = () => {
                         setUserOrganization(userData.organization);
 
                         const totalWeight = userData.totalWeight || 0;
-                        setLitterCollected(totalWeight);
+                        setLitterCollected(totalWeight.toFixed());
 
                         // Check if the user is an ambassador
                         const ambassadorStatus = userData.ambassador || false;
@@ -55,6 +56,11 @@ const ProfilePage = () => {
                             const timestamp = userData.ambassador_date;
                             const date = timestamp.toDate();
                             setAmbassadorDate(date);
+                        }
+
+                        if (userData.created_time) {
+                            const memberSinceDate = new Date(userData.created_time.seconds * 1000);
+                            setMemberSince(memberSinceDate);
                         }
                     }
                 } catch (error) {
@@ -157,7 +163,7 @@ const ProfilePage = () => {
                             <p className="profile-value">{userBio}</p>
                             <p className="profile-item">Member</p>
                             <p className="profile-value">
-                                {new Date(user.metadata.creationTime).toLocaleDateString()}
+                                {memberSince ? memberSince.toLocaleDateString() : 'Not Available'}
                             </p>
                         </div>
                     </div>

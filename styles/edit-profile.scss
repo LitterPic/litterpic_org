@@ -62,7 +62,9 @@
   }
 }
 
-.edit-profile-name-input {
+.edit-profile-name-input,
+.edit-profile-organization-select,
+.edit-profile-new-organization-input {
   border: 1px solid $med-gray;
   border-radius: 5px;
   font-size: .9rem;
@@ -70,15 +72,6 @@
   width: 33%;
 }
 
-.edit-profile-organization-select {
-  background-color: $white;
-  border: 1px solid $med-gray;
-  border-radius: 5px;
-  color: $black;
-  font-size: .9rem;
-  text-decoration: none;
-  width: 33%;
-}
 
 .edit-profile-bio-textarea {
   border: 1px solid $med-gray;
@@ -94,7 +87,8 @@
 }
 
 
-.edit-profile-submit-button {
+.edit-profile-submit-button, .edit-profile-add-organization-button {
+  border-radius: 0.5rem;
   display: block;
   margin-top: 20px;
   width: 200px;
@@ -110,6 +104,11 @@
 }
 
 @media (max-width: 76.5rem) {
+  .edit-profile-new-organization-input {
+    font-size: .75rem;
+    width: 90%;
+  }
+
   .edit-profile-container {
 
     form {
@@ -132,6 +131,7 @@
       font-size: .75rem;
       width: 90%;
     }
+
 
     &bio-textarea {
       font-size: .75rem;
