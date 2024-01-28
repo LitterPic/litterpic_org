@@ -15,33 +15,34 @@ import {
 } from 'firebase/firestore';
 import {db, storage} from '../lib/firebase';
 import {getDownloadURL, ref} from 'firebase/storage';
-import {getAuth} from 'firebase/auth';
-import {useRouter} from 'next/router';
 
-export async function fetchPosts(page, postsPerPage) {
-    let postQuery = query(
-        collection(db, 'userPosts'),
-        orderBy('timePosted', 'desc'),
-        limit(postsPerPage),
-    );
+export async function* fetchPosts(page, postsPerPage, userId = null) {
+    let postQuery;
 
-    const options = {
-        getDocsFromServer: ['likes', 'numComments']
-    };
-
-    if (page > 1) {
-        const lastVisiblePost = await getLastVisiblePost(page - 1, postsPerPage);
+    if (userId) {
+        console.log("UserId:", userId);
+        const userDocRef = doc(db, 'users', userId);
+        postQuery = query(
+            collection(db, 'userPosts'),
+            where('postUser', '==', userDocRef),
+            orderBy('timePosted', 'desc'),
+            limit(postsPerPage)
+        );
+    } else {
+        console.log("Getting posts for all users");
         postQuery = query(
             collection(db, 'userPosts'),
             orderBy('timePosted', 'desc'),
-            startAfter(lastVisiblePost),
             limit(postsPerPage)
         );
     }
 
-    const querySnapshot = await getDocs(postQuery, options);
+    if (page >= 2) {
+        const lastVisiblePost = await getLastVisiblePost(page - 1, postsPerPage, userId);
+        postQuery = query(postQuery, startAfter(lastVisiblePost));
+    }
 
-    const posts = [];
+    const querySnapshot = await getDocs(postQuery);
 
     for (const postDoc of querySnapshot.docs) {
         const postData = postDoc.data();
@@ -60,12 +61,12 @@ export async function fetchPosts(page, postsPerPage) {
         }
 
         // Fetch user data
-        const userId = postData.postUser;
-        const userData = await getUserData(userId);
+        const userData = await getUserData(postData.postUser);
 
         const likes = likesCount !== undefined ? likesCount : 0;
 
-        posts.push({
+        // Yield each post as it's processed
+        yield {
             id: postDoc.id,
             user: userData,
             photos: photos,
@@ -74,33 +75,55 @@ export async function fetchPosts(page, postsPerPage) {
             description: postData.postDescription,
             litterWeight: postData.litterWeight,
             likes: likes,
-            numComments,
+            numComments: numComments,
             ref: postDoc.ref,
-            likeIds: likeIds,
-        });
+            likeIds: validLikeIds,
+        };
     }
-
-    return posts;
 }
 
-async function getUserData(userId) {
-    const userQuery = query(collection(db, 'users'), where('__name__', '==', userId));
-    const userSnapshot = await getDocs(userQuery);
 
-    if (userSnapshot.empty) {
+async function getUserData(userRef) {
+    // Check if userRef is a string (user ID) or a Firestore document reference
+    let userDocRef;
+    if (typeof userRef === 'string') {
+        userDocRef = doc(db, 'users', userRef);
+    } else if (userRef && typeof userRef.path === 'string') {
+        userDocRef = userRef;
+    } else {
+        console.error("Invalid user reference:", userRef);
         return null;
     }
 
-    return userSnapshot.docs[0].data();
+    const userSnapshot = await getDoc(userDocRef);
+
+    if (userSnapshot.exists()) {
+        return userSnapshot.data();
+    } else {
+        console.log("No user found for reference:", userRef);
+        return null;
+    }
 }
 
-async function getLastVisiblePost(page, postsPerPage) {
-    const startIndex = (page - 1) * postsPerPage;
-    const postQuery = query(
-        collection(db, 'userPosts'),
-        orderBy('timePosted', 'desc'),
-        limit(startIndex + postsPerPage)
-    );
+
+async function getLastVisiblePost(page, postsPerPage, userId = null) {
+    let postQuery;
+
+    if (userId) {
+        const userDocRef = doc(db, 'users', userId);
+        postQuery = query(
+            collection(db, 'userPosts'),
+            where('postUser', '==', userDocRef),
+            orderBy('timePosted', 'desc'),
+            limit(page * postsPerPage)
+        );
+    } else {
+        postQuery = query(
+            collection(db, 'userPosts'),
+            orderBy('timePosted', 'desc'),
+            limit(page * postsPerPage)
+        );
+    }
 
     const querySnapshot = await getDocs(postQuery);
     return querySnapshot.docs[querySnapshot.docs.length - 1];

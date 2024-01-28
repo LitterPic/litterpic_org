@@ -27,8 +27,6 @@ import LikePopup from "../components/LikePopup";
 
 
 function Stories() {
-    const CACHE_EXPIRATION_TIME = 5 * 60 * 1000;
-
     const router = useRouter();
     const dropdownRef = useRef(null);
     const [posts, setPosts] = useState([]);
@@ -49,7 +47,34 @@ function Stories() {
     const [likedUsers, setLikedUsers] = useState([]);
     const [hoveredPostId, setHoveredPostId] = useState(null);
     const [masonryKey, setMasonryKey] = useState(Date.now().toString());
+    const [searchQuery, setSearchQuery] = useState('');
+    const [showMyPosts, setShowMyPosts] = useState(false);
+    const [userPosts, setUserPosts] = useState([]);
+    const [postsDisplayMode, setPostsDisplayMode] = useState('all');
     const debounceTimers = {};
+
+    const handleMyPostsButton = () => {
+        setShowMyPosts(true);
+        setPosts([]);
+        setPage(1);
+
+        fetchAndSetPosts(1, user.uid);
+
+    };
+
+    const handleShowAllPostsButton = () => {
+        setShowMyPosts(false);
+        setPosts([]);
+        setPage(1);
+
+        fetchAndSetPosts(1);
+    }
+
+    useEffect(() => {
+        if (!loadingUser) {
+            fetchAndSetPosts(1);
+        }
+    }, [loadingUser]);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -158,15 +183,6 @@ function Stories() {
         return () => unsubscribe();
     }, []);
 
-    useEffect(() => {
-        if (!loadingUser) {
-            if (user) {
-                fetchAndSetPosts(user.uid);
-            } else {
-                fetchAndSetPosts();
-            }
-        }
-    }, [user, loadingUser]);
 
     const handleToggleLike = async (postId) => {
         if (!user) {
@@ -327,67 +343,49 @@ function Stories() {
         localStorage.setItem('users', JSON.stringify(usersData));
     };
 
-    const fetchAndSetPosts = async () => {
+    const fetchAndSetPosts = async (page, userId = null) => {
         setIsLoading(true);
+
         try {
-            let fetchedPosts;
-
-            const cachedData = localStorage.getItem(`posts_page_${page}`);
-            if (cachedData) {
-                const {posts, timestamp} = JSON.parse(cachedData);
-                const isCacheValid = Date.now() - timestamp < CACHE_EXPIRATION_TIME;
-                if (isCacheValid) {
-                    fetchedPosts = posts;
-                }
+            // Clear existing posts if this is the first page
+            if (page === 1) {
+                setPosts([]);
             }
 
-            if (!fetchedPosts) {
-                fetchedPosts = await fetchPosts(page, 6);
+            let hasMore = false;
 
-                localStorage.setItem(
-                    `posts_page_${page}`,
-                    JSON.stringify({posts: fetchedPosts, timestamp: Date.now()})
-                );
-            }
+            for await (const post of fetchPosts(page, 6, userId)) {
+                setPosts((prevPosts) => [...prevPosts, post]);
 
-            if (fetchedPosts.length === 0) {
-                setHasMorePosts(false);
-            } else {
-                const uniquePosts = filterUniquePosts(fetchedPosts);
-
-                const userIds = uniquePosts.map(post => {
-                    return post.user && post.user._key && post.user._key.path && post.user._key.path.segments ? post.user._key.path.segments[6] : null;
-                }).filter(Boolean);
+                // Extract user IDs from post for additional user data fetching
+                const userIds = [post.user?._key?.path?.segments?.[6]].filter(Boolean);
 
                 await fetchAndSetUsers(userIds);
 
-                const likedUsersPromises = uniquePosts.map((post) =>
-                    getUsersWhoLikedPost(post.id)
-                );
-                const likedUsersLists = await Promise.all(likedUsersPromises);
+                // Handle likes for this post
+                const likedUserIds = await getUsersWhoLikedPost(post.id);
+                const currentUserLiked = user && Array.isArray(likedUserIds) ? likedUserIds.includes(user.uid) : false;
 
-                const updatedPosts = uniquePosts.map((post, index) => {
-                    // Ensure likedUsersLists[index] is an array before using .includes
-                    const currentUserLiked = user && Array.isArray(likedUsersLists[index])
-                        ? likedUsersLists[index].includes(user.uid)
-                        : false;
+                // Update the post with likes information
+                setPosts((prevPosts) => prevPosts.map((p) => (p.id === post.id ? {
+                    ...p,
+                    likedUsers: likedUserIds,
+                    currentUserLiked
+                } : p)));
 
-                    return {
-                        ...post,
-                        likedUsers: likedUsersLists[index] || [],
-                        currentUserLiked: currentUserLiked,
-                    };
-                });
-
-
-                setPosts((prevPosts) => [...prevPosts, ...updatedPosts]);
-                setPage((prevPage) => prevPage + 1);
+                hasMore = true;
             }
+
+            setHasMorePosts(hasMore);
         } catch (error) {
             console.error('Error fetching posts:', error);
+        } finally {
+            setIsLoading(false);
         }
-        setIsLoading(false);
+
+        setPage(page);
     };
+
 
     useEffect(() => {
         let isCancelled = false;
@@ -533,14 +531,29 @@ function Stories() {
                         collection!
                     </div>
 
+                    <div className="search-and-filter">
+                        <button onClick={handleShowAllPostsButton}>Show All Posts</button>
+                        <button onClick={handleMyPostsButton}>
+                            Show My Posts
+                        </button>
+                        <input
+                            className="post-search-input"
+                            type="text"
+                            placeholder="Search posts..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                        />
+                    </div>
+
+
                     <div className="story-posts">
                         <Masonry
-                            key={masonryKey}
+                            key={postsDisplayMode}
                             breakpointCols={{default: 2, 700: 1}}
                             className="post-grid"
                             columnClassName="post-grid-column"
                         >
-                            {posts.map((post, index) => {
+                            {(postsDisplayMode === 'user' ? userPosts : posts).map((post, index) => {
                                 const likes = post.likes !== undefined ? post.likes : 0;
                                 const {numComments} = post;
                                 const currentUserLiked = post.currentUserLiked;
@@ -736,8 +749,14 @@ function Stories() {
                         <div className="button-container">
 
                             {!isLoading && hasMorePosts && (
-                                <button className="custom-file-button" onClick={fetchAndSetPosts}>See More
-                                    Stories</button>
+                                <button
+                                    className="custom-file-button"
+                                    onClick={() => showMyPosts ? fetchAndSetPosts(page + 1, user.uid) : fetchAndSetPosts(page + 1, null)}
+                                >
+                                    See More Stories
+                                </button>
+
+
                             )}
 
 
