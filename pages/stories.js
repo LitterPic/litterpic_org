@@ -263,7 +263,7 @@ function Stories() {
 
                 setComments({...comments, [postId]: '' });
             } catch (error) {
-                  console.error('Error adding comment:', error);
+                console.error('Error adding comment:', error);
             }
         }
     };
