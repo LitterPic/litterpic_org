@@ -54,7 +54,11 @@ function Stories() {
     const debounceTimers = {};
 
     // 5 minute cache
-    const CACHE_EXPIRATION_MS = 300000;
+    const ALL_POSTS_CACHE_EXPIRATION_MS = 300000; // 5 minutes for "All Posts"
+    const MY_POSTS_CACHE_EXPIRATION_MS = 60000;
+    const getAllPostsCacheKey = (page) => `all_posts_cache_page_${page}`;
+    const getMyPostsCacheKey = (page, userId) => `my_posts_cache_page_${userId}_${page}`;
+
 
     const handleMyPostsButton = () => {
         setShowMyPosts(true);
@@ -348,8 +352,8 @@ function Stories() {
     const fetchAndSetPosts = async (page, userId = null) => {
         setIsLoading(true);
 
-        // Define the cache key for the specific page
-        const cacheKey = `posts_cache_page_${page}`;
+        const isMyPosts = userId != null;
+        const cacheKey = isMyPosts ? getMyPostsCacheKey(page, userId) : getAllPostsCacheKey(page);
         const cachedData = localStorage.getItem(cacheKey);
 
         // Current time
@@ -357,9 +361,10 @@ function Stories() {
 
         if (cachedData) {
             const {posts: cachedPosts, timestamp} = JSON.parse(cachedData);
+            const cacheExpiration = isMyPosts ? MY_POSTS_CACHE_EXPIRATION_MS : ALL_POSTS_CACHE_EXPIRATION_MS;
 
             // Check if cache is not older than expiration
-            if (now - timestamp < CACHE_EXPIRATION_MS) {
+            if (now - timestamp < cacheExpiration) {
                 setPosts(prevPosts => [...prevPosts, ...cachedPosts]);
                 setIsLoading(false);
                 return;
@@ -558,9 +563,7 @@ function Stories() {
 
                     <div className="search-and-filter">
                         <button onClick={handleShowAllPostsButton}>Show All Posts</button>
-                        <button onClick={handleMyPostsButton}>
-                            Show My Posts
-                        </button>
+                        <button onClick={handleMyPostsButton}>Show My Posts</button>
                         <input
                             className="post-search-input"
                             type="text"
@@ -569,7 +572,6 @@ function Stories() {
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
                     </div>
-
 
                     <div className="story-posts">
                         <Masonry
