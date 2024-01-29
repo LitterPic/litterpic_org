@@ -53,6 +53,9 @@ function Stories() {
     const [postsDisplayMode, setPostsDisplayMode] = useState('all');
     const debounceTimers = {};
 
+    // 5 minute cache
+    const CACHE_EXPIRATION_MS = 300000;
+
     const handleMyPostsButton = () => {
         setShowMyPosts(true);
         setPosts([]);
@@ -277,7 +280,7 @@ function Stories() {
                 ];
                 setPostComments(updatedPostComments);
 
-                setComments({...comments, [postId]: '' });
+                setComments({...comments, [postId]: ''});
             } catch (error) {
                 console.error('Error adding comment:', error);
             }
@@ -345,17 +348,29 @@ function Stories() {
     const fetchAndSetPosts = async (page, userId = null) => {
         setIsLoading(true);
 
-        try {
-            // Clear existing posts if this is the first page
-            if (page === 1) {
-                setPosts([]);
-            }
+        // Define the cache key for the specific page
+        const cacheKey = `posts_cache_page_${page}`;
+        const cachedData = localStorage.getItem(cacheKey);
 
+        // Current time
+        const now = new Date().getTime();
+
+        if (cachedData) {
+            const {posts: cachedPosts, timestamp} = JSON.parse(cachedData);
+
+            // Check if cache is not older than expiration
+            if (now - timestamp < CACHE_EXPIRATION_MS) {
+                setPosts(prevPosts => [...prevPosts, ...cachedPosts]);
+                setIsLoading(false);
+                return;
+            }
+        }
+
+        try {
             let hasMore = false;
+            let fetchedPosts = [];
 
             for await (const post of fetchPosts(page, 6, userId)) {
-                setPosts((prevPosts) => [...prevPosts, post]);
-
                 // Extract user IDs from post for additional user data fetching
                 const userIds = [post.user?._key?.path?.segments?.[6]].filter(Boolean);
 
@@ -366,14 +381,25 @@ function Stories() {
                 const currentUserLiked = user && Array.isArray(likedUserIds) ? likedUserIds.includes(user.uid) : false;
 
                 // Update the post with likes information
-                setPosts((prevPosts) => prevPosts.map((p) => (p.id === post.id ? {
-                    ...p,
+                const updatedPost = {
+                    ...post,
                     likedUsers: likedUserIds,
                     currentUserLiked
-                } : p)));
+                };
 
+                // Append each fetched post to the state immediately
+                setPosts(prevPosts => [...prevPosts, updatedPost]);
+
+                fetchedPosts.push(updatedPost);
                 hasMore = true;
             }
+
+            // Cache the fetched posts with a timestamp
+            const postsToCache = {
+                posts: fetchedPosts,
+                timestamp: now
+            };
+            localStorage.setItem(cacheKey, JSON.stringify(postsToCache));
 
             setHasMorePosts(hasMore);
         } catch (error) {
