@@ -47,7 +47,7 @@ const UserProfilePage = () => {
                     setUserOrganization(userData.organization === "Litterpicking Organization" ? "Independent" : userData.organization);
 
                     const totalWeight = userData.totalWeight || 0;
-                    setLitterCollected(totalWeight);
+                    setLitterCollected(totalWeight.toFixed());
 
                     // Check if the user is an ambassador
                     const ambassadorStatus = userData.ambassador || false;
