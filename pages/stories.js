@@ -555,22 +555,43 @@ function Stories() {
                         </Link>
                     </div>
                     <div className="stories-about-us">
-                        Explore the inspiring posts shared by our volunteers on our website, showcasing the positive
-                        impact they
-                        have made. Join our volunteer community today and contribute your own unique story to the
-                        collection!
+                        Discover the heartwarming and inspiring stories shared by our dedicated volunteers. Each post is
+                        a testament to the incredible impact they have made in cleaning our planet, one piece of litter
+                        at a time. These stories aren't just about cleaning up; they're about hope, community, and the
+                        power of collective action. By joining our volunteer community, you’re not just picking up
+                        trash; you’re becoming a part of a global movement that cherishes our Earth and works tirelessly
+                        to preserve its beauty for future generations. Your story is unique and valuable – share it with
+                        us and inspire others! Together, we can make a significant difference and create a cleaner,
+                        greener, and more sustainable world. Join LitterPic today and let your journey of positive
+                        change
+                        begin!
                     </div>
 
                     <div className="search-and-filter">
-                        <button onClick={handleShowAllPostsButton}>Show All Posts</button>
-                        <button onClick={handleMyPostsButton}>Show My Posts</button>
-                        <input
-                            className="post-search-input"
-                            type="text"
-                            placeholder="Search posts..."
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                        />
+                        <img className="search-and-filter-image"
+                             src="/images/litter_on_road.jpeg"
+                             alt="Banner Image"/>
+
+                        <div className="search-and-filter-input-button-container">
+                            <div className="search-and-filter-button-container">
+                                <button
+                                    className="show-all-posts-button"
+                                    onClick={handleShowAllPostsButton}>All Posts
+                                </button>
+                                <button
+                                    className="show-my-posts-button"
+                                    disabled={!user}
+                                    onClick={handleMyPostsButton}>My Posts
+                                </button>
+                            </div>
+
+                            <input
+                                className="post-search-input"
+                                type="text"
+                                placeholder="Search posts..."
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                            /></div>
                     </div>
 
                     <div className="story-posts">
