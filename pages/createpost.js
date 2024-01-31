@@ -29,7 +29,8 @@ function CreatePost() {
     const {user} = useAuth();
     const [postDescription, setPostDescription] = useState('');
     const [postImages, setPostImages] = useState([]);
-    const [litterWeight, setLitterWeight] = useState('');
+    const [litterWeightInput, setLitterWeightInput] = useState('');
+    const [litterWeight, setLitterWeight] = useState(0);
     const [previews, setPreviews] = useState([]);
     const [selectedAddress, setSelectedAddress] = useState('');
     const [city, setCity] = useState('');
@@ -47,9 +48,9 @@ function CreatePost() {
     //useEffect runs after the components rendered
     // when the unit changes, the #'s of that unit change
     useEffect(() => {
-        if (litterWeight !== '') {
+        if (litterWeight !== null) { // Check for non-zero
             const conversionFactor = unit === 'kg' ? 1 / 2.20462 : 2.20462;
-            setLitterWeight((parseFloat(litterWeight) * conversionFactor).toFixed(2));
+            setLitterWeight(parseFloat((litterWeight * conversionFactor).toFixed(2)));
         }
     }, [unit]);
 
@@ -185,11 +186,12 @@ function CreatePost() {
 
         try {
             const postLitterWeightInPounds = unit === 'kg' ? parseFloat(litterWeight) * 2.20462 : parseFloat(litterWeight);
+            const roundedLitterWeight = parseFloat(postLitterWeightInPounds.toFixed());
 
             // Create a new post document in Firestore
             postDocRef = await addDoc(collection(db, 'userPosts'), {
                 postDescription: postDescription,
-                litterWeight: postLitterWeightInPounds.toFixed(),
+                litterWeight: roundedLitterWeight,
                 timePosted: new Date(),
                 postUser: doc(db, `users/${user.uid}`),
                 location: selectedAddress,
@@ -228,7 +230,8 @@ function CreatePost() {
             // Clear the form
             setPostDescription('');
             setPostImages([]);
-            setLitterWeight('');
+            setLitterWeightInput('');
+            setLitterWeight(0);
             setPreviews([]);
             setSelectedAddress('');
             setLocationSelected(false);
@@ -305,11 +308,18 @@ function CreatePost() {
                                     min="0"
                                     step="any"
                                     placeholder="Total amount of litter collected"
-                                    value={litterWeight}
+                                    value={litterWeightInput}
                                     onChange={(e) => {
                                         const value = e.target.value;
-                                        if ((Number(value) >= 0 && !isNaN(value)) || value === '') {
-                                            setLitterWeight(value);
+                                        setLitterWeightInput(value); // Directly update the input display state
+
+                                        if (value === '') {
+                                            setLitterWeight(0); // Set the actual litterWeight to 0 if the input is empty
+                                        } else {
+                                            const numericValue = parseFloat(value);
+                                            if (!isNaN(numericValue)) {
+                                                setLitterWeight(numericValue); // Update the actual litterWeight with the numeric value
+                                            }
                                         }
                                     }}
                                 />
