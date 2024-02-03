@@ -1,5 +1,4 @@
 import React, {useEffect, useRef, useState} from 'react';
-import Post from '../components/post';
 import {fetchPosts, getUsersWhoLikedPost, toggleLike} from '../components/utils';
 import Link from 'next/link';
 import Masonry from 'react-masonry-css';
@@ -24,6 +23,7 @@ import {db} from "../lib/firebase";
 import {capitalizeFirstWordOfSentences} from "../utils/textUtils";
 import Head from "next/head";
 import LikePopup from "../components/LikePopup";
+import Post from "../components/post";
 
 
 function Stories() {
@@ -46,21 +46,70 @@ function Stories() {
     const [likePopupVisible, setLikePopupVisible] = useState(false);
     const [likedUsers, setLikedUsers] = useState([]);
     const [hoveredPostId, setHoveredPostId] = useState(null);
-    const [masonryKey, setMasonryKey] = useState(Date.now().toString());
-    const [searchQuery, setSearchQuery] = useState('');
     const [showMyPosts, setShowMyPosts] = useState(false);
     const [userPosts, setUserPosts] = useState([]);
     const [postsDisplayMode, setPostsDisplayMode] = useState('all');
+    const [searchUsers, setSearchUsers] = useState([]);
+    const [isLoadingSearchUsers, setIsLoadingSearchUsers] = useState(true);
+    const [selectedUser, setSelectedUser] = useState("");
     const debounceTimers = {};
 
     // 5 minute cache
-    const ALL_POSTS_CACHE_EXPIRATION_MS = 300000; // 5 minutes for "All Posts"
-    const MY_POSTS_CACHE_EXPIRATION_MS = 60000;
+    const ALL_POSTS_CACHE_EXPIRATION_MS = 300000;
+    const MY_POSTS_CACHE_EXPIRATION_MS = 300000;
     const getAllPostsCacheKey = (page) => `all_posts_cache_page_${page}`;
     const getMyPostsCacheKey = (page, userId) => `my_posts_cache_page_${userId}_${page}`;
 
+    const fetchUserRefsFromPosts = async () => {
+        const postUserRefs = new Set();
+        const querySnapshot = await getDocs(collection(getFirestore(), 'userPosts'));
+
+        querySnapshot.forEach((doc) => {
+            const postData = doc.data();
+            if (postData.postUser && postData.postUser.path) {
+                postUserRefs.add(postData.postUser.path);
+            }
+        });
+
+        return Array.from(postUserRefs);
+    };
+
+    const fetchUsersDetails = async (userRefs) => {
+        const users = [];
+        for (const refPath of userRefs) {
+            const userRef = doc(getFirestore(), refPath);
+            const userSnap = await getDoc(userRef);
+            if (userSnap.exists()) {
+                users.push({id: userSnap.id, ...userSnap.data()});
+            }
+        }
+
+        // Sort users alphabetically by name
+        users.sort((a, b) => a.display_name.localeCompare(b.display_name));
+
+        return users;
+    };
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                setIsLoadingSearchUsers(true); // Start loading
+                const userRefs = await fetchUserRefsFromPosts();
+                const userDetails = await fetchUsersDetails(userRefs);
+                setSearchUsers(userDetails);
+                setIsLoadingSearchUsers(false);
+            } catch (error) {
+                console.error("Error fetching users:", error);
+                setIsLoadingSearchUsers(true);
+            }
+        };
+
+        fetchUsers();
+    }, []);
+
 
     const handleMyPostsButton = () => {
+        setSelectedUser("");
         setShowMyPosts(true);
         setPosts([]);
         setPage(1);
@@ -70,12 +119,21 @@ function Stories() {
     };
 
     const handleShowAllPostsButton = () => {
+        setSelectedUser("");
         setShowMyPosts(false);
         setPosts([]);
         setPage(1);
 
         fetchAndSetPosts(1);
     }
+
+    const handleUserSelect = async (userId) => {
+        setSelectedUser(userId);
+        setShowMyPosts(false);
+        setPosts([]);
+        setPage(1);
+        await fetchAndSetPosts(1, userId);
+    };
 
     useEffect(() => {
         if (!loadingUser) {
@@ -150,7 +208,6 @@ function Stories() {
             delete debounceTimers[postKey];
         }
 
-        // Set the state to hide the popup and clear the hovered post and liked users
         setLikePopupVisible(false);
         setHoveredPostId(null);
         setLikedUsers([]);
@@ -233,8 +290,7 @@ function Stories() {
     const handleCommentChange = (event, postId) => {
         const capitalizedText = capitalizeFirstWordOfSentences(event.target.value);
         setComments({
-            ...comments,
-            [postId]: capitalizedText,
+            ...comments, [postId]: capitalizedText,
         });
     };
 
@@ -273,15 +329,9 @@ function Stories() {
                 setPosts(updatedPosts);
 
                 const updatedPostComments = {...postComments};
-                updatedPostComments[postId] = [
-                    ...(updatedPostComments[postId] || []),
-                    {
-                        comment,
-                        commentUser: {name: user.displayName},
-                        postAssociation: postId,
-                        timePosted: new Date(),
-                    },
-                ];
+                updatedPostComments[postId] = [...(updatedPostComments[postId] || []), {
+                    comment, commentUser: {name: user.displayName}, postAssociation: postId, timePosted: new Date(),
+                },];
                 setPostComments(updatedPostComments);
 
                 setComments({...comments, [postId]: ''});
@@ -293,12 +343,7 @@ function Stories() {
 
     useEffect(() => {
         const handleClickOutside = (event) => {
-            if (
-                commentInputRef.current &&
-                !commentInputRef.current.contains(event.target) &&
-                (!dropdownRef.current || !dropdownRef.current.contains(event.target)) &&
-                (!submitButtonRef.current || !submitButtonRef.current.contains(event.target))
-            ) {
+            if (commentInputRef.current && !commentInputRef.current.contains(event.target) && (!dropdownRef.current || !dropdownRef.current.contains(event.target)) && (!submitButtonRef.current || !submitButtonRef.current.contains(event.target))) {
                 setOpenCommentInput(null);
             }
         };
@@ -355,6 +400,7 @@ function Stories() {
         const isMyPosts = userId != null;
         const cacheKey = isMyPosts ? getMyPostsCacheKey(page, userId) : getAllPostsCacheKey(page);
         const cachedData = localStorage.getItem(cacheKey);
+        const postsPerPage = userId ? 20 : 10;
 
         // Current time
         const now = new Date().getTime();
@@ -375,8 +421,7 @@ function Stories() {
             let hasMore = false;
             let fetchedPosts = [];
 
-            for await (const post of fetchPosts(page, 6, userId)) {
-                // Extract user IDs from post for additional user data fetching
+            for await (const post of fetchPosts(page, postsPerPage, userId)) {
                 const userIds = [post.user?._key?.path?.segments?.[6]].filter(Boolean);
 
                 await fetchAndSetUsers(userIds);
@@ -387,9 +432,7 @@ function Stories() {
 
                 // Update the post with likes information
                 const updatedPost = {
-                    ...post,
-                    likedUsers: likedUserIds,
-                    currentUserLiked
+                    ...post, likedUsers: likedUserIds, currentUserLiked
                 };
 
                 // Append each fetched post to the state immediately
@@ -401,8 +444,7 @@ function Stories() {
 
             // Cache the fetched posts with a timestamp
             const postsToCache = {
-                posts: fetchedPosts,
-                timestamp: now
+                posts: fetchedPosts, timestamp: now
             };
             localStorage.setItem(cacheKey, JSON.stringify(postsToCache));
 
@@ -442,8 +484,7 @@ function Stories() {
                     }
 
                     return {
-                        ...doc.data(),
-                        id: doc.id
+                        ...doc.data(), id: doc.id
                     };
                 });
             }
@@ -513,322 +554,244 @@ function Stories() {
         return uniquePosts;
     };
 
-    return (
-        <div>
-            <Head>
-                <title>LitterPic Inspiring Stories</title>
-                <meta name="description"
-                      content="Join LitterPic in making the world cleaner and safer. Explore inspiring litter collection photos and stories."/>
-                <meta name="robots" content="index, follow"/>
-                <link rel="icon" href="/favicon.ico"/>
-                <link rel="canonical" href="https://litterpic.org/stories"/>
+    return (<div>
+        <Head>
+            <title>LitterPic Inspiring Stories</title>
+            <meta name="description"
+                  content="Join LitterPic in making the world cleaner and safer. Explore inspiring litter collection photos and stories."/>
+            <meta name="robots" content="index, follow"/>
+            <link rel="icon" href="/favicon.ico"/>
+            <link rel="canonical" href="https://litterpic.org/stories"/>
 
-                <meta property="og:title" content="LitterPic - Inspiring Stories"/>
-                <meta property="og:description"
-                      content="Join LitterPic in making the world cleaner and safer. Explore inspiring litter collection photos and stories."/>
-                <meta property="og:image" content="https://litterpic.org/images/litter_pic_logo.png"/>
-                <meta property="og:url" content="https://litterpic.org/stories"/>
-                <meta property="og:type" content="website"/>
+            <meta property="og:title" content="LitterPic - Inspiring Stories"/>
+            <meta property="og:description"
+                  content="Join LitterPic in making the world cleaner and safer. Explore inspiring litter collection photos and stories."/>
+            <meta property="og:image" content="https://litterpic.org/images/litter_pic_logo.png"/>
+            <meta property="og:url" content="https://litterpic.org/stories"/>
+            <meta property="og:type" content="website"/>
 
-                <meta name="twitter:card" content="summary_large_image"/>
-                <meta name="twitter:title" content="LitterPic - Inspiring Litter Collection"/>
-                <meta name="twitter:description"
-                      content="Join LitterPic in making the world cleaner and safer. Explore inspiring litter collection photos and stories, and get involved in community cleanups."/>
-                <meta name="twitter:image" content="https://litterpic.org/images/litter_pic_logo.png"/>
-                <meta name="twitter:url" content="https://litterpic.org/stories"/>
+            <meta name="twitter:card" content="summary_large_image"/>
+            <meta name="twitter:title" content="LitterPic - Inspiring Litter Collection"/>
+            <meta name="twitter:description"
+                  content="Join LitterPic in making the world cleaner and safer. Explore inspiring litter collection photos and stories, and get involved in community cleanups."/>
+            <meta name="twitter:image" content="https://litterpic.org/images/litter_pic_logo.png"/>
+            <meta name="twitter:url" content="https://litterpic.org/stories"/>
 
-                <meta name="keywords"
-                      content="litter, litterpicking, litter collection, community cleanups, environmental conservation, inspiring stories"/>
-                <meta name="author" content="LitterPic Inc."/>
-            </Head>
+            <meta name="keywords"
+                  content="litter, litterpicking, litter collection, community cleanups, environmental conservation, inspiring stories"/>
+            <meta name="author" content="LitterPic Inc."/>
+        </Head>
 
-            <div className="banner">
-                <img src="/images/user_posts_banner.webp" alt="Banner Image"/>
-            </div>
+        <div className="banner">
+            <img src="/images/user_posts_banner.webp" alt="Banner Image"/>
+        </div>
 
-            <div className="page">
-                <div className="content">
-                    <div className="stories-top-bar">
-                        <h1 className="heading-text">User Stories</h1>
-                        <Link href="/createpost">
-                            <button className="create-post-button">Post Your Story</button>
-                        </Link>
+        <div className="page">
+            <div className="content">
+                <div className="stories-top-bar">
+                    <h1 className="heading-text">User Stories</h1>
+                    <Link href="/createpost">
+                        <button className="create-post-button">Post Your Story</button>
+                    </Link>
+                </div>
+                <div className="stories-about-us">
+                    Discover the heartwarming and inspiring stories shared by our dedicated volunteers. Each post is
+                    a testament to the incredible impact they have made in cleaning our planet, one piece of litter
+                    at a time. These stories aren't just about cleaning up; they're about hope, community, and the
+                    power of collective action. By joining our volunteer community, you’re not just picking up
+                    trash; you’re becoming a part of a global movement that cherishes our Earth and works tirelessly
+                    to preserve its beauty for future generations. Your story is unique and valuable – share it with
+                    us and inspire others! Together, we can make a significant difference and create a cleaner,
+                    greener, and more sustainable world. Join LitterPic today and let your journey of positive
+                    change
+                    begin!
+                </div>
+
+                <div className="search-and-filter">
+                    <img className="search-and-filter-image"
+                         src="/images/litter_on_road.jpeg"
+                         alt="Banner Image"/>
+
+                    <div className="search-and-filter-input-button-container">
+                        <div className="search-and-filter-button-container">
+                            <button
+                                className="show-all-posts-button"
+                                onClick={handleShowAllPostsButton}>All Posts
+                            </button>
+                            <button
+                                className="show-my-posts-button"
+                                disabled={!user}
+                                onClick={handleMyPostsButton}>My Posts
+                            </button>
+                        </div>
+                        <select className="post-search-input" value={selectedUser}
+                                onChange={(e) => handleUserSelect(e.target.value)}
+                                disabled={isLoadingSearchUsers}>
+                            <option value="">Search Posts by User</option>
+                            {searchUsers.map(user => (
+                                <option key={user.id} value={user.id}>{user.display_name}</option>))}
+                        </select>
                     </div>
-                    <div className="stories-about-us">
-                        Discover the heartwarming and inspiring stories shared by our dedicated volunteers. Each post is
-                        a testament to the incredible impact they have made in cleaning our planet, one piece of litter
-                        at a time. These stories aren't just about cleaning up; they're about hope, community, and the
-                        power of collective action. By joining our volunteer community, you’re not just picking up
-                        trash; you’re becoming a part of a global movement that cherishes our Earth and works tirelessly
-                        to preserve its beauty for future generations. Your story is unique and valuable – share it with
-                        us and inspire others! Together, we can make a significant difference and create a cleaner,
-                        greener, and more sustainable world. Join LitterPic today and let your journey of positive
-                        change
-                        begin!
-                    </div>
+                </div>
 
-                    <div className="search-and-filter">
-                        <img className="search-and-filter-image"
-                             src="/images/litter_on_road.jpeg"
-                             alt="Banner Image"/>
+                <div className="story-posts">
+                    <Masonry
+                        key={postsDisplayMode}
+                        breakpointCols={{default: 2, 700: 1}}
+                        className="post-grid"
+                        columnClassName="post-grid-column"
+                    >
+                        {(postsDisplayMode === 'user' ? userPosts : posts).map((post, index) => {
+                            const likes = post.likes !== undefined ? post.likes : 0;
+                            const {numComments} = post;
+                            const currentUserLiked = post.currentUserLiked;
+                            const postMasonryKey = `${index}_${post.id}_post`;
 
-                        <div className="search-and-filter-input-button-container">
-                            <div className="search-and-filter-button-container">
-                                <button
-                                    className="show-all-posts-button"
-                                    onClick={handleShowAllPostsButton}>All Posts
-                                </button>
-                                <button
-                                    className="show-my-posts-button"
-                                    disabled={!user}
-                                    onClick={handleMyPostsButton}>My Posts
-                                </button>
-                            </div>
-
-                            <input
-                                className="post-search-input"
-                                type="text"
-                                placeholder="Search posts..."
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                            /></div>
-                    </div>
-
-                    <div className="story-posts">
-                        <Masonry
-                            key={postsDisplayMode}
-                            breakpointCols={{default: 2, 700: 1}}
-                            className="post-grid"
-                            columnClassName="post-grid-column"
-                        >
-                            {(postsDisplayMode === 'user' ? userPosts : posts).map((post, index) => {
-                                const likes = post.likes !== undefined ? post.likes : 0;
-                                const {numComments} = post;
-                                const currentUserLiked = post.currentUserLiked;
-                                const postMasonryKey = `${index}_${post.id}_post`;
-
-                                return (
-                                    <div key={postMasonryKey} className="post">
-                                        <div className="post-header">
-                                            <i
-                                                className="fa fa-ellipsis-v meatball-menu"
-                                                aria-hidden="true"
-                                                onClick={() => {
-                                                    setOpenMenuId(openMenuId !== post.id ? post.id : null);
-                                                    setOpenCommentInput(null);
-                                                }}
-                                            ></i>
-                                        </div>
-                                        <div
-                                            className={`post-dropdown-menu ${
-                                                openMenuId === post.id ? 'show' : ''
-                                            }`}
-                                            ref={openMenuId === post.id ? dropdownRef : null}
+                            return (<div key={postMasonryKey} className="post">
+                                <div className="post-header">
+                                    <i
+                                        className="fa fa-ellipsis-v meatball-menu"
+                                        aria-hidden="true"
+                                        onClick={() => {
+                                            setOpenMenuId(openMenuId !== post.id ? post.id : null);
+                                            setOpenCommentInput(null);
+                                        }}
+                                    ></i>
+                                </div>
+                                <div
+                                    className={`post-dropdown-menu ${openMenuId === post.id ? 'show' : ''}`}
+                                    ref={openMenuId === post.id ? dropdownRef : null}
+                                >
+                                    <ul className="meatball-post-menu">
+                                        <li
+                                            onClick={() => {
+                                                if (user && post.user && user.uid === post.user.uid) {
+                                                    deletePost(post.id);
+                                                }
+                                            }}
+                                            className={user && post.user && user.uid === post.user.uid ? '' : 'grayed-out'}
                                         >
-                                            <ul className="meatball-post-menu">
-                                                <li
-                                                    onClick={() => {
-                                                        if (
-                                                            user &&
-                                                            post.user &&
-                                                            user.uid === post.user.uid
-                                                        ) {
-                                                            deletePost(post.id);
-                                                        }
-                                                    }}
-                                                    className={
-                                                        user &&
-                                                        post.user &&
-                                                        user.uid === post.user.uid
-                                                            ? ''
-                                                            : 'grayed-out'
-                                                    }
-                                                >
-                                                    Delete Post
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <Post post={post}/>
-                                        <div className="likes-comments">
+                                            Delete Post
+                                        </li>
+                                    </ul>
+                                </div>
+                                <Post post={post}/>
+                                <div className="likes-comments">
                     <span
                         className="likes-comments-likes-field"
                         onMouseEnter={() => handleLikeHover(post)}
                         onMouseLeave={() => handleLeaveHover(post)}
                     >
                         <i
-                            className={`material-icons ${
-                                currentUserLiked
-                                    ? 'filled-heart'
-                                    : 'empty-heart'
-                            }`}
+                            className={`material-icons ${currentUserLiked ? 'filled-heart' : 'empty-heart'}`}
                             onClick={() => handleToggleLike(post.id)}
                         >
-                            {currentUserLiked
-                                ? 'favorite'
-                                : 'favorite_border'}
+                            {currentUserLiked ? 'favorite' : 'favorite_border'}
                         </i>
 
                         <span className="like-count">{likes}</span>
 
-                        {likePopupVisible &&
-                            hoveredPostId === `${post.id}_post` && (<LikePopup likedUsers={likedUsers}/>)
-                        }
+                        {likePopupVisible && hoveredPostId === `${post.id}_post` && (
+                            <LikePopup likedUsers={likedUsers}/>)}
                     </span>
-                                            <span className="likes-comments-comment-field">
+
+                                    <span className="likes-comments-comment-field">
                         <i
-                            className={`material-icons ${
-                                numComments > 0
-                                    ? 'filled-comment'
-                                    : 'empty-comment'
-                            }`}
-                            onClick={() =>
-                                setOpenCommentInput(
-                                    openCommentInput !== post.id
-                                        ? post.id
-                                        : null
-                                )
-                            }
+                            className={`material-icons ${numComments > 0 ? 'filled-comment' : 'empty-comment'}`}
+                            onClick={() => setOpenCommentInput(openCommentInput !== post.id ? post.id : null)}
                         >
                             mode_comment
                         </i>
 
                         <span className="comment-count">{numComments}</span>
+
                     </span>
-                                        </div>
-                                        <div className="story-comment-input">
-                                            {openCommentInput === post.id && (
-                                                <>
-                                                    {postComments[post.id] &&
-                                                        postComments[post.id].map((commentData) => {
-                                                            const commentUserId =
-                                                                commentData?.commentUser?._key?.path?.segments?.[6] ||
-                                                                null;
-                                                            const commentUser =
-                                                                users?.[commentUserId] || {};
-                                                            const commentTime =
-                                                                commentData.timePosted &&
-                                                                typeof commentData.timePosted.toDate ===
-                                                                'function'
-                                                                    ? commentData.timePosted.toDate()
-                                                                    : null;
-                                                            return (
-                                                                <div
-                                                                    key={commentData.id}
-                                                                    className="comment"
-                                                                >
-                                                                    {commentUser && (
-                                                                        <>
-                                                                            <img
-                                                                                src={commentUser.photo_url}
-                                                                                alt={
-                                                                                    commentUser.display_name
-                                                                                }
-                                                                            />
-                                                                            <div className="comment-text">
-                                                        <span className="comment-user">
-                                                            {
-                                                                commentUser.display_name
-                                                            }
-                                                        </span>
-                                                                                {commentTime &&
-                                                                                    commentTime instanceof
-                                                                                    Date && (
-                                                                                        <span className="comment-time">
-                                                                    {commentTime &&
-                                                                        commentTime.toLocaleString(
-                                                                            'en-US',
-                                                                            {
-                                                                                year:
-                                                                                    'numeric',
-                                                                                month:
-                                                                                    '2-digit',
-                                                                                day:
-                                                                                    '2-digit',
-                                                                                hour:
-                                                                                    '2-digit',
-                                                                                minute:
-                                                                                    '2-digit',
-                                                                            }
-                                                                        )}
-                                                                </span>
-                                                                                    )}
-                                                                                <div className="comment-text-content">
-                                                                                    {commentData.comment}
-                                                                                </div>
-                                                                            </div>
-                                                                        </>
-                                                                    )}
-                                                                </div>
-                                                            );
-                                                        })}
-                                                    <textarea
-                                                        className="comment-text-input"
-                                                        ref={
-                                                            openCommentInput === post.id
-                                                                ? commentInputRef
-                                                                : null
-                                                        }
-                                                        value={comments[post.id] || ''}
-                                                        onChange={(event) =>
-                                                            handleCommentChange(event, post.id)
-                                                        }
-                                                        placeholder="Add a comment..."
+                                </div>
+                                <div className="story-comment-input">
+                                    {openCommentInput === post.id && (<>
+                                        {postComments[post.id] && postComments[post.id].map((commentData) => {
+                                            const commentUserId = commentData?.commentUser?._key?.path?.segments?.[6] || null;
+                                            const commentUser = users?.[commentUserId] || {};
+                                            const commentTime = commentData.timePosted && typeof commentData.timePosted.toDate === 'function' ? commentData.timePosted.toDate() : null;
+                                            return (<div
+                                                key={commentData.id}
+                                                className="comment"
+                                            >
+                                                {commentUser && (<>
+                                                    <img
+                                                        src={commentUser.photo_url}
+                                                        alt={commentUser.display_name}
+                                                        onError={(e) => e.target.src = 'https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg'}
                                                     />
-                                                    <button
-                                                        className="comment-submit-button"
-                                                        ref={submitButtonRef}
-                                                        onClick={() => handleSubmit(post.id)}
-                                                        disabled={
-                                                            !comments[post.id] ||
-                                                            comments[post.id].trim().length < 1
-                                                        }
-                                                    >
-                                                        Submit
-                                                    </button>
-                                                </>
-                                            )}
-                                        </div>
-                                    </div>
-                                );
-                            })}
-                        </Masonry>
+                                                    <div className="comment-text">
+                                                        <span className="comment-user">
+                                                            {commentUser.display_name}
+                                                        </span>
+                                                        {commentTime && commentTime instanceof Date && (
+                                                            <span className="comment-time">
+                                                                    {commentTime && commentTime.toLocaleString('en-US', {
+                                                                        year: 'numeric',
+                                                                        month: '2-digit',
+                                                                        day: '2-digit',
+                                                                        hour: '2-digit',
+                                                                        minute: '2-digit',
+                                                                    })}
+                                                                </span>)}
+                                                        <div className="comment-text-content">
+                                                            {commentData.comment}
+                                                        </div>
+                                                    </div>
+                                                </>)}
+                                            </div>);
+                                        })}
+                                        <textarea
+                                            className="comment-text-input"
+                                            ref={openCommentInput === post.id ? commentInputRef : null}
+                                            value={comments[post.id] || ''}
+                                            onChange={(event) => handleCommentChange(event, post.id)}
+                                            placeholder="Add a comment..."
+                                        />
+                                        <button
+                                            className="comment-submit-button"
+                                            ref={submitButtonRef}
+                                            onClick={() => handleSubmit(post.id)}
+                                            disabled={!comments[post.id] || comments[post.id].trim().length < 1}
+                                        >
+                                            Submit
+                                        </button>
+                                    </>)}
+                                </div>
+                            </div>);
+                        })}
+                    </Masonry>
 
 
-                        <div className="button-container">
-
-                            {!isLoading && hasMorePosts && (
-                                <button
-                                    className="custom-file-button"
-                                    onClick={() => showMyPosts ? fetchAndSetPosts(page + 1, user.uid) : fetchAndSetPosts(page + 1, null)}
-                                >
-                                    See More Stories
-                                </button>
-
-
-                            )}
-
-
-                            {isLoading && <div>Loading more stories...</div>}
-
-                            {
-                                !isLoading && showBackToTop && (
-                                    <button
-                                        className="back-to-top-button"
-                                        onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}
-                                    >
-                                        Back to Top
-                                    </button>
-                                )
-                            }
-                        </div>
-
+                    <div className="button-container">
+                        {!isLoading && hasMorePosts && !showMyPosts && selectedUser === "" && (
+                            <button
+                                className="custom-file-button"
+                                onClick={() => fetchAndSetPosts(page + 1, null)}
+                            >
+                                See More Stories
+                            </button>
+                        )}
+                        {isLoading && <div>Loading more stories...</div>}
+                        {!isLoading && showBackToTop && (
+                            <button
+                                className="back-to-top-button"
+                                onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}
+                            >
+                                Back to Top
+                            </button>
+                        )}
                     </div>
 
+
                 </div>
+
             </div>
         </div>
-    )
-        ;
+    </div>);
 }
 
 export default Stories;

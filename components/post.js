@@ -106,9 +106,6 @@ function Post({post}) {
 
                 )}
             </div>
-            <div className="post-description">
-                {post.description ? post.description : 'No description available'}
-            </div>
             <div className="post-carousel" {...handlers}>
                 {hasMultiplePhotos && (
                     <FaChevronLeft
@@ -135,6 +132,9 @@ function Post({post}) {
                         {post.litterWeight === 1 ? 'pound' : 'pounds'} of litter!
                     </span>
                 )}
+            </div>
+            <div className="post-description">
+                {post.description ? post.description : 'No description available'}
             </div>
 
         </div>

@@ -15,6 +15,7 @@ import {
 } from 'firebase/firestore';
 import {db, storage} from '../lib/firebase';
 import {getDownloadURL, ref} from 'firebase/storage';
+import {getAuth} from 'firebase/auth';
 
 export async function* fetchPosts(page, postsPerPage, userId = null) {
     let postQuery;

@@ -2873,7 +2873,8 @@ h1.heading-text.profile-heading {
   justify-content: flex-start;
 }
 .search-and-filter-input-button-container .show-all-posts-button,
-.search-and-filter-input-button-container .show-my-posts-button {
+.search-and-filter-input-button-container .show-my-posts-button,
+.search-and-filter-input-button-container .post-search-button {
   border-radius: 0.5rem;
   margin-left: 1rem;
 }
@@ -3399,7 +3400,9 @@ h1.heading-text.profile-heading {
     margin-left: 0.5rem;
   }
   .search-and-filter-input-button-container .show-all-posts-button,
-  .search-and-filter-input-button-container .show-my-posts-button {
+  .search-and-filter-input-button-container .show-my-posts-button,
+  .search-and-filter-input-button-container .post-search-button {
+    color: red;
     font-size: 19.2px;
     height: 2rem;
     margin-left: 0.25rem;
@@ -3409,7 +3412,7 @@ h1.heading-text.profile-heading {
     width: 150px;
   }
   .post-search-input {
-    font-size: 19.2;
+    font-size: 19.2px;
   }
   .post {
     border: 0.01rem solid #015e41;
@@ -4584,7 +4587,8 @@ input::placeholder {
   justify-content: flex-start;
 }
 .search-and-filter-input-button-container .show-all-posts-button,
-.search-and-filter-input-button-container .show-my-posts-button {
+.search-and-filter-input-button-container .show-my-posts-button,
+.search-and-filter-input-button-container .post-search-button {
   border-radius: 0.5rem;
   margin-left: 1rem;
 }
@@ -5110,7 +5114,9 @@ input::placeholder {
     margin-left: 0.5rem;
   }
   .search-and-filter-input-button-container .show-all-posts-button,
-  .search-and-filter-input-button-container .show-my-posts-button {
+  .search-and-filter-input-button-container .show-my-posts-button,
+  .search-and-filter-input-button-container .post-search-button {
+    color: red;
     font-size: 19.2px;
     height: 2rem;
     margin-left: 0.25rem;
@@ -5120,7 +5126,7 @@ input::placeholder {
     width: 150px;
   }
   .post-search-input {
-    font-size: 19.2;
+    font-size: 19.2px;
   }
   .post {
     border: 0.01rem solid #015e41;

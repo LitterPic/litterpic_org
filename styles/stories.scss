@@ -40,7 +40,8 @@
   justify-content: flex-start;
 
   .show-all-posts-button,
-  .show-my-posts-button {
+  .show-my-posts-button,
+  .post-search-button {
     border-radius: .5rem;
     margin-left: 1rem;
   }
@@ -618,7 +619,9 @@
     margin-left: .5rem;
 
     .show-all-posts-button,
-    .show-my-posts-button {
+    .show-my-posts-button,
+    .post-search-button {
+      color: red;
       font-size: 19.2px;
       height: 2rem;
       margin-left: .25rem;
@@ -630,11 +633,9 @@
     }
   }
 
-
   .post-search-input {
-    font-size: 19.2;
+    font-size: 19.2px;
   }
-
 
   .post {
     border: .01rem solid $litterpic-green;
