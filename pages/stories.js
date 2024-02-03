@@ -47,8 +47,6 @@ function Stories() {
     const [likedUsers, setLikedUsers] = useState([]);
     const [hoveredPostId, setHoveredPostId] = useState(null);
     const [showMyPosts, setShowMyPosts] = useState(false);
-    const [userPosts, setUserPosts] = useState([]);
-    const [postsDisplayMode, setPostsDisplayMode] = useState('all');
     const [searchUsers, setSearchUsers] = useState([]);
     const [isLoadingSearchUsers, setIsLoadingSearchUsers] = useState(true);
     const [selectedUser, setSelectedUser] = useState("");
@@ -57,6 +55,7 @@ function Stories() {
     // 5 minute cache
     const ALL_POSTS_CACHE_EXPIRATION_MS = 300000;
     const MY_POSTS_CACHE_EXPIRATION_MS = 300000;
+    const SEARCH_USERS_CACHE_EXPIRATION_MS = 86400000;
     const getAllPostsCacheKey = (page) => `all_posts_cache_page_${page}`;
     const getMyPostsCacheKey = (page, userId) => `my_posts_cache_page_${userId}_${page}`;
 
@@ -91,13 +90,27 @@ function Stories() {
     };
 
     useEffect(() => {
+        const cacheKey = 'users_cache';
+        const now = new Date().getTime();
+
         const fetchUsers = async () => {
+            const cachedData = localStorage.getItem(cacheKey);
+            if (cachedData) {
+                const {users, timestamp} = JSON.parse(cachedData);
+                if (now - timestamp < SEARCH_USERS_CACHE_EXPIRATION_MS) {
+                    setSearchUsers(users);
+                    setIsLoadingSearchUsers(false);
+                    return;
+                }
+            }
+
             try {
                 setIsLoadingSearchUsers(true); // Start loading
                 const userRefs = await fetchUserRefsFromPosts();
                 const userDetails = await fetchUsersDetails(userRefs);
                 setSearchUsers(userDetails);
                 setIsLoadingSearchUsers(false);
+                localStorage.setItem(cacheKey, JSON.stringify({users: userDetails, timestamp: now}));
             } catch (error) {
                 console.error("Error fetching users:", error);
                 setIsLoadingSearchUsers(true);
@@ -115,7 +128,6 @@ function Stories() {
         setPage(1);
 
         fetchAndSetPosts(1, user.uid);
-
     };
 
     const handleShowAllPostsButton = () => {
@@ -540,20 +552,6 @@ function Stories() {
         }
     };
 
-    const filterUniquePosts = (newPosts) => {
-        const uniquePosts = [];
-        const uniquePostIds = new Set();
-
-        newPosts.forEach((post) => {
-            if (!uniquePostIds.has(post.id)) {
-                uniquePostIds.add(post.id);
-                uniquePosts.push(post);
-            }
-        });
-
-        return uniquePosts;
-    };
-
     return (<div>
         <Head>
             <title>LitterPic Inspiring Stories</title>
@@ -636,12 +634,12 @@ function Stories() {
 
                 <div className="story-posts">
                     <Masonry
-                        key={postsDisplayMode}
+                        key='all'
                         breakpointCols={{default: 2, 700: 1}}
                         className="post-grid"
                         columnClassName="post-grid-column"
                     >
-                        {(postsDisplayMode === 'user' ? userPosts : posts).map((post, index) => {
+                        {posts.map((post, index) => {
                             const likes = post.likes !== undefined ? post.likes : 0;
                             const {numComments} = post;
                             const currentUserLiked = post.currentUserLiked;
