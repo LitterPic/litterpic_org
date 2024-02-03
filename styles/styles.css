@@ -3174,8 +3174,10 @@ h1.heading-text.profile-heading {
   font-family: inherit;
   font-size: 1rem;
   height: auto;
+  overflow-wrap: anywhere;
   padding: 1rem 2rem;
   width: auto;
+  word-break: break-word;
 }
 
 .recent-location-select {
@@ -3402,7 +3404,6 @@ h1.heading-text.profile-heading {
   .search-and-filter-input-button-container .show-all-posts-button,
   .search-and-filter-input-button-container .show-my-posts-button,
   .search-and-filter-input-button-container .post-search-button {
-    color: red;
     font-size: 19.2px;
     height: 2rem;
     margin-left: 0.25rem;
@@ -4888,8 +4889,10 @@ input::placeholder {
   font-family: inherit;
   font-size: 1rem;
   height: auto;
+  overflow-wrap: anywhere;
   padding: 1rem 2rem;
   width: auto;
+  word-break: break-word;
 }
 
 .recent-location-select {
@@ -5116,7 +5119,6 @@ input::placeholder {
   .search-and-filter-input-button-container .show-all-posts-button,
   .search-and-filter-input-button-container .show-my-posts-button,
   .search-and-filter-input-button-container .post-search-button {
-    color: red;
     font-size: 19.2px;
     height: 2rem;
     margin-left: 0.25rem;
