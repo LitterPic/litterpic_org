@@ -21,7 +21,6 @@ export async function* fetchPosts(page, postsPerPage, userId = null) {
     let postQuery;
 
     if (userId) {
-        console.log("UserId:", userId);
         const userDocRef = doc(db, 'users', userId);
         postQuery = query(
             collection(db, 'userPosts'),
@@ -30,7 +29,6 @@ export async function* fetchPosts(page, postsPerPage, userId = null) {
             limit(postsPerPage)
         );
     } else {
-        console.log("Getting posts for all users");
         postQuery = query(
             collection(db, 'userPosts'),
             orderBy('timePosted', 'desc'),

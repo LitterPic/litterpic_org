@@ -231,6 +231,7 @@ function Stories() {
     const handleClickOutside = (event) => {
         if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
             setOpenMenuId(null);
+            setShowOptions(false);
         }
     };
 
@@ -557,9 +558,9 @@ function Stories() {
 
     const handleReportClick = (postId, optionValue) => {
         reportPost(postId, optionValue);
-        // Hide options after selection
+
         setShowOptions(false);
-        setOpenMenuId(null); // Close the dropdown menu
+        setOpenMenuId(null);
     };
 
     const reportPost = async (postId, userConcern) => {
