@@ -19,12 +19,13 @@ import {
     updateDoc,
     where
 } from 'firebase/firestore';
-import {db} from "../lib/firebase";
+import {auth, db} from "../lib/firebase";
 import {capitalizeFirstWordOfSentences} from "../utils/textUtils";
 import Head from "next/head";
 import LikePopup from "../components/LikePopup";
 import Post from "../components/post";
-
+import {toast, ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Stories() {
     const router = useRouter();
@@ -51,6 +52,8 @@ function Stories() {
     const [isLoadingSearchUsers, setIsLoadingSearchUsers] = useState(true);
     const [selectedUser, setSelectedUser] = useState("");
     const debounceTimers = {};
+    const [showOptions, setShowOptions] = useState(false);
+
 
     // 5 minute cache
     const ALL_POSTS_CACHE_EXPIRATION_MS = 300000;
@@ -552,6 +555,89 @@ function Stories() {
         }
     };
 
+    const handleReportClick = (postId, optionValue) => {
+        reportPost(postId, optionValue);
+        // Hide options after selection
+        setShowOptions(false);
+        setOpenMenuId(null); // Close the dropdown menu
+    };
+
+    const reportPost = async (postId, userConcern) => {
+        try {
+            const postRef = doc(db, 'userPosts', postId);
+
+            const postDoc = await runTransaction(db, async (transaction) => {
+                const postSnapshot = await transaction.get(postRef);
+                if (!postSnapshot.exists()) {
+                    throw "Post does not exist!";
+                }
+                return postSnapshot.data();
+            });
+
+            if (!postDoc) {
+                console.error("Failed to get post data");
+                return;
+            }
+
+            const postUserId = postDoc.postUser.id;
+            const userRef = doc(db, 'users', postUserId);
+            const userDoc = await runTransaction(db, async (transaction) => {
+                const userSnapshot = await transaction.get(userRef);
+                if (!userSnapshot.exists()) {
+                    throw "User does not exist!";
+                }
+                return userSnapshot.data();
+            });
+
+            const timestamp = postDoc.timePosted;
+            const date = new Date(timestamp.seconds * 1000);
+
+            const formattedDate = `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}/${date.getFullYear()}`;
+
+            const reportInappropriatePostTemplateId = "d-95a2eee11b234269a6d05c06a4c334fa";
+            const reporterEmail = user ? auth.currentUser.email : 'anonymous user';
+            const reportInappropriatePostTemplateData = {
+                postID: postId,
+                postDate: formattedDate,
+                postDescription: postDoc.postDescription,
+                userConcern: userConcern,
+                reporter: reporterEmail,
+                userWhoPosted: userDoc.email,
+            };
+
+            await fetch("/api/sendEmail", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email: 'contact@litterpic.org',
+                    templateId: reportInappropriatePostTemplateId,
+                    templateData: reportInappropriatePostTemplateData,
+                }),
+            });
+
+            // Show toast message
+            toast.success("Thank you for reporting this post. We will investigate and take appropriate action.", {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        } catch (error) {
+            console.error("Error in reportPost function:", error);
+        }
+    };
+
+    const reportOptions = [
+        {value: 'Spam or misleading', label: 'Spam or misleading'},
+        {value: 'Harassment or bullying', label: 'Harassment or bullying'},
+        {value: 'Inappropriate content', label: 'Inappropriate content'},
+    ];
+
     return (<div>
         <Head>
             <title>LitterPic Inspiring Stories</title>
@@ -656,23 +742,48 @@ function Stories() {
                                         }}
                                     ></i>
                                 </div>
+                                <ToastContainer/>
                                 <div
                                     className={`post-dropdown-menu ${openMenuId === post.id ? 'show' : ''}`}
                                     ref={openMenuId === post.id ? dropdownRef : null}
                                 >
-                                    <ul className="meatball-post-menu">
-                                        <li
-                                            onClick={() => {
-                                                if (user && post.user && user.uid === post.user.uid) {
-                                                    deletePost(post.id);
-                                                }
-                                            }}
-                                            className={user && post.user && user.uid === post.user.uid ? '' : 'grayed-out'}
-                                        >
-                                            Delete Post
-                                        </li>
-                                    </ul>
+                                    {showOptions ? (
+                                        <ul className="meatball-post-menu">
+                                            {reportOptions.map((option) => (
+                                                <li key={option.value}
+                                                    onClick={() => {
+                                                        handleReportClick(post.id, option.value);
+                                                        // Hide report options after selection
+                                                        setShowOptions(false);
+                                                        setOpenMenuId(null); // Close the dropdown menu
+                                                    }}>
+                                                    {option.label}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    ) : (
+                                        <ul className="meatball-post-menu">
+                                            <li
+                                                onClick={() => {
+                                                    if (user && post.user && user.uid === post.user.uid) {
+                                                        deletePost(post.id);
+                                                        setOpenMenuId(null); // Optionally close the dropdown menu
+                                                    }
+                                                }}
+                                                className={user && post.user && user.uid === post.user.uid ? '' : 'grayed-out'}
+                                            >
+                                                Delete Post
+                                            </li>
+                                            <li onClick={() => {
+                                                setShowOptions(true); // Show report options
+                                                // Do not close the menu here; let the user select a report reason
+                                            }}>Report Post
+                                            </li>
+                                        </ul>
+                                    )}
                                 </div>
+
+
                                 <Post post={post}/>
                                 <div className="likes-comments">
                     <span
@@ -783,8 +894,6 @@ function Stories() {
                             </button>
                         )}
                     </div>
-
-
                 </div>
 
             </div>
