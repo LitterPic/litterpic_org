@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import Link from "next/link";
 
 const LikePopup = ({likedUsers}) => {
     const [imageLoaded, setImageLoaded] = useState(false);
@@ -19,8 +20,9 @@ const LikePopup = ({likedUsers}) => {
                                     className="user-photo"
                                     onLoad={() => setImageLoaded(true)}
                                 />
-                                <span className="user-name">{user.display_name}</span>
-                                {/* Add the liked date here */}
+                                <Link href={`/profile/${user.uid}`} className="user-name">
+                                    {user.display_name}
+                                </Link>
                             </div>
                         </div>
                     ))}

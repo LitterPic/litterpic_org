@@ -25,6 +25,44 @@
   margin-bottom: 3rem;
 }
 
+.search-and-filter-image {
+  border-radius: .5rem;
+  height: 350px;
+  object-fit: fill;
+  width: 100%;
+}
+
+.search-and-filter-input-button-container {
+  align-items: flex-start;
+  display: flex;
+  margin-bottom: 2rem;
+  margin-left: 1rem;
+  justify-content: flex-start;
+
+  .show-all-posts-button,
+  .show-my-posts-button,
+  .post-search-button {
+    border-radius: .5rem;
+    margin-left: 1rem;
+  }
+
+  .post-search-input {
+    border-radius: .5rem;
+    width: 500px;
+  }
+}
+
+.search-and-filter-button-container {
+  align-items: center;
+  display: flex;
+}
+
+.post-search-input {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
 .post-grid {
   display: flex;
   gap: .5rem;
@@ -88,6 +126,8 @@
 
 .user-name {
   flex-grow: 1;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .like-date {
@@ -143,6 +183,7 @@
     height: 60px;
     margin-left: auto;
     margin-right: auto;
+    padding-left: 2px;
     width: 90%;
   }
 }
@@ -322,8 +363,10 @@
   font-family: inherit;
   font-size: 1rem;
   height: auto;
+  overflow-wrap: anywhere;
   padding: 1rem 2rem;
   width: auto;
+  word-break: break-word;
 }
 
 .recent-location-select {
@@ -572,6 +615,33 @@
     }
   }
 
+  .search-and-filter-image {
+    height: 150px;
+    width: 100%;
+  }
+
+  .search-and-filter-input-button-container {
+    margin-left: .75rem;
+    margin-right: .75rem;
+
+    .show-all-posts-button,
+    .show-my-posts-button,
+    .post-search-button {
+      font-size: 19.2px;
+      height: 2rem;
+      margin-left: .25rem;
+      margin-right: .25rem;
+      width: 100px;
+    }
+
+    .post-search-input {
+      width: 135px;
+    }
+  }
+
+  .post-search-input {
+    font-size: 19.2px;
+  }
 
   .post {
     border: .01rem solid $litterpic-green;

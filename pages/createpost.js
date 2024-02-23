@@ -2,13 +2,24 @@ import React, {useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
 import withAuth from '../components/withAuth';
 import {db, ref, storage, useAuth} from '../lib/firebase';
-import {addDoc, arrayUnion, collection, deleteDoc, doc, getDoc, runTransaction, updateDoc} from 'firebase/firestore';
+import {
+    addDoc,
+    arrayUnion,
+    collection,
+    deleteDoc,
+    doc,
+    GeoPoint,
+    getDoc,
+    runTransaction,
+    updateDoc
+} from 'firebase/firestore';
 import {getDownloadURL, uploadBytesResumable} from 'firebase/storage';
 import PlacesAutocomplete, {geocodeByAddress, getLatLng} from 'react-places-autocomplete';
 import {useLoadScript} from '@react-google-maps/api';
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {capitalizeFirstWordOfSentences} from "../utils/textUtils";
+
 
 const libraries = ['places'];
 const mapApiKey = process.env.NEXT_PUBLIC_PLACES_API_KEY;
@@ -42,6 +53,7 @@ function CreatePost() {
     const [unit, setUnit] = useState('lbs');
     const router = useRouter();
     const fileInputRef = React.useRef(null);
+    const [latLng, setLatLng] = useState(null);
 
 
     // we can useEffect to handle the conversion when the unit  changes
@@ -107,6 +119,9 @@ function CreatePost() {
         try {
             // Use geocodeByAddress to get address details using the placeId
             const results = await geocodeByAddress(address);
+            const latLng = await getLatLng(results[0]);
+            setLatLng(latLng);
+
             const addressComponents = results[0]?.address_components || [];
 
             if (addressComponents.length === 0) {
@@ -187,6 +202,12 @@ function CreatePost() {
         try {
             const postLitterWeightInPounds = unit === 'kg' ? parseFloat(litterWeight) * 2.20462 : parseFloat(litterWeight);
             const roundedLitterWeight = parseFloat(postLitterWeightInPounds.toFixed());
+            let geoPoint = null;
+
+            // Check if latLng is not null before attempting to create a GeoPoint
+            if (latLng != null) {
+                geoPoint = new GeoPoint(latLng.lat, latLng.lng);
+            }
 
             // Create a new post document in Firestore
             postDocRef = await addDoc(collection(db, 'userPosts'), {
@@ -198,6 +219,7 @@ function CreatePost() {
                 City: city,
                 Country: country,
                 State: state,
+                latLng: geoPoint,
             });
 
             // Upload the images to Firebase Storage
