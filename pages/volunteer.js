@@ -30,6 +30,7 @@ import Head from "next/head";
 import {capitalizeFirstWordOfSentences} from "../utils/textUtils";
 import {getFunctions, httpsCallable} from "firebase/functions";
 import {subscribeUserToMail} from '../utils/subscribeUserToMail';
+import Script from "next/script";
 
 const libraries = ['places'];
 const mapApiKey = process.env.NEXT_PUBLIC_PLACES_API_KEY;
@@ -779,6 +780,24 @@ const Volunteer = () => {
                 <meta name="author" content="LitterPic Inc."/>
 
             </Head>
+            
+            {/* Google Analytics Scripts */}
+            <Script
+                src="https://www.googletagmanager.com/gtag/js?id=G-3VZE7E59CL"
+                strategy="afterInteractive"
+            />
+            <Script
+                strategy="afterInteractive"
+                dangerouslySetInnerHTML={{
+                    __html: `
+                        window.dataLayer = window.dataLayer || [];
+                        function gtag(){dataLayer.push(arguments);}
+                        gtag('js', new Date());
+                        gtag('config', 'G-3VZE7E59CL');
+                    `,
+                }}
+            />
+
             <div className="banner">
                 <img src="/images/volunteer_banner.webp" alt="Banner Image"/>
             </div>

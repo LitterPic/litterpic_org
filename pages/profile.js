@@ -1,9 +1,10 @@
 import withAuth from '../components/withAuth';
 import {db, useAuth} from '../lib/firebase';
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {doc, getDoc} from "firebase/firestore";
 import {useRouter} from 'next/router';
 import Head from "next/head";
+import Script from "next/script";
 
 const ProfilePage = () => {
     const router = useRouter();
@@ -114,6 +115,23 @@ const ProfilePage = () => {
                       content="profile, user profile, account settings, LitterPic profile, social media profile"/>
                 <meta name="author" content="LitterPic Inc."/>
             </Head>
+
+            {/* Google Analytics Scripts */}
+            <Script
+                src="https://www.googletagmanager.com/gtag/js?id=G-3VZE7E59CL"
+                strategy="afterInteractive"
+            />
+            <Script
+                strategy="afterInteractive"
+                dangerouslySetInnerHTML={{
+                    __html: `
+                        window.dataLayer = window.dataLayer || [];
+                        function gtag(){dataLayer.push(arguments);}
+                        gtag('js', new Date());
+                        gtag('config', 'G-3VZE7E59CL');
+                    `,
+                }}
+            />
 
             <div className="banner">
                 <img src="/images/user_posts_banner.webp" alt="Banner Image"/>

@@ -1,5 +1,6 @@
 import React from "react";
 import Head from "next/head";
+import Script from 'next/script';
 
 const boardMembers = [
     {
@@ -78,6 +79,24 @@ const About = () => {
                       content="litter, litterpicking, litter collection, community cleanups, environmental conservation, inspiring stories"/>
                 <meta name="author" content="LitterPic Inc."/>
             </Head>
+
+            {/* Google Analytics Scripts */}
+            <Script
+                src="https://www.googletagmanager.com/gtag/js?id=G-3VZE7E59CL"
+                strategy="afterInteractive"
+            />
+            <Script
+                strategy="afterInteractive"
+                dangerouslySetInnerHTML={{
+                    __html: `
+                        window.dataLayer = window.dataLayer || [];
+                        function gtag(){dataLayer.push(arguments);}
+                        gtag('js', new Date());
+                        gtag('config', 'G-3VZE7E59CL');
+                    `,
+                }}
+            />
+
             <div className="banner">
                 <img src="/images/pine_trees_banner.webp" alt="Banner Image"/>
             </div>

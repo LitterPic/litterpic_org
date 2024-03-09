@@ -1,5 +1,6 @@
 import React from "react";
 import Head from "next/head";
+import Script from "next/script";
 
 const Privacy = () => {
     return (
@@ -30,6 +31,23 @@ const Privacy = () => {
                       content="privacy policy, data protection, user privacy, data security, online privacy"/>
                 <meta name="author" content="LitterPic Inc."/>
             </Head>
+
+            {/* Google Analytics Scripts */}
+            <Script
+                src="https://www.googletagmanager.com/gtag/js?id=G-3VZE7E59CL"
+                strategy="afterInteractive"
+            />
+            <Script
+                strategy="afterInteractive"
+                dangerouslySetInnerHTML={{
+                    __html: `
+                        window.dataLayer = window.dataLayer || [];
+                        function gtag(){dataLayer.push(arguments);}
+                        gtag('js', new Date());
+                        gtag('config', 'G-3VZE7E59CL');
+                    `,
+                }}
+            />
 
             <div className="banner">
                 <img src="/images/privacy_policy_banner.webp" alt="Banner Image"/>
