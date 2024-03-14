@@ -13,10 +13,11 @@
     "export": "next export",
     "lint": "sass-lint -v",
     "lint:fix": "sass-lint-auto-fix",
-    "clean": "rm -rf out & npm ci"
+    "clean": "rm -rf out & npm ci",
+    "postinstall": "npx playwright install"
   },
   "keywords": [],
-  "author": "Your Name",
+  "author": "Alek Babich",
   "license": "ISC",
   "dependencies": {
     "@playwright/test": "^1.42.1",
@@ -31,7 +32,6 @@
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "next": "^13.4.4",
-    "playwright": "^1.37.1",
     "react": "^18.2.0",
     "react-big-calendar": "^1.8.0",
     "react-bootstrap": "^2.7.4",
