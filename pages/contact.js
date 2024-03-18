@@ -3,6 +3,7 @@ import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Head from "next/head";
 import {capitalizeFirstWordOfSentences} from "../utils/textUtils";
+import Script from "next/script";
 
 const Contact = () => {
     const [firstName, setFirstName] = useState('');
@@ -78,6 +79,24 @@ const Contact = () => {
                       content="litter, litterpicking, litter collection, community cleanups, environmental conservation, inspiring stories"/>
                 <meta name="author" content="LitterPic Inc."/>
             </Head>
+
+            {/* Google Analytics Scripts */}
+            <Script
+                src="https://www.googletagmanager.com/gtag/js?id=G-3VZE7E59CL"
+                strategy="afterInteractive"
+            />
+            <Script
+                strategy="afterInteractive"
+                dangerouslySetInnerHTML={{
+                    __html: `
+                        window.dataLayer = window.dataLayer || [];
+                        function gtag(){dataLayer.push(arguments);}
+                        gtag('js', new Date());
+                        gtag('config', 'G-3VZE7E59CL');
+                    `,
+                }}
+            />
+            
             <div className="banner">
                 <img src="/images/contact_us_banner.webp" alt="Banner Image"/>
             </div>

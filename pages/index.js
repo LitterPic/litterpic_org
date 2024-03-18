@@ -4,6 +4,7 @@ import {getDownloadURL, ref} from 'firebase/storage';
 import {db, storage} from '../lib/firebase';
 import 'firebase/firestore';
 import Head from "next/head";
+import Script from "next/script";
 
 const AWS = require('aws-sdk');
 
@@ -233,6 +234,24 @@ export default function Index() {
                       content="litter, litterpicking, litter collection, community cleanups, environmental conservation, inspiring stories"/>
                 <meta name="author" content="LitterPic Inc."/>
             </Head>
+
+            {/* Google Analytics Scripts */}
+            <Script
+                src="https://www.googletagmanager.com/gtag/js?id=G-3VZE7E59CL"
+                strategy="afterInteractive"
+            />
+            <Script
+                strategy="afterInteractive"
+                dangerouslySetInnerHTML={{
+                    __html: `
+                        window.dataLayer = window.dataLayer || [];
+                        function gtag(){dataLayer.push(arguments);}
+                        gtag('js', new Date());
+                        gtag('config', 'G-3VZE7E59CL');
+                    `,
+                }}
+            />
+
             <div className="banner">
                 <img src="/images/homeBanner.webp" alt="Banner Image"/>
 

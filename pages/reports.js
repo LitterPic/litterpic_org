@@ -3,6 +3,7 @@ import {db} from '../lib/firebase'; // Assuming the db object is exported from y
 import {collection, getDocs, query, where} from 'firebase/firestore';
 import withAuth from '../components/withAuth';
 import Head from "next/head";
+import Script from "next/script";
 
 const ReportsPage = () => {
     const currentDate = new Date();
@@ -336,6 +337,23 @@ const ReportsPage = () => {
                 <meta name="author" content="LitterPic Inc."/>
             </Head>
 
+            {/* Google Analytics Scripts */}
+            <Script
+                src="https://www.googletagmanager.com/gtag/js?id=G-3VZE7E59CL"
+                strategy="afterInteractive"
+            />
+            <Script
+                strategy="afterInteractive"
+                dangerouslySetInnerHTML={{
+                    __html: `
+                        window.dataLayer = window.dataLayer || [];
+                        function gtag(){dataLayer.push(arguments);}
+                        gtag('js', new Date());
+                        gtag('config', 'G-3VZE7E59CL');
+                    `,
+                }}
+            />
+            
             <div className="banner">
                 <img src="/images/reports_banner.webp" alt="Banner Image"/>
             </div>
