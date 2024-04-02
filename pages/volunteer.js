@@ -804,7 +804,7 @@ const Volunteer = () => {
 
             <div className="page">
                 <div className="content">
-                    <h1 className="heading-text">Take Action</h1>
+                    <h1 className="heading-text">Events</h1>
                     <p className="volunteer-top-paragraph"> LitterPic encourages everyone to play their part in our
                         Environmental Protection Movement. The only
                         way we succeed is when the change comes from within, and we want to empower you to take an
