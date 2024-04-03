@@ -959,6 +959,61 @@ p .index-inspire-change-text {
     padding: 1rem;
   }
 }
+.qr-section {
+  margin-bottom: 1.5rem;
+}
+.qr-section .app-text {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+.qr-section .app-text .head-and-icon {
+  display: flex;
+}
+.qr-section .app-text .head-and-icon .heading-text {
+  margin-top: 1.5rem;
+}
+.qr-section .app-text .head-and-icon .ambassador-heading-icon {
+  margin-bottom: 0.3rem;
+  padding-left: 1rem;
+}
+.qr-section .qr-group {
+  display: flex;
+}
+.qr-section .qr-group .qr-container {
+  align-items: center;
+  border-right: #ccc solid 1px;
+  display: flex;
+  justify-content: space-evenly;
+  text-align: center;
+  width: 50%;
+}
+.qr-section .qr-group .qr-container > img {
+  height: 12rem;
+  width: auto;
+}
+.qr-section .qr-group .qr-container.qr-c-2 {
+  border-right: 0;
+}
+.qr-section .qr-group .qr-container .qr-box {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1.5rem;
+  text-align: center;
+}
+.qr-section .qr-group .qr-container .qr-box > img {
+  height: auto;
+  width: 13rem;
+}
+.qr-section .qr-group .qr-container .qr-box .app-store {
+  height: auto;
+  width: 11.5rem;
+}
+
 .image-row {
   overflow-x: auto;
   white-space: nowrap;
@@ -2192,6 +2247,61 @@ p .index-inspire-change-text {
     padding: 1rem;
   }
 }
+.qr-section {
+  margin-bottom: 1.5rem;
+}
+.qr-section .app-text {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+.qr-section .app-text .head-and-icon {
+  display: flex;
+}
+.qr-section .app-text .head-and-icon .heading-text {
+  margin-top: 1.5rem;
+}
+.qr-section .app-text .head-and-icon .ambassador-heading-icon {
+  margin-bottom: 0.3rem;
+  padding-left: 1rem;
+}
+.qr-section .qr-group {
+  display: flex;
+}
+.qr-section .qr-group .qr-container {
+  align-items: center;
+  border-right: #ccc solid 1px;
+  display: flex;
+  justify-content: space-evenly;
+  text-align: center;
+  width: 50%;
+}
+.qr-section .qr-group .qr-container > img {
+  height: 12rem;
+  width: auto;
+}
+.qr-section .qr-group .qr-container.qr-c-2 {
+  border-right: 0;
+}
+.qr-section .qr-group .qr-container .qr-box {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1.5rem;
+  text-align: center;
+}
+.qr-section .qr-group .qr-container .qr-box > img {
+  height: auto;
+  width: 13rem;
+}
+.qr-section .qr-group .qr-container .qr-box .app-store {
+  height: auto;
+  width: 11.5rem;
+}
+
 .image-row {
   overflow-x: auto;
   white-space: nowrap;

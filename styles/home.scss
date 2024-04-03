@@ -303,3 +303,72 @@ p {
     }
   }
 }
+
+
+// QR Codes
+.qr-section {
+  margin-bottom: 1.5rem;
+
+  .app-text {
+    align-items: center;
+    // justify-content: center;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2rem;
+    text-align: center;
+
+    .head-and-icon {
+      display: flex;
+
+      .heading-text {
+        margin-top: 1.5rem;
+      }
+
+      .ambassador-heading-icon {
+        margin-bottom: .3rem;
+        padding-left: 1rem;
+      }
+    }
+  }
+
+  .qr-group {
+    display: flex;
+
+    .qr-container {
+      align-items: center;
+      border-right: $disabled-gray solid 1px;
+      display: flex;
+      justify-content: space-evenly;
+      text-align: center;
+      width: 50%;
+
+      > img {
+        height: 12rem;
+        width: auto;
+        }
+
+      &.qr-c-2 {
+        border-right: 0;
+      }
+
+      .qr-box {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 1.5rem;
+        text-align: center;
+
+        > img {
+          height: auto;
+          width: 13rem;
+        }
+
+        .app-store {
+          height: auto;
+          width: 11.5rem;
+        }
+      }
+    }
+  }
+}
