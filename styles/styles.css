@@ -1009,7 +1009,7 @@ p .index-inspire-change-text {
 .qr-section .qr-group .qr-container .qr-box.qr-b-1 {
   margin-top: 0.9rem;
 }
-.qr-section .qr-group .qr-container .qr-box > img {
+.qr-section .qr-group .qr-container .qr-box > a img {
   height: auto;
   width: 13rem;
 }
@@ -2301,7 +2301,7 @@ p .index-inspire-change-text {
 .qr-section .qr-group .qr-container .qr-box.qr-b-1 {
   margin-top: 0.9rem;
 }
-.qr-section .qr-group .qr-container .qr-box > img {
+.qr-section .qr-group .qr-container .qr-box > a img {
   height: auto;
   width: 13rem;
 }
