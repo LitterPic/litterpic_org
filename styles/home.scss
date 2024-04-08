@@ -305,13 +305,11 @@ p {
 }
 
 
-// QR Codes
 .qr-section {
   margin-bottom: 1.5rem;
 
   .app-text {
     align-items: center;
-    // justify-content: center;
     display: flex;
     flex-direction: column;
     margin-bottom: 2rem;
@@ -333,76 +331,62 @@ p {
 
   .qr-group {
     display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
 
     .qr-container {
       align-items: center;
-      border-right: $disabled-gray solid 1px;
       display: flex;
-      justify-content: space-evenly;
+      justify-content: space-around;
       text-align: center;
       width: 50%;
 
-      > img {
-        height: 12rem;
-        width: auto;
-        }
+      &:last-child {
+        border-right: none;
+      }
 
-      &.qr-c-2 {
-        border-right: 0;
-        margin-left: 1.8rem;
+      > img {
+        height: auto;
+        width: 60%;
+        max-width: 12rem;
       }
 
       .qr-box {
-        align-items: center;
         display: flex;
         flex-direction: column;
+        align-items: center;
         justify-content: center;
-        padding: 1.5rem;
         text-align: center;
-
-        &.qr-b-1 {
-          margin-top: .9rem;
-        }
 
         > a img {
           height: auto;
-          width: 13rem;
-        }
-
-        .app-store {
-          height: auto;
-          width: 11.5rem;
+          width: 100%;
+          max-width: 11.5rem;
         }
       }
     }
   }
 }
 
-
 @media (max-width: 52.875rem) {
   .qr-group {
-    display: block;
+    flex-direction: column;
+
+    .qr-container {
+      width: 100%;
+      margin-bottom: 1rem;
+
+      > img {
+        width: 80%;
+      }
+    }
   }
+}
 
-  .qr-container {
-    background-color: aqua;
-    display: block;
-
-    .test {
-
-      height: auto;
-      width: 5rem;
-    
-    // > img {
-    //   height: auto;
-    //   width: 5rem;
-    // }
+@media (max-width: 767px) {
+  .qr-group .qr-container > img {
+    width: 50%;
   }
-
-  // .test {
-  //   height: 5rem;
-  //   width: auto;
-  // }
-
 }
-}
+
+

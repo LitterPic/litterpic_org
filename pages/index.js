@@ -434,25 +434,30 @@ export default function Index() {
                                 <h2 className='heading-text '> Stay informed with our app!</h2>
                                 <div className="material-icons ambassador-heading-icon">public</div>
                             </div>
-                            
-                            <p> <span className="index-inspire-change-text">Inspire Change</span>, take a picture, and download the LitterPic app today.</p>
+
+                            <p><span className="index-inspire-change-text">Inspire Change</span>, take a picture, and
+                                download the LitterPic app today.</p>
                         </div>
                         <div className='qr-group'>
-                            <div  className="qr-container" >
-                                <img  className="test" src='../images/large_ios_qr.jpg' alt='iOS app QR code'/>
-                                <div className='qr-box qr-b-1'>
+                            <div className="qr-container">
+                                <img className="test" src='../images/large_ios_qr.jpg' alt='iOS app QR code'/>
+                                <div className='qr-box'>
                                     <p> Scan the QR Code to download the app.</p>
                                     <a target="_blank" href='https://apps.apple.com/us/app/litterpic/id6447652360'>
-                                        <img className='app-store' src='../images/iphone-app-store-apple-store-stock-e2904e244823ccff8630acc91812664c.png' alt='apple store'/>
+                                        <img className='store-link'
+                                             src='../images/iphone-app-store-apple-store-stock-e2904e244823ccff8630acc91812664c.png'
+                                             alt='apple store'/>
                                     </a>
                                 </div>
                             </div>
-                            <div className="qr-container qr-c-2" >
+                            <div className="qr-container">
                                 <img className="test" src='../images/large_android_qr.jpg' alt='Android app QR code'/>
                                 <div className='qr-box'>
                                     <p> Scan the QR Code to download the app.</p>
-                                    <a target="_blank" href='https://play.google.com/store/apps/details?id=com.litterpic.app&pcampaignid=web_share'>
-                                        <img src='../images/google_play_app.png' alt='google play'/>
+                                    <a target="_blank"
+                                       href='https://play.google.com/store/apps/details?id=com.litterpic.app&pcampaignid=web_share'>
+                                        <img className='store-link' src='../images/google_play_app.png'
+                                             alt='google play'/>
                                     </a>
                                     
                                 </div>
