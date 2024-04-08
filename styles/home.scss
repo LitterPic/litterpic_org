@@ -377,3 +377,32 @@ p {
     }
   }
 }
+
+
+@media (max-width: 52.875rem) {
+  .qr-group {
+    display: block;
+  }
+
+  .qr-container {
+    background-color: aqua;
+    display: block;
+
+    .test {
+
+      height: auto;
+      width: 5rem;
+    
+    // > img {
+    //   height: auto;
+    //   width: 5rem;
+    // }
+  }
+
+  // .test {
+  //   height: 5rem;
+  //   width: auto;
+  // }
+
+}
+}

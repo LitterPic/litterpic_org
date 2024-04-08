@@ -1018,6 +1018,19 @@ p .index-inspire-change-text {
   width: 11.5rem;
 }
 
+@media (max-width: 52.875rem) {
+  .qr-group {
+    display: block;
+  }
+  .qr-container {
+    background-color: aqua;
+    display: block;
+  }
+  .qr-container .test {
+    height: auto;
+    width: 5rem;
+  }
+}
 .image-row {
   overflow-x: auto;
   white-space: nowrap;
@@ -2310,6 +2323,19 @@ p .index-inspire-change-text {
   width: 11.5rem;
 }
 
+@media (max-width: 52.875rem) {
+  .qr-group {
+    display: block;
+  }
+  .qr-container {
+    background-color: aqua;
+    display: block;
+  }
+  .qr-container .test {
+    height: auto;
+    width: 5rem;
+  }
+}
 .image-row {
   overflow-x: auto;
   white-space: nowrap;

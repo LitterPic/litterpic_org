@@ -439,7 +439,7 @@ export default function Index() {
                         </div>
                         <div className='qr-group'>
                             <div  className="qr-container" >
-                                <img src='../images/large_ios_qr.jpg' alt='iOS app QR code'/>
+                                <img  className="test" src='../images/large_ios_qr.jpg' alt='iOS app QR code'/>
                                 <div className='qr-box qr-b-1'>
                                     <p> Scan the QR Code to download the app.</p>
                                     <a target="_blank" href='https://apps.apple.com/us/app/litterpic/id6447652360'>
@@ -448,7 +448,7 @@ export default function Index() {
                                 </div>
                             </div>
                             <div className="qr-container qr-c-2" >
-                                <img src='../images/large_android_qr.jpg' alt='Android app QR code'/>
+                                <img className="test" src='../images/large_android_qr.jpg' alt='Android app QR code'/>
                                 <div className='qr-box'>
                                     <p> Scan the QR Code to download the app.</p>
                                     <a target="_blank" href='https://play.google.com/store/apps/details?id=com.litterpic.app&pcampaignid=web_share'>
