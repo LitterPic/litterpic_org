@@ -48,6 +48,7 @@ const Layout = ({children}) => {
     };
 
     const handleNavLinkClick = (href) => {
+	console.log('handleNavLinkClick: ', href);
         setShowNavLinks(false);
         router.push(href);
     };
@@ -80,7 +81,7 @@ const Layout = ({children}) => {
                             <div onClick={() => handleNavLinkClick("/about")}>About Us</div>
                         </Link>
                         <Link href="/volunteer" passHref>
-                            <div onClick={() => handleNavLinkClick("/volunteer")}>Take Action</div>
+			    <div data-testid="take-action-link" onClick={() => handleNavLinkClick("/volunteer")}>Take Action</div>
                         </Link>
                         <Link href="/stories" passHref>
                             <div onClick={() => handleNavLinkClick("/stories")}>User Stories</div>

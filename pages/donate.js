@@ -13,7 +13,7 @@ const Donate = () => {
                       content="Support LitterPic's mission to create a litter-free world. Your donation helps us empower individuals, facilitate cleanups, and share impactful stories. Join us in making a cleaner, safer planet."/>
                 <meta name="robots" content="index, follow"/>
                 <link rel="icon" href="/favicon.ico"/>
-                <link rel="canonical" href="https://litterpic.org/dontate"/>
+                <link rel="canonical" href="https://litterpic.org/donate"/>
 
                 <meta property="og:title" content="Donate to LitterPic"/>
                 <meta property="og:description"
