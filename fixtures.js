@@ -20,6 +20,9 @@ test.beforeEach(async ({page}) => {
 	// Wait for a specific element to appear, indicating content is loaded
 	//page.waitForSelector('YourSelectorHere', { state: 'attached' }),
 	page.waitForSelector('//*[contains(text(), "Inspire Change")]'),
+
+	await page.waitForNavigation(),
+	console.log('Fixtures: waitForNavigation'),
 	
 	// Wait for network requests to settle
 	page.waitForLoadState('networkidle', { timeout: 60000 }),
