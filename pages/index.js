@@ -432,7 +432,7 @@ export default function Index() {
                         <div className='app-text'>
                             <div className='head-and-icon'>
                                 <h2 className='heading-text '> Stay informed with our app!</h2>
-                                <div className="material-icons ambassador-heading-icon">public</div>
+                                <img src='../images/litter_pic_logo.png'></img>
                             </div>
 
                             <p><span className="index-inspire-change-text">Inspire Change</span>, take a picture, and

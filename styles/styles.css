@@ -971,64 +971,67 @@ p .index-inspire-change-text {
 }
 .qr-section .app-text .head-and-icon {
   display: flex;
+  margin-bottom: 0.5rem;
 }
 .qr-section .app-text .head-and-icon .heading-text {
   margin-top: 1.5rem;
 }
-.qr-section .app-text .head-and-icon .ambassador-heading-icon {
-  margin-bottom: 0.3rem;
-  padding-left: 1rem;
+.qr-section .app-text .head-and-icon img {
+  width: 40px;
+  height: 40px;
+  margin-top: 1.2rem;
+  margin-left: 0.7rem;
 }
 .qr-section .qr-group {
   display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 .qr-section .qr-group .qr-container {
   align-items: center;
-  border-right: #ccc solid 1px;
   display: flex;
   justify-content: space-evenly;
   text-align: center;
-  width: 50%;
+  width: calc(50% - 1px);
+  border-right: 1px solid #ccc;
+}
+.qr-section .qr-group .qr-container:last-child {
+  border-right: none;
 }
 .qr-section .qr-group .qr-container > img {
-  height: 12rem;
-  width: auto;
-}
-.qr-section .qr-group .qr-container.qr-c-2 {
-  border-right: 0;
-  margin-left: 1.8rem;
+  height: auto;
+  width: 50%;
+  max-width: 11rem;
 }
 .qr-section .qr-group .qr-container .qr-box {
-  align-items: center;
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
-  padding: 1.5rem;
   text-align: center;
-}
-.qr-section .qr-group .qr-container .qr-box.qr-b-1 {
-  margin-top: 0.9rem;
+  padding: 0 2rem;
 }
 .qr-section .qr-group .qr-container .qr-box > a img {
   height: auto;
-  width: 13rem;
-}
-.qr-section .qr-group .qr-container .qr-box .app-store {
-  height: auto;
-  width: 11.5rem;
+  width: 100%;
+  max-width: 11.5rem;
 }
 
-@media (max-width: 52.875rem) {
+@media (max-width: 42rem) {
   .qr-group {
-    display: block;
+    flex-direction: column;
+    align-items: center;
   }
-  .qr-container {
-    background-color: aqua;
-    display: block;
+  .qr-group .qr-container {
+    width: 100%;
+    margin-bottom: 3rem;
+    border-right: none !important;
   }
-  .qr-container .test {
-    height: auto;
-    width: 5rem;
+  .qr-group .qr-container > img {
+    width: 80%;
+  }
+  .qr-group .qr-container .qr-box p {
+    font-size: 1rem;
   }
 }
 .image-row {
@@ -2276,64 +2279,67 @@ p .index-inspire-change-text {
 }
 .qr-section .app-text .head-and-icon {
   display: flex;
+  margin-bottom: 0.5rem;
 }
 .qr-section .app-text .head-and-icon .heading-text {
   margin-top: 1.5rem;
 }
-.qr-section .app-text .head-and-icon .ambassador-heading-icon {
-  margin-bottom: 0.3rem;
-  padding-left: 1rem;
+.qr-section .app-text .head-and-icon img {
+  width: 40px;
+  height: 40px;
+  margin-top: 1.2rem;
+  margin-left: 0.7rem;
 }
 .qr-section .qr-group {
   display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 .qr-section .qr-group .qr-container {
   align-items: center;
-  border-right: #ccc solid 1px;
   display: flex;
   justify-content: space-evenly;
   text-align: center;
-  width: 50%;
+  width: calc(50% - 1px);
+  border-right: 1px solid #ccc;
+}
+.qr-section .qr-group .qr-container:last-child {
+  border-right: none;
 }
 .qr-section .qr-group .qr-container > img {
-  height: 12rem;
-  width: auto;
-}
-.qr-section .qr-group .qr-container.qr-c-2 {
-  border-right: 0;
-  margin-left: 1.8rem;
+  height: auto;
+  width: 50%;
+  max-width: 11rem;
 }
 .qr-section .qr-group .qr-container .qr-box {
-  align-items: center;
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
-  padding: 1.5rem;
   text-align: center;
-}
-.qr-section .qr-group .qr-container .qr-box.qr-b-1 {
-  margin-top: 0.9rem;
+  padding: 0 2rem;
 }
 .qr-section .qr-group .qr-container .qr-box > a img {
   height: auto;
-  width: 13rem;
-}
-.qr-section .qr-group .qr-container .qr-box .app-store {
-  height: auto;
-  width: 11.5rem;
+  width: 100%;
+  max-width: 11.5rem;
 }
 
-@media (max-width: 52.875rem) {
+@media (max-width: 42rem) {
   .qr-group {
-    display: block;
+    flex-direction: column;
+    align-items: center;
   }
-  .qr-container {
-    background-color: aqua;
-    display: block;
+  .qr-group .qr-container {
+    width: 100%;
+    margin-bottom: 3rem;
+    border-right: none !important;
   }
-  .qr-container .test {
-    height: auto;
-    width: 5rem;
+  .qr-group .qr-container > img {
+    width: 80%;
+  }
+  .qr-group .qr-container .qr-box p {
+    font-size: 1rem;
   }
 }
 .image-row {
