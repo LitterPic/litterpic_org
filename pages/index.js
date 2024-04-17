@@ -435,8 +435,7 @@ export default function Index() {
                                 <img src='../images/litter_pic_logo.png'></img>
                             </div>
 
-                            <p><span className="index-inspire-change-text">Inspire Change</span>, take a picture, and
-                                download the LitterPic app today.</p>
+                            <p><span className="index-inspire-change-text">Inspire Change</span>, download the app, take a picture, and share!</p>
                         </div>
                         <div className='qr-group'>
                             <div className="qr-container">
