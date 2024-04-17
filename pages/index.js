@@ -431,7 +431,7 @@ export default function Index() {
                     <div className='qr-section'>
                         <div className='app-text'>
                             <div className='head-and-icon'>
-                                <h2 className='heading-text '> Stay informed with our app!</h2>
+                                <h2 className='heading-text '> Stay informed with the LitterPic app!</h2>
                                 <img src='../images/litter_pic_logo.png'></img>
                             </div>
 
