@@ -842,6 +842,15 @@ p .index-inspire-change-text {
   opacity: 1;
 }
 
+.carousel-media {
+  display: flex;
+  width: auto;
+  height: 300%;
+  margin-left: auto;
+  margin-right: auto;
+  object-fit: fill;
+}
+
 .carousel-dots {
   align-items: center;
   bottom: 10px;
@@ -2148,6 +2157,15 @@ p .index-inspire-change-text {
 }
 .carousel-page.active {
   opacity: 1;
+}
+
+.carousel-media {
+  display: flex;
+  width: auto;
+  height: 300%;
+  margin-left: auto;
+  margin-right: auto;
+  object-fit: fill;
 }
 
 .carousel-dots {

@@ -164,6 +164,8 @@ export default function Index() {
     function Carousel({images}) {
         const [currentIndex, setCurrentIndex] = useState(0);
 
+        const isVideo = (url) => /\.(mp4|webm)(\?|$)/i.test(url);
+
         const handleSwipe = (direction) => {
             if (direction === "left") {
                 setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
@@ -173,37 +175,47 @@ export default function Index() {
         };
 
         useEffect(() => {
-            // Automatically change the picture every 5 seconds
             const intervalId = setInterval(() => {
-                handleSwipe("left"); // Change to the next picture
+                handleSwipe("left");
             }, 5000);
 
-            return () => {
-                clearInterval(intervalId); // Clear the interval when the component is unmounted
-            };
-        }, [images, handleSwipe]);
+            return () => clearInterval(intervalId);
+        }, [images.length]);
 
         return (
             <div className="carousel-container">
                 <div className="carousel-slide">
-                    {images.map((image, index) => (
-                        <div
-                            key={index}
-                            className={`carousel-page ${index === currentIndex ? 'active' : ''}`}
-                            style={{backgroundImage: `url(${image})`}}
-                        />
-                    ))}
+                    {images.map((image, index) => {
+                        return (
+                            <div
+                                key={index}
+                                className={`carousel-page ${index === currentIndex ? 'active' : ''}`}
+                            >
+                                {isVideo(image) ? (
+                                    <video key={index} controls autoPlay muted loop className="carousel-media">
+                                        <source src={image} type="video/mp4"/>
+                                        Your browser does not support the video tag.
+                                    </video>
+                                ) : (
+                                    <img key={index} src={image} alt={`Slide ${index}`} className="carousel-media"/>
+                                )}
+                            </div>
+                        );
+                    })}
                 </div>
                 <div className="carousel-dots">
                     {images.map((_, index) => (
-                        <div
+                        <span
                             key={index}
                             className={`carousel-dot ${index === currentIndex ? 'active' : ''}`}
                             onClick={() => setCurrentIndex(index)}
                         />
                     ))}
                 </div>
-                <button className="carousel-button-right" onClick={() => handleSwipe("right")}>{">"}</button>
+                <button className="carousel-button carousel-button-left"
+                        onClick={() => handleSwipe("right")}>{"<"}</button>
+                <button className="carousel-button carousel-button-right"
+                        onClick={() => handleSwipe("left")}>{">"}</button>
             </div>
         );
     }
@@ -435,7 +447,8 @@ export default function Index() {
                                 <img src='../images/litter_pic_logo.png'></img>
                             </div>
 
-                            <p><span className="index-inspire-change-text">Inspire Change</span> by capturing your moments and inspire others with your story!</p>
+                            <p><span className="index-inspire-change-text">Inspire Change</span> by capturing your
+                                moments and inspire others with your story!</p>
                         </div>
                         <div className='qr-group'>
                             <div className="qr-container">
@@ -458,7 +471,7 @@ export default function Index() {
                                         <img className='store-link' src='../images/google_play_app.png'
                                              alt='google play'/>
                                     </a>
-                                    
+
                                 </div>
                             </div>
                         </div>

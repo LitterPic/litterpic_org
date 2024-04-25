@@ -118,7 +118,7 @@ p {
 .home-carousel-section {
   align-items: center;
   display: grid;
-  grid-template-columns: .7fr 1fr;
+  grid-template-columns: .7fr 1fr;;
 
   &-text {
     color: $table-highlight-green;
@@ -162,6 +162,15 @@ p {
   &.active {
     opacity: 1;
   }
+}
+
+.carousel-media {
+  display: flex;
+  width: auto;
+  height: 300%;
+  margin-left: auto;
+  margin-right: auto;
+  object-fit: fill;
 }
 
 .carousel-dots {
@@ -381,7 +390,7 @@ p {
     .qr-container {
       width: 100%;
       margin-bottom: 3rem;
-      border-right: none !important; 
+      border-right: none !important;
 
       > img {
         width: 80%;
