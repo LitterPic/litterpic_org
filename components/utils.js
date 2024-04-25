@@ -54,8 +54,12 @@ export async function* fetchPosts(page, postsPerPage, userId = null) {
 
         if (Array.isArray(postData.postPhotos)) {
             for (const pictureRef of postData.postPhotos) {
-                const pictureUrl = await getDownloadURL(ref(storage, pictureRef));
-                photos.push(pictureUrl);
+                try {
+                    const pictureUrl = await getDownloadURL(ref(storage, pictureRef));
+                    photos.push(pictureUrl);
+                } catch (error) {
+                    photos.push("https://ih1.redbubble.net/image.4905811447.8675/flat,750x,075,f-pad,750x1000,f8f8f8.jpg");
+                }
             }
         }
 
