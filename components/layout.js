@@ -48,6 +48,7 @@ const Layout = ({children}) => {
     };
 
     const handleNavLinkClick = (href) => {
+	console.log('handleNavLinkClick: ', href);
         setShowNavLinks(false);
         router.push(href);
     };
