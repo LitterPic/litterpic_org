@@ -167,10 +167,10 @@ p {
 .carousel-media {
   display: flex;
   width: auto;
-  height: 300%;
+  height: 400px;
   margin-left: auto;
   margin-right: auto;
-  object-fit: fill;
+  object-fit: contain;
 }
 
 .carousel-dots {
