@@ -641,170 +641,171 @@ function Stories() {
     ];
 
     return (<div>
-        <Head>
-            <title>LitterPic Inspiring Stories</title>
-            <meta name="description"
-                  content="Join LitterPic in making the world cleaner and safer. Explore inspiring litter collection photos and stories."/>
-            <meta name="robots" content="index, follow"/>
-            <link rel="icon" href="/favicon.ico"/>
-            <link rel="canonical" href="https://litterpic.org/stories"/>
+            <Head>
+                <title>LitterPic Inspiring Stories</title>
+                <meta name="description"
+                      content="Join LitterPic in making the world cleaner and safer. Explore inspiring litter collection photos and stories."/>
+                <meta name="robots" content="index, follow"/>
+                <link rel="icon" href="/favicon.ico"/>
+                <link rel="canonical" href="https://litterpic.org/stories"/>
 
-            <meta property="og:title" content="LitterPic - Inspiring Stories"/>
-            <meta property="og:description"
-                  content="Join LitterPic in making the world cleaner and safer. Explore inspiring litter collection photos and stories."/>
-            <meta property="og:image" content="https://litterpic.org/images/litter_pic_logo.png"/>
-            <meta property="og:url" content="https://litterpic.org/stories"/>
-            <meta property="og:type" content="website"/>
+                <meta property="og:title" content="LitterPic - Inspiring Stories"/>
+                <meta property="og:description"
+                      content="Join LitterPic in making the world cleaner and safer. Explore inspiring litter collection photos and stories."/>
+                <meta property="og:image" content="https://litterpic.org/images/litter_pic_logo.png"/>
+                <meta property="og:url" content="https://litterpic.org/stories"/>
+                <meta property="og:type" content="website"/>
 
-            <meta name="twitter:card" content="summary_large_image"/>
-            <meta name="twitter:title" content="LitterPic - Inspiring Litter Collection"/>
-            <meta name="twitter:description"
-                  content="Join LitterPic in making the world cleaner and safer. Explore inspiring litter collection photos and stories, and get involved in community cleanups."/>
-            <meta name="twitter:image" content="https://litterpic.org/images/litter_pic_logo.png"/>
-            <meta name="twitter:url" content="https://litterpic.org/stories"/>
+                <meta name="twitter:card" content="summary_large_image"/>
+                <meta name="twitter:title" content="LitterPic - Inspiring Litter Collection"/>
+                <meta name="twitter:description"
+                      content="Join LitterPic in making the world cleaner and safer. Explore inspiring litter collection photos and stories, and get involved in community cleanups."/>
+                <meta name="twitter:image" content="https://litterpic.org/images/litter_pic_logo.png"/>
+                <meta name="twitter:url" content="https://litterpic.org/stories"/>
 
-            <meta name="keywords"
-                  content="litter, litterpicking, litter collection, community cleanups, environmental conservation, inspiring stories"/>
-            <meta name="author" content="LitterPic Inc."/>
-        </Head>
+                <meta name="keywords"
+                      content="litter, litterpicking, litter collection, community cleanups, environmental conservation, inspiring stories"/>
+                <meta name="author" content="LitterPic Inc."/>
+            </Head>
 
-        {/* Google Analytics Scripts */}
-        <Script
-            src="https://www.googletagmanager.com/gtag/js?id=G-3VZE7E59CL"
-            strategy="afterInteractive"
-        />
-        <Script
-            strategy="afterInteractive"
-            dangerouslySetInnerHTML={{
-                __html: `
+            {/* Google Analytics Scripts */}
+            <Script
+                src="https://www.googletagmanager.com/gtag/js?id=G-3VZE7E59CL"
+                strategy="afterInteractive"
+            />
+            <Script
+                strategy="afterInteractive"
+                dangerouslySetInnerHTML={{
+                    __html: `
                         window.dataLayer = window.dataLayer || [];
                         function gtag(){dataLayer.push(arguments);}
                         gtag('js', new Date());
                         gtag('config', 'G-3VZE7E59CL');
                     `,
-            }}
-        />
-        
-        <div className="banner">
-            <img src="/images/user_posts_banner.webp" alt="Banner Image"/>
-        </div>
+                }}
+            />
 
-        <div className="page">
-            <div className="content">
-                <div className="stories-top-bar">
-                    <h1 className="heading-text">User Stories</h1>
-                    <Link href="/createpost">
-                        <button className="create-post-button">Post Your Story</button>
-                    </Link>
-                </div>
-                <div className="stories-about-us">
-                    Discover the heartwarming and inspiring stories shared by our dedicated volunteers. Each post is
-                    a testament to the incredible impact they have made in cleaning our planet, one piece of litter
-                    at a time. These stories aren't just about cleaning up; they're about hope, community, and the
-                    power of collective action. By joining our volunteer community, you’re not just picking up
-                    trash; you’re becoming a part of a global movement that cherishes our Earth and works tirelessly
-                    to preserve its beauty for future generations. Your story is unique and valuable – share it with
-                    us and inspire others! Together, we can make a significant difference and create a cleaner,
-                    greener, and more sustainable world. Join LitterPic today and let your journey of positive
-                    change
-                    begin!
-                </div>
+            <div className="banner">
+                <img src="/images/user_posts_banner.webp" alt="Banner Image"/>
+            </div>
 
-                <div className="search-and-filter">
-                    <img className="search-and-filter-image"
-                         src="/images/litter_on_road.jpeg"
-                         alt="Banner Image"/>
-
-                    <div className="search-and-filter-input-button-container">
-                        <div className="search-and-filter-button-container">
-                            <button
-                                className="show-all-posts-button"
-                                onClick={handleShowAllPostsButton}>All Posts
-                            </button>
-                            <button
-                                className="show-my-posts-button"
-                                disabled={!user}
-                                onClick={handleMyPostsButton}>My Posts
-                            </button>
-                        </div>
-                        <select className="post-search-input" value={selectedUser}
-                                onChange={(e) => handleUserSelect(e.target.value)}
-                                disabled={isLoadingSearchUsers}>
-                            <option value="">Search Posts by User</option>
-                            {searchUsers.map(user => (
-                                <option key={user.id} value={user.id}>{user.display_name}</option>))}
-                        </select>
+            <div className="page">
+                <div className="content">
+                    <div className="stories-top-bar">
+                        <h1 className="heading-text">User Stories</h1>
+                        <Link href="/createpost">
+                            <button className="create-post-button">Post Your Story</button>
+                        </Link>
                     </div>
-                </div>
+                    <div className="stories-about-us">
+                        Discover the heartwarming and inspiring stories shared by our dedicated volunteers. Each post is
+                        a testament to the incredible impact they have made in cleaning our planet, one piece of litter
+                        at a time. These stories aren't just about cleaning up; they're about hope, community, and the
+                        power of collective action. By joining our volunteer community, you’re not just picking up
+                        trash; you’re becoming a part of a global movement that cherishes our Earth and works tirelessly
+                        to preserve its beauty for future generations. Your story is unique and valuable – share it with
+                        us and inspire others! Together, we can make a significant difference and create a cleaner,
+                        greener, and more sustainable world. Join LitterPic today and let your journey of positive
+                        change
+                        begin!
+                    </div>
 
-                <div className="story-posts">
-                    <Masonry
-                        key='all'
-                        breakpointCols={{default: 2, 700: 1}}
-                        className="post-grid"
-                        columnClassName="post-grid-column"
-                    >
-                        {posts.map((post, index) => {
-                            const likes = post.likes !== undefined ? post.likes : 0;
-                            const {numComments} = post;
-                            const currentUserLiked = post.currentUserLiked;
-                            const postMasonryKey = `${index}_${post.id}_post`;
+                    <div className="search-and-filter">
+                        <img className="search-and-filter-image"
+                             src="/images/litter_on_road.jpeg"
+                             alt="Banner Image"/>
 
-                            return (<div key={postMasonryKey} className="post">
-                                <div className="post-header">
-                                    <i
-                                        className="fa fa-ellipsis-v meatball-menu"
-                                        aria-hidden="true"
-                                        onClick={() => {
-                                            setOpenMenuId(openMenuId !== post.id ? post.id : null);
-                                            setOpenCommentInput(null);
-                                        }}
-                                    ></i>
-                                </div>
-                                <ToastContainer/>
-                                <div
-                                    className={`post-dropdown-menu ${openMenuId === post.id ? 'show' : ''}`}
-                                    ref={openMenuId === post.id ? dropdownRef : null}
-                                >
-                                    {showOptions ? (
-                                        <ul className="meatball-post-menu">
-                                            {reportOptions.map((option) => (
-                                                <li key={option.value}
+                        <div className="search-and-filter-input-button-container">
+                            <div className="search-and-filter-button-container">
+                                <button
+                                    className="show-all-posts-button"
+                                    onClick={handleShowAllPostsButton}>All Posts
+                                </button>
+                                <button
+                                    className="show-my-posts-button"
+                                    disabled={!user}
+                                    onClick={handleMyPostsButton}>My Posts
+                                </button>
+
+                                <select className="post-search-input" value={selectedUser}
+                                        onChange={(e) => handleUserSelect(e.target.value)}
+                                        disabled={isLoadingSearchUsers}>
+                                    <option value="">Search Posts by User</option>
+                                    {searchUsers.map(user => (
+                                        <option key={user.id} value={user.id}>{user.display_name}</option>))}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="story-posts">
+                        <Masonry
+                            key='all'
+                            breakpointCols={{default: 2, 700: 1}}
+                            className="post-grid"
+                            columnClassName="post-grid-column"
+                        >
+                            {posts.map((post, index) => {
+                                const likes = post.likes !== undefined ? post.likes : 0;
+                                const {numComments} = post;
+                                const currentUserLiked = post.currentUserLiked;
+                                const postMasonryKey = `${index}_${post.id}_post`;
+
+                                return (<div key={postMasonryKey} className="post">
+                                    <div className="post-header">
+                                        <i
+                                            className="fa fa-ellipsis-v meatball-menu"
+                                            aria-hidden="true"
+                                            onClick={() => {
+                                                setOpenMenuId(openMenuId !== post.id ? post.id : null);
+                                                setOpenCommentInput(null);
+                                            }}
+                                        ></i>
+                                    </div>
+                                    <ToastContainer/>
+                                    <div
+                                        className={`post-dropdown-menu ${openMenuId === post.id ? 'show' : ''}`}
+                                        ref={openMenuId === post.id ? dropdownRef : null}
+                                    >
+                                        {showOptions ? (
+                                            <ul className="meatball-post-menu">
+                                                {reportOptions.map((option) => (
+                                                    <li key={option.value}
+                                                        onClick={() => {
+                                                            handleReportClick(post.id, option.value);
+                                                            // Hide report options after selection
+                                                            setShowOptions(false);
+                                                            setOpenMenuId(null); // Close the dropdown menu
+                                                        }}>
+                                                        {option.label}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        ) : (
+                                            <ul className="meatball-post-menu">
+                                                <li
                                                     onClick={() => {
-                                                        handleReportClick(post.id, option.value);
-                                                        // Hide report options after selection
-                                                        setShowOptions(false);
-                                                        setOpenMenuId(null); // Close the dropdown menu
-                                                    }}>
-                                                    {option.label}
+                                                        if (user && post.user && user.uid === post.user.uid) {
+                                                            deletePost(post.id);
+                                                            setOpenMenuId(null); // Optionally close the dropdown menu
+                                                        }
+                                                    }}
+                                                    className={user && post.user && user.uid === post.user.uid ? '' : 'grayed-out'}
+                                                >
+                                                    Delete Post
                                                 </li>
-                                            ))}
-                                        </ul>
-                                    ) : (
-                                        <ul className="meatball-post-menu">
-                                            <li
-                                                onClick={() => {
-                                                    if (user && post.user && user.uid === post.user.uid) {
-                                                        deletePost(post.id);
-                                                        setOpenMenuId(null); // Optionally close the dropdown menu
-                                                    }
-                                                }}
-                                                className={user && post.user && user.uid === post.user.uid ? '' : 'grayed-out'}
-                                            >
-                                                Delete Post
-                                            </li>
-                                            <li onClick={() => {
-                                                setShowOptions(true); // Show report options
-                                                // Do not close the menu here; let the user select a report reason
-                                            }}>Report Post
-                                            </li>
-                                        </ul>
-                                    )}
-                                </div>
+                                                <li onClick={() => {
+                                                    setShowOptions(true); // Show report options
+                                                    // Do not close the menu here; let the user select a report reason
+                                                }}>Report Post
+                                                </li>
+                                            </ul>
+                                        )}
+                                    </div>
 
 
-                                <Post post={post}/>
-                                <div className="likes-comments">
+                                    <Post post={post}/>
+                                    <div className="likes-comments">
                     <span
                         className="likes-comments-likes-field"
                         onMouseEnter={() => handleLikeHover(post)}
@@ -823,7 +824,7 @@ function Stories() {
                             <LikePopup likedUsers={likedUsers}/>)}
                     </span>
 
-                                    <span className="likes-comments-comment-field">
+                                        <span className="likes-comments-comment-field">
                         <i
                             className={`material-icons ${numComments > 0 ? 'filled-comment' : 'empty-comment'}`}
                             onClick={() => setOpenCommentInput(openCommentInput !== post.id ? post.id : null)}
@@ -834,29 +835,29 @@ function Stories() {
                         <span className="comment-count">{numComments}</span>
 
                     </span>
-                                </div>
-                                <div className="story-comment-input">
-                                    {openCommentInput === post.id && (<>
-                                        {postComments[post.id] && postComments[post.id].map((commentData) => {
-                                            const commentUserId = commentData?.commentUser?._key?.path?.segments?.[6] || null;
-                                            const commentUser = users?.[commentUserId] || {};
-                                            const commentTime = commentData.timePosted && typeof commentData.timePosted.toDate === 'function' ? commentData.timePosted.toDate() : null;
-                                            return (<div
-                                                key={commentData.id}
-                                                className="comment"
-                                            >
-                                                {commentUser && (<>
-                                                    <img
-                                                        src={commentUser.photo_url}
-                                                        alt={commentUser.display_name}
-                                                        onError={(e) => e.target.src = 'https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg'}
-                                                    />
-                                                    <div className="comment-text">
+                                    </div>
+                                    <div className="story-comment-input">
+                                        {openCommentInput === post.id && (<>
+                                            {postComments[post.id] && postComments[post.id].map((commentData) => {
+                                                const commentUserId = commentData?.commentUser?._key?.path?.segments?.[6] || null;
+                                                const commentUser = users?.[commentUserId] || {};
+                                                const commentTime = commentData.timePosted && typeof commentData.timePosted.toDate === 'function' ? commentData.timePosted.toDate() : null;
+                                                return (<div
+                                                    key={commentData.id}
+                                                    className="comment"
+                                                >
+                                                    {commentUser && (<>
+                                                        <img
+                                                            src={commentUser.photo_url}
+                                                            alt={commentUser.display_name}
+                                                            onError={(e) => e.target.src = 'https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg'}
+                                                        />
+                                                        <div className="comment-text">
                                                         <span className="comment-user">
                                                             {commentUser.display_name}
                                                         </span>
-                                                        {commentTime && commentTime instanceof Date && (
-                                                            <span className="comment-time">
+                                                            {commentTime && commentTime instanceof Date && (
+                                                                <span className="comment-time">
                                                                     {commentTime && commentTime.toLocaleString('en-US', {
                                                                         year: 'numeric',
                                                                         month: '2-digit',
@@ -865,59 +866,60 @@ function Stories() {
                                                                         minute: '2-digit',
                                                                     })}
                                                                 </span>)}
-                                                        <div className="comment-text-content">
-                                                            {commentData.comment}
+                                                            <div className="comment-text-content">
+                                                                {commentData.comment}
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </>)}
-                                            </div>);
-                                        })}
-                                        <textarea
-                                            className="comment-text-input"
-                                            ref={openCommentInput === post.id ? commentInputRef : null}
-                                            value={comments[post.id] || ''}
-                                            onChange={(event) => handleCommentChange(event, post.id)}
-                                            placeholder="Add a comment..."
-                                        />
-                                        <button
-                                            className="comment-submit-button"
-                                            ref={submitButtonRef}
-                                            onClick={() => handleSubmit(post.id)}
-                                            disabled={!comments[post.id] || comments[post.id].trim().length < 1}
-                                        >
-                                            Submit
-                                        </button>
-                                    </>)}
-                                </div>
-                            </div>);
-                        })}
-                    </Masonry>
+                                                    </>)}
+                                                </div>);
+                                            })}
+                                            <textarea
+                                                className="comment-text-input"
+                                                ref={openCommentInput === post.id ? commentInputRef : null}
+                                                value={comments[post.id] || ''}
+                                                onChange={(event) => handleCommentChange(event, post.id)}
+                                                placeholder="Add a comment..."
+                                            />
+                                            <button
+                                                className="comment-submit-button"
+                                                ref={submitButtonRef}
+                                                onClick={() => handleSubmit(post.id)}
+                                                disabled={!comments[post.id] || comments[post.id].trim().length < 1}
+                                            >
+                                                Submit
+                                            </button>
+                                        </>)}
+                                    </div>
+                                </div>);
+                            })}
+                        </Masonry>
 
 
-                    <div className="button-container">
-                        {!isLoading && hasMorePosts && !showMyPosts && selectedUser === "" && (
-                            <button
-                                className="custom-file-button"
-                                onClick={() => fetchAndSetPosts(page + 1, null)}
-                            >
-                                See More Stories
-                            </button>
-                        )}
-                        {isLoading && <div>Loading more stories...</div>}
-                        {!isLoading && showBackToTop && (
-                            <button
-                                className="back-to-top-button"
-                                onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}
-                            >
-                                Back to Top
-                            </button>
-                        )}
+                        <div className="button-container">
+                            {!isLoading && hasMorePosts && !showMyPosts && selectedUser === "" && (
+                                <button
+                                    className="custom-file-button"
+                                    onClick={() => fetchAndSetPosts(page + 1, null)}
+                                >
+                                    See More Stories
+                                </button>
+                            )}
+                            {isLoading && <div>Loading more stories...</div>}
+                            {!isLoading && showBackToTop && (
+                                <button
+                                    className="back-to-top-button"
+                                    onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}
+                                >
+                                    Back to Top
+                                </button>
+                            )}
+                        </div>
                     </div>
-                </div>
 
+                </div>
             </div>
         </div>
-    </div>);
+    );
 }
 
 export default Stories;

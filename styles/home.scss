@@ -200,6 +200,21 @@ p {
 }
 
 @media (max-width: 76.5rem) {
+  .ambassador-heading-text-with-icon {
+    display: flex;
+    flex-direction: row;
+    margin-right: 30%;
+  }
+
+  .carousel-media {
+    display: flex;
+    width: auto;
+    height: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    object-fit: contain;
+  }
+
   .index-wrapper, .ambassador-wrapper {
     column-gap: 5rem;
     display: flex;

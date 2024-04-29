@@ -621,13 +621,13 @@
   }
 
   .search-and-filter-input-button-container {
-    margin-left: .75rem;
-    margin-right: .75rem;
+    //margin-left: .75rem;
+    //margin-right: .75rem;
 
     .show-all-posts-button,
     .show-my-posts-button,
     .post-search-button {
-      font-size: 19.2px;
+      font-size: 14px;
       height: 2rem;
       margin-left: .25rem;
       margin-right: .25rem;
@@ -635,7 +635,9 @@
     }
 
     .post-search-input {
+      font-size: 10px;
       width: 135px;
+      height: 2rem;
     }
   }
 
