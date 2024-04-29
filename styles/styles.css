@@ -3595,9 +3595,15 @@ h1.heading-text.profile-heading {
     height: 150px;
     width: 100%;
   }
+  .search-and-filter-input-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   .search-and-filter-input-button-container .show-all-posts-button,
   .search-and-filter-input-button-container .show-my-posts-button,
-  .search-and-filter-input-button-container .post-search-button {
+  .search-and-filter-input-button-container .post-search-button,
+  .search-and-filter-input-button-container .post-search-input {
     font-size: 14px;
     height: 2rem;
     margin-left: 0.25rem;
@@ -3605,12 +3611,11 @@ h1.heading-text.profile-heading {
     width: 100px;
   }
   .search-and-filter-input-button-container .post-search-input {
-    font-size: 10px;
-    width: 135px;
+    text-align: center;
+    font-size: 14px;
     height: 2rem;
-  }
-  .post-search-input {
-    font-size: 19.2px;
+    margin: 0.25rem;
+    width: 175px;
   }
   .post {
     border: 0.01rem solid #015e41;
@@ -5313,9 +5318,15 @@ input::placeholder {
     height: 150px;
     width: 100%;
   }
+  .search-and-filter-input-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   .search-and-filter-input-button-container .show-all-posts-button,
   .search-and-filter-input-button-container .show-my-posts-button,
-  .search-and-filter-input-button-container .post-search-button {
+  .search-and-filter-input-button-container .post-search-button,
+  .search-and-filter-input-button-container .post-search-input {
     font-size: 14px;
     height: 2rem;
     margin-left: 0.25rem;
@@ -5323,12 +5334,11 @@ input::placeholder {
     width: 100px;
   }
   .search-and-filter-input-button-container .post-search-input {
-    font-size: 10px;
-    width: 135px;
+    text-align: center;
+    font-size: 14px;
     height: 2rem;
-  }
-  .post-search-input {
-    font-size: 19.2px;
+    margin: 0.25rem;
+    width: 175px;
   }
   .post {
     border: 0.01rem solid #015e41;

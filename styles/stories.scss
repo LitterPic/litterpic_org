@@ -621,12 +621,14 @@
   }
 
   .search-and-filter-input-button-container {
-    //margin-left: .75rem;
-    //margin-right: .75rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     .show-all-posts-button,
     .show-my-posts-button,
-    .post-search-button {
+    .post-search-button,
+    .post-search-input {
       font-size: 14px;
       height: 2rem;
       margin-left: .25rem;
@@ -635,14 +637,12 @@
     }
 
     .post-search-input {
-      font-size: 10px;
-      width: 135px;
+      text-align: center;
+      font-size: 14px;
       height: 2rem;
+      margin: .25rem;
+      width: 175px;
     }
-  }
-
-  .post-search-input {
-    font-size: 19.2px;
   }
 
   .post {
