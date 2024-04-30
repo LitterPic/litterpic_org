@@ -457,7 +457,7 @@ export default function Index() {
                                     <p> Scan the QR Code to download the app.</p>
                                     <a target="_blank" href='https://apps.apple.com/us/app/litterpic/id6447652360'>
                                         <img className='store-link'
-                                             src='../images/iphone-app-store-apple-store-stock-e2904e244823ccff8630acc91812664c.png'
+                                             src='../images/apple_store_app-Photoroom.png-Photoroom.png'
                                              alt='apple store'/>
                                     </a>
                                 </div>
@@ -468,7 +468,7 @@ export default function Index() {
                                     <p> Scan the QR Code to download the app.</p>
                                     <a target="_blank"
                                        href='https://play.google.com/store/apps/details?id=com.litterpic.app&pcampaignid=web_share'>
-                                        <img className='store-link' src='../images/google_play_app.png'
+                                        <img className='store-link' src='../images/google_play_app (2).png'
                                              alt='google play'/>
                                     </a>
 

@@ -352,6 +352,7 @@ p {
         height: 40px;
         margin-top: 1.2rem;
         margin-left: .7rem;
+        border-radius: 22%;
       }
     }
   }
@@ -398,6 +399,8 @@ p {
 }
 
 @media (max-width: 42rem) {
+
+    
   .qr-group {
     flex-direction: column;
     align-items: center;
@@ -408,7 +411,8 @@ p {
       border-right: none !important;
 
       > img {
-        width: 80%;
+        // width: 80%;
+        // transform: scale(.9);
       }
 
       .qr-box p {
@@ -418,10 +422,14 @@ p {
   }
 }
 
-// @media (max-width: 767px) {
-//   .qr-group .qr-container > img {
-//     width: 20%;
-//   }
-// }
+@media (max-width: 793px) {
+  .qr-group .qr-container > img {
+    transform: scale(.9);
+  }
+
+  .qr-box {
+    transform: scale(.9);
+  }
+}
 
 
