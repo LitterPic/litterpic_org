@@ -87,14 +87,14 @@ function CreatePost() {
     const onFileInputClick = () => {
         if (fileInputRef.current.files.length > 5) {
             fileInputRef.current.value = "";
-            toast.error('You can select up to 5 images');
+            toast.error('Please select less images, you can upload up to 5 photos');
         }
     };
 
     const onFileChange = (e) => {
         if (e.target.files.length > 5) {
             e.target.value = "";
-            toast.error('You can select up to 5 images');
+            toast.error('Please select less images, you can upload up to 5 photos');
             return;
         }
 
@@ -182,6 +182,11 @@ function CreatePost() {
         e.preventDefault();
 
         // Validation checks
+        if (postImages.length > 5) {
+            toast.error('Please select less images, you can upload up to 5 photos');
+            return;
+        }
+
         if (litterWeight === '' || Number(litterWeight) < 0) {
             toast.error('Please enter litter weight collected');
             return;
