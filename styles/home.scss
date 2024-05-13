@@ -378,6 +378,8 @@ p {
         height: auto;
         width: 50%;
         max-width: 11rem;
+        margin-top: 1rem;
+
       }
 
       .qr-box {
@@ -392,6 +394,8 @@ p {
           height: auto;
           width: 100%;
           max-width: 11.5rem;
+          min-width: 133px;
+          // margin: 5rem;
         }
       }
     }

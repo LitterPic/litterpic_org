@@ -1025,6 +1025,7 @@ p .index-inspire-change-text {
   height: auto;
   width: 50%;
   max-width: 11rem;
+  margin-top: 1rem;
 }
 .qr-section .qr-group .qr-container .qr-box {
   display: flex;
@@ -1038,6 +1039,7 @@ p .index-inspire-change-text {
   height: auto;
   width: 100%;
   max-width: 11.5rem;
+  min-width: 133px;
 }
 
 @media (max-width: 42rem) {
@@ -2361,6 +2363,7 @@ p .index-inspire-change-text {
   height: auto;
   width: 50%;
   max-width: 11rem;
+  margin-top: 1rem;
 }
 .qr-section .qr-group .qr-container .qr-box {
   display: flex;
@@ -2374,6 +2377,7 @@ p .index-inspire-change-text {
   height: auto;
   width: 100%;
   max-width: 11.5rem;
+  min-width: 133px;
 }
 
 @media (max-width: 42rem) {
