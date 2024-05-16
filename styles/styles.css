@@ -3103,6 +3103,8 @@ h1.heading-text.profile-heading {
   margin-left: 1rem;
 }
 .search-and-filter-input-button-container .post-search-input {
+  margin-left: 10px;
+  margin-top: 15px;
   border-radius: 0.5rem;
   width: 500px;
 }
@@ -4826,6 +4828,8 @@ input::placeholder {
   margin-left: 1rem;
 }
 .search-and-filter-input-button-container .post-search-input {
+  margin-left: 10px;
+  margin-top: 15px;
   border-radius: 0.5rem;
   width: 500px;
 }
