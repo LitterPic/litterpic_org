@@ -697,10 +697,6 @@ const Volunteer = () => {
     }, [user]);
 
 
-    const handleButtonClick = () => {
-        window.location.href = "/community_service_hours";
-    };
-
     useEffect(() => {
         const fetchData = async () => {
             const eventCollection = collection(db, "events");
@@ -813,7 +809,6 @@ const Volunteer = () => {
                         your
                         community. To create a volunteering event, simply log in, and utilize the Create Event button
                         below!</p>
-                    <button className="community-service-button" onClick={handleButtonClick}>Community Service</button>
                     <div title={!user ? "Please login to create an event" : ""}>
                         <button className="create-event-button"
                                 onClick={handleCreateEventClick}

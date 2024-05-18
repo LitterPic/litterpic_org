@@ -83,6 +83,9 @@ const Layout = ({children}) => {
                         <Link href="/volunteer" passHref>
                             <div onClick={() => handleNavLinkClick("/volunteer")}>Events</div>
                         </Link>
+                        <Link href="/community_service_hours" passHref>
+                            <div onClick={() => handleNavLinkClick("/community_service_hours")}>Community Service</div>
+                        </Link>
                         <Link href="/stories" passHref>
                             <div onClick={() => handleNavLinkClick("/stories")}>User Stories</div>
                         </Link>
