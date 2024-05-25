@@ -1,6 +1,7 @@
 import React from "react";
 import Head from "next/head";
 import Script from "next/script";
+// import '../styles/community_service.scss'
 
 const Community_Service_Hours = () => {
     return (
@@ -63,6 +64,12 @@ const Community_Service_Hours = () => {
             <div className="page">
                 <div className="content">
                     <h1 className="heading-text">Community Service Hours</h1>
+                    <div className="image-row">
+                        <img src="../images/denisse-leon-KaZ88TwgYhA-unsplash (1).jpg" alt=""/>
+                        <img src="../images/litter_on_road.jpeg" alt=""/>
+                        <img src="../images/lucas-van-oort-mhtPKJrG_EU-unsplash.jpg" alt=""/>
+                        <img src="../images/manny-becerra-fiTX39X8mIw-unsplash.jpg" alt=""/>
+                    </div>
                     <p>
                         At LitterPic, we extend our deepest gratitude to all volunteers who have chosen us as their
                         nonprofit

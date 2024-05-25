@@ -1,0 +1,10 @@
+.image-row {
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: 2.5rem;
+}
+.image-row img {
+    width: 200px;
+    height: 275px;
+    border-radius: 10%;
+}
