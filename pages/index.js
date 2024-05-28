@@ -457,13 +457,8 @@ export default function Index() {
                                     <p> Scan the QR Code to download the app.</p>
                                     <a target="_blank" href='https://apps.apple.com/us/app/litterpic/id6447652360'>
                                         <img className='store-link'
-<<<<<<< HEAD
-                                                src='../images/iphone-app-store-apple-store-stock-e2904e244823ccff8630acc91812664c.png'
+                                                src='../images/apple_store_badge.png'
                                                 alt='apple store'/>
-=======
-                                             src='../images/apple_store_badge.png'
-                                             alt='apple store'/>
->>>>>>> 5c962f041623129eea0a29f33e24d68582ea4d6b
                                     </a>
                                 </div>
                             </div>
