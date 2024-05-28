@@ -65,10 +65,10 @@ const Community_Service_Hours = () => {
                 <div className="content">
                     <h1 className="heading-text">Community Service Hours</h1>
                     <div className="image-row">
-                        <img src="../images/denisse-leon-KaZ88TwgYhA-unsplash (1).jpg" alt=""/>
-                        <img src="../images/litter_on_road.jpeg" alt=""/>
+                        <img src="../images/plastic-garbage-near-metallic-bin-park.jpg" alt=""/>
+                        <img src="../images/young-activist-taking-action.jpg" alt=""/>
                         <img src="../images/lucas-van-oort-mhtPKJrG_EU-unsplash.jpg" alt=""/>
-                        <img src="../images/manny-becerra-fiTX39X8mIw-unsplash.jpg" alt=""/>
+                        <img src="../images/closeup-plastic-bottle-male-hand-cleaning-up-nature.jpg" alt=""/>
                     </div>
                     <p>
                         At LitterPic, we extend our deepest gratitude to all volunteers who have chosen us as their
