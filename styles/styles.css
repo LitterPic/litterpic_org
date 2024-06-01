@@ -6049,6 +6049,24 @@ textarea.event-description-input {
     padding: 0.5rem;
   }
 }
+.image-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  margin-bottom: 2.5rem;
+}
+.image-row img {
+  border-radius: 10%;
+  height: 17.2rem;
+  margin: 0.5rem;
+  width: 12.5rem;
+}
+@media (max-width: 600px) {
+  .image-row img {
+    flex: 1 1 calc(50% - 1rem);
+  }
+}
+
 * {
   margin: 0;
   padding: 0;
