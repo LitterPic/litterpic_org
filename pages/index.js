@@ -284,6 +284,20 @@ export default function Index() {
 
             <div className="page">
                 <div className="content">
+                    <div className="announcement-bar">
+                        <p>Join the Movement to Keep Our Planet Clean and Win in June!</p>
+                        <p>Exciting news! Our generous friends at Chipotle have donated some gift cards to LitterPic.
+                            Imagine enjoying a delicious meal on the house! Here’s how it works: at the end of June,
+                            LitterPic will host a raffle. All you need to do is go out, pick up some litter, and share
+                            your good deed on LitterPic using the app or on LitterPic.org. That’s it! You’re entered to
+                            win one of the gift cards (limited to the United States only).</p>
+                        <p>Not only will you feel fantastic for making a difference, but you also have a chance to win a
+                            Chipotle gift card! It’s a win-win: Do Good, Feel Good, and Eat Good too! Free food is a
+                            great motivator, right? So, why not spend a few minutes this month helping our planet and
+                            maybe score some delicious rewards? Let’s make our communities cleaner and greener
+                            together!</p>
+                    </div>
+                    <br></br>
                     <h1 className="heading-text">Inspire Change</h1>
                     <div className="home-carousel-section">
                         <Carousel className="carousel" images={images}/>

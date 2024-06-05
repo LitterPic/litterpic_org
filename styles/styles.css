@@ -33,6 +33,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Ropa+Sans&family=Rubik:wght@500&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Ropa+Sans&family=Rubik:wght@500&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Ropa+Sans&family=Rubik:wght@500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Ropa+Sans&family=Rubik:wght@500&display=swap");
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css");
 @import url("https://fonts.googleapis.com/css2?family=Rubik:wght@500&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap");
@@ -123,6 +124,31 @@
   .member-image {
     height: 9.3rem;
     width: 8.3rem;
+  }
+}
+.announcement-bar {
+  background-color: #f5f5f5; /* Light gray background for a softer look */
+  color: #333;
+  padding: 15px 20px;
+  text-align: center;
+  font-size: 1.2em;
+  border-bottom: 2px solid #ddd;
+}
+
+.announcement-bar p {
+  margin: 0;
+  padding: 5px 0;
+}
+
+.announcement-bar p:first-child {
+  font-weight: bold;
+  font-size: 1.7em;
+}
+
+@media (max-width: 600px) {
+  .announcement-bar {
+    font-size: 1em;
+    padding: 10px 15px;
   }
 }
 .banner {
