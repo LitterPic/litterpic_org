@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
 import withAuth from '../components/withAuth';
-import {db, ref, storage, useAuth} from '../lib/firebase';
+import {auth, db, ref, storage, useAuth} from '../lib/firebase';
 import {
     addDoc,
     arrayUnion,
@@ -253,6 +253,36 @@ function CreatePost() {
             const userDoc = await getDoc(userRef);
             const currentUserTotalWeight = userDoc.data().totalWeight || 0;
             await updateDoc(userRef, {totalWeight: currentUserTotalWeight + postLitterWeightInPounds});
+
+            const now = new Date();
+
+            // Send email of new post creation
+            const newPostAddedTemplateId = "d-b649ac68d4ab4214969dc87c6e6e7814";
+            const newPostTemplateData = {
+                postDescription: postDescription,
+                litterWeight: roundedLitterWeight,
+                timePosted: now.toDateString(),
+                location: selectedAddress,
+                userWhoAdded: auth.currentUser.email,
+            };
+
+            fetch("/api/sendEmail", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email: 'alek@litterpic.org',
+                    templateId: newPostAddedTemplateId,
+                    templateData: newPostTemplateData,
+                }),
+            }).then((response) => response.json())
+                .then(() => {
+
+                })
+                .catch((error) => {
+                    console.error("Error sending email:", error);
+                });
 
             // Clear the form
             setPostDescription('');
