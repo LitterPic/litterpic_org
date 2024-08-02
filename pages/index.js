@@ -285,13 +285,20 @@ export default function Index() {
             <div className="page">
                 <div className="content">
                     <div className="announcement-bar">
-                        <p>Join the Movement to Keep Our Planet Clean and Win in July!</p>
-                        <p>Exciting news! Our generous friends at Chipotle and Amato's have donated some gift cards to
-                            LitterPic.
-                            Imagine enjoying a delicious meal simply earned by your efforts! Here’s how it works: at the
-                            end of July, LitterPic will hold a raffle. All you need to do is go out, pick up some
-                            litter, and share your good deed on LitterPic using the app or on LitterPic.org. That’s it!
-                            You’re entered to win one of the gift cards (limited to the United States only).</p>
+                        <p>Join the Movement to Keep Our Planet Clean and Win in August!</p>
+                        <p>We are thrilled to announce that our wonderful friends at Chipotle and Amato's have each
+                            generously donated a gift card to LitterPic!
+                            These special rewards are up for grabs for two of our amazing volunteers dedicated to making
+                            the world a cleaner place. Picture
+                            yourself enjoying a delicious meal as a thank-you for your efforts in improving our
+                            environment!
+
+                            Here's the scoop: At the end of August, LitterPic will randomly select two lucky volunteers
+                            from all the posts shared. All you need to do is head out, pick up some litter, and post
+                            your good deed on LitterPic through our app or website. It's that simple! You’ll be in the
+                            running to win one of these fantastic gift cards (limited to the United States only).
+
+                            So, gear up and let's make a difference—one piece of litter at a time! 🌎💚</p>
                         <p>Not only will you feel fantastic for making a difference, but you also have a chance to win a
                             Chipotle or Amato's gift card! It’s a win-win: Do Good, Feel Good, and Eat Good too!</p>
                     </div>
