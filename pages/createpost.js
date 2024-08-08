@@ -166,7 +166,7 @@ function CreatePost() {
             const file = postImages[i];
             // const resizedFile = await resizeImage(file, 600, 600);
 
-            const storageRef = ref(storage, `userPosts/${postDocRef.id}/${file.name}`);
+            const storageRef = ref(storage, `userPosts/${user.uid}/${file.name}`);
             const task = uploadBytesResumable(storageRef, file);
             const snapshot = await task;
 
