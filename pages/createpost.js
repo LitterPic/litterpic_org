@@ -55,6 +55,9 @@ function CreatePost() {
     const fileInputRef = React.useRef(null);
     const [latLng, setLatLng] = useState(null);
 
+    const getAllPostsCacheKey = (page) => `all_posts_cache_page_${page}`;
+    const getMyPostsCacheKey = (page, userId) => `my_posts_cache_page_${userId}_${page}`;
+
 
     // we can useEffect to handle the conversion when the unit  changes
     //useEffect runs after the components rendered
@@ -294,7 +297,8 @@ function CreatePost() {
             setLocationSelected(false);
 
             // Invalidate the cache for the current page containing the deleted post
-            localStorage.removeItem('posts_page_1');
+            localStorage.removeItem(getAllPostsCacheKey(1)); // Clear cache for the first page of all posts
+            localStorage.removeItem(getMyPostsCacheKey(1, user.uid));
             localStorage.removeItem('totalWeight');
 
             // Redirect to the /stories.js page
