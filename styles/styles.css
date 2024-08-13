@@ -34,6 +34,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Ropa+Sans&family=Rubik:wght@500&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Ropa+Sans&family=Rubik:wght@500&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Ropa+Sans&family=Rubik:wght@500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Ropa+Sans&family=Rubik:wght@500&display=swap");
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css");
 @import url("https://fonts.googleapis.com/css2?family=Rubik:wght@500&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap");
@@ -1294,6 +1295,18 @@ p .index-inspire-change-text {
   align-items: flex-start;
   display: flex;
 }
+.logo-bar .notification-icon,
+.logo-bar-left-content .notification-icon,
+.logo-bar-right-content .notification-icon,
+.logo-content .notification-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-right: 25px;
+  height: 100%;
+}
 .logo-bar .logo-content,
 .logo-bar-left-content .logo-content,
 .logo-bar-right-content .logo-content,
@@ -1378,7 +1391,7 @@ p .index-inspire-change-text {
 
 .donate-button {
   margin-bottom: auto;
-  margin-right: 0.5rem;
+  margin-right: 25px;
   margin-top: auto;
   width: 100px;
 }
@@ -1457,7 +1470,7 @@ p .index-inspire-change-text {
     font-size: 9px;
   }
   .logo-bar-right-content {
-    flex-direction: column;
+    flex-direction: row;
     height: 100%;
     margin-right: 3rem;
   }
@@ -2524,6 +2537,18 @@ p .index-inspire-change-text {
   align-items: flex-start;
   display: flex;
 }
+.logo-bar .notification-icon,
+.logo-bar-left-content .notification-icon,
+.logo-bar-right-content .notification-icon,
+.logo-content .notification-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-right: 25px;
+  height: 100%;
+}
 .logo-bar .logo-content,
 .logo-bar-left-content .logo-content,
 .logo-bar-right-content .logo-content,
@@ -2608,7 +2633,7 @@ p .index-inspire-change-text {
 
 .donate-button {
   margin-bottom: auto;
-  margin-right: 0.5rem;
+  margin-right: 25px;
   margin-top: auto;
   width: 100px;
 }
@@ -2687,7 +2712,7 @@ p .index-inspire-change-text {
     font-size: 9px;
   }
   .logo-bar-right-content {
-    flex-direction: column;
+    flex-direction: row;
     height: 100%;
     margin-right: 3rem;
   }
@@ -6093,6 +6118,100 @@ textarea.event-description-input {
   }
 }
 
+.page {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+.page .highlight-notif {
+  animation: wobble 1.5s ease-in-out;
+  outline: 5px solid #015e41;
+}
+.page .notif-content {
+  width: 60%;
+  margin: 0 auto;
+}
+.page .notif-content .notifications-list {
+  margin-top: 20px;
+}
+.page .notif-content .notification-item {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+.page .notif-content .notification-item.unread {
+  background-color: #e8f5e9;
+}
+.page .notif-content .notification-item:hover {
+  background-color: #e0f2f1;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+.page .notif-content .notification-item .mark-as-read-button, .page .notif-content .notification-item .delete-notification-button {
+  background-color: #015e41;
+  color: #ffffff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.8vw;
+  transition: background-color 0.3s ease;
+  margin: 0 10px;
+}
+.page .notif-content .notification-item .mark-as-read-button:hover, .page .notif-content .notification-item .delete-notification-button:hover {
+  background-color: #4267b2;
+}
+.page .notif-content .notification-item .delete-notification-button:hover {
+  background-color: #d32f2f;
+}
+.page .notif-content .notification-item .notification-content {
+  display: flex;
+  align-items: center;
+  text-align: left;
+  flex-grow: 1;
+}
+.page .notif-content .notification-item .notification-content .notification-time {
+  font-size: 0.75vw;
+  color: #757575;
+  width: 250px;
+  text-align: start;
+  margin-left: 10px;
+  margin-right: 10px;
+  flex-shrink: 0;
+}
+.page .notif-content .notification-item .notification-content .notification-message {
+  font-size: 1.25vw;
+  margin: 0;
+  color: #333;
+  font-weight: 500;
+  word-wrap: break-word;
+  flex-grow: 1;
+}
+
+@keyframes wobble {
+  0%, 100% {
+    transform: translateX(0%);
+  }
+  15% {
+    transform: translateX(-25px) rotate(-5deg);
+  }
+  30% {
+    transform: translateX(20px) rotate(3deg);
+  }
+  45% {
+    transform: translateX(-15px) rotate(-3deg);
+  }
+  60% {
+    transform: translateX(10px) rotate(2deg);
+  }
+  75% {
+    transform: translateX(-5px) rotate(-1deg);
+  }
+}
 * {
   margin: 0;
   padding: 0;

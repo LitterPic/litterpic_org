@@ -16,6 +16,7 @@ import {
     query,
     runTransaction,
     serverTimestamp,
+    setDoc,
     updateDoc,
     where
 } from 'firebase/firestore';
@@ -30,6 +31,7 @@ import Script from "next/script";
 
 function Stories() {
     const router = useRouter();
+    const {postId} = router.query;  // Get the postId from the URL
     const dropdownRef = useRef(null);
     const [posts, setPosts] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -55,10 +57,9 @@ function Stories() {
     const debounceTimers = {};
     const [showOptions, setShowOptions] = useState(false);
 
-
     // 5 minute cache
-    const ALL_POSTS_CACHE_EXPIRATION_MS = 300000;
-    const MY_POSTS_CACHE_EXPIRATION_MS = 300000;
+    const ALL_POSTS_CACHE_EXPIRATION_MS = 86400000;
+    const MY_POSTS_CACHE_EXPIRATION_MS = 86400000;
     const SEARCH_USERS_CACHE_EXPIRATION_MS = 86400000;
     const getAllPostsCacheKey = (page) => `all_posts_cache_page_${page}`;
     const getMyPostsCacheKey = (page, userId) => `my_posts_cache_page_${userId}_${page}`;
@@ -265,7 +266,28 @@ function Stories() {
     }, []);
 
 
+    const createLikeNotification = async (postId, postAuthorId, user) => {
+        console.log("Clicked createLikeNotification")
+        const notification = {
+            id: doc(collection(db, 'notifications')).id,
+            title: "Keep being awesome!",
+            message: `${user.displayName || user.email} liked your post.`,
+            timestamp: serverTimestamp(),
+            isRead: false,
+            postId: `userPosts/${postId}`,
+            userId: `users/${postAuthorId}`,
+        };
+
+        try {
+            await setDoc(doc(db, `users/${postAuthorId}/notifications/${notification.id}`), notification);
+            console.log("Notification added successfully");
+        } catch (e) {
+            console.error("Failed to add notification:", e);
+        }
+    };
+
     const handleToggleLike = async (postId) => {
+        console.log("in handleToggleLike");
         if (!user) {
             router.push('/login');
             return;
@@ -274,6 +296,16 @@ function Stories() {
         try {
             const postIndex = posts.findIndex((post) => post.id === postId);
             const postToUpdate = posts[postIndex];
+
+            if (!postToUpdate) {
+                console.error('Post not found for the given postId:', postId);
+                return;
+            }
+
+            if (!postToUpdate.user || !postToUpdate.user.uid) {
+                console.error('User or user.uid is undefined for post:', postToUpdate);
+                return;
+            }
 
             const didLike = await toggleLike(postToUpdate, posts);
 
@@ -288,9 +320,13 @@ function Stories() {
                 }
 
                 updatedPosts[postIndex].likeIds.push(userDocRef);
-
                 updatedPosts[postIndex].likes += 1;
                 updatedPosts[postIndex].currentUserLiked = true;
+
+                // Create and send notification
+                const postAuthorId = postToUpdate.user.uid; // Access the user ID correctly
+                await createLikeNotification(postId, postAuthorId, user);
+
             } else {
                 updatedPosts[postIndex].likeIds = updatedPosts[postIndex].likeIds.filter(ref => ref.path !== userDocRef.path);
                 updatedPosts[postIndex].likes -= 1;
@@ -310,11 +346,6 @@ function Stories() {
             ...comments, [postId]: capitalizedText,
         });
     };
-
-    const handleSubmit = (postId) => {
-        submitComment(postId);
-    };
-
     const submitComment = async (postId) => {
         if (!user) {
             router.push('/login');
@@ -329,12 +360,15 @@ function Stories() {
         if (comment) {
             const db = getFirestore();
             try {
+                // Add the comment to the database
                 await addDoc(collection(db, 'storyComments'), {
                     comment,
                     commentUser: doc(db, 'users', user.uid),
                     postAssociation: doc(db, 'userPosts', postId),
                     timePosted: serverTimestamp(),
                 });
+
+                // Update the number of comments on the post
                 const postRef = doc(db, 'userPosts', postId);
                 await updateDoc(postRef, {
                     numComments: increment(1)
@@ -347,27 +381,81 @@ function Stories() {
 
                 const updatedPostComments = {...postComments};
                 updatedPostComments[postId] = [...(updatedPostComments[postId] || []), {
-                    comment, commentUser: {name: user.displayName}, postAssociation: postId, timePosted: new Date(),
-                },];
+                    comment,
+                    commentUser: {name: user.displayName},
+                    postAssociation: postId,
+                    timePosted: new Date(),
+                }];
                 setPostComments(updatedPostComments);
 
                 setComments({...comments, [postId]: ''});
+
+                // Create and send notification to the post author
+                const postToUpdate = updatedPosts[postIndex];
+                const postAuthorId = postToUpdate.user.uid; // Ensure you're accessing the correct user ID
+                await createCommentNotification(postId, postAuthorId, user, comment);
+
             } catch (error) {
                 console.error('Error adding comment:', error);
             }
         }
     };
 
+// Function to create and send a notification when a comment is made
+    const createCommentNotification = async (postId, postAuthorId, user, comment) => {
+        console.log("Sending comment notification");
+
+        // Create a preview of the comment to include in the notification
+        const words = comment.split(' ');
+        const commentPreview = words.length > 10 ? words.slice(0, 10).join(' ') + '...' : comment;
+
+        const notification = {
+            id: doc(collection(db, 'notifications')).id,
+            title: "New Comment on Your Post",
+            message: `${user.displayName || user.email} commented: "${commentPreview}"`,
+            timestamp: serverTimestamp(),
+            isRead: false,
+            postId: `userPosts/${postId}`,
+            userId: `users/${postAuthorId}`,
+        };
+
+        try {
+            await setDoc(doc(db, `users/${postAuthorId}/notifications/${notification.id}`), notification);
+            console.log("Notification added successfully");
+        } catch (e) {
+            console.error("Failed to add notification:", e);
+        }
+    };
+
+
+    function isDescendant(parent, child) {
+        let node = child;
+        while (node !== null) {
+            if (node === parent) {
+                return true;
+            }
+            node = node.parentNode;
+        }
+        return false;
+    }
+
     useEffect(() => {
         const handleClickOutside = (event) => {
-            if (commentInputRef.current && !commentInputRef.current.contains(event.target) && (!dropdownRef.current || !dropdownRef.current.contains(event.target)) && (!submitButtonRef.current || !submitButtonRef.current.contains(event.target))) {
+            if (
+                commentInputRef.current &&
+                !isDescendant(commentInputRef.current, event.target) &&
+                submitButtonRef.current &&
+                !isDescendant(submitButtonRef.current, event.target) &&
+                dropdownRef.current &&
+                !isDescendant(dropdownRef.current, event.target)
+            ) {
                 setOpenCommentInput(null);
             }
         };
 
-        document.addEventListener('mouseup', handleClickOutside);
+        document.addEventListener('mousedown', handleClickOutside);
         return () => {
-            document.removeEventListener('mouseup', handleClickOutside);
+            document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
 
@@ -411,6 +499,34 @@ function Stories() {
         localStorage.setItem('users', JSON.stringify(usersData));
     };
 
+    useEffect(() => {
+        if (!postId) {
+            return;
+        }
+
+        if (posts.length === 0) {
+            return;
+        }
+
+        const normalizedPostId = postId.split('/').pop();
+        const timeoutId = setTimeout(() => {
+            const element = document.getElementById(normalizedPostId);
+            if (element) {
+                const offsetPosition = element.getBoundingClientRect().top + window.pageYOffset;
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+                element.classList.add('highlight-notif');
+                setTimeout(() => element.classList.remove('highlight-notif'), 3000);
+                setOpenCommentInput(normalizedPostId);
+            } else {
+                console.log("Element not found for ID:", normalizedPostId);
+            }
+        }, 100);
+
+        return () => clearTimeout(timeoutId);
+    }, [postId, posts]);
     const fetchAndSetPosts = async (page, userId = null) => {
         setIsLoading(true);
 
@@ -452,12 +568,11 @@ function Stories() {
                     ...post, likedUsers: likedUserIds, currentUserLiked
                 };
 
-                // Append each fetched post to the state immediately
-                setPosts(prevPosts => [...prevPosts, updatedPost]);
-
                 fetchedPosts.push(updatedPost);
-                hasMore = true;
             }
+
+            // Append all fetched posts to the state at once
+            setPosts(prevPosts => [...prevPosts, ...fetchedPosts]);
 
             // Cache the fetched posts with a timestamp
             const postsToCache = {
@@ -465,7 +580,7 @@ function Stories() {
             };
             localStorage.setItem(cacheKey, JSON.stringify(postsToCache));
 
-            setHasMorePosts(hasMore);
+            setHasMorePosts(fetchedPosts.length > 0);
         } catch (error) {
             console.error('Error fetching posts:', error);
         } finally {
@@ -640,7 +755,8 @@ function Stories() {
         {value: 'Inappropriate content', label: 'Inappropriate content'},
     ];
 
-    return (<div>
+    return (
+        <div>
             <Head>
                 <title>LitterPic Inspiring Stories</title>
                 <meta name="description"
@@ -751,61 +867,62 @@ function Stories() {
                                 const currentUserLiked = post.currentUserLiked;
                                 const postMasonryKey = `${index}_${post.id}_post`;
 
-                                return (<div key={postMasonryKey} className="post">
-                                    <div className="post-header">
-                                        <i
-                                            className="fa fa-ellipsis-v meatball-menu"
-                                            aria-hidden="true"
-                                            onClick={() => {
-                                                setOpenMenuId(openMenuId !== post.id ? post.id : null);
-                                                setOpenCommentInput(null);
-                                            }}
-                                        ></i>
-                                    </div>
-                                    <ToastContainer/>
-                                    <div
-                                        className={`post-dropdown-menu ${openMenuId === post.id ? 'show' : ''}`}
-                                        ref={openMenuId === post.id ? dropdownRef : null}
-                                    >
-                                        {showOptions ? (
-                                            <ul className="meatball-post-menu">
-                                                {reportOptions.map((option) => (
-                                                    <li key={option.value}
+                                return (
+                                    <div key={postMasonryKey} id={post.id} className="post">
+                                        <div className="post-header">
+                                            <i
+                                                className="fa fa-ellipsis-v meatball-menu"
+                                                aria-hidden="true"
+                                                onClick={() => {
+                                                    setOpenMenuId(openMenuId !== post.id ? post.id : null);
+                                                    setOpenCommentInput(null);
+                                                }}
+                                            ></i>
+                                        </div>
+                                        <ToastContainer/>
+                                        <div
+                                            className={`post-dropdown-menu ${openMenuId === post.id ? 'show' : ''}`}
+                                            ref={openMenuId === post.id ? dropdownRef : null}
+                                        >
+                                            {showOptions ? (
+                                                <ul className="meatball-post-menu">
+                                                    {reportOptions.map((option) => (
+                                                        <li key={option.value}
+                                                            onClick={() => {
+                                                                handleReportClick(post.id, option.value);
+                                                                // Hide report options after selection
+                                                                setShowOptions(false);
+                                                                setOpenMenuId(null); // Close the dropdown menu
+                                                            }}>
+                                                            {option.label}
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            ) : (
+                                                <ul className="meatball-post-menu">
+                                                    <li
                                                         onClick={() => {
-                                                            handleReportClick(post.id, option.value);
-                                                            // Hide report options after selection
-                                                            setShowOptions(false);
-                                                            setOpenMenuId(null); // Close the dropdown menu
-                                                        }}>
-                                                        {option.label}
+                                                            if (user && post.user && user.uid === post.user.uid) {
+                                                                deletePost(post.id);
+                                                                setOpenMenuId(null); // Optionally close the dropdown menu
+                                                            }
+                                                        }}
+                                                        className={user && post.user && user.uid === post.user.uid ? '' : 'grayed-out'}
+                                                    >
+                                                        Delete Post
                                                     </li>
-                                                ))}
-                                            </ul>
-                                        ) : (
-                                            <ul className="meatball-post-menu">
-                                                <li
-                                                    onClick={() => {
-                                                        if (user && post.user && user.uid === post.user.uid) {
-                                                            deletePost(post.id);
-                                                            setOpenMenuId(null); // Optionally close the dropdown menu
-                                                        }
-                                                    }}
-                                                    className={user && post.user && user.uid === post.user.uid ? '' : 'grayed-out'}
-                                                >
-                                                    Delete Post
-                                                </li>
-                                                <li onClick={() => {
-                                                    setShowOptions(true); // Show report options
-                                                    // Do not close the menu here; let the user select a report reason
-                                                }}>Report Post
-                                                </li>
-                                            </ul>
-                                        )}
-                                    </div>
+                                                    <li onClick={() => {
+                                                        setShowOptions(true); // Show report options
+                                                        // Do not close the menu here; let the user select a report reason
+                                                    }}>Report Post
+                                                    </li>
+                                                </ul>
+                                            )}
+                                        </div>
 
 
-                                    <Post post={post}/>
-                                    <div className="likes-comments">
+                                        <Post post={post}/>
+                                        <div className="likes-comments">
                     <span
                         className="likes-comments-likes-field"
                         onMouseEnter={() => handleLikeHover(post)}
@@ -824,7 +941,7 @@ function Stories() {
                             <LikePopup likedUsers={likedUsers}/>)}
                     </span>
 
-                                        <span className="likes-comments-comment-field">
+                                            <span className="likes-comments-comment-field">
                         <i
                             className={`material-icons ${numComments > 0 ? 'filled-comment' : 'empty-comment'}`}
                             onClick={() => setOpenCommentInput(openCommentInput !== post.id ? post.id : null)}
@@ -835,29 +952,29 @@ function Stories() {
                         <span className="comment-count">{numComments}</span>
 
                     </span>
-                                    </div>
-                                    <div className="story-comment-input">
-                                        {openCommentInput === post.id && (<>
-                                            {postComments[post.id] && postComments[post.id].map((commentData) => {
-                                                const commentUserId = commentData?.commentUser?._key?.path?.segments?.[6] || null;
-                                                const commentUser = users?.[commentUserId] || {};
-                                                const commentTime = commentData.timePosted && typeof commentData.timePosted.toDate === 'function' ? commentData.timePosted.toDate() : null;
-                                                return (<div
-                                                    key={commentData.id}
-                                                    className="comment"
-                                                >
-                                                    {commentUser && (<>
-                                                        <img
-                                                            src={commentUser.photo_url}
-                                                            alt={commentUser.display_name}
-                                                            onError={(e) => e.target.src = 'https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg'}
-                                                        />
-                                                        <div className="comment-text">
+                                        </div>
+                                        <div className="story-comment-input">
+                                            {openCommentInput === post.id && (<>
+                                                {postComments[post.id] && postComments[post.id].map((commentData) => {
+                                                    const commentUserId = commentData?.commentUser?._key?.path?.segments?.[6] || null;
+                                                    const commentUser = users?.[commentUserId] || {};
+                                                    const commentTime = commentData.timePosted && typeof commentData.timePosted.toDate === 'function' ? commentData.timePosted.toDate() : null;
+                                                    return (<div
+                                                        key={commentData.id}
+                                                        className="comment"
+                                                    >
+                                                        {commentUser && (<>
+                                                            <img
+                                                                src={commentUser.photo_url}
+                                                                alt={commentUser.display_name}
+                                                                onError={(e) => e.target.src = 'https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg'}
+                                                            />
+                                                            <div className="comment-text">
                                                         <span className="comment-user">
                                                             {commentUser.display_name}
                                                         </span>
-                                                            {commentTime && commentTime instanceof Date && (
-                                                                <span className="comment-time">
+                                                                {commentTime && commentTime instanceof Date && (
+                                                                    <span className="comment-time">
                                                                     {commentTime && commentTime.toLocaleString('en-US', {
                                                                         year: 'numeric',
                                                                         month: '2-digit',
@@ -866,34 +983,34 @@ function Stories() {
                                                                         minute: '2-digit',
                                                                     })}
                                                                 </span>)}
-                                                            <div className="comment-text-content">
-                                                                {commentData.comment}
+                                                                <div className="comment-text-content">
+                                                                    {commentData.comment}
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </>)}
-                                                </div>);
-                                            })}
-                                            <textarea
-                                                className="comment-text-input"
-                                                ref={openCommentInput === post.id ? commentInputRef : null}
-                                                value={comments[post.id] || ''}
-                                                onChange={(event) => handleCommentChange(event, post.id)}
-                                                placeholder="Add a comment..."
-                                            />
-                                            <button
-                                                className="comment-submit-button"
-                                                ref={submitButtonRef}
-                                                onClick={() => handleSubmit(post.id)}
-                                                disabled={!comments[post.id] || comments[post.id].trim().length < 1}
-                                            >
-                                                Submit
-                                            </button>
-                                        </>)}
+                                                        </>)}
+                                                    </div>);
+                                                })}
+                                                <textarea
+                                                    className="comment-text-input"
+                                                    ref={openCommentInput === post.id ? commentInputRef : null}
+                                                    value={comments[post.id] || ''}
+                                                    onChange={(event) => handleCommentChange(event, post.id)}
+                                                    placeholder="Add a comment..."
+                                                />
+                                                <button
+                                                    className="comment-submit-button"
+                                                    ref={submitButtonRef}
+                                                    onClick={() => submitComment(post.id)}
+                                                    disabled={!comments[post.id] || comments[post.id].trim().length < 1}
+                                                >
+                                                    Submit
+                                                </button>
+                                            </>)}
+                                        </div>
                                     </div>
-                                </div>);
+                                );
                             })}
                         </Masonry>
-
 
                         <div className="button-container">
                             {!isLoading && hasMorePosts && !showMyPosts && selectedUser === "" && (
@@ -915,7 +1032,6 @@ function Stories() {
                             )}
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>

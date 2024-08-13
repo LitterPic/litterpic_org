@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {collection, doc, getDoc, getDocs, limit, orderBy, query} from 'firebase/firestore';
+import {collection, doc, getDoc, getDocs, limit, orderBy, query, setDoc} from 'firebase/firestore';
 import {getDownloadURL, ref} from 'firebase/storage';
 import {db, storage} from '../lib/firebase';
 import 'firebase/firestore';
 import Head from "next/head";
 import Script from "next/script";
+import {getMessaging, getToken} from "firebase/messaging";
 
 const AWS = require('aws-sdk');
 
@@ -66,6 +67,33 @@ export default function Index() {
     const [images, setImages] = useState([]);
     const [totalWeight, setTotalWeight] = useState(0);
     const [isDataLoaded, setIsDataLoaded] = useState(false);
+
+    const requestNotificationPermission = async () => {
+        try {
+            const messaging = getMessaging();
+            const token = await getToken(messaging);
+            if (token) {
+                console.log('FCM token:', token);
+                const userId = auth.currentUser?.uid;
+                if (userId) {
+                    await saveTokenToDatabase(userId, token);
+                }
+            } else {
+                console.log('No registration token available. Request permission to generate one.');
+            }
+        } catch (err) {
+            console.log('An error occurred while retrieving the token. ', err);
+        }
+    };
+
+    const saveTokenToDatabase = async (userId, token) => {
+        const userRef = doc(db, 'users', userId);
+        await setDoc(userRef, {fcmToken: token}, {merge: true});
+    };
+
+    useEffect(() => {
+        requestNotificationPermission();
+    }, []);
 
     useEffect(() => {
         async function sendNotification() {

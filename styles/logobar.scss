@@ -8,6 +8,16 @@
   align-items: flex-start;
   display: flex;
 
+  .notification-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 25px;
+    height: 100%;
+  }
+
   .logo-content {
     align-items: center;
     display: flex;
@@ -82,7 +92,7 @@
 
 .donate-button {
   margin-bottom: auto;
-  margin-right: .5rem;
+  margin-right: 25px;
   margin-top: auto;
   width: 100px;
 }
@@ -173,7 +183,7 @@
   }
 
   .logo-bar-right-content {
-    flex-direction: column;
+    flex-direction: row;
     height: 100%;
     margin-right: 3rem;
   }
