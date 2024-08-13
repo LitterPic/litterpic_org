@@ -6123,6 +6123,12 @@ textarea.event-description-input {
   justify-content: center;
   padding: 20px;
 }
+.page .no-notifications-message {
+  font-size: 1.25vw;
+  color: #757575;
+  text-align: center;
+  margin-top: 20px;
+}
 .page .highlight-notif {
   animation: wobble 1.5s ease-in-out;
   outline: 5px solid #015e41;

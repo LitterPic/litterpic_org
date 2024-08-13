@@ -101,32 +101,37 @@ const NotificationsPage = () => {
                 <div className="notif-content">
                     <h1 className="heading-text">Notifications</h1>
                     <div className="notifications-list">
-                        {notifications.map(notification => (
-                            <div
-                                key={notification.id}
-                                className={`notification-item ${notification.isRead ? 'read' : 'unread'}`}
-                            >
-                                <button
-                                    className="mark-as-read-button"
-                                    onClick={() => markAsRead(notification.id)}
+                        {notifications.length === 0 ? (
+                            <p className="no-notifications-message">You have no notifications at the moment. Stay tuned
+                                for updates and interactions!</p>
+                        ) : (
+                            notifications.map(notification => (
+                                <div
+                                    key={notification.id}
+                                    className={`notification-item ${notification.isRead ? 'read' : 'unread'}`}
                                 >
-                                    Mark as Read
-                                </button>
-                                <div className="notification-content"
-                                     onClick={() => handleNotificationClick(notification)}>
-                                    <span className="notification-time">
-                                        {formatDistanceToNow(notification.timestamp.toDate())} ago
-                                    </span>
-                                    <p className="notification-message">{notification.message}</p>
+                                    <button
+                                        className="mark-as-read-button"
+                                        onClick={() => markAsRead(notification.id)}
+                                    >
+                                        Mark as Read
+                                    </button>
+                                    <div className="notification-content"
+                                         onClick={() => handleNotificationClick(notification)}>
+                                        <span className="notification-time">
+                                            {formatDistanceToNow(notification.timestamp.toDate())} ago
+                                        </span>
+                                        <p className="notification-message">{notification.message}</p>
+                                    </div>
+                                    <button
+                                        className="delete-notification-button"
+                                        onClick={() => deleteNotification(notification.id)}
+                                    >
+                                        Delete
+                                    </button>
                                 </div>
-                                <button
-                                    className="delete-notification-button"
-                                    onClick={() => deleteNotification(notification.id)}
-                                >
-                                    Delete
-                                </button>
-                            </div>
-                        ))}
+                            ))
+                        )}
                     </div>
                 </div>
             </div>
