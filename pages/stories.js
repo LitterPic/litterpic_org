@@ -271,14 +271,14 @@ function Stories() {
         const titles = [
             "Keep being awesome!",
             "Every piece of litter counts!",
-            "Your efforts make the world cleaner!",
+            "You make the world cleaner!",
             "Small acts, big impact!",
             "Thank you for making a difference!",
             "Your kindness is inspiring!",
             "Together, we create change!",
             "Keep up the great work!",
             "You're a hero for our planet!",
-            "Changing the world, one piece at a time!",
+            "Changing the world!",
             "Your actions speak volumes!"
         ];
 
