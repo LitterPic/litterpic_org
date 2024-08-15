@@ -6194,7 +6194,8 @@ textarea.event-description-input {
   text-align: start;
   margin-left: 10px;
   margin-right: 10px;
-  flex-shrink: 0;
+  word-wrap: break-word;
+  flex-grow: 1;
 }
 .page .notif-content .notification-item .notification-content .notification-message {
   font-size: 1rem;
@@ -6232,22 +6233,22 @@ textarea.event-description-input {
     font-size: 0.7rem;
   }
 }
-@media (max-width: 102.25rem) and (orientation: landscape) {
+@media (max-width: 400px) {
   .notif-content {
     padding: 0 5px; /* Reduce padding for very small screens */
   }
   .notification-item {
-    padding: 10px; /* Reduce padding for smaller screens */
+    padding: 5px;
     border-radius: 5px;
   }
   .notification-item .notification-time {
-    font-size: 0.85rem;
+    font-size: 2rem;
   }
   .notification-item .notification-message {
     font-size: 1rem;
   }
   .notification-item .mark-as-read-button, .notification-item .delete-notification-button {
-    padding: 8px 12px; /* Further adjust padding */
+    padding: 5px 5px; /* Further adjust padding */
   }
 }
 * {
