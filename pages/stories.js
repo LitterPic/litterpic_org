@@ -267,10 +267,27 @@ function Stories() {
 
 
     const createLikeNotification = async (postId, postAuthorId, user) => {
+
+        const titles = [
+            "Keep being awesome!",
+            "Every piece of litter counts!",
+            "Your efforts make the world cleaner!",
+            "Small acts, big impact!",
+            "Thank you for making a difference!",
+            "Your kindness is inspiring!",
+            "Together, we create change!",
+            "Keep up the great work!",
+            "You're a hero for our planet!",
+            "Changing the world, one piece at a time!",
+            "Your actions speak volumes!"
+        ];
+
+        const randomTitle = titles[Math.floor(Math.random() * titles.length)];
+
         console.log("Clicked createLikeNotification")
         const notification = {
             id: doc(collection(db, 'notifications')).id,
-            title: "Keep being awesome!",
+            title: randomTitle,
             message: `${user.displayName || user.email} liked your post.`,
             timestamp: serverTimestamp(),
             isRead: false,
