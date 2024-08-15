@@ -36,51 +36,37 @@ export async function* fetchPosts(page, postsPerPage, userId = null) {
         );
     }
 
-    if (page >= 2) {
+    if (page > 1) {
         const lastVisiblePost = await getLastVisiblePost(page - 1, postsPerPage, userId);
         postQuery = query(postQuery, startAfter(lastVisiblePost));
     }
 
     const querySnapshot = await getDocs(postQuery);
-
     for (const postDoc of querySnapshot.docs) {
         const postData = postDoc.data();
-        const photos = [];
-        const likeIds = postData.likes && postData.likes.map(ref => ref.id);
-        const validLikeIds = likeIds && likeIds.filter(id => id !== '');
-        const numComments = postData.numComments || 0;
+        const userDataPromise = getUserData(postData.postUser);
 
-        const likesCount = validLikeIds ? validLikeIds.length : 0;
-
-        if (Array.isArray(postData.postPhotos)) {
-            for (const pictureRef of postData.postPhotos) {
-                try {
-                    const pictureUrl = await getDownloadURL(ref(storage, pictureRef));
-                    photos.push(pictureUrl);
-                } catch (error) {
-                    photos.push("https://ih1.redbubble.net/image.4905811447.8675/flat,750x,075,f-pad,750x1000,f8f8f8.jpg");
-                }
+        const photos = postData.postPhotos || [];
+        const photoUrls = await Promise.all(photos.map(async (photoRef) => {
+            try {
+                return await getDownloadURL(ref(storage, photoRef));
+            } catch {
+                return "https://example.com/fallback-image.jpg";
             }
-        }
+        }));
 
-        // Fetch user data
-        const userData = await getUserData(postData.postUser);
+        const userData = await userDataPromise;
 
-        const likes = likesCount !== undefined ? likesCount : 0;
-
-        // Yield each post as it's processed
         yield {
             id: postDoc.id,
+            photos: photoUrls,
             user: userData,
-            photos: photos,
             dateCreated: postData.timePosted.toDate(),
             location: postData.location,
             description: postData.postDescription,
             litterWeight: postData.litterWeight,
-            likes: likes,
-            numComments: numComments,
-            ref: postDoc.ref,
-            likeIds: validLikeIds,
+            likes: postData.likes ? postData.likes.length : 0,
+            numComments: postData.numComments || 0,
         };
     }
 }

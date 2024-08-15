@@ -1455,6 +1455,7 @@ p .index-inspire-change-text {
     height: 2.25rem;
     margin-bottom: 0;
     margin-top: 0;
+    width: 75px;
   }
   .logo-bar {
     align-self: flex-start;
@@ -1472,7 +1473,8 @@ p .index-inspire-change-text {
   .logo-bar-right-content {
     flex-direction: row;
     height: 100%;
-    margin-right: 3rem;
+    margin-right: 2rem;
+    padding-left: 30px;
   }
   .profile-picture {
     margin-left: 5.5rem;
@@ -2697,6 +2699,7 @@ p .index-inspire-change-text {
     height: 2.25rem;
     margin-bottom: 0;
     margin-top: 0;
+    width: 75px;
   }
   .logo-bar {
     align-self: flex-start;
@@ -2714,7 +2717,8 @@ p .index-inspire-change-text {
   .logo-bar-right-content {
     flex-direction: row;
     height: 100%;
-    margin-right: 3rem;
+    margin-right: 2rem;
+    padding-left: 30px;
   }
   .profile-picture {
     margin-left: 5.5rem;
