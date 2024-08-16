@@ -303,8 +303,42 @@ function Stories() {
         }
     };
 
+    const createLikeNotificationForOthers = async (postId, likingUser) => {
+        try {
+            // Get the list of user IDs who liked the post
+            const likedUserIds = await getUsersWhoLikedPost(postId);
+
+            const db = getFirestore();
+
+            // Prepare the notification message
+            const message = `${likingUser.displayName || likingUser.email} liked a post you liked.`;
+
+            // Send a notification to each user who liked the post, except the current user
+            const notificationPromises = likedUserIds
+                .filter(uid => uid !== likingUser.uid)
+                .map(async (uid) => {
+                    const notification = {
+                        id: doc(collection(db, 'notifications')).id,
+                        title: "Someone liked a post you liked!",
+                        message: message,
+                        timestamp: serverTimestamp(),
+                        isRead: false,
+                        postId: `userPosts/${postId}`,
+                        userId: `users/${uid}`,
+                    };
+
+                    return setDoc(doc(db, `users/${uid}/notifications/${notification.id}`), notification);
+                });
+
+            await Promise.all(notificationPromises);
+
+            console.log("Notifications sent to other users who liked the post.");
+        } catch (e) {
+            console.error("Failed to send notifications to other users:", e);
+        }
+    };
+
     const handleToggleLike = async (postId) => {
-        console.log("in handleToggleLike");
         if (!user) {
             router.push('/login');
             return;
@@ -343,6 +377,8 @@ function Stories() {
                 // Create and send notification
                 const postAuthorId = postToUpdate.user.uid; // Access the user ID correctly
                 await createLikeNotification(postId, postAuthorId, user);
+
+                await createLikeNotificationForOthers(postId, user);
 
             } else {
                 updatedPosts[postIndex].likeIds = updatedPosts[postIndex].likeIds.filter(ref => ref.path !== userDocRef.path);
@@ -411,6 +447,7 @@ function Stories() {
                 const postToUpdate = updatedPosts[postIndex];
                 const postAuthorId = postToUpdate.user.uid;
                 await createCommentNotification(postId, postAuthorId, user, comment);
+                await createCommentNotificationForOthers(postId, user, comment);
 
             } catch (error) {
                 console.error('Error adding comment:', error);
@@ -456,6 +493,51 @@ function Stories() {
             console.log("Notification added successfully");
         } catch (e) {
             console.error("Failed to add notification:", e);
+        }
+    };
+
+    const createCommentNotificationForOthers = async (postId, commentingUser, commentText) => {
+        try {
+            const db = getFirestore();
+
+            // Get the list of users who have commented on the post
+            const q = query(collection(db, 'storyComments'), where('postAssociation', '==', doc(db, 'userPosts', postId)));
+            const querySnapshot = await getDocs(q);
+
+            const commenterIds = new Set();
+            querySnapshot.forEach((doc) => {
+                const commentUser = doc.data().commentUser;
+                if (commentUser && commentUser._key && commentUser._key.path && commentUser._key.path.segments) {
+                    const userIdFromComment = commentUser._key.path.segments[6];
+                    commenterIds.add(userIdFromComment);
+                }
+            });
+
+            // Prepare the notification message
+            const message = `${commentingUser.displayName || commentingUser.email} also commented on a post you commented on: "${commentText}"`;
+
+            // Send a notification to each user who commented on the post, except the current user
+            const notificationPromises = Array.from(commenterIds)
+                .filter(uid => uid !== commentingUser.uid) // Exclude the current user
+                .map(async (uid) => {
+                    const notification = {
+                        id: doc(collection(db, 'notifications')).id,
+                        title: "Someone commented on a post you commented on!",
+                        message: message,
+                        timestamp: serverTimestamp(),
+                        isRead: false,
+                        postId: `userPosts/${postId}`,
+                        userId: `users/${uid}`,
+                    };
+
+                    return setDoc(doc(db, `users/${uid}/notifications/${notification.id}`), notification);
+                });
+
+            await Promise.all(notificationPromises);
+
+            console.log("Notifications sent to other users who commented on the post.");
+        } catch (e) {
+            console.error("Failed to send notifications to other users:", e);
         }
     };
 
