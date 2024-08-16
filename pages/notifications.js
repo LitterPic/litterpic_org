@@ -6,6 +6,7 @@ import {useRouter} from 'next/router';
 import Head from "next/head";
 import Script from "next/script";
 import withAuth from "../components/withAuth";
+import {FaTrashAlt} from "react-icons/fa";
 
 const NotificationsPage = () => {
     const [notifications, setNotifications] = useState([]);
@@ -110,14 +111,15 @@ const NotificationsPage = () => {
                                     key={notification.id}
                                     className={`notification-item ${notification.isRead ? 'read' : 'unread'}`}
                                 >
-                                    <button
-                                        className="mark-as-read-button"
+                                    <div
+                                        className="status-indicator"
                                         onClick={() => markAsRead(notification.id)}
+                                        title="Mark as Read"
+                                    />
+                                    <div
+                                        className="notification-content"
+                                        onClick={() => handleNotificationClick(notification)}
                                     >
-                                        Mark as Read
-                                    </button>
-                                    <div className="notification-content"
-                                         onClick={() => handleNotificationClick(notification)}>
                                         <span className="notification-time">
                                             {formatDistanceToNow(notification.timestamp.toDate())} ago
                                         </span>
@@ -127,7 +129,7 @@ const NotificationsPage = () => {
                                         className="delete-notification-button"
                                         onClick={() => deleteNotification(notification.id)}
                                     >
-                                        Delete
+                                        <FaTrashAlt/>
                                     </button>
                                 </div>
                             ))
