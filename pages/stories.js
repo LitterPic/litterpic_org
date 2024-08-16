@@ -409,7 +409,7 @@ function Stories() {
 
                 // Create and send notification to the post author
                 const postToUpdate = updatedPosts[postIndex];
-                const postAuthorId = postToUpdate.user.uid; // Ensure you're accessing the correct user ID
+                const postAuthorId = postToUpdate.user.uid;
                 await createCommentNotification(postId, postAuthorId, user, comment);
 
             } catch (error) {
@@ -420,15 +420,30 @@ function Stories() {
 
 // Function to create and send a notification when a comment is made
     const createCommentNotification = async (postId, postAuthorId, user, comment) => {
-        console.log("Sending comment notification");
 
         // Create a preview of the comment to include in the notification
         const words = comment.split(' ');
         const commentPreview = words.length > 10 ? words.slice(0, 10).join(' ') + '...' : comment;
 
+        const titles = [
+            "A New Comment on Your Post!",
+            "Fresh Insights on Your Story!",
+            "New Thoughts Shared on Your Post!",
+            "Your Post Sparked a New Comment!",
+            "A Thoughtful Response Awaits!",
+            "Someone's Been Inspired by You!",
+            "New Reflection on Your Post!",
+            "Your Post Just Received a New Voice!",
+            "You're a hero for our planet!",
+            "A New Comment Lights Up Your Post!",
+            "Your Story Continues to Inspire!"
+        ];
+
+        const randomTitle = titles[Math.floor(Math.random() * titles.length)];
+
         const notification = {
             id: doc(collection(db, 'notifications')).id,
-            title: "New Comment on Your Post",
+            title: randomTitle,
             message: `${user.displayName || user.email} commented: "${commentPreview}"`,
             timestamp: serverTimestamp(),
             isRead: false,
