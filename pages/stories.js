@@ -303,7 +303,7 @@ function Stories() {
         }
     };
 
-    const createLikeNotificationForOthers = async (postId, likingUser) => {
+    const createLikeNotificationForOthers = async (postId, likingUser, postAuthorId) => {
         try {
             // Get the list of user IDs who liked the post
             const likedUserIds = await getUsersWhoLikedPost(postId);
@@ -315,7 +315,7 @@ function Stories() {
 
             // Send a notification to each user who liked the post, except the current user
             const notificationPromises = likedUserIds
-                .filter(uid => uid !== likingUser.uid)
+                .filter(uid => uid !== likingUser.uid && uid !== postAuthorId)
                 .map(async (uid) => {
                     const notification = {
                         id: doc(collection(db, 'notifications')).id,
@@ -378,7 +378,7 @@ function Stories() {
                 const postAuthorId = postToUpdate.user.uid; // Access the user ID correctly
                 await createLikeNotification(postId, postAuthorId, user);
 
-                await createLikeNotificationForOthers(postId, user);
+                await createLikeNotificationForOthers(postId, user, postAuthorId);
 
             } else {
                 updatedPosts[postIndex].likeIds = updatedPosts[postIndex].likeIds.filter(ref => ref.path !== userDocRef.path);
@@ -447,7 +447,7 @@ function Stories() {
                 const postToUpdate = updatedPosts[postIndex];
                 const postAuthorId = postToUpdate.user.uid;
                 await createCommentNotification(postId, postAuthorId, user, comment);
-                await createCommentNotificationForOthers(postId, user, comment);
+                await createCommentNotificationForOthers(postId, user, comment, postAuthorId);
 
             } catch (error) {
                 console.error('Error adding comment:', error);
@@ -496,7 +496,7 @@ function Stories() {
         }
     };
 
-    const createCommentNotificationForOthers = async (postId, commentingUser, commentText) => {
+    const createCommentNotificationForOthers = async (postId, commentingUser, commentText, postAuthorId) => {
         try {
             const db = getFirestore();
 
@@ -518,7 +518,7 @@ function Stories() {
 
             // Send a notification to each user who commented on the post, except the current user
             const notificationPromises = Array.from(commenterIds)
-                .filter(uid => uid !== commentingUser.uid) // Exclude the current user
+                .filter(uid => uid !== commentingUser.uid && uid !== postAuthorId)
                 .map(async (uid) => {
                     const notification = {
                         id: doc(collection(db, 'notifications')).id,
@@ -665,7 +665,6 @@ function Stories() {
         }
 
         try {
-            let hasMore = false;
             let fetchedPosts = [];
 
             for await (const post of fetchPosts(page, postsPerPage, userId)) {
