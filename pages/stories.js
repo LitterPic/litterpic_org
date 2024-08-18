@@ -12,6 +12,7 @@ import {
     getDocs,
     getFirestore,
     increment,
+    limit,
     orderBy,
     query,
     runTransaction,
@@ -284,11 +285,31 @@ function Stories() {
 
         const randomTitle = titles[Math.floor(Math.random() * titles.length)];
 
-        console.log("Clicked createLikeNotification")
+        const db = getFirestore();
+        const notificationMessage = `${user.displayName || user.email} liked your post.`;
+
+        // Check if a notification already exists for this user, post, and action
+        const notificationExists = async () => {
+            const notificationsQuery = query(
+                collection(db, `users/${postAuthorId}/notifications`),
+                where('postId', '==', `userPosts/${postId}`),
+                where('userId', '==', `users/${user.uid}`),
+                where('message', '==', notificationMessage),
+                limit(1)
+            );
+
+            const querySnapshot = await getDocs(notificationsQuery);
+            return !querySnapshot.empty;
+        };
+
+        if (await notificationExists()) {
+            return;
+        }
+
         const notification = {
             id: doc(collection(db, 'notifications')).id,
             title: randomTitle,
-            message: `${user.displayName || user.email} liked your post.`,
+            message: notificationMessage,
             timestamp: serverTimestamp(),
             isRead: false,
             postId: `userPosts/${postId}`,
@@ -297,7 +318,6 @@ function Stories() {
 
         try {
             await setDoc(doc(db, `users/${postAuthorId}/notifications/${notification.id}`), notification);
-            console.log("Notification added successfully");
         } catch (e) {
             console.error("Failed to add notification:", e);
         }
@@ -313,10 +333,28 @@ function Stories() {
             // Prepare the notification message
             const message = `${likingUser.displayName || likingUser.email} liked a post you liked.`;
 
-            // Send a notification to each user who liked the post, except the current user
+            // Function to check if a notification already exists
+            const notificationExists = async (uid) => {
+                const notificationsQuery = query(
+                    collection(db, `users/${uid}/notifications`),
+                    where('postId', '==', `userPosts/${postId}`),
+                    where('userId', '==', `users/${likingUser.uid}`),
+                    where('message', '==', message),
+                    limit(1)
+                );
+
+                const querySnapshot = await getDocs(notificationsQuery);
+                return !querySnapshot.empty;
+            };
+
+            // Send a notification to each user who liked the post, except the current user and the post author
             const notificationPromises = likedUserIds
                 .filter(uid => uid !== likingUser.uid && uid !== postAuthorId)
                 .map(async (uid) => {
+                    if (await notificationExists(uid)) {
+                        return;
+                    }
+
                     const notification = {
                         id: doc(collection(db, 'notifications')).id,
                         title: "Someone liked a post you liked!",
@@ -331,8 +369,6 @@ function Stories() {
                 });
 
             await Promise.all(notificationPromises);
-
-            console.log("Notifications sent to other users who liked the post.");
         } catch (e) {
             console.error("Failed to send notifications to other users:", e);
         }
@@ -455,7 +491,6 @@ function Stories() {
         }
     };
 
-// Function to create and send a notification when a comment is made
     const createCommentNotification = async (postId, postAuthorId, user, comment) => {
 
         // Create a preview of the comment to include in the notification
@@ -478,10 +513,31 @@ function Stories() {
 
         const randomTitle = titles[Math.floor(Math.random() * titles.length)];
 
+        const db = getFirestore();
+        const notificationMessage = `${user.displayName || user.email} commented: "${commentPreview}"`;
+
+        // Check if a notification already exists for this user, post, and action
+        const notificationExists = async () => {
+            const notificationsQuery = query(
+                collection(db, `users/${postAuthorId}/notifications`),
+                where('postId', '==', `userPosts/${postId}`),
+                where('userId', '==', `users/${user.uid}`),
+                where('message', '==', notificationMessage),
+                limit(1)
+            );
+
+            const querySnapshot = await getDocs(notificationsQuery);
+            return !querySnapshot.empty;
+        };
+
+        if (await notificationExists()) {
+            return;
+        }
+
         const notification = {
             id: doc(collection(db, 'notifications')).id,
             title: randomTitle,
-            message: `${user.displayName || user.email} commented: "${commentPreview}"`,
+            message: notificationMessage,
             timestamp: serverTimestamp(),
             isRead: false,
             postId: `userPosts/${postId}`,
@@ -490,7 +546,6 @@ function Stories() {
 
         try {
             await setDoc(doc(db, `users/${postAuthorId}/notifications/${notification.id}`), notification);
-            console.log("Notification added successfully");
         } catch (e) {
             console.error("Failed to add notification:", e);
         }
@@ -516,10 +571,28 @@ function Stories() {
             // Prepare the notification message
             const message = `${commentingUser.displayName || commentingUser.email} also commented on a post you commented on: "${commentText}"`;
 
-            // Send a notification to each user who commented on the post, except the current user
+            // Function to check if a notification already exists
+            const notificationExists = async (uid) => {
+                const notificationsQuery = query(
+                    collection(db, `users/${uid}/notifications`),
+                    where('postId', '==', `userPosts/${postId}`),
+                    where('userId', '==', `users/${commentingUser.uid}`),
+                    where('message', '==', message),
+                    limit(1)
+                );
+
+                const querySnapshot = await getDocs(notificationsQuery);
+                return !querySnapshot.empty;
+            };
+
+            // Send a notification to each user who commented on the post, except the current user and the post author
             const notificationPromises = Array.from(commenterIds)
                 .filter(uid => uid !== commentingUser.uid && uid !== postAuthorId)
                 .map(async (uid) => {
+                    if (await notificationExists(uid)) {
+                        return;
+                    }
+
                     const notification = {
                         id: doc(collection(db, 'notifications')).id,
                         title: "Someone commented on a post you commented on!",
@@ -534,8 +607,6 @@ function Stories() {
                 });
 
             await Promise.all(notificationPromises);
-
-            console.log("Notifications sent to other users who commented on the post.");
         } catch (e) {
             console.error("Failed to send notifications to other users:", e);
         }
@@ -635,7 +706,7 @@ function Stories() {
                 setTimeout(() => element.classList.remove('highlight-notif'), 3000);
                 setOpenCommentInput(normalizedPostId);
             } else {
-                console.log("Element not found for ID:", normalizedPostId);
+
             }
         }, 100);
 
