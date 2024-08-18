@@ -491,7 +491,7 @@ export default function Index() {
                         <div className='app-text'>
                             <div className='head-and-icon'>
                                 <h2 className='heading-text '> Stay informed with the LitterPic app!</h2>
-                                <img src='../images/litter_pic_logo.png' alt={}></img>
+                                <img src='../images/litter_pic_logo.png'></img>
                             </div>
 
                             <p><span className="index-inspire-change-text">Inspire Change</span> by capturing your
