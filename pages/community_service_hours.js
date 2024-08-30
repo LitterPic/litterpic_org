@@ -4,6 +4,9 @@ import Script from "next/script";
 // import '../styles/community_service.scss'
 
 const Community_Service_Hours = () => {
+
+    const CACHE_EXPIRATION_TIME = 5 * 60 * 1000;
+    const [totalWeight, setTotalWeight] = useState(0);
     return (
         <div>
             <Head>
