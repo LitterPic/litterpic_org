@@ -313,42 +313,51 @@ export default function Index() {
             <div className="page">
                 <div className="content">
                     <div className="announcement-bar">
-                        <p>Join the Movement to Keep Our Planet Clean and Win in August!</p>
-                        <p>We are thrilled to announce that our wonderful friends at Chipotle and Amato's have each
-                            generously donated a gift card to LitterPic!
-                            These special rewards are up for grabs for two of our amazing volunteers dedicated to making
-                            the world a cleaner place. Picture
-                            yourself enjoying a delicious meal as a thank-you for your efforts in improving our
-                            environment!
+                        <p>Join the Movement to Keep Our Planet Clean and Win in September!</p>
+                        <p>We are thrilled to announce that our wonderful friends at <a
+                            href="https://dyme.earth" target="_blank">Dyme.earth</a> and <a href="https://amatos.com"
+                                                                                            target="_blank">Amato's</a> have
+                            each generously donated a gift card to LitterPic! These special rewards are up for grabs for
+                            two of our amazing volunteers dedicated to making the world a cleaner place. Picture
+                            yourself enjoying a travel voucher from Dyme.earth or a delicious meal from Amato's as a
+                            thank-you for your efforts in improving our environment!</p>
 
-                            Here's the scoop: At the end of August, LitterPic will randomly select two lucky volunteers
+                        <p></p>
+
+                        <p>Here' s the scoop: At the end of September, LitterPic will randomly select two lucky
+                            volunteers
                             from all the posts shared. All you need to do is head out, pick up some litter, and post
-                            your good deed on LitterPic through our app or website. It's that simple! You’ll be in the
+                            your good deed on LitterPic through our app or website. It' s that simple! You’ll be in
+                            the
                             running to win one of these fantastic gift cards (limited to the United States only).
 
-                            So, gear up and let's make a difference—one piece of litter at a time! 🌎💚</p>
-                        <p>Not only will you feel fantastic for making a difference, but you also have a chance to win a
-                            Chipotle or Amato's gift card! It’s a win-win: Do Good, Feel Good, and Eat Good too!</p>
+                            So, gear up and let's make a difference—one piece of litter at a time! 🌎💚
+                        </p>
+
+                        <p></p>
+                        <p>Not only will you feel fantastic for making a difference, but you also have a chance to
+                            win a
+                            great gift card! Do Good, Feel Good!</p>
                     </div>
                     <br></br>
-                    <h1 className="heading-text">Inspire Change</h1>
-                    <div className="home-carousel-section">
-                        <Carousel className="carousel" images={images}/>
+                    <h1 className=" heading-text">Inspire Change</h1>
+                    <div className=" home-carousel-section">
+                        <Carousel className=" carousel" images={images}/>
 
-                        <h2 className="home-carousel-section-text">Take a look at all of our volunteer's stories
+                        <h2 className=" home-carousel-section-text">Take a look at all of our volunteer's stories
                             and
                             get
                             inspired by more!
-                            <a className="index-more-stories-button" href="/stories">
-                                <button type="button">User Stories</button>
+                            <a className=" index-more-stories-button" href="/stories">
+                                <button type=" button">User Stories</button>
                             </a>
                         </h2>
                     </div>
                     <br/>
                     <br/>
-                    <div className="index-wrapper">
-                        <div className="index-column-one-row-one">
-                            <h1 className="index-starting-text">Starting with LitterPic is a breeze.</h1>
+                    <div className=" index-wrapper">
+                        <div className=" index-column-one-row-one">
+                            <h1 className=" index-starting-text">Starting with LitterPic is a breeze.</h1>
                             <br/>
                             <p>It's crucial that we come together and do something about litter. Our goal is
                                 to
@@ -358,9 +367,9 @@ export default function Index() {
                                 make
                                 a constructive difference in creating a better tomorrow. Share your stories and
                                 photos
-                                and <span className="index-inspire-change-text">Inspire Change</span>.</p>
+                                and <span className=" index-inspire-change-text">Inspire Change</span>.</p>
                         </div>
-                        <div className="index-column-two-row-one">
+                        <div className=" index-column-two-row-one">
                             <ul>
 
                                 <li>To begin, pick a time and place you want to clean. You do not need to seek
@@ -402,12 +411,12 @@ export default function Index() {
                         </div>
                     </div>
                     <br/>
-                    <div className="ambassador-heading-text-with-icon">
-                        <h2 className="heading-text">Become a LitterPic Ambassador</h2>
-                        <div className="material-icons ambassador-heading-icon">public</div>
+                    <div className=" ambassador-heading-text-with-icon">
+                        <h2 className=" heading-text">Become a LitterPic Ambassador</h2>
+                        <div className=" material-icons ambassador-heading-icon">public</div>
                     </div>
 
-                    <div className="ambassador-wrapper">
+                    <div className=" ambassador-wrapper">
                         <div>
                             Here's how you can join the ranks of change-makers and inspire the world:
                             <br/>
@@ -448,7 +457,7 @@ export default function Index() {
                             heal our planet, one inspiring photo at a time.
                         </div>
                         <div>
-                            <p className="ambassador-paragraph">
+                            <p className=" ambassador-paragraph">
                                 LitterPic isn't just a platform for sharing inspirational photos – it's a movement. A
                                 movement of everyday heroes, united by a passion for our planet. And at the heart of
                                 this movement stand our LitterPic Ambassadors. These dedicated individuals are more
@@ -480,8 +489,8 @@ export default function Index() {
                                 outward. Together, we can make a difference.
                             </p>
                             <br/>
-                            <div className="home-bottom-carousel-section">
-                                <Carousel className="carousel" images={images}/>
+                            <div className=" home-bottom-carousel-section">
+                                <Carousel className=" carousel" images={images}/>
                             </div>
                         </div>
                         <br/>
@@ -494,26 +503,26 @@ export default function Index() {
                                 <img src='../images/litter_pic_logo.png' alt='LitterPic Logo'></img>
                             </div>
 
-                            <p><span className="index-inspire-change-text">Inspire Change</span> by capturing your
+                            <p><span className=" index-inspire-change-text">Inspire Change</span> by capturing your
                                 moments and inspire others with your story!</p>
                         </div>
                         <div className='qr-group'>
-                            <div className="qr-container">
-                                <img className="test" src='../images/large_ios_qr.jpg' alt='iOS app QR code'/>
+                            <div className=" qr-container">
+                                <img className=" test" src='../images/large_ios_qr.jpg' alt='iOS app QR code'/>
                                 <div className='qr-box'>
                                     <p> Scan the QR Code to download the app.</p>
-                                    <a target="_blank" href='https://apps.apple.com/us/app/litterpic/id6447652360'>
+                                    <a target=" _blank" href='https://apps.apple.com/us/app/litterpic/id6447652360'>
                                         <img className='store-link'
                                              src='../images/apple_store_badge.png'
                                              alt='apple store'/>
                                     </a>
                                 </div>
                             </div>
-                            <div className="qr-container">
-                                <img className="test" src='../images/large_android_qr.jpg' alt='Android app QR code'/>
+                            <div className=" qr-container">
+                                <img className=" test" src='../images/large_android_qr.jpg' alt='Android app QR code'/>
                                 <div className='qr-box'>
                                     <p> Scan the QR Code to download the app.</p>
-                                    <a target="_blank"
+                                    <a target=" _blank"
                                        href='https://play.google.com/store/apps/details?id=com.litterpic.app&pcampaignid=web_share'>
                                         <img className='store-link' src='../images/google_play_badge.png'
                                              alt='google play'/>
