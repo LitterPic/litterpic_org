@@ -10,7 +10,11 @@ import {
     doc,
     GeoPoint,
     getDoc,
+    getDocs,
+    getFirestore,
     runTransaction,
+    serverTimestamp,
+    setDoc,
     updateDoc
 } from 'firebase/firestore';
 import {getDownloadURL, uploadBytesResumable} from 'firebase/storage';
@@ -185,8 +189,8 @@ function CreatePost() {
         e.preventDefault();
 
         // Validation checks
-        if (postImages.length > 5) {
-            toast.error('Please select less images, you can upload up to 5 photos');
+        if (postImages.length > 10) {
+            toast.error('Please select less images, you can upload up to 10 photos');
             return;
         }
 
@@ -257,6 +261,8 @@ function CreatePost() {
             const currentUserTotalWeight = userDoc.data().totalWeight || 0;
             await updateDoc(userRef, {totalWeight: currentUserTotalWeight + postLitterWeightInPounds});
 
+            await notifyFollowersOfNewPost(postDocRef.id);
+
             const now = new Date();
 
             // Send email of new post creation
@@ -296,8 +302,7 @@ function CreatePost() {
             setSelectedAddress('');
             setLocationSelected(false);
 
-            // Invalidate the cache for the current page containing the deleted post
-            localStorage.removeItem(getAllPostsCacheKey(1)); // Clear cache for the first page of all posts
+            localStorage.removeItem(getAllPostsCacheKey(1));
             localStorage.removeItem(getMyPostsCacheKey(1, user.uid));
             localStorage.removeItem('totalWeight');
 
@@ -310,6 +315,65 @@ function CreatePost() {
             if (postDocRef) {
                 await deleteDoc(doc(db, 'userPosts', postDocRef.id));
             }
+        }
+    };
+
+    const notifyFollowersOfNewPost = async (postId) => {
+        try {
+            // Fetch the post object using the postId
+            const postDocRef = doc(db, 'userPosts', postId);
+            const postDoc = await getDoc(postDocRef);
+
+            if (!postDoc.exists()) {
+                console.error('Post not found for postId:', postId);
+                return;
+            }
+
+            const post = postDoc.data();
+
+            const postUserRef = post.postUser;
+            const postUserDoc = await getDoc(postUserRef);
+
+            if (!postUserDoc.exists()) {
+                console.error('User not found for postUser:', postUserRef.id);
+                return;
+            }
+
+            const postUserData = postUserDoc.data();
+            const postUserName = postUserData.display_name || postUserData.email;
+
+            // Fetch the followers of the post author
+            const followersSnapshot = await getDocs(collection(db, `followers/${postUserRef.id}/userFollowers`));
+            const followers = followersSnapshot.docs.map((doc) => doc.id);
+
+            // Send notifications to all followers
+            for (const followerId of followers) {
+                await sendNewPostNotification(followerId, postId, postUserName);
+            }
+        } catch (error) {
+            console.error("Error sending notifications to followers:", error);
+        }
+    };
+
+
+    const sendNewPostNotification = async (followerId, postId, postUserName) => {
+        const db = getFirestore();
+        const notificationMessage = `${postUserName} has posted a new story!`;
+
+        const notification = {
+            id: doc(collection(db, 'notifications')).id,
+            title: 'New Post Alert!',
+            message: notificationMessage,
+            timestamp: serverTimestamp(),
+            isRead: false,
+            postId: `userPosts/${postId}`,
+            userId: `users/${followerId}`,
+        };
+
+        try {
+            await setDoc(doc(db, `users/${followerId}/notifications/${notification.id}`), notification);
+        } catch (e) {
+            console.error("Failed to add notification:", e);
         }
     };
 

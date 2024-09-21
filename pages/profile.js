@@ -1,7 +1,7 @@
 import withAuth from '../components/withAuth';
 import {db, useAuth} from '../lib/firebase';
 import React, {useEffect, useState} from 'react';
-import {doc, getDoc} from "firebase/firestore";
+import {collection, doc, getDoc, getDocs} from "firebase/firestore";
 import {useRouter} from 'next/router';
 import Head from "next/head";
 import Script from "next/script";
@@ -18,6 +18,8 @@ const ProfilePage = () => {
     const [isAmbassador, setIsAmbassador] = useState(false);
     const [ambassadorDate, setAmbassadorDate] = useState(null)
     const [memberSince, setMemberSince] = useState(null);
+    const [followers, setFollowers] = useState(0);
+    const [following, setFollowing] = useState(0);
 
     const renderCollected = () => {
         if (userOrganization === 'Blue Ocean Society') {
@@ -63,6 +65,12 @@ const ProfilePage = () => {
                             const memberSinceDate = new Date(userData.created_time.seconds * 1000);
                             setMemberSince(memberSinceDate);
                         }
+
+                        const followersSnapshot = await getDocs(collection(db, `followers/${user.uid}/userFollowers`));
+                        setFollowers(followersSnapshot.size);
+
+                        const followingSnapshot = await getDocs(collection(db, `following/${user.uid}/userFollowing`));
+                        setFollowing(followingSnapshot.size);
                     }
                 } catch (error) {
                     console.error('Error retrieving user profile:', error);
@@ -175,6 +183,10 @@ const ProfilePage = () => {
                             <p className="profile-value">{userEmail}</p>
                             <p className="profile-item">Organization</p>
                             <p className="profile-value">{userOrganization}</p>
+                            <p className="profile-item">Followers</p>
+                            <p className="profile-value">{followers}</p>
+                            <p className="profile-item">Following</p>
+                            <p className="profile-value">{following}</p>
                             <p className="profile-item">Collected</p>
                             <p className="profile-value">{renderCollected()}</p>
                             <p className="profile-item">Bio</p>

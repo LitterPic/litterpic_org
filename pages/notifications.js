@@ -45,7 +45,7 @@ const NotificationsPage = () => {
         if (!notification.isRead) {
             await markAsRead(notification.id);
         }
-        router.push(`/stories?postId=${notification.postId}`);
+        await router.push(`/stories?postId=${notification.postId}`);
     };
 
     return (

@@ -12,12 +12,10 @@ import {
     getDocs,
     getFirestore,
     increment,
-    limit,
     orderBy,
     query,
     runTransaction,
     serverTimestamp,
-    setDoc,
     updateDoc,
     where
 } from 'firebase/firestore';
@@ -29,6 +27,7 @@ import Post from "../components/post";
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Script from "next/script";
+import NotificationSender from "../utils/notifictionSender";
 
 function Stories() {
     const router = useRouter();
@@ -266,114 +265,6 @@ function Stories() {
         return () => unsubscribe();
     }, []);
 
-
-    const createLikeNotification = async (postId, postAuthorId, user) => {
-
-        const titles = [
-            "Keep being awesome!",
-            "Every piece of litter counts!",
-            "You make the world cleaner!",
-            "Small acts, big impact!",
-            "Thank you for making a difference!",
-            "Your kindness is inspiring!",
-            "Together, we create change!",
-            "Keep up the great work!",
-            "You're a hero for our planet!",
-            "Changing the world!",
-            "Your actions speak volumes!"
-        ];
-
-        const randomTitle = titles[Math.floor(Math.random() * titles.length)];
-
-        const db = getFirestore();
-        const notificationMessage = `${user.displayName || user.email} liked your post.`;
-
-        // Check if a notification already exists for this user, post, and action
-        const notificationExists = async () => {
-            const notificationsQuery = query(
-                collection(db, `users/${postAuthorId}/notifications`),
-                where('postId', '==', `userPosts/${postId}`),
-                where('userId', '==', `users/${user.uid}`),
-                where('message', '==', notificationMessage),
-                limit(1)
-            );
-
-            const querySnapshot = await getDocs(notificationsQuery);
-            return !querySnapshot.empty;
-        };
-
-        if (await notificationExists()) {
-            return;
-        }
-
-        const notification = {
-            id: doc(collection(db, 'notifications')).id,
-            title: randomTitle,
-            message: notificationMessage,
-            timestamp: serverTimestamp(),
-            isRead: false,
-            postId: `userPosts/${postId}`,
-            userId: `users/${postAuthorId}`,
-        };
-
-        try {
-            await setDoc(doc(db, `users/${postAuthorId}/notifications/${notification.id}`), notification);
-        } catch (e) {
-            console.error("Failed to add notification:", e);
-        }
-    };
-
-    const createLikeNotificationForOthers = async (postId, likingUser, postAuthorId) => {
-        try {
-            // Get the list of user IDs who liked the post
-            const likedUserIds = await getUsersWhoLikedPost(postId);
-
-            const db = getFirestore();
-
-            // Prepare the notification message
-            const message = `${likingUser.displayName || likingUser.email} liked a post you liked.`;
-
-            // Function to check if a notification already exists
-            const notificationExists = async (uid) => {
-                const notificationsQuery = query(
-                    collection(db, `users/${uid}/notifications`),
-                    where('postId', '==', `userPosts/${postId}`),
-                    where('userId', '==', `users/${likingUser.uid}`),
-                    where('message', '==', message),
-                    limit(1)
-                );
-
-                const querySnapshot = await getDocs(notificationsQuery);
-                return !querySnapshot.empty;
-            };
-
-            // Send a notification to each user who liked the post, except the current user and the post author
-            const notificationPromises = likedUserIds
-                .filter(uid => uid !== likingUser.uid && uid !== postAuthorId)
-                .map(async (uid) => {
-                    if (await notificationExists(uid)) {
-                        return;
-                    }
-
-                    const notification = {
-                        id: doc(collection(db, 'notifications')).id,
-                        title: "Someone liked a post you liked!",
-                        message: message,
-                        timestamp: serverTimestamp(),
-                        isRead: false,
-                        postId: `userPosts/${postId}`,
-                        userId: `users/${uid}`,
-                    };
-
-                    return setDoc(doc(db, `users/${uid}/notifications/${notification.id}`), notification);
-                });
-
-            await Promise.all(notificationPromises);
-        } catch (e) {
-            console.error("Failed to send notifications to other users:", e);
-        }
-    };
-
     const handleToggleLike = async (postId) => {
         if (!user) {
             router.push('/login');
@@ -389,35 +280,25 @@ function Stories() {
                 return;
             }
 
-            if (!postToUpdate.user || !postToUpdate.user.uid) {
-                console.error('User or user.uid is undefined for post:', postToUpdate);
-                return;
-            }
-
             const didLike = await toggleLike(postToUpdate, posts);
 
             let updatedPosts = [...posts];
-
-            const db = getFirestore();
-            const userDocRef = doc(db, 'users', user.uid);
 
             if (didLike) {
                 if (!Array.isArray(updatedPosts[postIndex].likeIds)) {
                     updatedPosts[postIndex].likeIds = [];
                 }
 
-                updatedPosts[postIndex].likeIds.push(userDocRef);
+                updatedPosts[postIndex].likeIds.push(user.uid);
                 updatedPosts[postIndex].likes += 1;
                 updatedPosts[postIndex].currentUserLiked = true;
 
-                // Create and send notification
-                const postAuthorId = postToUpdate.user.uid; // Access the user ID correctly
-                await createLikeNotification(postId, postAuthorId, user);
-
-                await createLikeNotificationForOthers(postId, user, postAuthorId);
+                const postAuthorId = postToUpdate.user.uid;
+                await NotificationSender.createLikeNotification(postId, postAuthorId, user);
+                await NotificationSender.createLikeNotificationForOthers(postId, user, postAuthorId);
 
             } else {
-                updatedPosts[postIndex].likeIds = updatedPosts[postIndex].likeIds.filter(ref => ref.path !== userDocRef.path);
+                updatedPosts[postIndex].likeIds = updatedPosts[postIndex].likeIds.filter(ref => ref !== user.uid);
                 updatedPosts[postIndex].likes -= 1;
                 updatedPosts[postIndex].currentUserLiked = false;
             }
@@ -482,136 +363,14 @@ function Stories() {
                 // Create and send notification to the post author
                 const postToUpdate = updatedPosts[postIndex];
                 const postAuthorId = postToUpdate.user.uid;
-                await createCommentNotification(postId, postAuthorId, user, comment);
-                await createCommentNotificationForOthers(postId, user, comment, postAuthorId);
+                await NotificationSender.createCommentNotification(postId, postAuthorId, user, comment);
+                await NotificationSender.createCommentNotificationForOthers(postId, user, comment, postAuthorId);
 
             } catch (error) {
                 console.error('Error adding comment:', error);
             }
         }
     };
-
-    const createCommentNotification = async (postId, postAuthorId, user, comment) => {
-
-        // Create a preview of the comment to include in the notification
-        const words = comment.split(' ');
-        const commentPreview = words.length > 10 ? words.slice(0, 10).join(' ') + '...' : comment;
-
-        const titles = [
-            "A New Comment on Your Post!",
-            "Fresh Insights on Your Story!",
-            "New Thoughts Shared on Your Post!",
-            "Your Post Sparked a New Comment!",
-            "A Thoughtful Response Awaits!",
-            "Someone's Been Inspired by You!",
-            "New Reflection on Your Post!",
-            "Your Post Just Received a New Voice!",
-            "You're a hero for our planet!",
-            "A New Comment Lights Up Your Post!",
-            "Your Story Continues to Inspire!"
-        ];
-
-        const randomTitle = titles[Math.floor(Math.random() * titles.length)];
-
-        const db = getFirestore();
-        const notificationMessage = `${user.displayName || user.email} commented: "${commentPreview}"`;
-
-        // Check if a notification already exists for this user, post, and action
-        const notificationExists = async () => {
-            const notificationsQuery = query(
-                collection(db, `users/${postAuthorId}/notifications`),
-                where('postId', '==', `userPosts/${postId}`),
-                where('userId', '==', `users/${user.uid}`),
-                where('message', '==', notificationMessage),
-                limit(1)
-            );
-
-            const querySnapshot = await getDocs(notificationsQuery);
-            return !querySnapshot.empty;
-        };
-
-        if (await notificationExists()) {
-            return;
-        }
-
-        const notification = {
-            id: doc(collection(db, 'notifications')).id,
-            title: randomTitle,
-            message: notificationMessage,
-            timestamp: serverTimestamp(),
-            isRead: false,
-            postId: `userPosts/${postId}`,
-            userId: `users/${postAuthorId}`,
-        };
-
-        try {
-            await setDoc(doc(db, `users/${postAuthorId}/notifications/${notification.id}`), notification);
-        } catch (e) {
-            console.error("Failed to add notification:", e);
-        }
-    };
-
-    const createCommentNotificationForOthers = async (postId, commentingUser, commentText, postAuthorId) => {
-        try {
-            const db = getFirestore();
-
-            // Get the list of users who have commented on the post
-            const q = query(collection(db, 'storyComments'), where('postAssociation', '==', doc(db, 'userPosts', postId)));
-            const querySnapshot = await getDocs(q);
-
-            const commenterIds = new Set();
-            querySnapshot.forEach((doc) => {
-                const commentUser = doc.data().commentUser;
-                if (commentUser && commentUser._key && commentUser._key.path && commentUser._key.path.segments) {
-                    const userIdFromComment = commentUser._key.path.segments[6];
-                    commenterIds.add(userIdFromComment);
-                }
-            });
-
-            // Prepare the notification message
-            const message = `${commentingUser.displayName || commentingUser.email} also commented on a post you commented on: "${commentText}"`;
-
-            // Function to check if a notification already exists
-            const notificationExists = async (uid) => {
-                const notificationsQuery = query(
-                    collection(db, `users/${uid}/notifications`),
-                    where('postId', '==', `userPosts/${postId}`),
-                    where('userId', '==', `users/${commentingUser.uid}`),
-                    where('message', '==', message),
-                    limit(1)
-                );
-
-                const querySnapshot = await getDocs(notificationsQuery);
-                return !querySnapshot.empty;
-            };
-
-            // Send a notification to each user who commented on the post, except the current user and the post author
-            const notificationPromises = Array.from(commenterIds)
-                .filter(uid => uid !== commentingUser.uid && uid !== postAuthorId)
-                .map(async (uid) => {
-                    if (await notificationExists(uid)) {
-                        return;
-                    }
-
-                    const notification = {
-                        id: doc(collection(db, 'notifications')).id,
-                        title: "Someone commented on a post you commented on!",
-                        message: message,
-                        timestamp: serverTimestamp(),
-                        isRead: false,
-                        postId: `userPosts/${postId}`,
-                        userId: `users/${uid}`,
-                    };
-
-                    return setDoc(doc(db, `users/${uid}/notifications/${notification.id}`), notification);
-                });
-
-            await Promise.all(notificationPromises);
-        } catch (e) {
-            console.error("Failed to send notifications to other users:", e);
-        }
-    };
-
 
     function isDescendant(parent, child) {
         let node = child;
@@ -679,8 +438,7 @@ function Stories() {
             }
         }
 
-        setUsers(prevUsers => ({...prevUsers, ...usersData}));
-
+        setUsers((prevUsers) => ({...prevUsers, ...usersData}))
         localStorage.setItem('users', JSON.stringify(usersData));
     };
 
@@ -712,6 +470,7 @@ function Stories() {
 
         return () => clearTimeout(timeoutId);
     }, [postId, posts]);
+
     const fetchAndSetPosts = async (page, userId = null) => {
         setIsLoading(true);
 
@@ -739,17 +498,55 @@ function Stories() {
             let fetchedPosts = [];
 
             for await (const post of fetchPosts(page, postsPerPage, userId)) {
-                const userIds = [post.user?._key?.path?.segments?.[6]].filter(Boolean);
+                // Validate the structure of the post and post.user before proceeding
+                if (!post || !post.user || !post.id) {
+                    console.error("Post, Post User, or Post ID is missing:", post);
+                    continue; // Skip invalid posts
+                }
 
-                await fetchAndSetUsers(userIds);
+                // Safeguard access to post.user._key?.path?.segments?.[6] for "all users" scenario
+                const userKeyPathSegments = post.user._key?.path?.segments;
+                const userIdFromPost = Array.isArray(userKeyPathSegments) && userKeyPathSegments.length > 6
+                    ? userKeyPathSegments[6]
+                    : post.user.uid || null;  // If _key doesn't exist, fallback to direct post.user.uid
+
+                if (!userIdFromPost) {
+                    console.error("User ID from post is missing:", post);
+                    continue; // Skip posts with invalid user structure
+                }
+
+                // Ensure user data is fetched and set
+                await fetchAndSetUsers([userIdFromPost]);
 
                 // Handle likes for this post
                 const likedUserIds = await getUsersWhoLikedPost(post.id);
-                const currentUserLiked = user && Array.isArray(likedUserIds) ? likedUserIds.includes(user.uid) : false;
+                const currentUserLiked = user && Array.isArray(likedUserIds)
+                    ? likedUserIds.includes(user.uid)
+                    : false;
 
-                // Update the post with likes information
+                // Fetch user data if not already fetched
+                if (!users[userIdFromPost]) {
+                    const userDocRef = doc(getFirestore(), 'users', userIdFromPost);
+                    const userDoc = await getDoc(userDocRef);
+                    if (userDoc.exists()) {
+                        setUsers(prevUsers => ({...prevUsers, [userIdFromPost]: userDoc.data()}));
+                    } else {
+                        console.error(`User data missing for userId: ${userIdFromPost}`);
+                        continue; // Skip posts where user data can't be fetched
+                    }
+                }
+
+                const postUserData = users[userIdFromPost] || {}; // Fallback if no user data found
+
+                // Update the post with user and like information
                 const updatedPost = {
-                    ...post, likedUsers: likedUserIds, currentUserLiked
+                    ...post,
+                    user: {
+                        uid: userIdFromPost,
+                        ...postUserData,
+                    },
+                    likedUsers: likedUserIds,
+                    currentUserLiked,
                 };
 
                 fetchedPosts.push(updatedPost);
@@ -1006,8 +803,7 @@ function Stories() {
                         to preserve its beauty for future generations. Your story is unique and valuable – share it with
                         us and inspire others! Together, we can make a significant difference and create a cleaner,
                         greener, and more sustainable world. Join LitterPic today and let your journey of positive
-                        change
-                        begin!
+                        change begin!
                     </div>
 
                     <div className="search-and-filter">
@@ -1105,13 +901,12 @@ function Stories() {
                                         </div>
 
 
-                                        <Post post={post}/>
+                                        <Post post={post} currentUser={user} auth={auth}/>
                                         <div className="likes-comments">
-                    <span
-                        className="likes-comments-likes-field"
-                        onMouseEnter={() => handleLikeHover(post)}
-                        onMouseLeave={() => handleLeaveHover(post)}
-                    >
+
+                    <span className="likes-comments-likes-field" onMouseEnter={() => handleLikeHover(post)}
+                          onMouseLeave={() => handleLeaveHover(post)}>
+
                         <i
                             className={`material-icons ${currentUserLiked ? 'filled-heart' : 'empty-heart'}`}
                             onClick={() => handleToggleLike(post.id)}

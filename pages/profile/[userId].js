@@ -1,14 +1,14 @@
-// pages/[userId].js
-
-import {db} from '../../lib/firebase';
-import {useEffect, useState} from 'react';
-import {doc, getDoc} from 'firebase/firestore';
+import {db, useAuth} from '../../lib/firebase';
+import React, {useEffect, useState} from 'react';
+import {collection, doc, getDoc, getDocs} from 'firebase/firestore';
 import {useRouter} from 'next/router';
 import Head from 'next/head';
+import NotificationSender from "../../utils/notifictionSender";
 
 const UserProfilePage = () => {
     const router = useRouter();
-    const [user, setUser] = useState(null);
+    const {user: currentUser} = useAuth();
+    const [profileUser, setProfileUser] = useState(null);
     const [userPhoto, setUserPhoto] = useState('');
     const [userBio, setUserBio] = useState('');
     const [displayName, setDisplayName] = useState('');
@@ -17,6 +17,11 @@ const UserProfilePage = () => {
     const [memberSince, setMemberSince] = useState(null);
     const [isAmbassador, setIsAmbassador] = useState(false);
     const [ambassadorDate, setAmbassadorDate] = useState(null);
+    const [isFollowing, setIsFollowing] = useState(false);
+    const [followers, setFollowers] = useState(0);
+    const [following, setFollowing] = useState(0);
+
+    const userId = router.query.userId; // The profile user ID
 
     const renderCollected = () => {
         if (userOrganization === 'Blue Ocean Society') {
@@ -33,42 +38,48 @@ const UserProfilePage = () => {
     useEffect(() => {
         const fetchUserProfile = async () => {
             try {
-                const userId = router.query.userId;
+                if (!userId) return;
+
                 const userRef = doc(db, `users/${userId}`);
                 const userDoc = await getDoc(userRef);
 
                 if (userDoc.exists()) {
                     const userData = userDoc.data();
-                    setUser(userData);
+                    setProfileUser(userData);
                     setUserPhoto(userData.photo_url);
                     setUserBio(userData.bio);
                     setDisplayName(userData.display_name);
                     setMemberSince(userData.created_time.toDate().toLocaleDateString());
                     setUserOrganization(userData.organization === "Litterpicking Organization" ? "Independent" : userData.organization);
+                    setLitterCollected((userData.totalWeight || 0).toFixed());
 
-                    const totalWeight = userData.totalWeight || 0;
-                    setLitterCollected(totalWeight.toFixed());
-
-                    // Check if the user is an ambassador
-                    const ambassadorStatus = userData.ambassador || false;
-                    setIsAmbassador(ambassadorStatus);
-
-                    if (ambassadorStatus) {
-                        const timestamp = userData.ambassador_date;
-                        const date = timestamp.toDate();
-                        setAmbassadorDate(date);
+                    if (userData.ambassador) {
+                        setIsAmbassador(true);
+                        setAmbassadorDate(userData.ambassador_date.toDate());
                     }
+
+                    if (currentUser) {
+                        const followRef = doc(db, 'followers', userId, 'userFollowers', currentUser.uid);
+                        const followDoc = await getDoc(followRef);
+                        setIsFollowing(followDoc.exists());
+                    }
+
+                    const followersSnapshot = await getDocs(collection(db, `followers/${userId}/userFollowers`));
+                    setFollowers(followersSnapshot.size);
+
+                    const followingSnapshot = await getDocs(collection(db, `following/${userId}/userFollowing`));
+                    setFollowing(followingSnapshot.size);
                 }
             } catch (error) {
                 console.error('Error retrieving user profile:', error);
             }
         };
 
-
         fetchUserProfile();
-    }, [router.query.userId]);
+    }, [router.query.userId, currentUser]);
 
-    if (!user) {
+
+    if (!profileUser) {
         return <p>Loading...</p>;
     }
 
@@ -76,31 +87,8 @@ const UserProfilePage = () => {
         <div>
             <Head>
                 <title>Member Profile - LitterPic</title>
-                <meta name="description"
-                      content="View LitterPic member profiles."/>
-                <meta name="robots" content="index, follow"/>
-                <link rel="icon" href="/favicon.ico"/>
+                <meta name="description" content="View LitterPic member profiles."/>
                 <link rel="canonical" href="https://litterpic.org/"/>
-
-                <meta property="og:title" content="Member Profile - LitterPic"/>
-                <meta property="og:description"
-                      content="View LitterPic member profiles."/>
-                <meta property="og:image"
-                      content="https://firebasestorage.googleapis.com/v0/b/litterpic-fa0bb.appspot.com/o/users%2F9mumST0cjAOdZydKAYMd1HLfwTr2%2Fuploads%2FprofilePhoto?alt=media&token=a5e0151c-ad9f-4e38-87b4-973f3ffed784"/>
-                <meta property="og:url" content="https://litterpic.org/"/>
-                <meta property="og:type" content="website"/>
-
-                <meta name="twitter:card" content="summary_large_image"/>
-                <meta name="twitter:title" content="Member Profile - LitterPic"/>
-                <meta name="twitter:description"
-                      content="View LitterPic member profiles."/>
-                <meta name="twitter:image"
-                      content="https://firebasestorage.googleapis.com/v0/b/litterpic-fa0bb.appspot.com/o/users%2F9mumST0cjAOdZydKAYMd1HLfwTr2%2Fuploads%2FprofilePhoto?alt=media&token=a5e0151c-ad9f-4e38-87b4-973f3ffed784"/>
-                <meta name="twitter:url" content="https://litterpic.org/"/>
-
-                <meta name="keywords"
-                      content="profile, member profile, LitterPic profile, social media profile"/>
-                <meta name="author" content="LitterPic Inc."/>
             </Head>
 
             <div className="banner">
@@ -110,14 +98,7 @@ const UserProfilePage = () => {
             <div className="page">
                 <div className="content">
                     <h1 className="heading-text profile-heading">{displayName}'s Profile</h1>
-                    {isAmbassador && (
-                        <div className="ambassador">
-                            <i className="material-icons ambassador-icon">public</i>
-                            <p className="ambassador-text">{`LitterPic Ambassador since
-                                ${new Date(ambassadorDate).toLocaleDateString()}`}</p>
-                        </div>
 
-                    )}
                     <div className="profile-page-picture">
                         {userPhoto ? (
                             <img src={userPhoto} alt="Profile Picture"/>
@@ -129,12 +110,43 @@ const UserProfilePage = () => {
                         )}
                     </div>
 
+                    {isAmbassador && (
+                        <div className="ambassador">
+                            <i className="material-icons ambassador-icon">public</i>
+                            <p className="ambassador-text">{`LitterPic Ambassador since ${new Date(ambassadorDate).toLocaleDateString()}`}</p>
+                        </div>
+                    )}
+
+                    {/* Follow/Unfollow Button */}
+                    {currentUser && currentUser.uid !== userId && (
+                        <div>
+                            <button
+                                onClick={async () => {
+                                    if (isFollowing) {
+                                        await NotificationSender.handleUnfollow(currentUser, userId);
+                                        setIsFollowing(false);
+                                    } else {
+                                        await NotificationSender.handleFollow(currentUser, userId);
+                                        setIsFollowing(true);
+                                    }
+                                }}
+                                className={`follow-button ${isFollowing ? 'following' : ''}`}
+                            >
+                                {isFollowing ? `Unfollow ${displayName}` : `Follow ${displayName}`}
+                            </button>
+                        </div>
+                    )}
+
                     <div className="member-profile-content">
                         <div className="member-profile-info">
                             <p className="member-profile-item">Name</p>
                             <p className="member-profile-value">{displayName || 'None Set'}</p>
                             <p className="member-profile-item">Organization Affiliation</p>
                             <p className="member-profile-value">{userOrganization || 'None'}</p>
+                            <p className="member-profile-item">Followers</p>
+                            <p className="member-profile-value">{followers}</p>
+                            <p className="member-profile-item">Following</p>
+                            <p className="member-profile-value">{following}</p>
                             <p className="member-profile-item">Litter Collected</p>
                             <p className="member-profile-value">{renderCollected()}</p>
                             <p className="member-profile-item">Biography</p>
