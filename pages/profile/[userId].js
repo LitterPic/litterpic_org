@@ -132,7 +132,7 @@ const UserProfilePage = () => {
                                 }}
                                 className={`follow-button ${isFollowing ? 'following' : ''}`}
                             >
-                                {isFollowing ? `Unfollow ${displayName}` : `Follow ${displayName}`}
+                                {isFollowing ? `Following ${displayName}` : `Follow ${displayName}`}
                             </button>
                         </div>
                     )}

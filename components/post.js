@@ -136,7 +136,7 @@ function Post({post, currentUser}) {
                         }}
                         className={`follow-button ${isFollowing ? 'following' : ''}`}
                     >
-                        {isFollowing ? `Unfollow ${userName}` : `Follow ${userName}`}
+                        {isFollowing ? `Following ${userName}` : `Follow ${userName}`}
                     </button>
                 )}
 
