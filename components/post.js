@@ -18,13 +18,25 @@ function Post({post, currentUser}) {
     useEffect(() => {
         const fetchUserInfo = async () => {
             if (post && post.user) {
-                const {display_name, photo_url} = post.user || {};
-                setUserName(display_name || ' ');
+                let { display_name, photo_url, uid } = post.user;
+
+                if (!display_name || !photo_url) {
+                    const userRef = doc(firestore, 'users', uid);
+                    const userSnap = await getDoc(userRef);
+
+                    if (userSnap.exists()) {
+                        const userData = userSnap.data();
+                        display_name = display_name || userData.display_name;
+                        photo_url = photo_url || userData.photo_url;
+                    }
+                }
+
+                setUserName(display_name || 'Anonymous');
                 setUserPhoto(
                     photo_url || 'https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg'
                 );
             } else {
-                setUserName(' ');
+                setUserName('Anonymous');
                 setUserPhoto('https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg');
             }
         };
