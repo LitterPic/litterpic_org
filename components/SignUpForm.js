@@ -1,8 +1,8 @@
 import {useState} from 'react';
 import {createUserWithEmailAndPassword, sendEmailVerification, signOut} from 'firebase/auth';
-import {auth} from '../lib/firebase'
+import {auth} from '../lib/firebase';
 import {useRouter} from 'next/router';
-import {doc, getFirestore, serverTimestamp, setDoc} from 'firebase/firestore';
+import {doc, getFirestore, serverTimestamp, setDoc, getDocs, collection, query, where} from 'firebase/firestore';
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {subscribeUserToMail} from '../utils/subscribeUserToMail';
@@ -31,6 +31,29 @@ export default function SignInForm() {
         setPasswordMatch(password === confirmPass && password !== '' && confirmPass !== '');
     }
 
+    // Function to check if display name already exists in Firestore
+    const checkDisplayNameExists = async (displayName) => {
+        const db = getFirestore();
+        const usersRef = collection(db, 'users');
+
+        // Fetch all potential matching documents and filter client-side for case-insensitive match
+        const querySnapshot = await getDocs(usersRef);
+
+        // Perform case-insensitive comparison on the client side
+        return querySnapshot.docs.some(doc => doc.data().display_name.toLowerCase() === displayName.toLowerCase());
+    };
+
+    const generateUniqueDisplayName = async (baseName) => {
+        let displayName = baseName;
+        let counter = 1;
+        // Check if the base name exists, and if so, append numbers until a unique name is found
+        while (await checkDisplayNameExists(displayName)) {
+            displayName = `${baseName}${counter}`;
+            counter++;
+        }
+        return displayName;
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -50,11 +73,12 @@ export default function SignInForm() {
 
             await sendEmailVerification(user);
 
-            if (!auth.currentUser) {
+            // Get base display name from the email
+            let displayName = user.email.split('@')[0];
 
-            } else {
+            // Generate a unique display name
+            displayName = await generateUniqueDisplayName(displayName);
 
-            }
             // Create the user document in Firestore
             const db = getFirestore();
             const userDocRef = doc(db, 'users', user.uid);
@@ -67,6 +91,7 @@ export default function SignInForm() {
                 photo_url: "https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg",
                 organization: "Independent",
                 first_login: true,
+                display_name: displayName, // Use the unique display name
             }, {merge: true});
 
             // Add user to SendGrid subscription list
@@ -75,7 +100,7 @@ export default function SignInForm() {
             // Log out the user immediately after account creation
             await signOut(auth);
 
-            // Redirect the user to the stories page
+            // Redirect the user to the verification email page
             await router.push('/verify-email-page');
         } catch (error) {
             if (error.code === 'auth/email-already-in-use') {
@@ -87,7 +112,6 @@ export default function SignInForm() {
             }
         }
     };
-
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);

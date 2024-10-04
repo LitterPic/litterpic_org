@@ -177,7 +177,7 @@ const ProfilePage = () => {
 
                     <div className="profile-content">
                         <div className="profile-info">
-                            <p className="profile-item">Name</p>
+                            <p className="profile-item">Display Name</p>
                             <p className="profile-value">{displayName || 'None Set'}</p>
                             <p className="profile-item">Email</p>
                             <p className="profile-value">{userEmail}</p>

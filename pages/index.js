@@ -313,31 +313,26 @@ export default function Index() {
             <div className="page">
                 <div className="content">
                     <div className="announcement-bar">
-                        <p>Join the Movement to Keep Our Planet Clean and Win in September!</p>
-                        <p>We are thrilled to announce that our wonderful friends at <a
-                            href="https://dyme.earth" target="_blank">Dyme.earth</a> and <a href="https://amatos.com"
-                                                                                            target="_blank">Amato's</a> have
-                            each generously donated a gift card to LitterPic! These special rewards are up for grabs for
-                            two of our amazing volunteers dedicated to making the world a cleaner place. Picture
-                            yourself enjoying a travel voucher from Dyme.earth or a delicious meal from Amato's as a
+                        <p>Join the Movement to Keep Our Planet Clean and Win in October!</p>
+                        <p>We are thrilled to announce that <a href="https://amatos.com" target="_blank">Amato's</a> has
+                            once again generously donated a gift card to LitterPic to reward a volunteer for their efforts!
+                            This special reward is up for grabs for a volunteer dedicated to making the world a cleaner place.
+                            Picture yourself enjoying a delicious meal from Amato's as a
                             thank-you for your efforts in improving our environment!</p>
 
                         <p></p>
 
-                        <p>Here' s the scoop: At the end of September, LitterPic will randomly select two lucky
-                            volunteers
-                            from all the posts shared. All you need to do is head out, pick up some litter, and post
+                        <p>Here' s the scoop: At the end of October, LitterPic will randomly select a lucky
+                            volunteer from all the posts shared. All you need to do is head out, pick up some litter, and post
                             your good deed on LitterPic through our app or website. It' s that simple! You’ll be in
-                            the
-                            running to win one of these fantastic gift cards (limited to the United States only).
+                            the running to win a fantastic gift cards (limited to the United States only).
 
                             So, gear up and let's make a difference—one piece of litter at a time! 🌎💚
                         </p>
 
                         <p></p>
                         <p>Not only will you feel fantastic for making a difference, but you also have a chance to
-                            win a
-                            great gift card! Do Good, Feel Good!</p>
+                            win a great gift card! Do Good, Feel Good!</p>
                     </div>
                     <br></br>
                     <h1 className=" heading-text">Inspire Change</h1>
