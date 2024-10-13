@@ -121,7 +121,7 @@ const ProfilePage = () => {
 
             {/* Banner */}
             <div className="banner w-full h-40 mb-8">
-                <img src="/images/user_posts_banner.webp" alt="Banner Image" className="w-full h-full object-cover rounded-lg shadow-md" />
+                <img src="/images/user_posts_banner.webp" alt="Banner Image" className="w-full h-full max-h-60 object-cover rounded-lg shadow-md" />
             </div>
 
             {/* Profile Main Section */}
