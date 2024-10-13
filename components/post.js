@@ -18,9 +18,9 @@ function Post({post, currentUser}) {
     useEffect(() => {
         const fetchUserInfo = async () => {
             if (post && post.user) {
-                let { display_name, photo_url, uid } = post.user;
+                let { display_name, photo_url, uid, ambassador, ambassador_date } = post.user;
 
-                if (!display_name || !photo_url) {
+                if (!display_name || !photo_url || ambassador === undefined || !ambassador_date) {
                     const userRef = doc(firestore, 'users', uid);
                     const userSnap = await getDoc(userRef);
 
@@ -28,6 +28,8 @@ function Post({post, currentUser}) {
                         const userData = userSnap.data();
                         display_name = display_name || userData.display_name;
                         photo_url = photo_url || userData.photo_url;
+                        ambassador = ambassador === undefined ? userData.ambassador : ambassador;
+                        ambassador_date = ambassador_date || userData.ambassador_date;
                     }
                 }
 
@@ -35,22 +37,21 @@ function Post({post, currentUser}) {
                 setUserPhoto(
                     photo_url || 'https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg'
                 );
+                setIsAmbassador(ambassador || false);
+
+                if (ambassador && ambassador_date) {
+                    const timestamp = ambassador_date;
+                    const date = new Date(
+                        timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000
+                    );
+                    setAmbassadorDate(date);
+                }
             } else {
                 setUserName('Anonymous');
                 setUserPhoto('https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg');
+                setIsAmbassador(false);
             }
         };
-
-        const ambassadorStatus = post.user?.ambassador || false;
-        setIsAmbassador(ambassadorStatus);
-
-        if (ambassadorStatus && post.user.ambassador_date) {
-            const timestamp = post.user.ambassador_date;
-            const date = new Date(
-                timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000
-            );
-            setAmbassadorDate(date);
-        }
 
         fetchUserInfo();
 
