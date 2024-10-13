@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="Fixed dropdown arrow next to profile picture to open up menu">
+    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="Fixed edit profile, updated edit profile style">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/edit-profile.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/edit-profile/[id].js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/edit-profile/[id].js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/edit-profile/[id].js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,7 +99,7 @@
       <workItem from="1724832302500" duration="2099000" />
       <workItem from="1726351553915" duration="20767000" />
       <workItem from="1726936113787" duration="11708000" />
-      <workItem from="1728736097373" duration="11699000" />
+      <workItem from="1728736097373" duration="12438000" />
     </task>
     <task id="LOCAL-00001" summary="Update banner for July">
       <option name="closed" value="true" />
@@ -341,7 +341,15 @@
       <option name="project" value="LOCAL" />
       <updated>1728848378516</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="Fixed edit profile, updated edit profile style">
+      <option name="closed" value="true" />
+      <created>1728849189138</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1728849189138</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -370,7 +378,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Updated for when there are no notifications" />
     <MESSAGE value="Retrieve posts faster, fix styling" />
     <MESSAGE value="Added random 'like' notification titles" />
     <MESSAGE value="Fixed notification page style for mobile" />
@@ -395,6 +402,7 @@
     <MESSAGE value="View followers/following, style update, links in comments work" />
     <MESSAGE value="Tailwind fix for production" />
     <MESSAGE value="Fixed dropdown arrow next to profile picture to open up menu" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed dropdown arrow next to profile picture to open up menu" />
+    <MESSAGE value="Fixed edit profile, updated edit profile style" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed edit profile, updated edit profile style" />
   </component>
 </project>

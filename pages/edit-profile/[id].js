@@ -168,7 +168,7 @@ export default function EditProfilePage() {
                 <img
                     src="/images/editProfileBanner.jpeg"
                     alt="Banner Image"
-                    className="w-full h-full object-cover rounded-lg shadow-md"
+                    className="w-full h-full max-h-60 object-cover rounded-lg shadow-md"
                 />
             </div>
 
