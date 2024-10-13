@@ -38,6 +38,9 @@
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css");
 @import url("https://fonts.googleapis.com/css2?family=Rubik:wght@500&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 .about-us-content {
   margin-bottom: 1rem;
 }
@@ -6353,9 +6356,6 @@ textarea.event-description-input {
     padding: 5px 5px;
   }
 }
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 * {
   margin: 0;
   padding: 0;

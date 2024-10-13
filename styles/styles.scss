@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 // Component and Page Styles
 @import 'about';
 @import 'announcement';
@@ -32,9 +36,6 @@
 //Poppins (replaces DIN)
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
 // styles.css
 * {
