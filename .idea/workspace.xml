@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="Fixed edit profile, updated edit profile style">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/post.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/post.js" afterDir="false" />
+    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="Fixed ambassador label in user stories">
+      <change beforePath="$PROJECT_DIR$/components/logobar.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/logobar.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,7 +98,7 @@
       <workItem from="1724832302500" duration="2099000" />
       <workItem from="1726351553915" duration="20767000" />
       <workItem from="1726936113787" duration="11708000" />
-      <workItem from="1728736097373" duration="12843000" />
+      <workItem from="1728736097373" duration="13012000" />
     </task>
     <task id="LOCAL-00001" summary="Update banner for July">
       <option name="closed" value="true" />
@@ -365,7 +364,15 @@
       <option name="project" value="LOCAL" />
       <updated>1728849910222</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="Fixed ambassador label in user stories">
+      <option name="closed" value="true" />
+      <created>1728850286582</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1728850286582</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -394,7 +401,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Retrieve posts faster, fix styling" />
     <MESSAGE value="Added random 'like' notification titles" />
     <MESSAGE value="Fixed notification page style for mobile" />
     <MESSAGE value="Updated notification push messages" />
@@ -419,6 +425,7 @@
     <MESSAGE value="Tailwind fix for production" />
     <MESSAGE value="Fixed dropdown arrow next to profile picture to open up menu" />
     <MESSAGE value="Fixed edit profile, updated edit profile style" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed edit profile, updated edit profile style" />
+    <MESSAGE value="Fixed ambassador label in user stories" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed ambassador label in user stories" />
   </component>
 </project>

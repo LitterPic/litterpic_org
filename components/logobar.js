@@ -135,7 +135,7 @@ const Logobar = () => {
                                 <img src={userPhoto} alt={displayName} className="profile-picture"/>
                             )}
                             <i
-                                className={`material-icons dropdown-icon ${showDropdown ? 'rotate-up' : 'rotate-down'}`}
+                                className={`material-icons dropdown-icon ${showDropdown ? 'rotate-down' : 'rotate-up'}`}
                                 onClick={toggleDropdown}
                             >
                                 arrow_drop_down
