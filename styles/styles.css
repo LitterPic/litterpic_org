@@ -1206,6 +1206,7 @@ p .index-inspire-change-text {
 .dropdown-icon.rotate-down {
   transform: rotate(360deg);
   transition: transform 0.3s ease;
+  cursor: pointer;
 }
 
 .social-icons {
@@ -1405,7 +1406,6 @@ p .index-inspire-change-text {
 
 .profile-picture-wrapper {
   align-items: center;
-  cursor: pointer;
   display: flex;
   position: relative;
 }
@@ -2649,7 +2649,6 @@ p .index-inspire-change-text {
 
 .profile-picture-wrapper {
   align-items: center;
-  cursor: pointer;
   display: flex;
   position: relative;
 }

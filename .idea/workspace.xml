@@ -4,12 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="View followers/following, style update, links in comments work">
+    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="Tailwind fix for production">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/logobar.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/logobar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/icons.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/icons.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/logobar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/logobar.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/styles/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/styles/styles.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/styles/styles.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/styles/styles.css.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/styles.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/styles.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tailwind.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/tailwind.config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,7 +101,7 @@
       <workItem from="1724832302500" duration="2099000" />
       <workItem from="1726351553915" duration="20767000" />
       <workItem from="1726936113787" duration="11708000" />
-      <workItem from="1728736097373" duration="9886000" />
+      <workItem from="1728736097373" duration="10879000" />
     </task>
     <task id="LOCAL-00001" summary="Update banner for July">
       <option name="closed" value="true" />
@@ -326,7 +327,15 @@
       <option name="project" value="LOCAL" />
       <updated>1728844553490</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="Tailwind fix for production">
+      <option name="closed" value="true" />
+      <created>1728845264834</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1728845264834</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -355,7 +364,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Updated local storage to update on new post or post delete" />
     <MESSAGE value="Added notifications" />
     <MESSAGE value="Updated for when there are no notifications" />
     <MESSAGE value="Retrieve posts faster, fix styling" />
@@ -380,6 +388,7 @@
     <MESSAGE value="October message and user updates" />
     <MESSAGE value="Update initial number of posts loaded" />
     <MESSAGE value="View followers/following, style update, links in comments work" />
-    <option name="LAST_COMMIT_MESSAGE" value="View followers/following, style update, links in comments work" />
+    <MESSAGE value="Tailwind fix for production" />
+    <option name="LAST_COMMIT_MESSAGE" value="Tailwind fix for production" />
   </component>
 </project>

@@ -130,7 +130,7 @@ const Logobar = () => {
                     <CustomButton href="/donate">Click to Donate</CustomButton>
 
                     <div className="profile-dropdown">
-                        <div className="profile-picture-wrapper" onClick={toggleDropdown}>
+                        <div className="profile-picture-wrapper">
                             {isUserDataLoaded && (
                                 <img src={userPhoto} alt={displayName} className="profile-picture"/>
                             )}

@@ -84,6 +84,7 @@
 .dropdown-icon.rotate-down {
   transform: rotate(360deg);
   transition: transform 0.3s ease;
+  cursor: pointer;
 }
 
 .social-icons {
