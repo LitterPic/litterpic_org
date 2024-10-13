@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="View followers/following, style update, links in comments work" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="DEV" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitToolBoxStore">
+    <option name="projectConfigVersion" value="5" />
+    <option name="recentBranches">
+      <RecentBranches>
+        <option name="branchesForRepo">
+          <list>
+            <RecentBranchesForRepo>
+              <option name="branches">
+                <list>
+                  <RecentBranch>
+                    <option name="branchName" value="master" />
+                    <option name="lastUsedInstant" value="1720742844" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="DEV" />
+                    <option name="lastUsedInstant" value="1718150587" />
+                  </RecentBranch>
+                </list>
+              </option>
+              <option name="repositoryRootUrl" value="file://$PROJECT_DIR$" />
+            </RecentBranchesForRepo>
+          </list>
+        </option>
+      </RecentBranches>
+    </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="2iZFS9dZTS6kFyMxYQX6NwSO7Cs" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Applications/WebStorm.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/pages/user" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="centered announcement" />
+      <created>1719690196368</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1719690196368</updated>
+      <workItem from="1719690199079" duration="1275000" />
+      <workItem from="1720799003205" duration="667000" />
+      <workItem from="1722019214623" duration="4477000" />
+      <workItem from="1723157584675" duration="50042000" />
+      <workItem from="1724618021229" duration="598000" />
+      <workItem from="1724832302500" duration="2099000" />
+      <workItem from="1726351553915" duration="20767000" />
+      <workItem from="1726936113787" duration="11708000" />
+      <workItem from="1728736097373" duration="9176000" />
+    </task>
+    <task id="LOCAL-00001" summary="Update banner for July">
+      <option name="closed" value="true" />
+      <created>1720743330408</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1720743330408</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Fixed UI crash from likes on missing user">
+      <option name="closed" value="true" />
+      <created>1722020420359</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1722020420359</updated>
+    </task>
+    <task id="LOCAL-00003" summary="August banner update">
+      <option name="closed" value="true" />
+      <created>1722625818311</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1722625818313</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Update to store uploads by user.id">
+      <option name="closed" value="true" />
+      <created>1723158734010</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1723158734010</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Updated local storage to update on new post or post delete">
+      <option name="closed" value="true" />
+      <created>1723319707219</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1723319707219</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Added notifications">
+      <option name="closed" value="true" />
+      <created>1723590790102</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1723590790102</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Updated for when there are no notifications">
+      <option name="closed" value="true" />
+      <created>1723591206446</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1723591206446</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Retrieve posts faster, fix styling">
+      <option name="closed" value="true" />
+      <created>1723680368657</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1723680368657</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Added random 'like' notification titles">
+      <option name="closed" value="true" />
+      <created>1723681427520</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1723681427520</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Fixed notification page style for mobile">
+      <option name="closed" value="true" />
+      <created>1723764581013</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1723764581013</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Updated notification push messages">
+      <option name="closed" value="true" />
+      <created>1723764675263</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1723764675263</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Updated notification mobile style">
+      <option name="closed" value="true" />
+      <created>1723765521609</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1723765521609</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Updated notification style">
+      <option name="closed" value="true" />
+      <created>1723794495567</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1723794495567</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Added random titles for comment push notifications">
+      <option name="closed" value="true" />
+      <created>1723795089940</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1723795089940</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Added follow up notifications when other people comment or like a post you commented or liked">
+      <option name="closed" value="true" />
+      <created>1723837761926</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1723837761926</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Dont send duplicate notifications to post author">
+      <option name="closed" value="true" />
+      <created>1723977970161</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1723977970161</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Clean-up notifications - remove duplicates">
+      <option name="closed" value="true" />
+      <created>1723979065083</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1723979065083</updated>
+    </task>
+    <task id="LOCAL-00018" summary="fix compilation error with img tag">
+      <option name="closed" value="true" />
+      <created>1723979308041</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1723979308041</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Added missing alt tag for img">
+      <option name="closed" value="true" />
+      <created>1723979368443</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1723979368443</updated>
+    </task>
+    <task id="LOCAL-00020" summary="September raffle update">
+      <option name="closed" value="true" />
+      <created>1725404941527</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1725404941527</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Added follow user notifications style">
+      <option name="closed" value="true" />
+      <created>1726952825744</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1726952825744</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Fixed user info display">
+      <option name="closed" value="true" />
+      <created>1727541410373</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1727541410373</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Updated unfollow to following">
+      <option name="closed" value="true" />
+      <created>1727541626979</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1727541626979</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Added (manual) function to update display_name from first part of email if display_name is missing">
+      <option name="closed" value="true" />
+      <created>1727548110408</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1727548110408</updated>
+    </task>
+    <task id="LOCAL-00025" summary="October message and user updates">
+      <option name="closed" value="true" />
+      <created>1728068660957</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1728068660957</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Update initial number of posts loaded">
+      <option name="closed" value="true" />
+      <created>1728493946920</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1728493946920</updated>
+    </task>
+    <task id="LOCAL-00027" summary="View followers/following, style update, links in comments work">
+      <option name="closed" value="true" />
+      <created>1728843875628</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1728843875628</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+        <option value="Space.CommitStatus" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Updated local storage to update on new post or post delete" />
+    <MESSAGE value="Added notifications" />
+    <MESSAGE value="Updated for when there are no notifications" />
+    <MESSAGE value="Retrieve posts faster, fix styling" />
+    <MESSAGE value="Added random 'like' notification titles" />
+    <MESSAGE value="Fixed notification page style for mobile" />
+    <MESSAGE value="Updated notification push messages" />
+    <MESSAGE value="Updated notification mobile style" />
+    <MESSAGE value="Updated notification style" />
+    <MESSAGE value="Added random titles for comment push notifications" />
+    <MESSAGE value="Added follow up notifications when other people comment or like a post you commented or liked" />
+    <MESSAGE value="Notifications update" />
+    <MESSAGE value="Dont send duplicate notifications to post author" />
+    <MESSAGE value="Clean-up notifications - remove duplicates" />
+    <MESSAGE value="fix compilation error with img tag" />
+    <MESSAGE value="Added missing alt tag for img" />
+    <MESSAGE value="September raffle update" />
+    <MESSAGE value="Added follow user notifications" />
+    <MESSAGE value="Added follow user notifications style" />
+    <MESSAGE value="Fixed user info display" />
+    <MESSAGE value="Updated unfollow to following" />
+    <MESSAGE value="Added (manual) function to update display_name from first part of email if display_name is missing" />
+    <MESSAGE value="October message and user updates" />
+    <MESSAGE value="Update initial number of posts loaded" />
+    <MESSAGE value="View followers/following, style update, links in comments work" />
+    <option name="LAST_COMMIT_MESSAGE" value="View followers/following, style update, links in comments work" />
+  </component>
+</project>
