@@ -3686,6 +3686,11 @@ a.post-user-name {
   margin-top: 1rem;
 }
 
+.comment-text-content a {
+  color: blue;
+  text-decoration: underline;
+}
+
 @media (max-width: 76.5rem) {
   .profile-image {
     justify-content: center;
@@ -5454,6 +5459,11 @@ a.post-user-name {
   margin-top: 1rem;
 }
 
+.comment-text-content a {
+  color: blue;
+  text-decoration: underline;
+}
+
 @media (max-width: 76.5rem) {
   .profile-image {
     justify-content: center;
@@ -6343,6 +6353,9 @@ textarea.event-description-input {
     padding: 5px 5px;
   }
 }
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 * {
   margin: 0;
   padding: 0;

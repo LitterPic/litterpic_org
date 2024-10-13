@@ -84,81 +84,100 @@ const UserProfilePage = () => {
     }
 
     return (
-        <div>
+        <div className="min-h-screen bg-gradient-to-b from-green-950 to-green-500 py-10 px-4">
             <Head>
                 <title>Member Profile - LitterPic</title>
-                <meta name="description" content="View LitterPic member profiles."/>
-                <link rel="canonical" href="https://litterpic.org/"/>
+                <meta name="description" content="View LitterPic member profiles." />
+                <link rel="canonical" href="https://litterpic.org/" />
             </Head>
 
-            <div className="banner">
-                <img src="/images/user_posts_banner.webp" alt="Banner Image"/>
+            {/* Banner */}
+            <div className="w-full h-40 mb-8">
+                <img src="/images/user_posts_banner.webp" alt="Banner Image" className="w-full h-full object-cover rounded-lg shadow-md" />
             </div>
 
-            <div className="page">
-                <div className="content">
-                    <h1 className="heading-text profile-heading">{displayName}'s Profile</h1>
-
-                    <div className="profile-page-picture">
-                        {userPhoto ? (
-                            <img src={userPhoto} alt="Profile Picture"/>
-                        ) : (
+            {/* Profile Main Section */}
+            <div className="max-w-4xl mx-auto bg-white rounded-3xl shadow-xl p-8">
+                {/* Profile Header Section */}
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-6">
+                        <div className="w-28 h-28 rounded-full overflow-hidden">
                             <img
-                                src="https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg"
-                                alt="Default Profile Picture"
+                                src={userPhoto || "https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg"}
+                                alt="Profile Picture"
+                                className="object-cover w-full h-full"
                             />
-                        )}
-                    </div>
-
-                    {isAmbassador && (
-                        <div className="ambassador">
-                            <i className="material-icons ambassador-icon">public</i>
-                            <p className="ambassador-text">{`LitterPic Ambassador since ${new Date(ambassadorDate).toLocaleDateString()}`}</p>
                         </div>
-                    )}
-
-                    {/* Follow/Unfollow Button */}
-                    {currentUser && currentUser.uid !== userId && (
                         <div>
-                            <button
-                                onClick={async () => {
-                                    if (isFollowing) {
-                                        await NotificationSender.handleUnfollow(currentUser, userId);
-                                        setIsFollowing(false);
-                                    } else {
-                                        await NotificationSender.handleFollow(currentUser, userId);
-                                        setIsFollowing(true);
-                                    }
-                                }}
-                                className={`follow-button ${isFollowing ? 'following' : ''}`}
-                            >
-                                {isFollowing ? `Following ${displayName}` : `Follow ${displayName}`}
-                            </button>
+                            <h1 className="text-3xl font-bold text-gray-800">{displayName || "No Display Name"}</h1>
+                            <p className="text-sm text-gray-500 mt-1">{userOrganization || "Independent"}</p>
                         </div>
+                    </div>
+                    {currentUser && currentUser.uid !== userId && (
+                        <button
+                            onClick={async () => {
+                                if (isFollowing) {
+                                    await NotificationSender.handleUnfollow(currentUser, userId);
+                                    setIsFollowing(false);
+                                } else {
+                                    await NotificationSender.handleFollow(currentUser, userId);
+                                    setIsFollowing(true);
+                                }
+                            }}
+                            className={`mt-4 px-6 py-2 text-sm font-medium text-white bg-gradient-to-r from-green-950 to-green-600 rounded-lg shadow-md transition duration-300 ${
+                                isFollowing ? 'hover:from-green-600 hover:to-green-950' : ''
+                            }`}
+                        >
+                            {isFollowing ? `Following ${displayName}` : `Follow ${displayName}`}
+                        </button>
                     )}
+                </div>
 
-                    <div className="member-profile-content">
-                        <div className="member-profile-info">
-                            <p className="member-profile-item">Name</p>
-                            <p className="member-profile-value">{displayName || 'None Set'}</p>
-                            <p className="member-profile-item">Organization Affiliation</p>
-                            <p className="member-profile-value">{userOrganization || 'None'}</p>
-                            <p className="member-profile-item">Followers</p>
-                            <p className="member-profile-value">{followers}</p>
-                            <p className="member-profile-item">Following</p>
-                            <p className="member-profile-value">{following}</p>
-                            <p className="member-profile-item">Litter Collected</p>
-                            <p className="member-profile-value">{renderCollected()}</p>
-                            <p className="member-profile-item">Biography</p>
-                            <p className="member-profile-value">{userBio}</p>
-                            <p className="member-profile-item">LitterPic Member Since</p>
-                            <p className="member-profile-value">{memberSince}</p>
-                        </div>
+                {/* Profile Stats (Followers & Following) */}
+                <div className="flex gap-10 mt-8">
+                    <div
+                        onClick={() => router.push(`/user/${userId}/followers`)}
+                        className="cursor-pointer text-center hover:bg-green-100 hover:shadow-lg rounded-md transition duration-200 ease-in-out"
+                    >
+                        <p className="text-2xl font-bold text-green-950 hover:text-green-700 transition duration-200 ease-in-out">{followers}</p>
+                        <p className="text-gray-600 hover:text-gray-800 transition duration-200 ease-in-out">Followers</p>
+                    </div>
+                    <div
+                        onClick={() => router.push(`/user/${userId}/following`)}
+                        className="cursor-pointer text-center hover:bg-green-100 hover:shadow-lg rounded-md transition duration-200 ease-in-out"
+                    >
+                        <p className="text-2xl font-bold text-green-950 hover:text-green-700 transition duration-200 ease-in-out">{following}</p>
+                        <p className="text-gray-600 hover:text-gray-800 transition duration-200 ease-in-out">Following</p>
+                    </div>
+                </div>
+
+                {/* Ambassador Section */}
+                {isAmbassador && (
+                    <div className="bg-gradient-to-r from-green-950 to-green-700 text-white rounded-lg shadow-md p-4 mt-8 flex items-center gap-3">
+                        <i className="material-icons text-xl">public</i>
+                        <p className="text-md">{`LitterPic Ambassador since ${new Date(ambassadorDate).toLocaleDateString()}`}</p>
+                    </div>
+                )}
+
+                {/* Profile Info Section */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
+                    <div>
+                        <p className="text-sm text-gray-500 font-semibold">Litter Collected</p>
+                        <p className="text-md text-gray-800">{renderCollected()}</p>
+                    </div>
+                    <div className="md:col-span-2">
+                        <p className="text-sm text-gray-500 font-semibold">Biography</p>
+                        <p className="text-md text-gray-800">{userBio || "No Bio Available"}</p>
+                    </div>
+                    <div>
+                        <p className="text-sm text-gray-500 font-semibold">Member Since</p>
+                        <p className="text-md text-gray-800">{memberSince || "Not Available"}</p>
                     </div>
                 </div>
             </div>
         </div>
     );
+
 };
 
 export default UserProfilePage;

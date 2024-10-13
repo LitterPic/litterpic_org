@@ -15,8 +15,7 @@ module.exports = {
             },
         ];
     },
+    images: {
+        domains: ['firebasestorage.googleapis.com', 't4.ftcdn.net'],
+    },
 };
-
-
-
-

@@ -20,7 +20,7 @@ const LikePopup = ({likedUsers}) => {
                                     className="user-photo"
                                     onLoad={() => setImageLoaded(true)}
                                 />
-                                <Link href={`/profile/${user?.uid || '#'}`} className="user-name">
+                                <Link href={`/user/${user?.uid || '#'}`} className="user-name">
                                     {user?.display_name || "Volunteer"}
                                 </Link>
                             </div>

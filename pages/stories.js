@@ -28,6 +28,8 @@ import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Script from "next/script";
 import NotificationSender from "../utils/notifictionSender";
+import DOMPurify from 'dompurify';
+import parseUrls from '../utils/parseUrls';
 
 function Stories() {
     const router = useRouter();
@@ -933,58 +935,79 @@ function Stories() {
                     </span>
                                         </div>
                                         <div className="story-comment-input">
-                                            {openCommentInput === post.id && (<>
-                                                {postComments[post.id] && postComments[post.id].map((commentData) => {
-                                                    const commentUserId = commentData?.commentUser?._key?.path?.segments?.[6] || null;
-                                                    const commentUser = users?.[commentUserId] || {};
-                                                    const commentTime = commentData.timePosted && typeof commentData.timePosted.toDate === 'function' ? commentData.timePosted.toDate() : null;
-                                                    return (<div
-                                                        key={commentData.id}
-                                                        className="comment"
-                                                    >
-                                                        {commentUser && (<>
-                                                            <img
-                                                                src={commentUser.photo_url}
-                                                                alt={commentUser.display_name}
-                                                                onError={(e) => e.target.src = 'https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg'}
-                                                            />
-                                                            <div className="comment-text">
-                                                        <span className="comment-user">
-                                                            {commentUser.display_name}
-                                                        </span>
-                                                                {commentTime && commentTime instanceof Date && (
-                                                                    <span className="comment-time">
-                                                                    {commentTime && commentTime.toLocaleString('en-US', {
-                                                                        year: 'numeric',
-                                                                        month: '2-digit',
-                                                                        day: '2-digit',
-                                                                        hour: '2-digit',
-                                                                        minute: '2-digit',
-                                                                    })}
-                                                                </span>)}
-                                                                <div className="comment-text-content">
-                                                                    {commentData.comment}
-                                                                </div>
-                                                            </div>
-                                                        </>)}
-                                                    </div>);
+                                            {openCommentInput === post.id && (
+                                                <>
+                                                    {postComments[post.id] &&
+                                                        postComments[post.id].map((commentData) => {
+                                                            const commentUserId =
+                                                                commentData?.commentUser?._key?.path?.segments?.[6] || null;
+                                                            const commentUser = users?.[commentUserId] || {};
+                                                            const commentTime =
+                                                                commentData.timePosted &&
+                                                                typeof commentData.timePosted.toDate === 'function'
+                                                                    ? commentData.timePosted.toDate()
+                                                                    : null;
+
+                                                            // Convert comment text with URLs to clickable links
+                                                            const sanitizedCommentHTML = DOMPurify.sanitize(parseUrls(commentData.comment));
+
+                                                            return (
+                                                                <div key={commentData.id} className="comment">
+                                                                    {commentUser && (
+                                                                        <>
+                                                                            <img
+                                                                                src={commentUser.photo_url}
+                                                                                alt={commentUser.display_name}
+                                                                                onError={(e) =>
+                                                                                    (e.target.src =
+                                                                                        'https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg')
+                                                                                }
+                                                                            />
+                                                                            <div className="comment-text">
+                                        <span className="comment-user">
+                                            {commentUser.display_name}
+                                        </span>
+                                                                                {commentTime && commentTime instanceof Date && (
+                                                                                    <span className="comment-time">
+                                                {commentTime.toLocaleString('en-US', {
+                                                    year: 'numeric',
+                                                    month: '2-digit',
+                                                    day: '2-digit',
+                                                    hour: '2-digit',
+                                                    minute: '2-digit',
                                                 })}
-                                                <textarea
-                                                    className="comment-text-input"
-                                                    ref={openCommentInput === post.id ? commentInputRef : null}
-                                                    value={comments[post.id] || ''}
-                                                    onChange={(event) => handleCommentChange(event, post.id)}
-                                                    placeholder="Add a comment..."
-                                                />
-                                                <button
-                                                    className="comment-submit-button"
-                                                    ref={submitButtonRef}
-                                                    onClick={() => submitComment(post.id)}
-                                                    disabled={!comments[post.id] || comments[post.id].trim().length < 1}
-                                                >
-                                                    Submit
-                                                </button>
-                                            </>)}
+                                            </span>
+                                                                                )}
+                                                                                {/* Render the comment text with sanitized HTML */}
+                                                                                <div
+                                                                                    className="comment-text-content"
+                                                                                    dangerouslySetInnerHTML={{
+                                                                                        __html: sanitizedCommentHTML,
+                                                                                    }}
+                                                                                />
+                                                                            </div>
+                                                                        </>
+                                                                    )}
+                                                                </div>
+                                                            );
+                                                        })}
+                                                    <textarea
+                                                        className="comment-text-input"
+                                                        ref={openCommentInput === post.id ? commentInputRef : null}
+                                                        value={comments[post.id] || ''}
+                                                        onChange={(event) => handleCommentChange(event, post.id)}
+                                                        placeholder="Add a comment..."
+                                                    />
+                                                    <button
+                                                        className="comment-submit-button"
+                                                        ref={submitButtonRef}
+                                                        onClick={() => submitComment(post.id)}
+                                                        disabled={!comments[post.id] || comments[post.id].trim().length < 1}
+                                                    >
+                                                        Submit
+                                                    </button>
+                                                </>
+                                            )}
                                         </div>
                                     </div>
                                 );
