@@ -12,7 +12,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function EditProfilePage() {
-    const { user } = useAuth();
+    const { user, loading } = useAuth();  // Added loading check
     const [displayName, setDisplayName] = useState('');
     const [bio, setBio] = useState('');
     const [organization, setOrganization] = useState('Independent');
@@ -20,12 +20,21 @@ export default function EditProfilePage() {
     const [photoUrl, setPhotoUrl] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
+    const { id } = router.query;  // Get id from route parameter
     const [showNewOrganizationInput, setShowNewOrganizationInput] = useState(false);
     const [newOrganization, setNewOrganization] = useState('');
 
+    // Redirect if not logged in and loading is finished
+    useEffect(() => {
+        if (!loading && !user) {
+            router.push('/');
+        }
+    }, [loading, user, router]);
+
+    // Fetch user data and organizations when user and id are available
     useEffect(() => {
         const fetchUserDataAndOrganizations = async () => {
-            if (user) {
+            if (user && id && user.uid === id) {  // Ensure user ID matches the route parameter
                 const usersCollectionRef = collection(db, 'users');
                 const userQuery = query(usersCollectionRef, where('uid', '==', user.uid));
                 const userDocs = await getDocs(userQuery);
@@ -52,7 +61,7 @@ export default function EditProfilePage() {
         };
 
         fetchUserDataAndOrganizations();
-    }, [user]);
+    }, [user, id]);
 
     const sortOrganizations = (a, b) => a.localeCompare(b);
 
@@ -61,10 +70,15 @@ export default function EditProfilePage() {
         const querySnapshot = await getDocs(usersRef);
 
         // Perform case-insensitive comparison on the client side
-        return querySnapshot.docs.some(
-            (doc) =>
-                doc.data().display_name.toLowerCase() === displayName.toLowerCase() && doc.data().uid !== user.uid
-        );
+        return querySnapshot.docs.some((doc) => {
+            const existingDisplayName = doc.data().display_name;
+            // Check if display_name exists and is a string, then compare
+            return (
+                typeof existingDisplayName === 'string' &&
+                existingDisplayName.toLowerCase() === displayName.toLowerCase() &&
+                doc.data().uid !== user.uid
+            );
+        });
     };
 
     const handleAddOrganization = async (e) => {
@@ -152,6 +166,14 @@ export default function EditProfilePage() {
             setIsLoading(false);
         }
     };
+
+    if (loading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+                <p>Loading...</p>
+            </div>
+        );
+    }
 
     if (!user) {
         return (

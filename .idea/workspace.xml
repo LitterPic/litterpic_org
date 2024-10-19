@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="Fixed ambassador label in user stories">
-      <change beforePath="$PROJECT_DIR$/components/logobar.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/logobar.js" afterDir="false" />
+    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="Flipped menu arrow next to profile picture in logo-bar">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/SignInForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/SignInForm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/edit-profile/[id].js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/edit-profile/[id].js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,7 +100,8 @@
       <workItem from="1724832302500" duration="2099000" />
       <workItem from="1726351553915" duration="20767000" />
       <workItem from="1726936113787" duration="11708000" />
-      <workItem from="1728736097373" duration="13012000" />
+      <workItem from="1728736097373" duration="13730000" />
+      <workItem from="1729336663549" duration="778000" />
     </task>
     <task id="LOCAL-00001" summary="Update banner for July">
       <option name="closed" value="true" />
@@ -372,7 +375,15 @@
       <option name="project" value="LOCAL" />
       <updated>1728850286582</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="Flipped menu arrow next to profile picture in logo-bar">
+      <option name="closed" value="true" />
+      <created>1728850550627</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1728850550627</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -401,7 +412,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added random 'like' notification titles" />
     <MESSAGE value="Fixed notification page style for mobile" />
     <MESSAGE value="Updated notification push messages" />
     <MESSAGE value="Updated notification mobile style" />
@@ -426,6 +436,7 @@
     <MESSAGE value="Fixed dropdown arrow next to profile picture to open up menu" />
     <MESSAGE value="Fixed edit profile, updated edit profile style" />
     <MESSAGE value="Fixed ambassador label in user stories" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed ambassador label in user stories" />
+    <MESSAGE value="Flipped menu arrow next to profile picture in logo-bar" />
+    <option name="LAST_COMMIT_MESSAGE" value="Flipped menu arrow next to profile picture in logo-bar" />
   </component>
 </project>

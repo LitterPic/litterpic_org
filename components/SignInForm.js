@@ -32,7 +32,7 @@ export default function SignInForm() {
         const userDoc = await getDoc(userRef);
 
         if (userDoc.exists() && userDoc.data().first_login) {
-            router.push('/edit-profile')
+            router.push(`/edit-profile/${userId}`)
                 .catch(error => {
                     console.error("Error redirecting to edit-profile:", error);
                 });
