@@ -479,7 +479,7 @@ function Stories() {
         const isMyPosts = userId != null;
         const cacheKey = isMyPosts ? getMyPostsCacheKey(page, userId) : getAllPostsCacheKey(page);
         const cachedData = localStorage.getItem(cacheKey);
-        const postsPerPage = 15;
+        const postsPerPage = 6;
 
         // Current time
         const now = new Date().getTime();

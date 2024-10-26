@@ -4,12 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="Fixed first time login logic">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/post.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/post.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/stories.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/stories.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/styles/styles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/styles.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/styles/styles.css.map" afterDir="false" />
+    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="Support links in post description">
+      <change beforePath="$PROJECT_DIR$/pages/stories.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/stories.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,7 +99,7 @@
       <workItem from="1726351553915" duration="20767000" />
       <workItem from="1726936113787" duration="11708000" />
       <workItem from="1728736097373" duration="13730000" />
-      <workItem from="1729336663549" duration="2549000" />
+      <workItem from="1729336663549" duration="2738000" />
     </task>
     <task id="LOCAL-00001" summary="Update banner for July">
       <option name="closed" value="true" />
@@ -393,7 +389,15 @@
       <option name="project" value="LOCAL" />
       <updated>1729337499574</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="Support links in post description">
+      <option name="closed" value="true" />
+      <created>1729972043567</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1729972043567</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -422,7 +426,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Updated notification push messages" />
     <MESSAGE value="Updated notification mobile style" />
     <MESSAGE value="Updated notification style" />
     <MESSAGE value="Added random titles for comment push notifications" />
@@ -447,6 +450,7 @@
     <MESSAGE value="Fixed ambassador label in user stories" />
     <MESSAGE value="Flipped menu arrow next to profile picture in logo-bar" />
     <MESSAGE value="Fixed first time login logic" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed first time login logic" />
+    <MESSAGE value="Support links in post description" />
+    <option name="LAST_COMMIT_MESSAGE" value="Support links in post description" />
   </component>
 </project>
