@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="Flipped menu arrow next to profile picture in logo-bar">
+    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="Fixed first time login logic">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/SignInForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/SignInForm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/edit-profile/[id].js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/edit-profile/[id].js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/post.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/post.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/stories.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/stories.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/styles/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/styles.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/styles/styles.css.map" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,7 +103,7 @@
       <workItem from="1726351553915" duration="20767000" />
       <workItem from="1726936113787" duration="11708000" />
       <workItem from="1728736097373" duration="13730000" />
-      <workItem from="1729336663549" duration="778000" />
+      <workItem from="1729336663549" duration="2549000" />
     </task>
     <task id="LOCAL-00001" summary="Update banner for July">
       <option name="closed" value="true" />
@@ -383,7 +385,15 @@
       <option name="project" value="LOCAL" />
       <updated>1728850550627</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="Fixed first time login logic">
+      <option name="closed" value="true" />
+      <created>1729337499574</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1729337499574</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -412,7 +422,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Fixed notification page style for mobile" />
     <MESSAGE value="Updated notification push messages" />
     <MESSAGE value="Updated notification mobile style" />
     <MESSAGE value="Updated notification style" />
@@ -437,6 +446,7 @@
     <MESSAGE value="Fixed edit profile, updated edit profile style" />
     <MESSAGE value="Fixed ambassador label in user stories" />
     <MESSAGE value="Flipped menu arrow next to profile picture in logo-bar" />
-    <option name="LAST_COMMIT_MESSAGE" value="Flipped menu arrow next to profile picture in logo-bar" />
+    <MESSAGE value="Fixed first time login logic" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed first time login logic" />
   </component>
 </project>

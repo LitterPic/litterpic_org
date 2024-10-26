@@ -116,6 +116,11 @@ function Post({post, currentUser}) {
         return date.toLocaleString('en-US', options);
     };
 
+    const makeLinksClickable = (text) => {
+        const urlRegex = /(https?:\/\/[^\s]+)/g;
+        return text.replace(urlRegex, (url) => `<br /><a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a><br />`);
+    };
+
     return (
         <div className="fetch-post">
             <div className="post-username-location">
@@ -186,7 +191,10 @@ function Post({post, currentUser}) {
                     </span>
                 )}
             </div>
-            <div className="post-description">{post.description ? post.description : 'No description available'}</div>
+            <div
+                className="post-description"
+                dangerouslySetInnerHTML={{ __html: post.description ? makeLinksClickable(post.description) : 'No description available' }}
+            ></div>
         </div>
     );
 }

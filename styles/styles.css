@@ -3507,6 +3507,13 @@ a.post-user-name {
   width: auto;
   word-break: break-word;
 }
+.post-description a {
+  color: #007bff;
+  text-decoration: underline;
+}
+.post-description a:hover {
+  color: #0056b3;
+}
 
 .recent-location-select {
   font-size: 0.9rem;
@@ -5279,6 +5286,13 @@ a.post-user-name {
   padding: 1rem 2rem;
   width: auto;
   word-break: break-word;
+}
+.post-description a {
+  color: #007bff;
+  text-decoration: underline;
+}
+.post-description a:hover {
+  color: #0056b3;
 }
 
 .recent-location-select {
