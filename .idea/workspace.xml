@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="Support links in post description">
-      <change beforePath="$PROJECT_DIR$/pages/stories.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/stories.js" afterDir="false" />
+    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="Lessen number of posts to 6 on initial load">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,7 +100,7 @@
       <workItem from="1726351553915" duration="20767000" />
       <workItem from="1726936113787" duration="11708000" />
       <workItem from="1728736097373" duration="13730000" />
-      <workItem from="1729336663549" duration="2738000" />
+      <workItem from="1729336663549" duration="3709000" />
     </task>
     <task id="LOCAL-00001" summary="Update banner for July">
       <option name="closed" value="true" />
@@ -397,7 +398,15 @@
       <option name="project" value="LOCAL" />
       <updated>1729972043567</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="Lessen number of posts to 6 on initial load">
+      <option name="closed" value="true" />
+      <created>1729972217022</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1729972217022</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -426,7 +435,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Updated notification mobile style" />
     <MESSAGE value="Updated notification style" />
     <MESSAGE value="Added random titles for comment push notifications" />
     <MESSAGE value="Added follow up notifications when other people comment or like a post you commented or liked" />
@@ -451,6 +459,7 @@
     <MESSAGE value="Flipped menu arrow next to profile picture in logo-bar" />
     <MESSAGE value="Fixed first time login logic" />
     <MESSAGE value="Support links in post description" />
-    <option name="LAST_COMMIT_MESSAGE" value="Support links in post description" />
+    <MESSAGE value="Lessen number of posts to 6 on initial load" />
+    <option name="LAST_COMMIT_MESSAGE" value="Lessen number of posts to 6 on initial load" />
   </component>
 </project>

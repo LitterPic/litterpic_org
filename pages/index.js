@@ -313,19 +313,29 @@ export default function Index() {
             <div className="page">
                 <div className="content">
                     <div className="announcement-bar">
-                        <p>Join the Movement to Keep Our Planet Clean and Win in October!</p>
-                        <p>We are thrilled to announce that <a href="https://amatos.com" target="_blank">Amato's</a> has
-                            once again generously donated a gift card to LitterPic to reward a volunteer for their efforts!
-                            This special reward is up for grabs for a volunteer dedicated to making the world a cleaner place.
-                            Picture yourself enjoying a delicious meal from Amato's as a
-                            thank-you for your efforts in improving our environment!</p>
+                        <p>Join the Movement to Keep Our Planet Clean and Win in November!</p>
+                        <p>
+                            🎉 Exciting news! Our friends at{" "}
+                            <a
+                                href="https://amatos.com"
+                                target="_blank"
+                                style={{ color: "blue", textDecoration: "underline" }}
+                            >
+                                Amato's
+                            </a>{" "}
+                            have done it again, donating a gift card for a tasty reward to celebrate one
+                            lucky LitterPic volunteer! 🌎✨ Imagine savoring a delicious meal from Amato's
+                            as a personal "thank you" for helping make the world a cleaner, greener
+                            place. So, gear up, dive in, and you could be our next superstar rewarded for
+                            your amazing efforts!
+                        </p>
 
                         <p></p>
 
-                        <p>Here' s the scoop: At the end of October, LitterPic will randomly select a lucky
+                        <p>Here' s the scoop: At the end of November, LitterPic will randomly select a lucky
                             volunteer from all the posts shared. All you need to do is head out, pick up some litter, and post
                             your good deed on LitterPic through our app or website. It' s that simple! You’ll be in
-                            the running to win a fantastic gift cards (limited to the United States only).
+                            the running to win a fantastic gift card (limited to the United States only).
 
                             So, gear up and let's make a difference—one piece of litter at a time! 🌎💚
                         </p>
