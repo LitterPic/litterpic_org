@@ -167,30 +167,47 @@ function CreatePost() {
 
     const uploadImages = async (postDocRef) => {
         setUploading(true);
-        const imageUrls = [];
 
-        for (let i = 0; i < postImages.length; i++) {
-            const file = postImages[i];
+        const uploadSingleImage = async (file) => {
+            const storageRef = ref(storage, `userPosts/${user.uid}/${file.name}`);
+            const task = uploadBytesResumable(storageRef, file);
 
-            try {
-                const storageRef = ref(storage, `userPosts/${user.uid}/${file.name}`);
-                const task = uploadBytesResumable(storageRef, file);
-                const snapshot = await task;
+            for (let attempt = 1; attempt <= 3; attempt++) {
+                try {
+                    const snapshot = await task;
+                    const imageUrl = await getDownloadURL(snapshot.ref);
 
-                const imageUrl = await getDownloadURL(snapshot.ref);
-                imageUrls.push(imageUrl);
+                    // Immediately update the post document with the uploaded image URL
+                    await updateDoc(postDocRef, {
+                        postPhotos: arrayUnion(imageUrl),
+                    });
 
-                // Immediately update the post document with the uploaded image
-                await updateDoc(postDocRef, {
-                    postPhotos: arrayUnion(imageUrl),
-                });
-            } catch (error) {
-                console.error(`Error uploading image ${file.name}:`, error);
-                toast.error(`Failed to upload image: ${file.name}`);
+                    return imageUrl;
+                } catch (error) {
+                    console.error(`Attempt ${attempt} failed for image ${file.name}:`, error);
+
+                    // Wait 1 second before retrying
+                    if (attempt < 3) {
+                        await new Promise((resolve) => setTimeout(resolve, 1000));
+                    } else {
+                        toast.error(`Failed to upload image ${file.name} after 3 attempts.`);
+                    }
+                }
             }
-        }
+
+            return null; // Failed after all attempts
+        };
+
+        const promises = Array.from(postImages).map((file) => uploadSingleImage(file));
+
+        const imageUrls = (await Promise.all(promises)).filter(Boolean); // Remove failed uploads
 
         setUploading(false);
+
+        if (imageUrls.length < postImages.length) {
+            toast.warn('Some images failed to upload.');
+        }
+
         return imageUrls;
     };
 
