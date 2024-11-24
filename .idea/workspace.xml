@@ -4,9 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="Lessen number of posts to 6 on initial load">
+    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="November banner message update">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/createpost.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/createpost.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/stories.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/stories.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/styles/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/styles.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/styles/styles.css.map" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,7 +103,8 @@
       <workItem from="1726351553915" duration="20767000" />
       <workItem from="1726936113787" duration="11708000" />
       <workItem from="1728736097373" duration="13730000" />
-      <workItem from="1729336663549" duration="3709000" />
+      <workItem from="1729336663549" duration="4442000" />
+      <workItem from="1732477639890" duration="1041000" />
     </task>
     <task id="LOCAL-00001" summary="Update banner for July">
       <option name="closed" value="true" />
@@ -406,7 +410,15 @@
       <option name="project" value="LOCAL" />
       <updated>1729972217022</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="November banner message update">
+      <option name="closed" value="true" />
+      <created>1730413655667</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1730413655667</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -435,7 +447,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Updated notification style" />
     <MESSAGE value="Added random titles for comment push notifications" />
     <MESSAGE value="Added follow up notifications when other people comment or like a post you commented or liked" />
     <MESSAGE value="Notifications update" />
@@ -460,6 +471,7 @@
     <MESSAGE value="Fixed first time login logic" />
     <MESSAGE value="Support links in post description" />
     <MESSAGE value="Lessen number of posts to 6 on initial load" />
-    <option name="LAST_COMMIT_MESSAGE" value="Lessen number of posts to 6 on initial load" />
+    <MESSAGE value="November banner message update" />
+    <option name="LAST_COMMIT_MESSAGE" value="November banner message update" />
   </component>
 </project>

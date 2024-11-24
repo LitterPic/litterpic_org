@@ -171,14 +171,23 @@ function CreatePost() {
 
         for (let i = 0; i < postImages.length; i++) {
             const file = postImages[i];
-            // const resizedFile = await resizeImage(file, 600, 600);
 
-            const storageRef = ref(storage, `userPosts/${user.uid}/${file.name}`);
-            const task = uploadBytesResumable(storageRef, file);
-            const snapshot = await task;
+            try {
+                const storageRef = ref(storage, `userPosts/${user.uid}/${file.name}`);
+                const task = uploadBytesResumable(storageRef, file);
+                const snapshot = await task;
 
-            const imageUrl = await getDownloadURL(snapshot.ref);
-            imageUrls.push(imageUrl);
+                const imageUrl = await getDownloadURL(snapshot.ref);
+                imageUrls.push(imageUrl);
+
+                // Immediately update the post document with the uploaded image
+                await updateDoc(postDocRef, {
+                    postPhotos: arrayUnion(imageUrl),
+                });
+            } catch (error) {
+                console.error(`Error uploading image ${file.name}:`, error);
+                toast.error(`Failed to upload image: ${file.name}`);
+            }
         }
 
         setUploading(false);
@@ -428,7 +437,7 @@ function CreatePost() {
                             </div>
                             <div className="litter-container">
                                 <input
-                                    className="no-increment-decrement"
+                                    className="no-increment-decrement hint-placeholder"
                                     type="number"
                                     min="0"
                                     step="any"
@@ -480,9 +489,9 @@ function CreatePost() {
                                     {({getInputProps, suggestions, getSuggestionItemProps, loading}) => (
                                         <div>
                                             <input
+                                                className="location-input hint-placeholder"
                                                 {...getInputProps({
                                                     placeholder: 'Enter a location',
-                                                    className: 'location-input',
                                                     onKeyDown: (e) => {
                                                         if ((e.key === 'Backspace' || e.key === 'Delete') && selectedAddress !== '') {
                                                             setAddressModified(true);

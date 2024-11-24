@@ -3542,6 +3542,8 @@ a.post-user-name {
   object-fit: cover;
 }
 .create-post-content input {
+  border: black solid 1px;
+  border-radius: 0.5rem;
   font-size: 0.9rem;
   width: 600px;
 }
@@ -3550,10 +3552,17 @@ a.post-user-name {
   -webkit-appearance: none;
   margin: 0;
 }
+.create-post-content .hint-placeholder::placeholder {
+  color: #888;
+  font-size: 14px;
+  opacity: 0.8;
+}
 .create-post-content .no-increment-decrement[type=number] {
   -moz-appearance: textfield;
 }
 .create-post-content textarea {
+  border: black solid 1px;
+  border-radius: 0.5rem;
   cursor: text;
   font-size: 0.9rem;
   height: 200px;
@@ -5322,6 +5331,8 @@ a.post-user-name {
   object-fit: cover;
 }
 .create-post-content input {
+  border: black solid 1px;
+  border-radius: 0.5rem;
   font-size: 0.9rem;
   width: 600px;
 }
@@ -5330,10 +5341,17 @@ a.post-user-name {
   -webkit-appearance: none;
   margin: 0;
 }
+.create-post-content .hint-placeholder::placeholder {
+  color: #888;
+  font-size: 14px;
+  opacity: 0.8;
+}
 .create-post-content .no-increment-decrement[type=number] {
   -moz-appearance: textfield;
 }
 .create-post-content textarea {
+  border: black solid 1px;
+  border-radius: 0.5rem;
   cursor: text;
   font-size: 0.9rem;
   height: 200px;

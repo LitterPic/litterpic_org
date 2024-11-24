@@ -452,6 +452,8 @@ a.post-user-name {
   }
 
   input {
+    border: black solid 1px;
+    border-radius: .5rem;
     font-size: .9rem;
     width: 600px;
   }
@@ -463,12 +465,20 @@ a.post-user-name {
     margin: 0;
   }
 
+  .hint-placeholder::placeholder {
+    color: #888;
+    font-size: 14px;
+    opacity: 0.8;
+  }
+
   /* Hide input arrows - For Firefox */
   .no-increment-decrement[type=number] {
     -moz-appearance: textfield;
   }
 
   textarea {
+    border: black solid 1px;
+    border-radius: .5rem;
     cursor: text;
     font-size: .9rem;
     height: 200px;
