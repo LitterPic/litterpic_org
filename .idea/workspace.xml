@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="Upload multiple images one at a time, update style on create post component">
+    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="Added upload retry logic">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/createpost.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/createpost.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,7 +101,8 @@
       <workItem from="1726936113787" duration="11708000" />
       <workItem from="1728736097373" duration="13730000" />
       <workItem from="1729336663549" duration="4442000" />
-      <workItem from="1732477639890" duration="1500000" />
+      <workItem from="1732477639890" duration="2282000" />
+      <workItem from="1733270899786" duration="78000" />
     </task>
     <task id="LOCAL-00001" summary="Update banner for July">
       <option name="closed" value="true" />
@@ -423,7 +424,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732478797114</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="Added upload retry logic">
+      <option name="closed" value="true" />
+      <created>1732479229341</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1732479229341</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -452,7 +461,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added follow up notifications when other people comment or like a post you commented or liked" />
     <MESSAGE value="Notifications update" />
     <MESSAGE value="Dont send duplicate notifications to post author" />
     <MESSAGE value="Clean-up notifications - remove duplicates" />
@@ -477,6 +485,7 @@
     <MESSAGE value="Lessen number of posts to 6 on initial load" />
     <MESSAGE value="November banner message update" />
     <MESSAGE value="Upload multiple images one at a time, update style on create post component" />
-    <option name="LAST_COMMIT_MESSAGE" value="Upload multiple images one at a time, update style on create post component" />
+    <MESSAGE value="Added upload retry logic" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added upload retry logic" />
   </component>
 </project>
