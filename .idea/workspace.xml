@@ -4,12 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="Added upload retry logic">
+    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="Updated donation image">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/donate.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/donate.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/styles/dontate.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/dontate.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/styles/styles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/styles.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/styles/styles.css.map" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,7 +104,7 @@
       <workItem from="1732477639890" duration="2282000" />
       <workItem from="1733270899786" duration="78000" />
       <workItem from="1734801630882" duration="595000" />
-      <workItem from="1738445583227" duration="1341000" />
+      <workItem from="1738445583227" duration="1556000" />
     </task>
     <task id="LOCAL-00001" summary="Update banner for July">
       <option name="closed" value="true" />
@@ -437,7 +434,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732479229341</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="Updated donation image">
+      <option name="closed" value="true" />
+      <created>1738446955275</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1738446955275</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -466,7 +471,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Notifications update" />
     <MESSAGE value="Dont send duplicate notifications to post author" />
     <MESSAGE value="Clean-up notifications - remove duplicates" />
     <MESSAGE value="fix compilation error with img tag" />
@@ -491,6 +495,7 @@
     <MESSAGE value="November banner message update" />
     <MESSAGE value="Upload multiple images one at a time, update style on create post component" />
     <MESSAGE value="Added upload retry logic" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added upload retry logic" />
+    <MESSAGE value="Updated donation image" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated donation image" />
   </component>
 </project>
