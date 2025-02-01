@@ -61,7 +61,8 @@ const Donate = () => {
                     <div className="donate">
                         <div className="donorbox-widget">
                             <div className="donation-use">
-                                <img className="donate-use-image" src="/images/2024_Donation_Use.jpg"
+                                <h1 className="donation-text-grid">With your help, We will...</h1>
+                                <img className="donate-use-image" src="/images/Donation_Use.png"
                                      alt="What we use donations for"/>
 
                                 <div className="donate-grid-container">

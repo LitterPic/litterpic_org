@@ -6,7 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="Added upload retry logic">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/donate.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/donate.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/dontate.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/dontate.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/styles/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/styles.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/styles/styles.css.map" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,6 +106,8 @@
       <workItem from="1729336663549" duration="4442000" />
       <workItem from="1732477639890" duration="2282000" />
       <workItem from="1733270899786" duration="78000" />
+      <workItem from="1734801630882" duration="595000" />
+      <workItem from="1738445583227" duration="1341000" />
     </task>
     <task id="LOCAL-00001" summary="Update banner for July">
       <option name="closed" value="true" />

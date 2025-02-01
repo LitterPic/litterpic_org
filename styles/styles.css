@@ -468,6 +468,14 @@ input:checked + .custom-checkbox::after {
   text-align: center;
 }
 
+.donation-text-grid {
+  font-size: 40px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 10px;
+  margin-left: 20px;
+}
+
 .donorbox-images-container {
   display: flex;
   flex-direction: row;
@@ -1949,6 +1957,14 @@ p .index-inspire-change-text {
   font-size: 0.9rem;
   font-style: italic;
   text-align: center;
+}
+
+.donation-text-grid {
+  font-size: 40px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 10px;
+  margin-left: 20px;
 }
 
 .donorbox-images-container {
