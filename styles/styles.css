@@ -502,7 +502,7 @@ input:checked + .custom-checkbox::after {
 }
 
 .donate-use-image {
-  margin-left: 40px;
+  margin-left: 70px;
 }
 
 .donate-grid-container {
@@ -1993,7 +1993,7 @@ p .index-inspire-change-text {
 }
 
 .donate-use-image {
-  margin-left: 40px;
+  margin-left: 70px;
 }
 
 .donate-grid-container {
@@ -3478,6 +3478,7 @@ a.post-user-name {
   flex-direction: column;
   font-weight: bold;
   justify-content: flex-end;
+  margin-left: 5px;
   text-decoration: none;
 }
 .post-user-name :hover {
@@ -5267,6 +5268,7 @@ a.post-user-name {
   flex-direction: column;
   font-weight: bold;
   justify-content: flex-end;
+  margin-left: 5px;
   text-decoration: none;
 }
 .post-user-name :hover {

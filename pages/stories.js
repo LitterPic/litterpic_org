@@ -13,6 +13,7 @@ import {
     getFirestore,
     increment,
     orderBy,
+    onSnapshot,
     query,
     runTransaction,
     serverTimestamp,
@@ -58,13 +59,14 @@ function Stories() {
     const [selectedUser, setSelectedUser] = useState("");
     const debounceTimers = {};
     const [showOptions, setShowOptions] = useState(false);
+    const [postsVersion, setPostsVersion] = useState(0);
 
     // 5 minute cache
     const ALL_POSTS_CACHE_EXPIRATION_MS = 86400000;
     const MY_POSTS_CACHE_EXPIRATION_MS = 86400000;
     const SEARCH_USERS_CACHE_EXPIRATION_MS = 86400000;
-    const getAllPostsCacheKey = (page) => `all_posts_cache_page_${page}`;
-    const getMyPostsCacheKey = (page, userId) => `my_posts_cache_page_${userId}_${page}`;
+    const getAllPostsCacheKey = (page, version) => `all_posts_cache_page_${page}_v${version}`;
+    const getMyPostsCacheKey = (page, userId, version) => `my_posts_cache_page_${userId}_${page}_v${version}`;
 
     const fetchUserRefsFromPosts = async () => {
         const postUserRefs = new Set();
@@ -95,6 +97,22 @@ function Stories() {
 
         return users;
     };
+
+    useEffect(() => {
+        // Real-time listener for posts
+        const postsQuery = collection(getFirestore(), 'userPosts');
+        const unsubscribe = onSnapshot(postsQuery, (snapshot) => {
+            if (!snapshot.metadata.hasPendingWrites) {
+                // Data has been updated, invalidate the cache
+                setPostsVersion(prevVersion => prevVersion + 1);
+                localStorage.clear(); // Clear all local storage.
+                setPosts([]); // Clear local posts state.
+                fetchAndSetPosts(1);
+            }
+        });
+
+        return () => unsubscribe();
+    }, []);
 
     useEffect(() => {
         const cacheKey = 'users_cache';
@@ -290,7 +308,6 @@ function Stories() {
                 if (!Array.isArray(updatedPosts[postIndex].likeIds)) {
                     updatedPosts[postIndex].likeIds = [];
                 }
-
                 updatedPosts[postIndex].likeIds.push(user.uid);
                 updatedPosts[postIndex].likes += 1;
                 updatedPosts[postIndex].currentUserLiked = true;
@@ -300,7 +317,7 @@ function Stories() {
                 await NotificationSender.createLikeNotificationForOthers(postId, user, postAuthorId);
 
             } else {
-                updatedPosts[postIndex].likeIds = updatedPosts[postIndex].likeIds.filter(ref => ref !== user.uid);
+                updatedPosts[postIndex].likeIds = updatedPosts[postIndex].likeIds.filter(id => id !== user.uid);
                 updatedPosts[postIndex].likes -= 1;
                 updatedPosts[postIndex].currentUserLiked = false;
             }
@@ -477,7 +494,7 @@ function Stories() {
         setIsLoading(true);
 
         const isMyPosts = userId != null;
-        const cacheKey = isMyPosts ? getMyPostsCacheKey(page, userId) : getAllPostsCacheKey(page);
+        const cacheKey = isMyPosts ? getMyPostsCacheKey(page, userId, postsVersion) : getAllPostsCacheKey(page, postsVersion);
         const cachedData = localStorage.getItem(cacheKey);
         const postsPerPage = 6;
 
@@ -485,7 +502,7 @@ function Stories() {
         const now = new Date().getTime();
 
         if (cachedData) {
-            const {posts: cachedPosts, timestamp} = JSON.parse(cachedData);
+            const { posts: cachedPosts, timestamp } = JSON.parse(cachedData);
             const cacheExpiration = isMyPosts ? MY_POSTS_CACHE_EXPIRATION_MS : ALL_POSTS_CACHE_EXPIRATION_MS;
 
             // Check if cache is not older than expiration
@@ -522,6 +539,8 @@ function Stories() {
 
                 // Handle likes for this post
                 const likedUserIds = await getUsersWhoLikedPost(post.id);
+
+                // Recalculate currentUserLiked here
                 const currentUserLiked = user && Array.isArray(likedUserIds)
                     ? likedUserIds.includes(user.uid)
                     : false;
@@ -548,7 +567,7 @@ function Stories() {
                         ...postUserData,
                     },
                     likedUsers: likedUserIds,
-                    currentUserLiked,
+                    currentUserLiked, // Use the recalculated value
                 };
 
                 fetchedPosts.push(updatedPost);
@@ -572,7 +591,6 @@ function Stories() {
 
         setPage(page);
     };
-
 
     useEffect(() => {
         let isCancelled = false;
@@ -610,6 +628,22 @@ function Stories() {
             if (!isCancelled) {
                 setPostComments(prevComments => ({...prevComments, ...fetchedPostComments}));
             }
+
+            // Recalculate likes after fetching comments
+            const updatedPosts = posts.map(post => {
+                const likedUserIds = fetchedPostComments[post.id] ? post.likedUsers : []; //Use existing liked users if comments have not loaded yet.
+                const currentUserLiked = user && Array.isArray(likedUserIds)
+                    ? likedUserIds.includes(user.uid)
+                    : false;
+                return {
+                    ...post,
+                    currentUserLiked,
+                };
+            });
+
+            if (!isCancelled) {
+                setPosts(updatedPosts);
+            }
         };
 
         fetchAndSetPostComments();
@@ -617,7 +651,7 @@ function Stories() {
         return () => {
             isCancelled = true;
         };
-    }, [posts]);
+    }, [posts, user]);
 
 
     const deletePost = async (postId) => {

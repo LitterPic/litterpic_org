@@ -20,6 +20,8 @@
   "author": "Alek Babich",
   "license": "ISC",
   "dependencies": {
+    "@ffmpeg/ffmpeg": "^0.12.15",
+    "@ffmpeg/util": "^0.12.2",
     "@playwright/test": "^1.42.1",
     "@react-google-maps/api": "^2.18.1",
     "@sendgrid/mail": "^7.7.0",
