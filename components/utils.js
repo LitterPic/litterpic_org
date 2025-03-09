@@ -123,19 +123,29 @@ export async function getUsersWhoLikedPost(postId) {
     const db = getFirestore();
     const postRef = doc(db, 'userPosts', postId);
 
-    const postSnap = await getDoc(postRef);
-    if (postSnap.exists()) {
-        const postData = postSnap.data();
-        const likedUsersRefs = postData.likes || [];
+    try {
+        const postSnap = await getDoc(postRef);
+        if (postSnap.exists()) {
+            const postData = postSnap.data();
+            const likedUsersRefs = postData.likes;
 
-        // Log the user document IDs
-        const userDocIds = likedUsersRefs.map((userRef) => {
-            return userRef.id;
-        });
+            if (Array.isArray(likedUsersRefs)) {
+                // Log the user document IDs
+                const userDocIds = likedUsersRefs.map((userId) => {
+                    return userId;
+                });
 
-        // Extract the UIDs from each user reference
-        return [...new Set(userDocIds)];
-    } else {
+                // Extract the UIDs from each user reference
+                return [...new Set(userDocIds)];
+            } else {
+                // Handle cases where likes is null, undefined, or not an array
+                return [];
+            }
+        } else {
+            return [];
+        }
+    } catch (error) {
+        console.error("Error getting liked users", error);
         return [];
     }
 }
