@@ -65,7 +65,7 @@ export async function* fetchPosts(page, postsPerPage, userId = null) {
             location: postData.location,
             description: postData.postDescription,
             litterWeight: postData.litterWeight,
-            likes: postData.likes ? postData.likes.length : 0,
+            likes: postData.likes || [],
             numComments: postData.numComments || 0,
         };
     }
@@ -127,18 +127,23 @@ export async function getUsersWhoLikedPost(postId) {
         const postSnap = await getDoc(postRef);
         if (postSnap.exists()) {
             const postData = postSnap.data();
-            const likedUsersRefs = postData.likes;
+            const likedUsersRefs = postData.likes || [];
 
             if (Array.isArray(likedUsersRefs)) {
-                // Log the user document IDs
-                const userDocIds = likedUsersRefs.map((userId) => {
-                    return userId;
+                // Extract the UIDs from each user reference
+                const userDocIds = likedUsersRefs.map((userRef) => {
+                    // Check if the userRef is a document reference
+                    if (userRef && userRef.id) {
+                        return userRef.id; // Extract the document ID
+                    } else {
+                        return userRef;
+                    }
+
                 });
 
-                // Extract the UIDs from each user reference
+                // Remove duplicates
                 return [...new Set(userDocIds)];
             } else {
-                // Handle cases where likes is null, undefined, or not an array
                 return [];
             }
         } else {
@@ -154,6 +159,7 @@ export async function getUsersWhoLikedPost(postId) {
 export async function toggleLike(post) {
     const auth = getAuth();
     const currentUser = auth.currentUser;
+
     if (!currentUser) {
         const router = useRouter();
         router.push('/login');
@@ -164,16 +170,33 @@ export async function toggleLike(post) {
     const db = getFirestore();
     const postRef = doc(db, 'userPosts', post.id);
 
-    // Check if the user has already liked the post using their UID
-    if (!post.likeIds || !Array.isArray(post.likeIds)) {
-        await updateDoc(postRef, { likeIds: arrayUnion(userId) });
+    // Fetch the latest post data
+    const postSnap = await getDoc(postRef);
+    if (!postSnap.exists()) {
+        console.error("Post does not exist:", post.id);
+        return false; // Or throw an error
+    }
+
+    const updatedPostData = postSnap.data();
+    const currentLikes = updatedPostData.likes || [];
+
+    // Create the user document reference
+    const userDocRef = doc(db, 'users', userId);
+
+    // Check if the user has already liked the post using their document reference
+    if (!currentLikes || !Array.isArray(currentLikes)) {
+        await updateDoc(postRef, { likes: arrayUnion(userDocRef) });
         return true;
-    } else if (post.likeIds.includes(userId)) {
-        await updateDoc(postRef, { likeIds: arrayRemove(userId) });
-        return false;
     } else {
-        await updateDoc(postRef, { likeIds: arrayUnion(userId) });
-        return true;
+        // Check if the userDocRef is in the array.
+        const userLiked = currentLikes.some(like => like.path === userDocRef.path);
+        if (userLiked) {
+            await updateDoc(postRef, { likes: arrayRemove(userDocRef) });
+            return false;
+        } else {
+            await updateDoc(postRef, { likes: arrayUnion(userDocRef) });
+            return true;
+        }
     }
 }
 

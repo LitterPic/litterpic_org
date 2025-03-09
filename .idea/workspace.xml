@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="Fixed like/unlike, and stories caching to reload new posts">
+    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="Fixed likes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/utils.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/stories.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/stories.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -450,7 +451,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741474297789</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="fix page not loading for missing like">
+      <option name="closed" value="true" />
+      <created>1741480181867</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1741480181867</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -479,8 +488,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Clean-up notifications - remove duplicates" />
-    <MESSAGE value="fix compilation error with img tag" />
     <MESSAGE value="Added missing alt tag for img" />
     <MESSAGE value="September raffle update" />
     <MESSAGE value="Added follow user notifications" />
@@ -504,6 +511,8 @@
     <MESSAGE value="Added upload retry logic" />
     <MESSAGE value="Updated donation image" />
     <MESSAGE value="Fixed like/unlike, and stories caching to reload new posts" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed like/unlike, and stories caching to reload new posts" />
+    <MESSAGE value="fix page not loading for missing like" />
+    <MESSAGE value="Fixed likes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed likes" />
   </component>
 </project>

@@ -305,20 +305,13 @@ function Stories() {
             let updatedPosts = [...posts];
 
             if (didLike) {
-                if (!Array.isArray(updatedPosts[postIndex].likeIds)) {
-                    updatedPosts[postIndex].likeIds = [];
+                if (!Array.isArray(updatedPosts[postIndex].likes)) {
+                    updatedPosts[postIndex].likes = [];
                 }
-                updatedPosts[postIndex].likeIds.push(user.uid);
-                updatedPosts[postIndex].likes += 1;
+                updatedPosts[postIndex].likes.push(doc(db, 'users', user.uid));
                 updatedPosts[postIndex].currentUserLiked = true;
-
-                const postAuthorId = postToUpdate.user.uid;
-                await NotificationSender.createLikeNotification(postId, postAuthorId, user);
-                await NotificationSender.createLikeNotificationForOthers(postId, user, postAuthorId);
-
             } else {
-                updatedPosts[postIndex].likeIds = updatedPosts[postIndex].likeIds.filter(id => id !== user.uid);
-                updatedPosts[postIndex].likes -= 1;
+                updatedPosts[postIndex].likes = updatedPosts[postIndex].likes.filter(like => like.path !== doc(db, 'users', user.uid).path);
                 updatedPosts[postIndex].currentUserLiked = false;
             }
 
@@ -631,10 +624,10 @@ function Stories() {
 
             // Recalculate likes after fetching comments
             const updatedPosts = posts.map(post => {
-                const likedUserIds = fetchedPostComments[post.id] ? post.likedUsers : []; //Use existing liked users if comments have not loaded yet.
-                const currentUserLiked = user && Array.isArray(likedUserIds)
-                    ? likedUserIds.includes(user.uid)
+                const currentUserLiked = user && Array.isArray(post.likes)
+                    ? post.likes.some(like => like.path === doc(db, 'users', user.uid).path)
                     : false;
+
                 return {
                     ...post,
                     currentUserLiked,
@@ -878,9 +871,7 @@ function Stories() {
                             columnClassName="post-grid-column"
                         >
                             {posts.map((post, index) => {
-                                const likes = post.likes !== undefined ? post.likes : 0;
                                 const {numComments} = post;
-                                const currentUserLiked = post.currentUserLiked;
                                 const postMasonryKey = `${index}_${post.id}_post`;
 
                                 return (
@@ -944,16 +935,18 @@ function Stories() {
                           onMouseLeave={() => handleLeaveHover(post)}>
 
                         <i
-                            className={`material-icons ${currentUserLiked ? 'filled-heart' : 'empty-heart'}`}
+                            className={`material-icons ${post.currentUserLiked ? 'filled-heart' : 'empty-heart'}`}
                             onClick={() => handleToggleLike(post.id)}
                         >
-                            {currentUserLiked ? 'favorite' : 'favorite_border'}
+                            {post.currentUserLiked ? 'favorite' : 'favorite_border'}
                         </i>
 
-                        <span className="like-count">{likes}</span>
+                        <span className="like-count">
+                            {post.likes ? post.likes.length : 0}
+                        </span>
 
-                        {likePopupVisible && hoveredPostId === `${post.id}_post` && (
-                            <LikePopup likedUsers={likedUsers}/>)}
+                            {likePopupVisible && hoveredPostId === `${post.id}_post` && (
+                                <LikePopup likedUsers={likedUsers}/>)}
                     </span>
 
                                             <span className="likes-comments-comment-field">
