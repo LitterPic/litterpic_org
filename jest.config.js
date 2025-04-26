@@ -1,4 +1,4 @@
-// jest.config.js
 module.exports = {
-    testTimeout: 60000, // 60 seconds
+    testEnvironment: 'jsdom',
+    setupFilesAfterEnv: ['@testing-library/jest-dom'],
 };

@@ -1,21 +1,18 @@
-import SignInForm from '../components/SignInForm';
 import React from "react";
+import LoginMeta from "../components/LoginMeta";
+import GoogleAnalytics from "../components/GoogleAnalytics";
+import LoginBanner from "../components/LoginBanner";
+import LoginContent from "../components/LoginContent";
 
-export default function LoginPage() {
+const LoginPage = () => {
     return (
         <div>
-            <div className="banner">
-                <img src="/images/AboutUsBanner.webp" alt="Banner Image"/>
-            </div>
-
-            <div className="page">
-                <div className="content">
-                    <h1 className="heading-text">Login</h1>
-                    <div className="sign-in-form">
-                        <SignInForm/>
-                    </div>
-                </div>
-            </div>
+            <LoginMeta />
+            <GoogleAnalytics />
+            <LoginBanner />
+            <LoginContent />
         </div>
     );
-}
+};
+
+export default LoginPage;

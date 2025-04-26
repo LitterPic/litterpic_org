@@ -5,9 +5,93 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="Fixed likes">
+      <change afterPath="$PROJECT_DIR$/components/AboutBanner.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/AboutContent.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/AboutMeta.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/BoardMembers.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/CommunityServiceBanner.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/CommunityServiceContent.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/CommunityServiceMeta.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/ContactBanner.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/ContactForm.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/ContactMeta.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/DeleteAccountBanner.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/DeleteAccountContent.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/DeleteAccountMeta.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/DonateBanner.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/DonateContent.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/DonateMeta.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/GoogleAnalytics.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/LoginBanner.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/LoginContent.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/LoginMeta.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/PrivacyBanner.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/PrivacyContent.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/PrivacyMeta.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/ProfileBanner.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/ProfileHeader.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/ProfileInfo.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/ProfileMeta.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/ProfileStats.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/ReportBanner.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/ReportFilterContainer.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/ReportFilters.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/ReportLeaderboard.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/ReportLeaderboardContainer.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/ReportMeta.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/ReportResults.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/SignInActions.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/SignInInputs.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/VerifyEmailBanner.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/VerifyEmailContent.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/VerifyEmailMeta.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/authUtils.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/profileHelper.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/verify_email.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/withAuth.test.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/fetchReportData.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vitest.config.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/utils.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/stories.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/stories.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/SignInForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/SignInForm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/withAuth.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/withAuth.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jest.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/jest.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/about.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/about.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/community_service_hours.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/community_service_hours.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/contact.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/contact.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/delete_account.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/delete_account.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/donate.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/donate.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/privacy.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/privacy.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/profile.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/profile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/reports.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/reports.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/verify-email-page.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/contact.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/contact.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/dontate.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/dontate.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/report.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/report.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/styles/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/styles.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/styles/styles.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/styles.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/styles.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/#title_test.spec.js#" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/About_Us.spec.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Contact.spec.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Litter_Stats_NoLogin.spec.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Take_Action.spec.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/User_Stories.spec.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/about_us-test.spec.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/aboutus.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/contact-test.spec.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/contact.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/donate-test.spec.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/generateTest.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/hide.tar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/litterstats_nologin.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/take_action-test.spec.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/takeaction.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/title_test.spec.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/user_stories-test.spec.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/userstories.json" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,23 +146,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Applications/WebStorm.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "master",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "settings.codegpt.services.openai",
+    "ts.external.directory.path": "/Applications/WebStorm.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/lib" />
       <recent name="$PROJECT_DIR$/pages/edit-profile" />
       <recent name="$PROJECT_DIR$/pages/[id].js" />
       <recent name="$PROJECT_DIR$/pages/user" />
@@ -106,6 +191,9 @@
       <workItem from="1733270899786" duration="78000" />
       <workItem from="1734801630882" duration="595000" />
       <workItem from="1738445583227" duration="1556000" />
+      <workItem from="1742254974787" duration="16695000" />
+      <workItem from="1745694808321" duration="145000" />
+      <workItem from="1745695238163" duration="543000" />
     </task>
     <task id="LOCAL-00001" summary="Update banner for July">
       <option name="closed" value="true" />

@@ -8,13 +8,12 @@
     "compile-sass": "echo 'Compiling SASS...' && sass styles/styles.scss styles/styles.css --watch",
     "build": "next build",
     "start": "next start",
-    "test": "playwright test",
+    "test": "vitest",
     "test:debug": "PWDEBUG=1 playwright test",
     "export": "next export",
     "lint": "sass-lint -v",
     "lint:fix": "sass-lint-auto-fix",
-    "clean": "rm -rf out & npm ci",
-    "postinstall": "npx playwright install"
+    "clean": "rm -rf out & npm ci"
   },
   "keywords": [],
   "author": "Alek Babich",
@@ -22,12 +21,11 @@
   "dependencies": {
     "@ffmpeg/ffmpeg": "^0.12.15",
     "@ffmpeg/util": "^0.12.2",
-    "@playwright/test": "^1.42.1",
     "@react-google-maps/api": "^2.18.1",
     "@sendgrid/mail": "^7.7.0",
     "autoprefixer": "^10.4.20",
     "aws-sdk": "^2.1450.0",
-    "axios": "^1.5.0",
+    "axios": "^1.8.3",
     "cors": "^2.8.5",
     "date-fns": "^3.6.0",
     "dompurify": "^3.1.7",
@@ -57,9 +55,14 @@
     "tcp-port-used": "^1.0.2"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.2.0",
     "concurrently": "^8.2.2",
     "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "jsdom": "^26.0.0",
     "sass": "^1.63.4",
-    "sass-lint-auto-fix": "^0.21.2"
+    "sass-lint-auto-fix": "^0.21.2",
+    "vitest": "^3.0.9"
   }
 }

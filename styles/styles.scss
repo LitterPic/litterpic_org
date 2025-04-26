@@ -157,11 +157,13 @@ textarea {
   }
 
   .page {
-    align-items: flex-start;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
     display: flex;
-    justify-content: center;
-    padding: .6rem 0 0;
-    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    background-color: $light-gray;
   }
 
   p {

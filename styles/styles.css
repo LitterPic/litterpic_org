@@ -187,24 +187,41 @@
 .contact-container {
   background: linear-gradient(to bottom, #015e41, #000);
   border-radius: 0.5rem;
-  color: #fff;
+  width: 80%;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   height: 70%;
-  padding: 0.6rem;
-  width: 100%;
+  color: #fff;
 }
 .contact-container h1 {
-  text-align: center;
+  font-size: 1.5rem;
+}
+@media (min-width: 768px) {
+  .contact-container h1 {
+    font-size: 2rem;
+  }
+}
+@media (min-width: 1024px) {
+  .contact-container h1 {
+    font-size: 2.4rem;
+  }
 }
 
 .contact-form-group {
+  margin-bottom: 15px;
   display: flex;
   flex-direction: column;
   margin-right: 3.75rem;
 }
 .contact-form-group label {
-  margin-bottom: 0.3rem;
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
 }
 
 .required {
@@ -214,6 +231,7 @@
 
 #message {
   height: 5rem;
+  width: 100%;
 }
 
 .contact-form-row {
@@ -243,8 +261,12 @@
 }
 
 #contact-submit-button {
-  border-radius: 0.5rem;
-  display: flex;
+  display: inline-block;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
   margin-top: 0.6rem;
 }
 #contact-submit-button:hover {
@@ -361,9 +383,6 @@
     padding: 0.6rem;
     width: 100%;
   }
-  .contact-container h1 {
-    font-size: 2.25rem;
-  }
   .contact-container button {
     padding: 0.3rem;
   }
@@ -460,38 +479,44 @@ input:checked + .custom-checkbox::after {
 
 .donate-legal-text {
   margin-right: 2.5rem;
+  text-align: center;
 }
 
 .donate-tax {
   font-size: 0.9rem;
   font-style: italic;
   text-align: center;
+  margin-top: 1rem;
 }
 
 .donation-text-grid {
-  font-size: 40px;
+  font-size: 2.5vw;
   font-weight: bold;
   text-align: center;
-  margin-bottom: 10px;
-  margin-left: 20px;
+  margin-bottom: 1rem;
 }
 
 .donorbox-images-container {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .donorbox-container {
   flex: 0 0 auto;
-  margin-left: 3rem;
-  margin-top: 3rem;
+  margin: 50px auto;
+  padding: 1rem;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .donate-image-container {
   column-gap: 5rem;
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .donorbox-widget {
@@ -501,23 +526,21 @@ input:checked + .custom-checkbox::after {
   margin-bottom: 1.25rem;
 }
 
-.donate-use-image {
-  margin-left: 70px;
-}
-
 .donate-grid-container {
   display: grid;
   grid-template-columns: repeat(4, 190px);
   gap: 35px;
-  margin-left: 80px;
+  width: 65%;
+  box-sizing: border-box;
 }
 
 .donate-grid-item {
   text-align: center;
-}
-
-.donorbox-images-container {
-  display: none;
+  background-color: #e5e5e4;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: auto;
 }
 
 .donorbox-images-container-desktop {
@@ -525,9 +548,10 @@ input:checked + .custom-checkbox::after {
   height: 100px;
   justify-content: center;
   margin-bottom: 1rem;
+  flex-wrap: wrap;
 }
 
-@media (max-width: 76.5rem) {
+@media (max-width: 96.5rem) {
   .donorbox-images-container-desktop {
     display: none;
   }
@@ -540,11 +564,14 @@ input:checked + .custom-checkbox::after {
   .donorbox-images-container {
     display: flex;
     flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
   }
   .donorbox-container {
     flex: 0 0 auto;
     margin-left: 0;
     margin-top: 1.25rem;
+    max-width: 100%;
   }
   .donate-image-container {
     column-gap: 2.5rem;
@@ -552,17 +579,24 @@ input:checked + .custom-checkbox::after {
     flex-direction: row;
     justify-content: center;
     margin-top: 1.25rem;
+    flex-wrap: wrap;
   }
   .donate-image {
     display: flex;
     height: auto;
     width: 25%;
+    max-width: 100%;
   }
   .legal {
     margin-right: 2.5rem;
   }
   .donation-use {
     display: none;
+  }
+}
+@media (min-width: 1024px) {
+  .donation-text-grid {
+    font-size: 1.5rem;
   }
 }
 .edit-profile-container {
@@ -1752,24 +1786,41 @@ p .index-inspire-change-text {
 .contact-container {
   background: linear-gradient(to bottom, #015e41, #000);
   border-radius: 0.5rem;
-  color: #fff;
+  width: 80%;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   height: 70%;
-  padding: 0.6rem;
-  width: 100%;
+  color: #fff;
 }
 .contact-container h1 {
-  text-align: center;
+  font-size: 1.5rem;
+}
+@media (min-width: 768px) {
+  .contact-container h1 {
+    font-size: 2rem;
+  }
+}
+@media (min-width: 1024px) {
+  .contact-container h1 {
+    font-size: 2.4rem;
+  }
 }
 
 .contact-form-group {
+  margin-bottom: 15px;
   display: flex;
   flex-direction: column;
   margin-right: 3.75rem;
 }
 .contact-form-group label {
-  margin-bottom: 0.3rem;
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
 }
 
 .required {
@@ -1779,6 +1830,7 @@ p .index-inspire-change-text {
 
 #message {
   height: 5rem;
+  width: 100%;
 }
 
 .contact-form-row {
@@ -1808,8 +1860,12 @@ p .index-inspire-change-text {
 }
 
 #contact-submit-button {
-  border-radius: 0.5rem;
-  display: flex;
+  display: inline-block;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
   margin-top: 0.6rem;
 }
 #contact-submit-button:hover {
@@ -1926,9 +1982,6 @@ p .index-inspire-change-text {
     padding: 0.6rem;
     width: 100%;
   }
-  .contact-container h1 {
-    font-size: 2.25rem;
-  }
   .contact-container button {
     padding: 0.3rem;
   }
@@ -1951,38 +2004,44 @@ p .index-inspire-change-text {
 }
 .donate-legal-text {
   margin-right: 2.5rem;
+  text-align: center;
 }
 
 .donate-tax {
   font-size: 0.9rem;
   font-style: italic;
   text-align: center;
+  margin-top: 1rem;
 }
 
 .donation-text-grid {
-  font-size: 40px;
+  font-size: 2.5vw;
   font-weight: bold;
   text-align: center;
-  margin-bottom: 10px;
-  margin-left: 20px;
+  margin-bottom: 1rem;
 }
 
 .donorbox-images-container {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .donorbox-container {
   flex: 0 0 auto;
-  margin-left: 3rem;
-  margin-top: 3rem;
+  margin: 50px auto;
+  padding: 1rem;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .donate-image-container {
   column-gap: 5rem;
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .donorbox-widget {
@@ -1992,23 +2051,21 @@ p .index-inspire-change-text {
   margin-bottom: 1.25rem;
 }
 
-.donate-use-image {
-  margin-left: 70px;
-}
-
 .donate-grid-container {
   display: grid;
   grid-template-columns: repeat(4, 190px);
   gap: 35px;
-  margin-left: 80px;
+  width: 65%;
+  box-sizing: border-box;
 }
 
 .donate-grid-item {
   text-align: center;
-}
-
-.donorbox-images-container {
-  display: none;
+  background-color: #e5e5e4;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: auto;
 }
 
 .donorbox-images-container-desktop {
@@ -2016,9 +2073,10 @@ p .index-inspire-change-text {
   height: 100px;
   justify-content: center;
   margin-bottom: 1rem;
+  flex-wrap: wrap;
 }
 
-@media (max-width: 76.5rem) {
+@media (max-width: 96.5rem) {
   .donorbox-images-container-desktop {
     display: none;
   }
@@ -2031,11 +2089,14 @@ p .index-inspire-change-text {
   .donorbox-images-container {
     display: flex;
     flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
   }
   .donorbox-container {
     flex: 0 0 auto;
     margin-left: 0;
     margin-top: 1.25rem;
+    max-width: 100%;
   }
   .donate-image-container {
     column-gap: 2.5rem;
@@ -2043,17 +2104,24 @@ p .index-inspire-change-text {
     flex-direction: row;
     justify-content: center;
     margin-top: 1.25rem;
+    flex-wrap: wrap;
   }
   .donate-image {
     display: flex;
     height: auto;
     width: 25%;
+    max-width: 100%;
   }
   .legal {
     margin-right: 2.5rem;
   }
   .donation-use {
     display: none;
+  }
+}
+@media (min-width: 1024px) {
+  .donation-text-grid {
+    font-size: 1.5rem;
   }
 }
 .address-link:hover {
@@ -4704,6 +4772,7 @@ h1.heading-text.profile-heading {
 .interactive-litter-stats-header {
   font-family: Poppins, sans-serif;
   font-size: 1.75rem;
+  font-weight: bold;
 }
 .interactive-litter-stats-header {
   margin-bottom: 1rem;
@@ -6516,11 +6585,13 @@ textarea {
     padding: 0;
   }
   .page {
-    align-items: flex-start;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
     display: flex;
-    justify-content: center;
-    padding: 0.6rem 0 0;
-    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    background-color: #e5e5e4;
   }
   p {
     font-size: 1.125rem;

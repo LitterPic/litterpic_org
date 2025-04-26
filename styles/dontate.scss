@@ -4,38 +4,44 @@
 // Donate
 .donate-legal-text {
   margin-right: 2.5rem;
+  text-align: center; // Center-align text for better readability
 }
 
 .donate-tax {
   font-size: .9rem;
   font-style: italic;
   text-align: center;
+  margin-top: 1rem; // Add spacing above for separation
 }
 
 .donation-text-grid {
-  font-size: 40px;
+  font-size: 2.5vw; // Use vw for responsive font size
   font-weight: bold;
   text-align: center;
-  margin-bottom: 10px;
-  margin-left: 20px;
+  margin-bottom: 1rem;
 }
 
 .donorbox-images-container {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  flex-wrap: wrap; // Allow images to wrap for smaller screens
 }
 
 .donorbox-container {
   flex: 0 0 auto;
-  margin-left: 3rem;
-  margin-top: 3rem;
+  margin: 50px auto; // Center the donorbox
+  padding: 1rem; // Add padding for spacing
+  max-width: 100%; // Ensure it doesn't exceed the container width
+  box-sizing: border-box; // Include padding in width calculation
 }
 
 .donate-image-container {
   column-gap: 5rem;
   display: flex;
   flex-direction: row;
+  justify-content: center; // Center images
+  flex-wrap: wrap; // Allow images to wrap for smaller screens
 }
 
 .donorbox-widget {
@@ -46,22 +52,25 @@
 }
 
 .donate-use-image {
-  margin-left: 70px;
+  //margin-left: 70px;
 }
 
 .donate-grid-container {
   display: grid;
   grid-template-columns: repeat(4, 190px);
   gap: 35px;
-  margin-left: 80px;
+  width: 65%; // Ensure it takes full width of the container
+  box-sizing: border-box; // Include padding in width calculation
+
 }
 
 .donate-grid-item {
   text-align: center;
-}
-
-.donorbox-images-container {
-  display: none;
+  background-color: $light-gray; // Use your color scheme
+  padding: 1rem; // Add padding for spacing
+  border-radius: 8px; // Add rounded corners
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Add subtle shadow
+  width: auto;
 }
 
 .donorbox-images-container-desktop {
@@ -69,16 +78,10 @@
   height: 100px;
   justify-content: center;
   margin-bottom: 1rem;
+  flex-wrap: wrap; // Allow images to wrap for smaller screens
 }
 
-//.donate-image-desktop {
-//  height: 150px;
-//  margin-left: 2rem;
-//  margin-right: 1rem;
-//  width: auto;
-//}
-
-@media (max-width: 76.5rem) {
+@media (max-width: 96.5rem) {
   .donorbox-images-container-desktop {
     display: none;
   }
@@ -90,16 +93,18 @@
     width: 166.67%;
   }
 
-
   .donorbox-images-container {
     display: flex;
     flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap; // Allow images to wrap for smaller screens
   }
 
   .donorbox-container {
     flex: 0 0 auto;
     margin-left: 0;
     margin-top: 1.25rem;
+    max-width: 100%; // Ensure it doesn't exceed the container width
   }
 
   .donate-image-container {
@@ -108,12 +113,14 @@
     flex-direction: row;
     justify-content: center;
     margin-top: 1.25rem;
+    flex-wrap: wrap; // Allow images to wrap for smaller screens
   }
 
   .donate-image {
     display: flex;
     height: auto;
     width: 25%;
+    max-width: 100%; // Ensure image is responsive
   }
 
   .legal {
@@ -122,5 +129,11 @@
 
   .donation-use {
     display: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .donation-text-grid {
+    font-size: 1.5rem;
   }
 }

@@ -1,36 +1,53 @@
 // components/withAuth.js
 
-import {onAuthStateChanged} from "firebase/auth";
-import {useEffect, useState} from 'react';
-import {useRouter} from 'next/router';
-import {auth} from '../lib/firebase'; // adjust the path to point to your firebase.js file
+import { onAuthStateChanged } from "firebase/auth";
+import { useEffect, useState, memo } from 'react';
+import { useRouter } from 'next/router';
+import { auth } from '../lib/firebase';
 
-export default function withAuth(Component) {
-    return (props) => {
+/**
+ * Higher-Order Component that ensures the user is authenticated before rendering the wrapped component.
+ * @param {React.ComponentType} Component - The component to be wrapped.
+ * @param {string} redirectPath - The path to redirect to if the user is not authenticated. Defaults to '/login'.
+ * @returns {React.ComponentType} - The wrapped component.
+ */
+export default function withAuth(Component, redirectPath = '/login') {
+    return memo((props) => {
         const [isAuth, setIsAuth] = useState(false);
+        const [isLoading, setIsLoading] = useState(true);
+        const [error, setError] = useState(null);
         const router = useRouter();
 
         useEffect(() => {
             const unsubscribe = onAuthStateChanged(auth, user => {
-                if (!user) {
-                    // User not logged in, redirect to login page with the redirectTo parameter
-                    router.push(`/login?redirectTo=${encodeURIComponent(router.asPath)}`);
-                } else {
-                    // User is logged in
-                    setIsAuth(true);
+                try {
+                    if (!user) {
+                        router.push(`${redirectPath}?redirectTo=${encodeURIComponent(router.asPath)}`);
+                    } else {
+                        setIsAuth(true);
+                    }
+                } catch (err) {
+                    setError(err.message);
+                } finally {
+                    setIsLoading(false);
                 }
             });
 
-            // Cleanup subscription on unmount
             return () => unsubscribe();
-        }, [router]);
+        }, [router, redirectPath]);
+
+        if (isLoading) {
+            return <div>Loading...</div>; // Replace with a spinner component if available
+        }
+
+        if (error) {
+            return <div>Error: {error}</div>;
+        }
 
         if (!isAuth) {
-            // You can show a loading screen here if you want
             return null;
         }
 
-        // If user is authenticated, render the wrapped component
         return <Component {...props} />;
-    };
+    });
 }
