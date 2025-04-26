@@ -161,9 +161,8 @@ export async function toggleLike(post) {
     const currentUser = auth.currentUser;
 
     if (!currentUser) {
-        const router = useRouter();
-        router.push('/login');
-        return;
+        // Return false to indicate the like operation was not performed
+        return false;
     }
 
     const userId = currentUser.uid;
