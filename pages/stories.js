@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {fetchPosts, getUsersWhoLikedPost, toggleLike} from '../components/utils';
 import Link from 'next/link';
+import { getAllPostsCacheKey, getMyPostsCacheKey } from '../utils/prefetchStories';
 import Masonry from 'react-masonry-css';
 import {getAuth} from 'firebase/auth';
 import {useRouter} from 'next/router';
@@ -103,9 +104,16 @@ function Stories() {
         const postsQuery = collection(getFirestore(), 'userPosts');
         const unsubscribe = onSnapshot(postsQuery, (snapshot) => {
             if (!snapshot.metadata.hasPendingWrites) {
-                // Data has been updated, invalidate the cache
+                // Data has been updated, invalidate only the posts cache
                 setPostsVersion(prevVersion => prevVersion + 1);
-                localStorage.clear(); // Clear all local storage.
+
+                // Clear only posts-related cache, not all localStorage
+                Object.keys(localStorage).forEach(key => {
+                    if (key.includes('all_posts_') || key.includes('my_posts_')) {
+                        localStorage.removeItem(key);
+                    }
+                });
+
                 setPosts([]); // Clear local posts state.
                 fetchAndSetPosts(1);
             }
@@ -485,6 +493,7 @@ function Stories() {
 
     const fetchAndSetPosts = async (page, userId = null) => {
         setIsLoading(true);
+        console.log(`Fetching posts for page ${page}, userId: ${userId || 'all'}`);
 
         const isMyPosts = userId != null;
         const cacheKey = isMyPosts ? getMyPostsCacheKey(page, userId, postsVersion) : getAllPostsCacheKey(page, postsVersion);
@@ -500,10 +509,24 @@ function Stories() {
 
             // Check if cache is not older than expiration
             if (now - timestamp < cacheExpiration) {
-                setPosts(prevPosts => [...prevPosts, ...cachedPosts]);
+                console.log(`Using cached posts for ${cacheKey}, age: ${(now - timestamp) / 1000}s`);
+                setPosts(prevPosts => {
+                    // Only append if we're loading a new page, otherwise replace
+                    if (page > 1) {
+                        return [...prevPosts, ...cachedPosts];
+                    } else {
+                        return cachedPosts;
+                    }
+                });
                 setIsLoading(false);
+                setPage(page);
+                setHasMorePosts(cachedPosts.length >= postsPerPage);
                 return;
+            } else {
+                console.log(`Cache expired for ${cacheKey}, age: ${(now - timestamp) / 1000}s`);
             }
+        } else {
+            console.log(`No cache found for ${cacheKey}`);
         }
 
         try {
@@ -566,8 +589,15 @@ function Stories() {
                 fetchedPosts.push(updatedPost);
             }
 
-            // Append all fetched posts to the state at once
-            setPosts(prevPosts => [...prevPosts, ...fetchedPosts]);
+            // Update posts state based on page number
+            setPosts(prevPosts => {
+                // Only append if we're loading a new page, otherwise replace
+                if (page > 1) {
+                    return [...prevPosts, ...fetchedPosts];
+                } else {
+                    return fetchedPosts;
+                }
+            });
 
             // Cache the fetched posts with a timestamp
             const postsToCache = {
@@ -864,6 +894,13 @@ function Stories() {
                     </div>
 
                     <div className="story-posts">
+                        {isLoading && posts.length === 0 && (
+                            <div className="initial-loading-container">
+                                <div className="loading-spinner"></div>
+                                <p>Loading stories...</p>
+                            </div>
+                        )}
+
                         <Masonry
                             key='all'
                             breakpointCols={{default: 2, 700: 1}}
@@ -1050,7 +1087,12 @@ function Stories() {
                                     See More Stories
                                 </button>
                             )}
-                            {isLoading && <div>Loading more stories...</div>}
+                            {isLoading && (
+                                <div className="loading-spinner-container">
+                                    <div className="loading-spinner"></div>
+                                    <p>Loading more stories...</p>
+                                </div>
+                            )}
                             {!isLoading && showBackToTop && (
                                 <button
                                     className="back-to-top-button"

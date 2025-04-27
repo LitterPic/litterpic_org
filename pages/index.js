@@ -6,6 +6,8 @@ import 'firebase/firestore';
 import Head from "next/head";
 import Script from "next/script";
 import {getMessaging, getToken} from "firebase/messaging";
+import {prefetchStories} from '../utils/prefetchStories';
+import {getAuth} from 'firebase/auth';
 
 const AWS = require('aws-sdk');
 
@@ -148,6 +150,22 @@ export default function Index() {
     useEffect(() => {
         const allImages = recentPosts.flatMap((post) => post.photos);
         setImages(allImages);
+
+        // Prefetch stories data when images are loaded
+        const prefetchStoriesData = async () => {
+            const auth = getAuth();
+            const currentUser = auth.currentUser;
+            await prefetchStories(0, currentUser);
+        };
+
+        // Use requestIdleCallback if available, otherwise use setTimeout
+        if (typeof window !== 'undefined') {
+            if ('requestIdleCallback' in window) {
+                window.requestIdleCallback(prefetchStoriesData, { timeout: 2000 });
+            } else {
+                setTimeout(prefetchStoriesData, 500);
+            }
+        }
     }, [recentPosts]);
 
     useEffect(() => {

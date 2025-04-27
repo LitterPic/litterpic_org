@@ -4,25 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="Improve website speed">
-      <change afterPath="$PROJECT_DIR$/components/ImagePreloader.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/optimize-all-images.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/optimize-images.js" afterDir="false" />
+    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="Added webp images">
+      <change afterPath="$PROJECT_DIR$/components/ModernCarousel.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/ModernPost.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/TailwindCarousel.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/modern-stories.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/modern/stories.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/tailwind-test.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/test-modern.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/styles/loading-spinner.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/styles/modern-stories.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tailwind.config.updated.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/prefetchStories.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/CommunityServiceContent.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/CommunityServiceContent.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/OptimizedCarousel.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/OptimizedCarousel.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/utils.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hooks/useBackgroundStoryLoader.js" beforeDir="false" afterPath="$PROJECT_DIR$/hooks/useBackgroundStoryLoader.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/next.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/next.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/post.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/post.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/stories.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/stories.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/community_service.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/community_service.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/styles/stories.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/stories.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/styles/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/styles/styles.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/styles/styles.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/styles/styles.css.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/styles/styles.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/styles.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tailwind.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/tailwind.config.js" afterDir="false" />
     </list>
     <list id="382160bb-9221-4f9b-9560-69e35a8e70aa" name="auto modified" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -230,7 +232,7 @@
       <workItem from="1745699697830" duration="38000" />
       <workItem from="1745699750841" duration="138000" />
       <workItem from="1745700101810" duration="108000" />
-      <workItem from="1745700227649" duration="5214000" />
+      <workItem from="1745700227649" duration="9498000" />
     </task>
     <task id="LOCAL-00001" summary="Update banner for July">
       <option name="closed" value="true" />
@@ -600,7 +602,23 @@
       <option name="project" value="LOCAL" />
       <updated>1745702543934</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="Improved image loading on Community Service Hours page">
+      <option name="closed" value="true" />
+      <created>1745761648179</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1745761648179</updated>
+    </task>
+    <task id="LOCAL-00048" summary="Added webp images">
+      <option name="closed" value="true" />
+      <created>1745761665125</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1745761665125</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -629,8 +647,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added follow user notifications" />
-    <MESSAGE value="Added follow user notifications style" />
     <MESSAGE value="Fixed user info display" />
     <MESSAGE value="Updated unfollow to following" />
     <MESSAGE value="Added (manual) function to update display_name from first part of email if display_name is missing" />
@@ -654,6 +670,8 @@
     <MESSAGE value="Fixed likes" />
     <MESSAGE value="Code improvements" />
     <MESSAGE value="Improve website speed" />
-    <option name="LAST_COMMIT_MESSAGE" value="Improve website speed" />
+    <MESSAGE value="Improved image loading on Community Service Hours page" />
+    <MESSAGE value="Added webp images" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added webp images" />
   </component>
 </project>
