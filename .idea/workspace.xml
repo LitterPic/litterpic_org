@@ -4,27 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="Added webp images">
-      <change afterPath="$PROJECT_DIR$/components/ModernCarousel.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ModernPost.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/TailwindCarousel.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pages/modern-stories.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pages/modern/stories.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pages/tailwind-test.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pages/test-modern.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/loading-spinner.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/modern-stories.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tailwind.config.updated.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/prefetchStories.js" afterDir="false" />
+    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="Multiple updates to stories.js">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/post.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/post.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/stories.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/stories.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/styles/stories.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/stories.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/styles/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/styles/styles.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/styles/styles.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/styles/styles.css.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/styles.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/styles.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tailwind.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/tailwind.config.js" afterDir="false" />
     </list>
     <list id="382160bb-9221-4f9b-9560-69e35a8e70aa" name="auto modified" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -232,7 +217,7 @@
       <workItem from="1745699697830" duration="38000" />
       <workItem from="1745699750841" duration="138000" />
       <workItem from="1745700101810" duration="108000" />
-      <workItem from="1745700227649" duration="9498000" />
+      <workItem from="1745700227649" duration="10655000" />
     </task>
     <task id="LOCAL-00001" summary="Update banner for July">
       <option name="closed" value="true" />
@@ -618,7 +603,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745761665125</updated>
     </task>
-    <option name="localTasksCounter" value="49" />
+    <task id="LOCAL-00049" summary="Multiple updates to stories.js">
+      <option name="closed" value="true" />
+      <created>1745779125680</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1745779125680</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -647,7 +640,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Fixed user info display" />
     <MESSAGE value="Updated unfollow to following" />
     <MESSAGE value="Added (manual) function to update display_name from first part of email if display_name is missing" />
     <MESSAGE value="October message and user updates" />
@@ -672,6 +664,7 @@
     <MESSAGE value="Improve website speed" />
     <MESSAGE value="Improved image loading on Community Service Hours page" />
     <MESSAGE value="Added webp images" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added webp images" />
+    <MESSAGE value="Multiple updates to stories.js" />
+    <option name="LAST_COMMIT_MESSAGE" value="Multiple updates to stories.js" />
   </component>
 </project>

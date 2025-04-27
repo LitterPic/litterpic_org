@@ -279,11 +279,6 @@
   transition: transform 0.3s ease;
   display: block;
   margin: 0 auto;
-  will-change: transform; /* Optimize for animations */
-  backface-visibility: hidden; /* Prevent flickering during animations */
-  -webkit-backface-visibility: hidden;
-  transform-style: preserve-3d; /* Improve performance */
-  -webkit-transform-style: preserve-3d;
 }
 
 // Modern dot indicators

@@ -1,6 +1,5 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {useSwipeable} from 'react-swipeable';
-import {FaChevronLeft, FaChevronRight} from 'react-icons/fa';
 import Link from 'next/link';
 import {doc, getDoc, getFirestore} from 'firebase/firestore';
 import NotificationSender from "../utils/notifictionSender";
@@ -16,6 +15,8 @@ function Post({post, currentUser}) {
     const [mouseEnd, setMouseEnd] = useState(0);
     const [isDragging, setIsDragging] = useState(false);
     const [slidePosition, setSlidePosition] = useState(0);
+    const [isTransitioning, setIsTransitioning] = useState(false);
+    const lastSwipeTimeRef = useRef(0);
     const [userName, setUserName] = useState('');
     const [userPhoto, setUserPhoto] = useState('');
     const [isAmbassador, setIsAmbassador] = useState(false);
@@ -85,60 +86,112 @@ function Post({post, currentUser}) {
     }, [post, currentUserUid, firestore]);
 
     const nextPhoto = () => {
+        // Prevent rapid multiple swipes
+        const now = Date.now();
+        if (isTransitioning || now - lastSwipeTimeRef.current < 300) {
+            return;
+        }
+
+        lastSwipeTimeRef.current = now;
+        setIsTransitioning(true);
+
         setCurrentIndex((currentIndex) => (currentIndex + 1) % post.photos.length);
+
+        // Reset transition state after animation completes
+        setTimeout(() => {
+            setIsTransitioning(false);
+        }, 300);
     };
 
     const prevPhoto = () => {
+        // Prevent rapid multiple swipes
+        const now = Date.now();
+        if (isTransitioning || now - lastSwipeTimeRef.current < 300) {
+            return;
+        }
+
+        lastSwipeTimeRef.current = now;
+        setIsTransitioning(true);
+
         setCurrentIndex(
             (currentIndex) => (currentIndex - 1 + post.photos.length) % post.photos.length
         );
+
+        // Reset transition state after animation completes
+        setTimeout(() => {
+            setIsTransitioning(false);
+        }, 300);
     };
 
     const handlers = useSwipeable({
-        onSwipedLeft: nextPhoto,
-        onSwipedRight: prevPhoto,
+        onSwipedLeft: () => {
+            // Debounce to prevent multiple swipes
+            if (!isDragging) {
+                nextPhoto();
+            }
+        },
+        onSwipedRight: () => {
+            // Debounce to prevent multiple swipes
+            if (!isDragging) {
+                prevPhoto();
+            }
+        },
         preventDefaultTouchmoveEvent: true,
         trackMouse: true,
         trackTouch: true,
-        delta: 10, // Minimum swipe distance required
-        swipeDuration: 500, // Maximum time allowed for swipe motion
+        delta: 50, // Increase minimum swipe distance required
+        swipeDuration: 300, // Decrease maximum time allowed for swipe motion
     });
 
     const isVideo = (url) => /\.(mp4|webm)(\?|$)/i.test(url);
 
     // Manual touch handlers as a backup to the swipeable library
     const handleTouchStart = (e) => {
+        if (isDragging) return; // Prevent multiple touch events
+        setIsDragging(true);
         setTouchStart(e.targetTouches[0].clientX);
         setSlidePosition(0); // Reset slide position
     };
 
     const handleTouchMove = (e) => {
+        if (!isDragging) return;
         setTouchEnd(e.targetTouches[0].clientX);
 
         // Calculate and set the slide position for visual feedback during swiping
         const dragDistance = e.targetTouches[0].clientX - touchStart;
-        const maxDistance = 150; // Maximum slide distance
+        const maxDistance = 100; // Reduce maximum slide distance
         const boundedDistance = Math.max(Math.min(dragDistance, maxDistance), -maxDistance);
         setSlidePosition(boundedDistance);
     };
 
     const handleTouchEnd = () => {
+        if (!isDragging) return;
+
         // Reset slide position with animation
         setSlidePosition(0);
 
-        if (touchStart - touchEnd > 50) {
-            // Swipe left
-            nextPhoto();
+        const swipeDistance = touchStart - touchEnd;
+
+        // Only process swipe if it's a significant distance
+        if (Math.abs(swipeDistance) > 50) {
+            if (swipeDistance > 0) {
+                // Swipe left
+                nextPhoto();
+            } else {
+                // Swipe right
+                prevPhoto();
+            }
         }
 
-        if (touchStart - touchEnd < -50) {
-            // Swipe right
-            prevPhoto();
-        }
+        // Add a small delay before allowing another swipe
+        setTimeout(() => {
+            setIsDragging(false);
+        }, 300);
     };
 
     // Mouse-specific handlers for desktop swiping
     const handleMouseDown = (e) => {
+        if (isDragging) return; // Prevent multiple drag events
         e.preventDefault();
         setIsDragging(true);
         setMouseStart(e.clientX);
@@ -152,7 +205,7 @@ function Post({post, currentUser}) {
 
         // Calculate and set the slide position for visual feedback during dragging
         const dragDistance = e.clientX - mouseStart;
-        const maxDistance = 150; // Maximum slide distance
+        const maxDistance = 100; // Reduce maximum slide distance
         const boundedDistance = Math.max(Math.min(dragDistance, maxDistance), -maxDistance);
         setSlidePosition(boundedDistance);
     };
@@ -160,13 +213,13 @@ function Post({post, currentUser}) {
     const handleMouseUp = (e) => {
         if (!isDragging) return;
         e.preventDefault();
-        setIsDragging(false);
-
-        const swipeDistance = mouseStart - mouseEnd;
 
         // Reset slide position with animation
         setSlidePosition(0);
 
+        const swipeDistance = mouseStart - mouseEnd;
+
+        // Only process swipe if it's a significant distance
         if (Math.abs(swipeDistance) > 50) {
             if (swipeDistance > 0) {
                 // Swipe left
@@ -176,6 +229,11 @@ function Post({post, currentUser}) {
                 prevPhoto();
             }
         }
+
+        // Add a small delay before allowing another swipe
+        setTimeout(() => {
+            setIsDragging(false);
+        }, 300);
     };
 
     const handleMouseLeave = (e) => {
@@ -185,17 +243,11 @@ function Post({post, currentUser}) {
     };
 
     const renderMedia = (url, index) => {
-        const mediaStyle = {
-            transform: `translateX(${slidePosition}px)`,
-            transition: isDragging ? 'none' : 'transform 0.3s ease-out'
-        };
-
         return isVideo(url) ? (
             <video
                 key={index}
                 controls
                 className="carousel-image"
-                style={mediaStyle}
             >
                 <source src={url} type="video/mp4"/>
                 Your browser does not support the video tag.
@@ -206,7 +258,6 @@ function Post({post, currentUser}) {
                 src={url}
                 alt={`Post image ${index + 1}`}
                 className="carousel-image"
-                style={mediaStyle}
             />
         );
     };
