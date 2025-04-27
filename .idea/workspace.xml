@@ -4,27 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="Code improvements">
-      <change afterPath="$PROJECT_DIR$/.idea/AugmentWebviewStateStore.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/OptimizedCarousel.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hooks/useBackgroundStoryLoader.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hooks/useOptimizedCarousel.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/carousel-loading.scss" afterDir="false" />
+    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="Improve website speed">
+      <change afterPath="$PROJECT_DIR$/components/ImagePreloader.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scripts/optimize-all-images.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scripts/optimize-images.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/CommunityServiceContent.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/CommunityServiceContent.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/OptimizedCarousel.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/OptimizedCarousel.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/utils.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hooks/useBackgroundStoryLoader.js" beforeDir="false" afterPath="$PROJECT_DIR$/hooks/useBackgroundStoryLoader.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/next.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/next.config.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/stories.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/stories.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/community_service.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/community_service.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/styles/stories.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/stories.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/styles/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/styles/styles.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/styles/styles.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/styles/styles.css.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/styles/styles.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/styles.scss" afterDir="false" />
     </list>
-    <list id="382160bb-9221-4f9b-9560-69e35a8e70aa" name="auto modified" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/git_toolbox_blame.xml" afterDir="false" />
-    </list>
+    <list id="382160bb-9221-4f9b-9560-69e35a8e70aa" name="auto modified" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -45,6 +45,77 @@
   }
 }</component>
   <component name="GitToolBoxStore">
+    <option name="branchesCleanupHistory">
+      <BranchesCleanupHistory>
+        <option name="history">
+          <list>
+            <BranchCleanupEntry>
+              <option name="deletions">
+                <list>
+                  <BranchDeletion>
+                    <option name="hash" value="3755b6d6f371fb594402fad48ca0543468cc3657" />
+                    <option name="name" value="SPRINT-1" />
+                  </BranchDeletion>
+                  <BranchDeletion>
+                    <option name="hash" value="65c618b2df26c8f14020d14528c19b272e35b963" />
+                    <option name="name" value="fix-likes" />
+                  </BranchDeletion>
+                  <BranchDeletion>
+                    <option name="hash" value="ff90e5b0ce79da29181d8f487fa998f5461310f7" />
+                    <option name="name" value="add_user_to_maillist" />
+                  </BranchDeletion>
+                  <BranchDeletion>
+                    <option name="hash" value="a78f834923fc9f8376636c7d79a73f8c76e250a3" />
+                    <option name="name" value="icon_size_fix" />
+                  </BranchDeletion>
+                  <BranchDeletion>
+                    <option name="hash" value="b2d6886879f5e6e002e3956c040c3660418166be" />
+                    <option name="name" value="browser_tab_icon" />
+                  </BranchDeletion>
+                  <BranchDeletion>
+                    <option name="hash" value="d19ded9aed318a7a23b32611373226c90f5c7f8d" />
+                    <option name="name" value="LITTERPIC-223-location-caching" />
+                  </BranchDeletion>
+                  <BranchDeletion>
+                    <option name="hash" value="33631c875e678727ae61547a306495699799e8a9" />
+                    <option name="name" value="add_new_organization" />
+                  </BranchDeletion>
+                  <BranchDeletion>
+                    <option name="hash" value="b49a16a390fe1427929cf485993852f3f980d60e" />
+                    <option name="name" value="DEV" />
+                  </BranchDeletion>
+                  <BranchDeletion>
+                    <option name="hash" value="a303b396dd2a31cb74fc9c9a3bffb409223b413e" />
+                    <option name="name" value="event_creation_email" />
+                  </BranchDeletion>
+                  <BranchDeletion>
+                    <option name="hash" value="b504e3629bc7f8a3eff9b2229cce6eaf0956717c" />
+                    <option name="name" value="remove_location_cache" />
+                  </BranchDeletion>
+                  <BranchDeletion>
+                    <option name="hash" value="e3b20cdaffb519a53a489abcaaaedc8c71b6e5aa" />
+                    <option name="name" value="new_visitor_notif" />
+                  </BranchDeletion>
+                  <BranchDeletion>
+                    <option name="hash" value="689fe81425207d2b6916b498dea17eb153eda19a" />
+                    <option name="name" value="location_cache" />
+                  </BranchDeletion>
+                  <BranchDeletion>
+                    <option name="hash" value="2924e632bbc853318cd26b0f62c9b309fee75bab" />
+                    <option name="name" value="no_auth_rsvp" />
+                  </BranchDeletion>
+                  <BranchDeletion>
+                    <option name="hash" value="bf02eadf2092e50aecbd9093c8b42af911de90bd" />
+                    <option name="name" value="ambassador_infrastructure_dB" />
+                  </BranchDeletion>
+                </list>
+              </option>
+              <option name="timestamp" value="1745702107422" />
+            </BranchCleanupEntry>
+          </list>
+        </option>
+      </BranchesCleanupHistory>
+    </option>
     <option name="projectConfigVersion" value="5" />
     <option name="recentBranches">
       <RecentBranches>
@@ -159,7 +230,7 @@
       <workItem from="1745699697830" duration="38000" />
       <workItem from="1745699750841" duration="138000" />
       <workItem from="1745700101810" duration="108000" />
-      <workItem from="1745700227649" duration="1858000" />
+      <workItem from="1745700227649" duration="5214000" />
     </task>
     <task id="LOCAL-00001" summary="Update banner for July">
       <option name="closed" value="true" />
@@ -521,7 +592,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745695964509</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="Improve website speed">
+      <option name="closed" value="true" />
+      <created>1745702543934</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1745702543934</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -550,7 +629,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="September raffle update" />
     <MESSAGE value="Added follow user notifications" />
     <MESSAGE value="Added follow user notifications style" />
     <MESSAGE value="Fixed user info display" />
@@ -575,6 +653,7 @@
     <MESSAGE value="fix page not loading for missing like" />
     <MESSAGE value="Fixed likes" />
     <MESSAGE value="Code improvements" />
-    <option name="LAST_COMMIT_MESSAGE" value="Code improvements" />
+    <MESSAGE value="Improve website speed" />
+    <option name="LAST_COMMIT_MESSAGE" value="Improve website speed" />
   </component>
 </project>

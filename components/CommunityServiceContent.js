@@ -1,14 +1,65 @@
 import React from "react";
+import Image from "next/image";
+import ImagePreloader from "./ImagePreloader";
+
+// Images to preload
+const communityServiceImages = [
+    "/images/optimized/plastic-garbage-near-metallic-bin-park.webp",
+    "/images/optimized/young-activist-taking-action.webp",
+    "/images/optimized/lucas-van-oort-mhtPKJrG_EU-unsplash.webp",
+    "/images/optimized/closeup-plastic-bottle-male-hand-cleaning-up-nature.webp"
+];
 
 const CommunityServiceContent = () => (
     <div className="page">
+        <ImagePreloader imagePaths={communityServiceImages} />
         <div className="content">
             <h1 className="heading-text">Community Service Hours</h1>
             <div className="image-row">
-                <img src="../images/plastic-garbage-near-metallic-bin-park.jpg" alt=""/>
-                <img src="../images/young-activist-taking-action.jpg" alt=""/>
-                <img src="../images/lucas-van-oort-mhtPKJrG_EU-unsplash.jpg" alt=""/>
-                <img src="../images/closeup-plastic-bottle-male-hand-cleaning-up-nature.jpg" alt=""/>
+                <div className="image-container">
+                    <Image
+                        src="/images/optimized/plastic-garbage-near-metallic-bin-park.webp"
+                        alt="Plastic garbage near a metallic bin in a park"
+                        fill
+                        sizes="125px"
+                        className="community-service-image"
+                        priority
+                        style={{ objectFit: 'cover' }}
+                    />
+                </div>
+                <div className="image-container">
+                    <Image
+                        src="/images/optimized/young-activist-taking-action.webp"
+                        alt="Young activist taking action against litter"
+                        fill
+                        sizes="125px"
+                        className="community-service-image"
+                        priority
+                        style={{ objectFit: 'cover' }}
+                    />
+                </div>
+                <div className="image-container">
+                    <Image
+                        src="/images/optimized/lucas-van-oort-mhtPKJrG_EU-unsplash.webp"
+                        alt="Person collecting litter on a beach"
+                        fill
+                        sizes="125px"
+                        className="community-service-image"
+                        priority
+                        style={{ objectFit: 'cover' }}
+                    />
+                </div>
+                <div className="image-container">
+                    <Image
+                        src="/images/optimized/closeup-plastic-bottle-male-hand-cleaning-up-nature.webp"
+                        alt="Closeup of a plastic bottle in a male hand cleaning up nature"
+                        fill
+                        sizes="125px"
+                        className="community-service-image"
+                        priority
+                        style={{ objectFit: 'cover' }}
+                    />
+                </div>
             </div>
             <p>
                 At LitterPic, we extend our deepest gratitude to all volunteers who have chosen us as their nonprofit

@@ -28,7 +28,7 @@ export default function OptimizedCarousel({ images }) {
         {images.map((image, index) => {
           // Only render the current image and the adjacent ones
           if (!getShouldRender(index)) return null;
-
+          
           return (
             <div
               key={index}
@@ -40,10 +40,10 @@ export default function OptimizedCarousel({ images }) {
                   Your browser does not support the video tag.
                 </video>
               ) : (
-                <img
-                  key={index}
-                  src={image}
-                  alt={`Slide ${index}`}
+                <img 
+                  key={index} 
+                  src={image} 
+                  alt={`Slide ${index}`} 
                   className="carousel-media"
                   loading="lazy"
                   onLoad={() => handleImageLoad(index)}
@@ -58,7 +58,7 @@ export default function OptimizedCarousel({ images }) {
           <span
             key={index}
             className={`carousel-dot ${index === currentIndex ? 'active' : ''}`}
-            onClick={() => handleSwipe(index > currentIndex ? 'left' : 'right')}
+            onClick={() => setCurrentIndex(index)}
           />
         ))}
       </div>

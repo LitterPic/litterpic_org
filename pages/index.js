@@ -1,26 +1,19 @@
-import React, {useEffect, useState, lazy, Suspense} from 'react';
-import useBackgroundStoryLoader from '../hooks/useBackgroundStoryLoader';
-import useOptimizedCarousel from '../hooks/useOptimizedCarousel';
-import dynamic from 'next/dynamic';
-import OptimizedCarousel from '../components/OptimizedCarousel';
+import React, {useEffect, useState} from 'react';
 import {collection, doc, getDoc, getDocs, limit, orderBy, query, setDoc} from 'firebase/firestore';
 import {getDownloadURL, ref} from 'firebase/storage';
 import {db, storage} from '../lib/firebase';
 import 'firebase/firestore';
 import Head from "next/head";
 import Script from "next/script";
-import Link from "next/link";
 import {getMessaging, getToken} from "firebase/messaging";
 
-// Dynamically import AWS SDK to avoid loading it on initial page load
-const AWS = dynamic(() => import('aws-sdk').then(aws => {
-    aws.config.update({
-        accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY_ID,
-        secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY,
-        region: process.env.NEXT_PUBLIC_AWS_REGION || 'us-east-1'
-    });
-    return aws;
-}), { ssr: false, loading: () => null });
+const AWS = require('aws-sdk');
+
+AWS.config.update({
+    accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY,
+    region: process.env.NEXT_PUBLIC_AWS_REGION || 'us-east-1'
+});
 
 async function fetchRecentPosts() {
     const postsQuery = query(
@@ -75,9 +68,6 @@ export default function Index() {
     const [totalWeight, setTotalWeight] = useState(0);
     const [isDataLoaded, setIsDataLoaded] = useState(false);
 
-    // Use the background story loader hook to preload stories data
-    useBackgroundStoryLoader();
-
     const requestNotificationPermission = async () => {
         try {
             const messaging = getMessaging();
@@ -106,49 +96,42 @@ export default function Index() {
     }, []);
 
     useEffect(() => {
-        // Delay the notification sending to prioritize page loading
-        const sendNotificationWithDelay = () => {
-            // Use requestIdleCallback or setTimeout to delay execution until after page load
-            const executeWhenIdle = window.requestIdleCallback || ((cb) => setTimeout(cb, 2000));
+        async function sendNotification() {
+            try {
+                // Get the user's IP Address
+                const res = await fetch('https://api64.ipify.org?format=json');
+                const data = await res.json();
+                const ipAddress = data.ip;
 
-            executeWhenIdle(async () => {
-                try {
-                    // Get the user's IP Address
-                    const res = await fetch('https://api64.ipify.org?format=json');
-                    const data = await res.json();
-                    const ipAddress = data.ip;
+                // Get Geographical Info using ipstack
+                const geoRes = await fetch(`https://ipinfo.io/${ipAddress}?token=6b6a41269b8130`);
+                const geoData = await geoRes.json();
+                const location = 'City: ' + geoData.city +
+                    '\nRegion: ' + geoData.region +
+                    '\nPostal Code: ' + geoData.postal +
+                    '\nCountry: ' + geoData.country +
+                    '\nLocation: https://maps.google.com/?q=' + geoData.loc +
+                    '\nTime Zone: ' + geoData.timezone;
 
-                    // Get Geographical Info using ipstack
-                    const geoRes = await fetch(`https://ipinfo.io/${ipAddress}?token=6b6a41269b8130`);
-                    const geoData = await geoRes.json();
-                    const location = 'City: ' + geoData.city +
-                        '\nRegion: ' + geoData.region +
-                        '\nPostal Code: ' + geoData.postal +
-                        '\nCountry: ' + geoData.country +
-                        '\nLocation: https://maps.google.com/?q=' + geoData.loc +
-                        '\nTime Zone: ' + geoData.timezone;
+                // Send SNS notification
+                const sns = new AWS.SNS();
+                const topicArn = 'arn:aws:sns:us-east-1:710280486241:litterpicOrgNewVisitor';
+                const message = `A user from has visited LitterPic.org! \n\n ${location}`;
 
-                    // Dynamically load AWS and send notification
-                    if (typeof AWS.SNS === 'function') {
-                        const sns = new AWS.SNS();
-                        const topicArn = 'arn:aws:sns:us-east-1:710280486241:litterpicOrgNewVisitor';
-                        const message = `A user from has visited LitterPic.org! \n\n ${location}`;
+                const params = {
+                    Message: message,
+                    TopicArn: topicArn,
+                };
 
-                        const params = {
-                            Message: message,
-                            TopicArn: topicArn,
-                        };
+                await sns.publish(params).promise();
+            } catch (error) {
+                console.error("Error sending notification: ", error.message);
+            }
+        }
 
-                        await sns.publish(params).promise();
-                    }
-                } catch (error) {
-                    console.error("Error sending notification: ", error.message);
-                }
-            });
-        };
-
-        // Execute after component mounts
-        sendNotificationWithDelay();
+        (async () => {
+            await sendNotification();
+        })();
     }, []);
 
     useEffect(() => {
@@ -370,9 +353,9 @@ export default function Index() {
                             and
                             get
                             inspired by more!
-                            <Link href="/stories" prefetch={true} className=" index-more-stories-button">
+                            <a className=" index-more-stories-button" href="/stories">
                                 <button type=" button">User Stories</button>
-                            </Link>
+                            </a>
                         </h2>
                     </div>
                     <br/>
@@ -512,7 +495,7 @@ export default function Index() {
                             </p>
                             <br/>
                             <div className=" home-bottom-carousel-section">
-                                <OptimizedCarousel className=" carousel" images={images}/>
+                                <Carousel className=" carousel" images={images}/>
                             </div>
                         </div>
                         <br/>

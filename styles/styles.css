@@ -3360,42 +3360,6 @@ h1.heading-text.profile-heading {
   border: 2px solid #f00;
 }
 
-.disabled-heart, .disabled-comment {
-  opacity: 0.6;
-  cursor: pointer;
-}
-
-.loading-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-  width: 100%;
-}
-.loading-container p {
-  margin-top: 1rem;
-  font-size: 1.2rem;
-  color: #015e41;
-}
-
-.loading-spinner {
-  border: 4px solid rgba(0, 0, 0, 0.1);
-  border-radius: 50%;
-  border-top: 4px solid #015e41;
-  width: 40px;
-  height: 40px;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
 .story-comment-input {
   display: flex;
   flex-direction: column;
@@ -5187,42 +5151,6 @@ input::placeholder {
   border: 2px solid #f00;
 }
 
-.disabled-heart, .disabled-comment {
-  opacity: 0.6;
-  cursor: pointer;
-}
-
-.loading-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-  width: 100%;
-}
-.loading-container p {
-  margin-top: 1rem;
-  font-size: 1.2rem;
-  color: #015e41;
-}
-
-.loading-spinner {
-  border: 4px solid rgba(0, 0, 0, 0.1);
-  border-radius: 50%;
-  border-top: 4px solid #015e41;
-  width: 40px;
-  height: 40px;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
 .story-comment-input {
   display: flex;
   flex-direction: column;
@@ -6398,19 +6326,97 @@ textarea.event-description-input {
   flex-wrap: wrap;
   justify-content: space-evenly;
   margin-bottom: 2.5rem;
+  /* Style for Next.js Image component */
+}
+.image-row > span {
+  position: relative !important;
+  border-radius: 10% !important;
+  height: 17.2rem !important;
+  width: 12.5rem !important;
+  margin: 0.5rem !important;
+  overflow: hidden !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+  animation: fadeIn 0.5s ease-in !important;
+}
+.image-row > span:hover {
+  transform: scale(1.02) !important;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15) !important;
+}
+@media (max-width: 600px) {
+  .image-row > span {
+    flex: 1 1 calc(50% - 1rem) !important;
+  }
+}
+.image-row > span img {
+  object-fit: cover !important;
+  border-radius: 10% !important;
 }
 .image-row img {
-  border-radius: 10%;
-  height: 17.2rem;
-  margin: 0.5rem;
-  width: 12.5rem;
+  border-radius: 10% !important;
+  height: 17.2rem !important;
+  margin: 0.5rem !important;
+  width: 12.5rem !important;
+  object-fit: cover !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+  /* Add loading animation */
+  animation: fadeIn 0.5s ease-in !important;
+}
+.image-row img:hover {
+  transform: scale(1.02) !important;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15) !important;
 }
 @media (max-width: 600px) {
   .image-row img {
+    flex: 1 1 calc(50% - 1rem) !important;
+  }
+}
+
+/* Loading animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+/* Specific style for community service images */
+.community-service-image {
+  border-radius: 10% !important;
+  object-fit: cover !important;
+}
+
+/* Container for Next.js Image component */
+.image-container {
+  position: relative;
+  width: 12.5rem;
+  height: 17.2rem;
+  margin: 0.5rem;
+  border-radius: 10%;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+  background-size: 200% 100%;
+  animation: 1.5s shine linear infinite, fadeIn 0.5s ease-in;
+}
+.image-container:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+@media (max-width: 600px) {
+  .image-container {
     flex: 1 1 calc(50% - 1rem);
   }
 }
 
+@keyframes shine {
+  to {
+    background-position-x: -200%;
+  }
+}
 .page {
   display: flex;
   justify-content: center;
@@ -6544,30 +6550,6 @@ textarea.event-description-input {
   }
   .notification-item .mark-as-read-button, .notification-item .delete-notification-button {
     padding: 5px 5px;
-  }
-}
-.carousel-container.loading {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #f5f5f5;
-}
-.carousel-container.loading:after {
-  content: "";
-  width: 40px;
-  height: 40px;
-  border: 4px solid rgba(0, 0, 0, 0.1);
-  border-radius: 50%;
-  border-top: 4px solid #015e41;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
   }
 }
 * {

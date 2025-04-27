@@ -174,19 +174,7 @@ function Stories() {
 
     useEffect(() => {
         if (!loadingUser) {
-            // Check if we have prefetched data before fetching
-            const postsVersion = localStorage.getItem('postsVersion') || '0';
-            const cacheKey = getAllPostsCacheKey(1, postsVersion);
-            const cachedData = localStorage.getItem(cacheKey);
-
-            if (cachedData) {
-                console.log('Using prefetched stories data');
-                const { posts: cachedPosts } = JSON.parse(cachedData);
-                setPosts(cachedPosts);
-                setIsLoading(false);
-            } else {
-                fetchAndSetPosts(1);
-            }
+            fetchAndSetPosts(1);
         }
     }, [loadingUser]);
 
@@ -506,24 +494,15 @@ function Stories() {
         // Current time
         const now = new Date().getTime();
 
-        // Check if we have valid cached data
         if (cachedData) {
-            try {
-                const { posts: cachedPosts, timestamp } = JSON.parse(cachedData);
-                const cacheExpiration = isMyPosts ? MY_POSTS_CACHE_EXPIRATION_MS : ALL_POSTS_CACHE_EXPIRATION_MS;
+            const { posts: cachedPosts, timestamp } = JSON.parse(cachedData);
+            const cacheExpiration = isMyPosts ? MY_POSTS_CACHE_EXPIRATION_MS : ALL_POSTS_CACHE_EXPIRATION_MS;
 
-                // Check if cache is not older than expiration
-                if (now - timestamp < cacheExpiration) {
-                    console.log(`Using cached stories data for page ${page}${userId ? ' (user posts)' : ''}`);
-                    setPosts(prevPosts => [...prevPosts, ...cachedPosts]);
-                    setIsLoading(false);
-                    setHasMorePosts(cachedPosts.length >= postsPerPage);
-                    setPage(page);
-                    return;
-                }
-            } catch (error) {
-                console.error('Error parsing cached data:', error);
-                // Continue with fetching if there's an error with the cache
+            // Check if cache is not older than expiration
+            if (now - timestamp < cacheExpiration) {
+                setPosts(prevPosts => [...prevPosts, ...cachedPosts]);
+                setIsLoading(false);
+                return;
             }
         }
 
@@ -885,19 +864,12 @@ function Stories() {
                     </div>
 
                     <div className="story-posts">
-                        {isLoading && posts.length === 0 ? (
-                            <div className="loading-container">
-                                <div className="loading-spinner"></div>
-                                <p>Loading stories...</p>
-                            </div>
-                        ) : (
-                            <>
-                                <Masonry
-                                    key='all'
-                                    breakpointCols={{default: 2, 700: 1}}
-                                    className="post-grid"
-                                    columnClassName="post-grid-column"
-                                >
+                        <Masonry
+                            key='all'
+                            breakpointCols={{default: 2, 700: 1}}
+                            className="post-grid"
+                            columnClassName="post-grid-column"
+                        >
                             {posts.map((post, index) => {
                                 const {numComments} = post;
                                 const postMasonryKey = `${index}_${post.id}_post`;
@@ -963,9 +935,8 @@ function Stories() {
                           onMouseLeave={() => handleLeaveHover(post)}>
 
                         <i
-                            className={`material-icons ${post.currentUserLiked ? 'filled-heart' : 'empty-heart'} ${!user ? 'disabled-heart' : ''}`}
-                            onClick={() => user ? handleToggleLike(post.id) : router.push('/login')}
-                            title={user ? 'Like this post' : 'Sign in to like posts'}
+                            className={`material-icons ${post.currentUserLiked ? 'filled-heart' : 'empty-heart'}`}
+                            onClick={() => handleToggleLike(post.id)}
                         >
                             {post.currentUserLiked ? 'favorite' : 'favorite_border'}
                         </i>
@@ -980,9 +951,8 @@ function Stories() {
 
                                             <span className="likes-comments-comment-field">
                         <i
-                            className={`material-icons ${numComments > 0 ? 'filled-comment' : 'empty-comment'} ${!user ? 'disabled-comment' : ''}`}
-                            onClick={() => user ? setOpenCommentInput(openCommentInput !== post.id ? post.id : null) : router.push('/login')}
-                            title={user ? 'Comment on this post' : 'Sign in to comment on posts'}
+                            className={`material-icons ${numComments > 0 ? 'filled-comment' : 'empty-comment'}`}
+                            onClick={() => setOpenCommentInput(openCommentInput !== post.id ? post.id : null)}
                         >
                             mode_comment
                         </i>
@@ -1069,29 +1039,27 @@ function Stories() {
                                     </div>
                                 );
                             })}
-                                </Masonry>
+                        </Masonry>
 
-                                <div className="button-container">
-                                    {!isLoading && hasMorePosts && !showMyPosts && selectedUser === "" && (
-                                        <button
-                                            className="custom-file-button"
-                                            onClick={() => fetchAndSetPosts(page + 1, null)}
-                                        >
-                                            See More Stories
-                                        </button>
-                                    )}
-                                    {isLoading && <div>Loading more stories...</div>}
-                                    {!isLoading && showBackToTop && (
-                                        <button
-                                            className="back-to-top-button"
-                                            onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}
-                                        >
-                                            Back to Top
-                                        </button>
-                                    )}
-                                </div>
-                            </>
-                        )}
+                        <div className="button-container">
+                            {!isLoading && hasMorePosts && !showMyPosts && selectedUser === "" && (
+                                <button
+                                    className="custom-file-button"
+                                    onClick={() => fetchAndSetPosts(page + 1, null)}
+                                >
+                                    See More Stories
+                                </button>
+                            )}
+                            {isLoading && <div>Loading more stories...</div>}
+                            {!isLoading && showBackToTop && (
+                                <button
+                                    className="back-to-top-button"
+                                    onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}
+                                >
+                                    Back to Top
+                                </button>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
