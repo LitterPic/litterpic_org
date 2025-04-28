@@ -2,6 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {fetchPosts, getUsersWhoLikedPost, toggleLike} from '../components/utils';
 import Link from 'next/link';
 import { getAllPostsCacheKey, getMyPostsCacheKey } from '../utils/prefetchStories';
+import PostSkeleton from '../components/PostSkeleton';
 import Masonry from 'react-masonry-css';
 import {getAuth} from 'firebase/auth';
 import {useRouter} from 'next/router';
@@ -895,10 +896,15 @@ function Stories() {
 
                     <div className="story-posts">
                         {isLoading && posts.length === 0 && (
-                            <div className="initial-loading-container">
-                                <div className="loading-spinner"></div>
-                                <p>Loading stories...</p>
-                            </div>
+                            <Masonry
+                                breakpointCols={{default: 2, 700: 1}}
+                                className="post-grid"
+                                columnClassName="post-grid-column"
+                            >
+                                {[...Array(6)].map((_, index) => (
+                                    <PostSkeleton key={`skeleton-${index}`} />
+                                ))}
+                            </Masonry>
                         )}
 
                         <Masonry
@@ -1087,11 +1093,16 @@ function Stories() {
                                     See More Stories
                                 </button>
                             )}
-                            {isLoading && (
-                                <div className="loading-spinner-container">
-                                    <div className="loading-spinner"></div>
-                                    <p>Loading more stories...</p>
-                                </div>
+                            {isLoading && posts.length > 0 && (
+                                <Masonry
+                                    breakpointCols={{default: 2, 700: 1}}
+                                    className="post-grid"
+                                    columnClassName="post-grid-column"
+                                >
+                                    {[...Array(2)].map((_, index) => (
+                                        <PostSkeleton key={`load-more-skeleton-${index}`} />
+                                    ))}
+                                </Masonry>
                             )}
                             {!isLoading && showBackToTop && (
                                 <button

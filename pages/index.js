@@ -150,8 +150,11 @@ export default function Index() {
     useEffect(() => {
         const allImages = recentPosts.flatMap((post) => post.photos);
         setImages(allImages);
+    }, [recentPosts]);
 
-        // Prefetch stories data when images are loaded
+    // Prefetch stories data as early as possible
+    useEffect(() => {
+        // Start prefetching stories data immediately
         const prefetchStoriesData = async () => {
             const auth = getAuth();
             const currentUser = auth.currentUser;
@@ -160,13 +163,15 @@ export default function Index() {
 
         // Use requestIdleCallback if available, otherwise use setTimeout
         if (typeof window !== 'undefined') {
+            // Start prefetching immediately with a short delay
+            setTimeout(prefetchStoriesData, 100);
+
+            // Also prefetch when the page becomes idle
             if ('requestIdleCallback' in window) {
                 window.requestIdleCallback(prefetchStoriesData, { timeout: 2000 });
-            } else {
-                setTimeout(prefetchStoriesData, 500);
             }
         }
-    }, [recentPosts]);
+    }, []);
 
     useEffect(() => {
         const fetchTotalWeight = async () => {

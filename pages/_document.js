@@ -21,6 +21,15 @@ class MyDocument extends Document {
                     <meta name="theme-color" content="#015e41"/>
                     <link rel="icon" href="/public/favicon.ico"/>
                     {/*<meta name="google-site-verification" content="YOUR_VERIFICATION_CODE"/>*/}
+
+                    {/* Preload critical resources */}
+                    <link rel="preload" href="/images/litter_pic_logo.png" as="image" />
+                    <link rel="preconnect" href="https://firestore.googleapis.com" />
+                    <link rel="preconnect" href="https://storage.googleapis.com" />
+
+                    {/* Preload critical fonts */}
+                    <link rel="preload" href="https://fonts.googleapis.com/icon?family=Material+Icons" as="style" />
+                    <link rel="preload" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" as="style" />
                 </Head>
                 <body>
                 <Main/>

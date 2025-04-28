@@ -4,14 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="Multiple updates to stories.js">
+    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="Fixed swiping issue where we moved more than one photo per swipe">
+      <change afterPath="$PROJECT_DIR$/components/PostSkeleton.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/styles/skeleton.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/imageConverter.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/post.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/post.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/stories.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/stories.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/navlink.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/navlink.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/_document.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/_document.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/stories.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/stories.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/styles/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/styles/styles.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/styles/styles.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/styles/styles.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/styles.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/styles.scss" afterDir="false" />
     </list>
-    <list id="382160bb-9221-4f9b-9560-69e35a8e70aa" name="auto modified" comment="" />
+    <list id="382160bb-9221-4f9b-9560-69e35a8e70aa" name="auto modified" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -142,6 +152,22 @@
     &quot;accountId&quot;: &quot;d6e10271-1a0e-4ea7-b61c-1ec61c897260&quot;
   }
 }</component>
+  <component name="LineStatusTrackerManager">
+    <file path="$PROJECT_DIR$/.idea/workspace.xml">
+      <ranges>
+        <range start1="6" end1="7" start2="6" end2="10" changelist="fc440dac-09dd-4333-855f-f4bd9e5c1f62" />
+        <range start1="8" end1="10" start2="11" end2="18" changelist="fc440dac-09dd-4333-855f-f4bd9e5c1f62" />
+        <range start1="12" end1="12" start2="20" end2="24" changelist="fc440dac-09dd-4333-855f-f4bd9e5c1f62" />
+        <range start1="13" end1="14" start2="25" end2="25" changelist="fc440dac-09dd-4333-855f-f4bd9e5c1f62" />
+        <range start1="144" end1="144" start2="155" end2="168" changelist="fc440dac-09dd-4333-855f-f4bd9e5c1f62" />
+        <range start1="170" end1="171" start2="194" end2="195" changelist="fc440dac-09dd-4333-855f-f4bd9e5c1f62" />
+        <range start1="219" end1="228" start2="243" end2="244" changelist="fc440dac-09dd-4333-855f-f4bd9e5c1f62" />
+        <range start1="613" end1="614" start2="629" end2="638" changelist="382160bb-9221-4f9b-9560-69e35a8e70aa" />
+        <range start1="642" end1="643" start2="666" end2="666" changelist="382160bb-9221-4f9b-9560-69e35a8e70aa" />
+        <range start1="667" end1="668" start2="690" end2="692" changelist="382160bb-9221-4f9b-9560-69e35a8e70aa" />
+      </ranges>
+    </file>
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -168,7 +194,7 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "project.propVCSSupport.Confirmation",
-    "ts.external.directory.path": "/Applications/WebStorm.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external",
+    "ts.external.directory.path": "/Applications/WebStorm.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -217,15 +243,7 @@
       <workItem from="1745699697830" duration="38000" />
       <workItem from="1745699750841" duration="138000" />
       <workItem from="1745700101810" duration="108000" />
-      <workItem from="1745700227649" duration="10655000" />
-    </task>
-    <task id="LOCAL-00001" summary="Update banner for July">
-      <option name="closed" value="true" />
-      <created>1720743330408</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1720743330408</updated>
+      <workItem from="1745700227649" duration="12136000" />
     </task>
     <task id="LOCAL-00002" summary="Fixed UI crash from likes on missing user">
       <option name="closed" value="true" />

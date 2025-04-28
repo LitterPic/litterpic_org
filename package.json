@@ -54,7 +54,8 @@
     "slick-carousel": "^1.8.1",
     "swr": "^2.3.3",
     "tailwindcss": "^3.4.13",
-    "tcp-port-used": "^1.0.2"
+    "tcp-port-used": "^1.0.2",
+    "webp-converter": "^2.3.3"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.6.3",
