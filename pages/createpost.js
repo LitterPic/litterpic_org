@@ -23,6 +23,7 @@ import {useLoadScript} from '@react-google-maps/api';
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {capitalizeFirstWordOfSentences} from "../utils/textUtils";
+import {convertToWebP} from "../utils/imageConverter";
 
 
 const libraries = ['places'];
@@ -169,8 +170,36 @@ function CreatePost() {
         setUploading(true);
 
         const uploadSingleImage = async (file) => {
-            const storageRef = ref(storage, `userPosts/${user.uid}/${file.name}`);
-            const task = uploadBytesResumable(storageRef, file);
+            // Check if the file is an image that can be converted to WebP
+            const isImage = file.type.startsWith('image/');
+            const isWebP = file.type === 'image/webp';
+            const isVideo = file.type.startsWith('video/');
+
+            // Convert image to WebP if it's not already WebP and not a video
+            let fileToUpload = file;
+            let fileName = file.name;
+
+            if (isImage && !isWebP && !isVideo) {
+                try {
+                    // Convert to WebP with 80% quality and max width of 1600px
+                    fileToUpload = await convertToWebP(file, { quality: 0.8, maxWidth: 1600 });
+                    fileName = `${file.name.split('.')[0]}.webp`;
+
+                    // Log size reduction
+                    const originalSizeMB = file.size / (1024 * 1024);
+                    const newSizeMB = fileToUpload.size / (1024 * 1024);
+                    const reductionPercent = (100 - (newSizeMB / originalSizeMB) * 100).toFixed(0);
+                    console.log(`Reduced ${file.name} from ${originalSizeMB.toFixed(2)}MB to ${newSizeMB.toFixed(2)}MB (${reductionPercent}% reduction)`);
+                } catch (error) {
+                    console.error('Error converting image to WebP:', error);
+                    // If conversion fails, use the original file
+                    fileToUpload = file;
+                    fileName = file.name;
+                }
+            }
+
+            const storageRef = ref(storage, `userPosts/${user.uid}/${fileName}`);
+            const task = uploadBytesResumable(storageRef, fileToUpload);
 
             for (let attempt = 1; attempt <= 3; attempt++) {
                 try {
