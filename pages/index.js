@@ -8,6 +8,7 @@ import Script from "next/script";
 import {getMessaging, getToken} from "firebase/messaging";
 import {prefetchStories} from '../utils/prefetchStories';
 import {getAuth} from 'firebase/auth';
+import { useStoriesContext } from '../contexts/StoriesContext';
 
 const AWS = require('aws-sdk');
 
@@ -65,8 +66,12 @@ async function fetchRecentPosts() {
 export default function Index() {
     const CACHE_EXPIRATION_TIME = 5 * 60 * 1000;
 
+    // Get the stories context
+    const { updateCachedStories } = useStoriesContext();
+
     const [recentPosts, setRecentPosts] = useState([]);
     const [images, setImages] = useState([]);
+    const [offsetImages, setOffsetImages] = useState([]);
     const [totalWeight, setTotalWeight] = useState(0);
     const [isDataLoaded, setIsDataLoaded] = useState(false);
 
@@ -150,6 +155,15 @@ export default function Index() {
     useEffect(() => {
         const allImages = recentPosts.flatMap((post) => post.photos);
         setImages(allImages);
+
+        // Create a second array with a different starting point for the bottom carousel
+        if (allImages.length > 0) {
+            // Calculate an offset that's roughly halfway through the array
+            const offset = Math.floor(allImages.length / 2);
+            // Create a new array that starts at the offset and wraps around
+            const offsetArr = [...allImages.slice(offset), ...allImages.slice(0, offset)];
+            setOffsetImages(offsetArr);
+        }
     }, [recentPosts]);
 
     // Prefetch stories data as early as possible
@@ -158,20 +172,41 @@ export default function Index() {
         const prefetchStoriesData = async () => {
             const auth = getAuth();
             const currentUser = auth.currentUser;
-            await prefetchStories(0, currentUser);
+            const prefetchedStories = await prefetchStories(0, currentUser);
+
+            // If stories were successfully prefetched, update the global context
+            if (prefetchedStories && prefetchedStories.length > 0) {
+                console.log(`Updating global context with ${prefetchedStories.length} prefetched stories`);
+                updateCachedStories(prefetchedStories);
+            }
         };
 
-        // Use requestIdleCallback if available, otherwise use setTimeout
+        // Use multiple strategies to ensure stories are prefetched
         if (typeof window !== 'undefined') {
-            // Start prefetching immediately with a short delay
-            setTimeout(prefetchStoriesData, 100);
+            // 1. Start prefetching immediately with no delay
+            prefetchStoriesData(); // Immediate call
 
-            // Also prefetch when the page becomes idle
+            // Also set a backup timeout just in case
+            setTimeout(prefetchStoriesData, 50);
+
+            // 2. Also prefetch when the page becomes idle
             if ('requestIdleCallback' in window) {
-                window.requestIdleCallback(prefetchStoriesData, { timeout: 2000 });
+                window.requestIdleCallback(prefetchStoriesData, { timeout: 1000 });
             }
+
+            // 3. Add a link prefetch hint for the stories page
+            const linkElement = document.createElement('link');
+            linkElement.rel = 'prefetch';
+            linkElement.href = '/stories';
+            document.head.appendChild(linkElement);
+
+            // 4. Preconnect to Firebase storage for faster image loading
+            const preconnectElement = document.createElement('link');
+            preconnectElement.rel = 'preconnect';
+            preconnectElement.href = 'https://firebasestorage.googleapis.com';
+            document.head.appendChild(preconnectElement);
         }
-    }, []);
+    }, [updateCachedStories]);
 
     useEffect(() => {
         const fetchTotalWeight = async () => {
@@ -518,7 +553,7 @@ export default function Index() {
                             </p>
                             <br/>
                             <div className=" home-bottom-carousel-section">
-                                <Carousel className=" carousel" images={images}/>
+                                <Carousel className=" carousel" images={offsetImages}/>
                             </div>
                         </div>
                         <br/>

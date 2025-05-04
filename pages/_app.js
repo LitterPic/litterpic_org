@@ -2,6 +2,7 @@ import React from "react";
 import Head from 'next/head'; // Import Head from next/head
 import Layout from "../components/layout";
 import '../styles/styles.scss'
+import { StoriesProvider } from '../contexts/StoriesContext';
 
 const MyApp = ({Component, pageProps}) => {
     return (
@@ -13,9 +14,11 @@ const MyApp = ({Component, pageProps}) => {
                     rel="stylesheet"
                 />
             </Head>
-            <Layout>
-                <Component {...pageProps} />
-            </Layout>
+            <StoriesProvider>
+                <Layout>
+                    <Component {...pageProps} />
+                </Layout>
+            </StoriesProvider>
         </>
     );
 };
