@@ -1107,21 +1107,6 @@ function Stories() {
                     __html: `
                         // Fix for 300ms tap delay on mobile devices
                         document.addEventListener('touchstart', function() {}, {passive: true});
-
-                        // Fix for links not working on mobile
-                        document.addEventListener('DOMContentLoaded', function() {
-                            // Add click handlers to all links
-                            var links = document.querySelectorAll('a');
-                            for (var i = 0; i < links.length; i++) {
-                                links[i].addEventListener('touchend', function(e) {
-                                    var href = this.getAttribute('href');
-                                    if (href && !this.classList.contains('no-touch-redirect')) {
-                                        e.preventDefault();
-                                        window.location.href = href;
-                                    }
-                                }, false);
-                            }
-                        });
                     `
                 }} />
 

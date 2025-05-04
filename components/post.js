@@ -325,14 +325,8 @@ function Post({post, currentUser}) {
                     </button>
                 )}
 
-                <Link href={`/profile/${post.user.uid}`} legacyBehavior passHref>
-                    <a className="post-user-name" onClick={(e) => {
-                        // For mobile devices, handle the click manually
-                        if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-                            e.preventDefault();
-                            window.location.href = `/profile/${post.user.uid}`;
-                        }
-                    }}>{userName}</a>
+                <Link href={`/profile/${post.user.uid}`} legacyBehavior>
+                    <a className="post-user-name">{userName}</a>
                 </Link>
 
                 <div className="post-location">
@@ -340,12 +334,6 @@ function Post({post, currentUser}) {
                         href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(post.location)}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        onClick={(e) => {
-                            // For mobile devices, ensure the link works
-                            if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-                                e.stopPropagation();
-                            }
-                        }}
                         style={{ padding: '8px 0', display: 'inline-block' }}
                     >
                         {post.location}
