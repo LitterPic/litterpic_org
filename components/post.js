@@ -258,21 +258,25 @@ function Post({post, currentUser}) {
 
     const renderMedia = (url, index) => {
         return isVideo(url) ? (
-            <video
-                key={index}
-                controls
-                className="carousel-image"
-            >
-                <source src={url} type="video/mp4"/>
-                Your browser does not support the video tag.
-            </video>
+            <div className="carousel-image-container">
+                <video
+                    key={index}
+                    controls
+                    className="carousel-image"
+                >
+                    <source src={url} type="video/mp4"/>
+                    Your browser does not support the video tag.
+                </video>
+            </div>
         ) : (
-            <img
-                key={index}
-                src={url}
-                alt={`Post image ${index + 1}`}
-                className="carousel-image"
-            />
+            <div className="carousel-image-container">
+                <img
+                    key={index}
+                    src={url}
+                    alt={`Post image ${index + 1}`}
+                    className="carousel-image"
+                />
+            </div>
         );
     };
 
