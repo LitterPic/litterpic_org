@@ -3451,18 +3451,6 @@ h1.heading-text.profile-heading {
   align-items: center;
 }
 
-.carousel-media-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-}
-
 .carousel-image {
   height: auto;
   max-height: 500px;
@@ -3470,14 +3458,9 @@ h1.heading-text.profile-heading {
   overflow: hidden;
   width: auto;
   max-width: 100%;
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition: transform 0.3s ease;
   display: block;
   margin: 0 auto;
-  will-change: transform, opacity; /* Optimize for animations */
-  backface-visibility: hidden; /* Prevent flickering during animations */
-  -webkit-backface-visibility: hidden;
-  transform-style: preserve-3d; /* Improve performance */
-  -webkit-transform-style: preserve-3d;
 }
 
 .carousel-dots {
@@ -5370,18 +5353,6 @@ input::placeholder {
   align-items: center;
 }
 
-.carousel-media-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-}
-
 .carousel-image {
   height: auto;
   max-height: 500px;
@@ -5389,14 +5360,9 @@ input::placeholder {
   overflow: hidden;
   width: auto;
   max-width: 100%;
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition: transform 0.3s ease;
   display: block;
   margin: 0 auto;
-  will-change: transform, opacity; /* Optimize for animations */
-  backface-visibility: hidden; /* Prevent flickering during animations */
-  -webkit-backface-visibility: hidden;
-  transform-style: preserve-3d; /* Improve performance */
-  -webkit-transform-style: preserve-3d;
 }
 
 .carousel-dots {
@@ -7565,6 +7531,105 @@ textarea.event-description-input {
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+@media (max-width: 768px) {
+  a, button, .post-user-name, .meatball-menu, .material-icons,
+  .likes-comments-likes-field, .likes-comments-comment-field {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  a::before, button::before, .post-user-name::before, .meatball-menu::before, .material-icons::before,
+  .likes-comments-likes-field::before, .likes-comments-comment-field::before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    z-index: -1;
+  }
+  .post-user-name {
+    font-size: 1.1rem;
+    padding: 10px 5px;
+    margin: 0;
+    cursor: pointer;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+  }
+  .meatball-menu {
+    padding: 10px;
+    font-size: 1.5rem;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+  }
+  .material-icons {
+    font-size: 1.8rem;
+    padding: 8px;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+  }
+  .post-carousel {
+    touch-action: pan-x;
+    -webkit-overflow-scrolling: touch;
+  }
+  .post-carousel:active {
+    background-color: rgba(0, 0, 0, 0.02);
+  }
+  button {
+    padding: 12px 16px;
+    font-size: 1rem;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+  }
+  button:active {
+    opacity: 0.8;
+  }
+  .custom-file-button {
+    width: 100%;
+    max-width: 300px;
+    margin: 20px auto;
+    padding: 15px;
+    font-size: 1.1rem;
+    display: block;
+  }
+  .nav-links a, .nav-links button {
+    padding: 15px;
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  .nav-links a:last-child, .nav-links button:last-child {
+    border-bottom: none;
+  }
+  .post-grid {
+    margin: 0 -10px;
+  }
+  .post-grid-column {
+    padding: 0 10px;
+  }
+  .post {
+    margin-bottom: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  .carousel-dots {
+    padding: 10px 0;
+  }
+  .carousel-dots .carousel-dot {
+    width: 12px;
+    height: 12px;
+    margin: 0 5px;
+  }
+}
+@supports (-webkit-touch-callout: none) {
+  a, button, .post-user-name, .meatball-menu, .material-icons {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  * {
+    touch-action: manipulation;
   }
 }
 * {

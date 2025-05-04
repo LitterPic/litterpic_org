@@ -1,0 +1,136 @@
+// Mobile optimizations
+
+// Improve touch targets for better mobile interaction
+@media (max-width: 768px) {
+  // Increase touch target size for all interactive elements
+  a, button, .post-user-name, .meatball-menu, .material-icons, 
+  .likes-comments-likes-field, .likes-comments-comment-field {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    
+    // Add padding to ensure the touch target is large enough
+    &::before {
+      content: "";
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      right: -10px;
+      bottom: -10px;
+      z-index: -1;
+    }
+  }
+  
+  // Fix for links in posts
+  .post-user-name {
+    font-size: 1.1rem;
+    padding: 10px 5px;
+    margin: 0;
+    cursor: pointer;
+    -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+  }
+  
+  // Fix for the meatball menu
+  .meatball-menu {
+    padding: 10px;
+    font-size: 1.5rem;
+    -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+  }
+  
+  // Fix for like and comment buttons
+  .material-icons {
+    font-size: 1.8rem;
+    padding: 8px;
+    -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+  }
+  
+  // Fix for the carousel navigation
+  .post-carousel {
+    touch-action: pan-x;
+    -webkit-overflow-scrolling: touch;
+    
+    // Improve swipe feedback
+    &:active {
+      background-color: rgba(0,0,0,0.02);
+    }
+  }
+  
+  // Fix for buttons
+  button {
+    padding: 12px 16px;
+    font-size: 1rem;
+    -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+    
+    &:active {
+      opacity: 0.8;
+    }
+  }
+  
+  // Fix for the "See More Stories" button
+  .custom-file-button {
+    width: 100%;
+    max-width: 300px;
+    margin: 20px auto;
+    padding: 15px;
+    font-size: 1.1rem;
+    display: block;
+  }
+  
+  // Fix for the navigation menu
+  .nav-links {
+    a, button {
+      padding: 15px;
+      width: 100%;
+      text-align: center;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+      
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+  
+  // Fix for the post grid
+  .post-grid {
+    margin: 0 -10px;
+  }
+  
+  .post-grid-column {
+    padding: 0 10px;
+  }
+  
+  // Fix for the post
+  .post {
+    margin-bottom: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  
+  // Fix for the carousel dots
+  .carousel-dots {
+    padding: 10px 0;
+    
+    .carousel-dot {
+      width: 12px;
+      height: 12px;
+      margin: 0 5px;
+    }
+  }
+}
+
+// Fix for iOS Safari specific issues
+@supports (-webkit-touch-callout: none) {
+  a, button, .post-user-name, .meatball-menu, .material-icons {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  // Fix for the 300ms tap delay
+  * {
+    touch-action: manipulation;
+  }
+}

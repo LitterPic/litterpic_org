@@ -5,6 +5,7 @@ import { getAllPostsCacheKey, getMyPostsCacheKey } from '../utils/prefetchStorie
 import PostSkeleton from '../components/PostSkeleton';
 import Masonry from 'react-masonry-css';
 import { useStoriesContext } from '../contexts/StoriesContext';
+import useMobileOptimizations from '../hooks/useMobileOptimizations';
 import {getAuth} from 'firebase/auth';
 import {useRouter} from 'next/router';
 import {
@@ -36,6 +37,9 @@ import DOMPurify from 'dompurify';
 import parseUrls from '../utils/parseUrls';
 
 function Stories() {
+    // Apply mobile optimizations
+    useMobileOptimizations();
+
     const router = useRouter();
     const {postId} = router.query;  // Get the postId from the URL
     const dropdownRef = useRef(null);
@@ -1080,6 +1084,7 @@ function Stories() {
         <div>
             <Head>
                 <title>LitterPic Inspiring Stories</title>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
                 <meta name="description"
                       content="Join LitterPic in making the world cleaner and safer. Explore inspiring litter collection photos and stories."/>
                 <meta name="robots" content="index, follow"/>
@@ -1096,6 +1101,29 @@ function Stories() {
 
                 {/* Preload critical resources */}
                 <link rel="preload" href="/images/user_posts_banner.webp" as="image" />
+
+                {/* Mobile optimization scripts */}
+                <script dangerouslySetInnerHTML={{
+                    __html: `
+                        // Fix for 300ms tap delay on mobile devices
+                        document.addEventListener('touchstart', function() {}, {passive: true});
+
+                        // Fix for links not working on mobile
+                        document.addEventListener('DOMContentLoaded', function() {
+                            // Add click handlers to all links
+                            var links = document.querySelectorAll('a');
+                            for (var i = 0; i < links.length; i++) {
+                                links[i].addEventListener('touchend', function(e) {
+                                    var href = this.getAttribute('href');
+                                    if (href && !this.classList.contains('no-touch-redirect')) {
+                                        e.preventDefault();
+                                        window.location.href = href;
+                                    }
+                                }, false);
+                            }
+                        });
+                    `
+                }} />
 
                 <meta name="twitter:card" content="summary_large_image"/>
                 <meta name="twitter:title" content="LitterPic - Inspiring Litter Collection"/>

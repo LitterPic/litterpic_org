@@ -145,16 +145,25 @@ function Post({post, currentUser}) {
 
     const isVideo = (url) => /\.(mp4|webm)(\?|$)/i.test(url);
 
-    // Manual touch handlers as a backup to the swipeable library
+    // Enhanced touch handlers for better mobile experience
     const handleTouchStart = (e) => {
         if (isDragging) return; // Prevent multiple touch events
         setIsDragging(true);
         setTouchStart(e.targetTouches[0].clientX);
         setSlidePosition(0); // Reset slide position
+
+        // Hide swipe hint when user starts interacting
+        if (showSwipeHint) {
+            setShowSwipeHint(false);
+        }
     };
 
     const handleTouchMove = (e) => {
         if (!isDragging) return;
+
+        // Prevent default to avoid page scrolling during swipe
+        e.preventDefault();
+
         setTouchEnd(e.targetTouches[0].clientX);
 
         // Calculate and set the slide position for visual feedback during swiping
@@ -164,8 +173,13 @@ function Post({post, currentUser}) {
         setSlidePosition(boundedDistance);
     };
 
-    const handleTouchEnd = () => {
+    const handleTouchEnd = (e) => {
         if (!isDragging) return;
+
+        // Prevent default to ensure the touch event is fully handled
+        if (e && e.preventDefault) {
+            e.preventDefault();
+        }
 
         // Reset slide position with animation
         setSlidePosition(0);
@@ -173,7 +187,7 @@ function Post({post, currentUser}) {
         const swipeDistance = touchStart - touchEnd;
 
         // Only process swipe if it's a significant distance
-        if (Math.abs(swipeDistance) > 50) {
+        if (Math.abs(swipeDistance) > 30) { // Reduced threshold for better responsiveness
             if (swipeDistance > 0) {
                 // Swipe left
                 nextPhoto();
@@ -186,7 +200,7 @@ function Post({post, currentUser}) {
         // Add a small delay before allowing another swipe
         setTimeout(() => {
             setIsDragging(false);
-        }, 300);
+        }, 200); // Reduced delay for better responsiveness
     };
 
     // Mouse-specific handlers for desktop swiping
@@ -311,8 +325,14 @@ function Post({post, currentUser}) {
                     </button>
                 )}
 
-                <Link href={`/profile/${post.user.uid}`} legacyBehavior>
-                    <a className="post-user-name">{userName}</a>
+                <Link href={`/profile/${post.user.uid}`} legacyBehavior passHref>
+                    <a className="post-user-name" onClick={(e) => {
+                        // For mobile devices, handle the click manually
+                        if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+                            e.preventDefault();
+                            window.location.href = `/profile/${post.user.uid}`;
+                        }
+                    }}>{userName}</a>
                 </Link>
 
                 <div className="post-location">
@@ -320,6 +340,13 @@ function Post({post, currentUser}) {
                         href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(post.location)}`}
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={(e) => {
+                            // For mobile devices, ensure the link works
+                            if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+                                e.stopPropagation();
+                            }
+                        }}
+                        style={{ padding: '8px 0', display: 'inline-block' }}
                     >
                         {post.location}
                     </a>
