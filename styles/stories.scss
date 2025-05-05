@@ -57,6 +57,7 @@
 .search-and-filter-button-container {
   align-items: center;
   display: flex;
+  max-width: 95%;
 }
 
 .post-search-input {
@@ -880,7 +881,7 @@ a.post-user-name {
     .post-search-button,
     .post-search-input {
       font-size: 14px;
-      height: 2rem;
+      height: 3rem;
       margin-left: .25rem;
       margin-right: .25rem;
       width: 100px;
