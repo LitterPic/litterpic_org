@@ -26,18 +26,25 @@ const SimpleCarousel = ({ images }) => {
 
   // Handle touch start
   const handleTouchStart = (e) => {
+    // Only run on client-side
+    if (typeof window === 'undefined') return;
     setTouchStart(e.targetTouches[0].clientX);
   };
 
   // Handle touch move
   const handleTouchMove = (e) => {
+    // Only run on client-side
+    if (typeof window === 'undefined') return;
     setTouchEnd(e.targetTouches[0].clientX);
   };
 
   // Handle touch end
   const handleTouchEnd = () => {
-    // Use a smaller threshold on mobile for better responsiveness
-    const swipeThreshold = window.innerWidth <= 768 ? 50 : 75;
+    // Only run on client-side
+    if (typeof window === 'undefined') return;
+
+    // Use a fixed threshold that works well on all devices
+    const swipeThreshold = 50;
 
     if (touchStart - touchEnd > swipeThreshold) {
       // Swipe left, go to next slide
@@ -56,6 +63,9 @@ const SimpleCarousel = ({ images }) => {
   });
 
   useEffect(() => {
+    // Only run on client-side
+    if (typeof window === 'undefined') return;
+
     const play = () => {
       autoPlayRef.current();
     };

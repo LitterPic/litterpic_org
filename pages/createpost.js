@@ -189,6 +189,8 @@ function CreatePost() {
                     const originalSizeMB = file.size / (1024 * 1024);
                     const newSizeMB = fileToUpload.size / (1024 * 1024);
                     const reductionPercent = (100 - (newSizeMB / originalSizeMB) * 100).toFixed(0);
+                    console.log(`Image size reduced by ${reductionPercent}% (${originalSizeMB.toFixed(2)}MB → ${newSizeMB.toFixed(2)}MB)`);
+                } catch (error) {
                     console.error('Error converting image to WebP:', error);
                     // If conversion fails, use the original file
                     fileToUpload = file;
