@@ -11,9 +11,6 @@ export const MY_POSTS_CACHE_EXPIRATION_MS = 86400000; // 24 hours (matching stor
 export const getAllPostsCacheKey = (page, version) => `all_posts_cache_page_${page}_v${version}`;
 export const getMyPostsCacheKey = (page, userId, version) => `my_posts_cache_page_${userId}_${page}_v${version}`;
 
-// Log the cache key formats for debugging
-console.log('Cache key format initialized in prefetchStories.js');
-
 /**
  * Prefetch stories data and store in localStorage
  * @param {number} postsVersion - Current version of posts

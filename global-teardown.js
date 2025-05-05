@@ -5,7 +5,6 @@ const killProcessUsingPort = (port) => {
         const result = execSync(`lsof -ti:${port}`).toString().trim();
         if (result) {
             execSync(`kill -9 ${result}`);
-            console.log(`Process on port ${port} terminated by teardown.`);
         }
     } catch (err) {
         console.log(`No process to terminate on port ${port} or termination failed: ${err.message}`);
@@ -13,7 +12,6 @@ const killProcessUsingPort = (port) => {
 };
 
 module.exports = async () => {
-    console.log('Terminating the server process...');
 
     // Create a promise that resolves when the teardown process completes
     const teardownPromise = new Promise((resolve) => {
@@ -25,7 +23,6 @@ module.exports = async () => {
     const timeoutMilliseconds = 5000; // Set your desired timeout value in milliseconds
     const timeoutPromise = new Promise((resolve) => {
         setTimeout(() => {
-            console.log(`Teardown process timed out after ${timeoutMilliseconds} milliseconds.`);
             resolve();
         }, timeoutMilliseconds);
     });

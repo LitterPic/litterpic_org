@@ -19,7 +19,6 @@ export default function useBackgroundStoryLoader() {
   useEffect(() => {
     // Function to fetch and cache posts in the background
     const backgroundFetchAndCachePosts = async () => {
-      console.log('Background loading stories...');
       
       try {
         // Check if we already have cached data
@@ -33,7 +32,6 @@ export default function useBackgroundStoryLoader() {
           const now = new Date().getTime();
           
           if (now - timestamp < ALL_POSTS_CACHE_EXPIRATION_MS) {
-            console.log('Using cached stories data');
             return;
           }
         }
@@ -130,7 +128,6 @@ export default function useBackgroundStoryLoader() {
         };
         
         localStorage.setItem(cacheKey, JSON.stringify(postsToCache));
-        console.log('Background loading of stories complete');
         
       } catch (error) {
         console.error('Error in background loading of stories:', error);

@@ -25,7 +25,6 @@ const ImagePreloader = ({ imagePaths = [] }) => {
     const preloadAllImages = async () => {
       try {
         await Promise.all(imagePaths.map(path => preloadImage(path)));
-        console.log('All images preloaded successfully');
       } catch (error) {
         console.error('Error preloading images:', error);
       }

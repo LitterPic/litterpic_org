@@ -75,9 +75,6 @@ function Stories() {
     const getAllPostsCacheKey = (page, version) => `all_posts_cache_page_${page}_v${version}`;
     const getMyPostsCacheKey = (page, userId, version) => `my_posts_cache_page_${userId}_${page}_v${version}`;
 
-    // Log the cache key format for debugging
-    console.log('Cache key format initialized in stories.js');
-
     const fetchUserRefsFromPosts = async () => {
         const postUserRefs = new Set();
         const querySnapshot = await getDocs(collection(getFirestore(), 'userPosts'));
@@ -194,7 +191,6 @@ function Stories() {
 
     // Immediately set posts if we have cached stories (no waiting for useEffect)
     if (hasLoadedFromCache && cachedStories.length > 0 && posts.length === 0) {
-        console.log('Immediately setting posts from context');
         setPosts(cachedStories);
     }
 
@@ -204,7 +200,6 @@ function Stories() {
         const preloadBannerImage = () => {
             const img = new Image();
             img.src = '/images/user_posts_banner.webp';
-            console.log('Preloading banner image');
         };
 
         preloadBannerImage();
@@ -215,7 +210,6 @@ function Stories() {
             // First check if we have stories in the global context
             if (hasLoadedFromCache && cachedStories.length > 0) {
                 const cacheAge = (Date.now() - lastCacheTime) / 1000;
-                console.log(`Using stories from global context (${cachedStories.length} posts, age: ${cacheAge.toFixed(2)}s)`);
                 setPosts(cachedStories);
                 setPage(1);
                 setHasMorePosts(cachedStories.length >= 6); // 6 is postsPerPage
@@ -228,27 +222,22 @@ function Stories() {
             const prefetchTimestamp = localStorage.getItem('stories_prefetch_timestamp');
             if (prefetchComplete === 'true' && prefetchTimestamp) {
                 const prefetchAge = (Date.now() - parseInt(prefetchTimestamp)) / 1000;
-                console.log(`Stories were prefetched ${prefetchAge.toFixed(2)} seconds ago`);
             } else {
                 console.log('No prefetch completion flag found');
             }
 
             // Check if we have cached data before showing loading state
             const cacheKey = getAllPostsCacheKey(1, postsVersion);
-            console.log('Checking cache key:', cacheKey);
             const cachedData = localStorage.getItem(cacheKey);
 
             if (cachedData) {
-                console.log('Found cached data');
                 try {
                     const { posts: cachedPosts, timestamp } = JSON.parse(cachedData);
                     const now = new Date().getTime();
                     const cacheAge = (now - timestamp) / 1000;
-                    console.log(`Cache age: ${cacheAge.toFixed(2)} seconds, expiration: ${ALL_POSTS_CACHE_EXPIRATION_MS/1000} seconds`);
 
                     // If cache is still valid, use it immediately without showing loading state
                     if (now - timestamp < ALL_POSTS_CACHE_EXPIRATION_MS) {
-                        console.log(`Using cached posts immediately (${cachedPosts.length} posts)`);
                         setPosts(cachedPosts);
                         // Also update the global context
                         updateCachedStories(cachedPosts, timestamp);
@@ -598,14 +587,12 @@ function Stories() {
     // Separate function specifically for loading more stories
     const loadMoreStories = async () => {
         const nextPage = page + 1;
-        console.log(`Loading more stories, current page: ${page}, next page: ${nextPage}`);
 
         setIsLoading(true);
 
         try {
             // Store current posts before fetching more
             const currentPosts = [...posts];
-            console.log(`Current posts count: ${currentPosts.length}`);
 
             // Fetch the next page of posts
             let newPosts = [];
@@ -652,11 +639,9 @@ function Stories() {
                 newPosts.push(updatedPost);
             }
 
-            console.log(`Fetched ${newPosts.length} new posts`);
 
             // Combine with existing posts and remove duplicates
             const combinedPosts = removeDuplicatePosts([...currentPosts, ...newPosts]);
-            console.log(`Combined posts count: ${combinedPosts.length}`);
 
             // Update state
             setPosts(combinedPosts);
@@ -687,11 +672,9 @@ function Stories() {
             setIsLoading(true);
         }
 
-        console.log(`Fetching posts for page ${page}, userId: ${userId || 'all'}`);
 
         const isMyPosts = userId != null;
         const cacheKey = isMyPosts ? getMyPostsCacheKey(page, userId, postsVersion) : getAllPostsCacheKey(page, postsVersion);
-        console.log(`Looking for cache with key: ${cacheKey}`);
 
         // First check sessionStorage (fastest)
         if (page === 1 && !isMyPosts && typeof window !== 'undefined') {
@@ -702,7 +685,6 @@ function Stories() {
                     if (stories && stories.length > 0) {
                         const now = new Date().getTime();
                         const cacheAge = (now - timestamp) / 1000;
-                        console.log(`Using stories from sessionStorage (${stories.length} posts, age: ${cacheAge.toFixed(2)}s)`);
 
                         // Only append if we're loading a new page, otherwise replace
                         setPosts(prevPosts => {
@@ -732,14 +714,12 @@ function Stories() {
         const now = new Date().getTime();
 
         if (cachedData) {
-            console.log(`Found cached data for key: ${cacheKey}`);
             const { posts: cachedPosts, timestamp } = JSON.parse(cachedData);
             const cacheExpiration = isMyPosts ? MY_POSTS_CACHE_EXPIRATION_MS : ALL_POSTS_CACHE_EXPIRATION_MS;
             const cacheAge = (now - timestamp) / 1000;
 
             // Check if cache is not older than expiration
             if (now - timestamp < cacheExpiration) {
-                console.log(`Using cached posts for ${cacheKey}, age: ${cacheAge.toFixed(2)}s, posts: ${cachedPosts.length}`);
 
                 // Preload images from cached posts for instant display
                 cachedPosts.forEach(post => {
@@ -846,10 +826,8 @@ function Stories() {
             setPosts(prevPosts => {
                 // Only append if we're loading a new page, otherwise replace
                 if (page > 1) {
-                    console.log(`Appending ${fetchedPosts.length} new posts to ${prevPosts.length} existing posts`);
                     // Combine previous and new posts, then remove duplicates
                     const combinedPosts = removeDuplicatePosts([...prevPosts, ...fetchedPosts]);
-                    console.log(`After removing duplicates: ${combinedPosts.length} posts`);
                     return combinedPosts;
                 } else {
                     return fetchedPosts;
@@ -880,7 +858,6 @@ function Stories() {
                         stories: fetchedPosts,
                         timestamp: now
                     }));
-                    console.log('Updated sessionStorage with fresh data');
                 } catch (error) {
                     console.error('Error updating sessionStorage:', error);
                 }
@@ -895,7 +872,6 @@ function Stories() {
 
         // Update the page number
         if (page > 1) {
-            console.log(`Setting page to ${page}`);
             setPage(page);
         }
     };

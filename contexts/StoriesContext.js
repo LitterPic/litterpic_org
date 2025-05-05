@@ -21,7 +21,6 @@ export const StoriesProvider = ({ children }) => {
         if (sessionData) {
           const { stories, timestamp } = JSON.parse(sessionData);
           if (stories && stories.length > 0) {
-            console.log(`StoriesContext: Loaded ${stories.length} stories from sessionStorage`);
             setCachedStories(stories);
             setLastCacheTime(timestamp);
             setHasLoadedFromCache(true);
@@ -47,7 +46,6 @@ export const StoriesProvider = ({ children }) => {
           const cachedData = JSON.parse(localStorage.getItem(mostRecentKey));
 
           if (cachedData && cachedData.posts && cachedData.posts.length > 0) {
-            console.log(`StoriesContext: Loaded ${cachedData.posts.length} stories from localStorage`);
             setCachedStories(cachedData.posts);
             setLastCacheTime(cachedData.timestamp);
             setHasLoadedFromCache(true);
@@ -67,7 +65,6 @@ export const StoriesProvider = ({ children }) => {
 
   // Function to update the cached stories
   const updateCachedStories = (stories, timestamp = Date.now()) => {
-    console.log(`StoriesContext: Updating cached stories with ${stories.length} items`);
     setCachedStories(stories);
     setLastCacheTime(timestamp);
     setHasLoadedFromCache(true);
@@ -79,7 +76,6 @@ export const StoriesProvider = ({ children }) => {
           stories,
           timestamp
         }));
-        console.log('Stored stories in sessionStorage');
       } catch (error) {
         console.error('Error storing stories in sessionStorage:', error);
       }
@@ -96,7 +92,6 @@ export const StoriesProvider = ({ children }) => {
     if (typeof window !== 'undefined') {
       try {
         sessionStorage.removeItem('cachedStories');
-        console.log('Cleared stories from sessionStorage');
       } catch (error) {
         console.error('Error clearing stories from sessionStorage:', error);
       }

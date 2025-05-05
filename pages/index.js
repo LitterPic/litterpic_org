@@ -9,6 +9,7 @@ import {getMessaging, getToken} from "firebase/messaging";
 import {prefetchStories} from '../utils/prefetchStories';
 import {getAuth} from 'firebase/auth';
 import { useStoriesContext } from '../contexts/StoriesContext';
+import SimpleCarousel from '../components/SimpleCarousel';
 
 const AWS = require('aws-sdk');
 
@@ -249,6 +250,8 @@ export default function Index() {
 
     function Carousel({images}) {
         const [currentIndex, setCurrentIndex] = useState(0);
+        const [touchStartX, setTouchStartX] = useState(0);
+        const [touchEndX, setTouchEndX] = useState(0);
 
         const isVideo = (url) => /\.(mp4|webm)(\?|$)/i.test(url);
 
@@ -257,6 +260,25 @@ export default function Index() {
                 setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
             } else {
                 setCurrentIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
+            }
+        };
+
+        // Handle touch events for mobile
+        const handleTouchStart = (e) => {
+            setTouchStartX(e.touches[0].clientX);
+        };
+
+        const handleTouchMove = (e) => {
+            setTouchEndX(e.touches[0].clientX);
+        };
+
+        const handleTouchEnd = () => {
+            if (touchStartX - touchEndX > 50) {
+                // Swipe left
+                handleSwipe("left");
+            } else if (touchStartX - touchEndX < -50) {
+                // Swipe right
+                handleSwipe("right");
             }
         };
 
@@ -269,7 +291,12 @@ export default function Index() {
         }, [images.length]);
 
         return (
-            <div className="carousel-container">
+            <div
+                className="carousel-container"
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+            >
                 <div className="carousel-slide">
                     {images.map((image, index) => {
                         return (
@@ -405,7 +432,7 @@ export default function Index() {
                     {/*<br></br>*/}
                     <h1 className=" heading-text">Inspire Change</h1>
                     <div className=" home-carousel-section">
-                        <Carousel className=" carousel" images={images}/>
+                        <SimpleCarousel images={images}/>
 
                         <h2 className=" home-carousel-section-text">Take a look at all of our volunteer's stories
                             and
@@ -553,7 +580,7 @@ export default function Index() {
                             </p>
                             <br/>
                             <div className=" home-bottom-carousel-section">
-                                <Carousel className=" carousel" images={offsetImages}/>
+                                <SimpleCarousel images={offsetImages}/>
                             </div>
                         </div>
                         <br/>

@@ -138,6 +138,13 @@ p {
   overflow: hidden;
   position: relative;
   width: 100%;
+  touch-action: pan-x; /* Enable horizontal swiping */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+
+  @media (max-width: 768px) {
+    touch-action: pan-x; /* Ensure horizontal swiping works on mobile */
+    user-select: none; /* Prevent text selection during swipe */
+  }
 }
 
 .carousel-slide {
@@ -155,12 +162,17 @@ p {
   opacity: 0;
   position: absolute;
   top: 0;
-  transition: opacity 1.8s ease;
+  transition: opacity 0.8s ease; /* Faster transition for better mobile experience */
   width: 100%;
   z-index: 1;
 
   &.active {
     opacity: 1;
+    z-index: 2; /* Ensure active slide is on top */
+  }
+
+  @media (max-width: 768px) {
+    transition: opacity 0.5s ease; /* Even faster on mobile */
   }
 }
 
@@ -183,6 +195,8 @@ p {
   position: absolute;
   transform: translateX(-50%);
   z-index: 3;
+  width: auto; /* Changed from default 100% to auto */
+  max-width: 80%; /* Limit maximum width */
 }
 
 .carousel-dot {
@@ -190,7 +204,7 @@ p {
   border-radius: 50%;
   cursor: pointer;
   height: 10px;
-  margin: 0 5px;
+  margin: 0 3px; /* Reduced from 5px to 3px */
   width: 10px;
 
   &.active {
@@ -304,13 +318,15 @@ p {
   }
 
   .carousel-dots {
-    width: 90%;
+    width: auto;
+    max-width: 70%;
+    gap: 2px; /* Reduce gap between dots */
   }
 
   .carousel-dot {
-    height: 5px;
-    margin: 0 3px;
-    width: 5px;
+    height: 4px;
+    margin: 0 2px;
+    width: 4px;
   }
 }
 
@@ -398,7 +414,6 @@ p {
           min-width: 133px;
           margin-top: 1rem;
           transform: scale(.9);
-
         }
       }
     }
@@ -406,23 +421,34 @@ p {
 }
 
 @media (max-width: 45.5rem) {
-
-    
   .qr-group {
     flex-direction: column;
     align-items: center;
 
     .qr-container {
       width: 100%;
-      margin-bottom: 3rem;
+      margin-bottom: 2rem; /* Reduced margin */
       border-right: none !important;
 
       > img {
-        min-width: 150px;
+        min-width: 120px; /* Smaller QR code */
+        max-width: 120px; /* Limit maximum size */
+        transform: scale(0.8); /* Slightly smaller */
       }
 
-      .qr-box p {
-        font-size: 1rem;
+      .qr-box {
+        padding: 0 1rem; /* Reduced padding */
+
+        p {
+          font-size: 0.9rem; /* Smaller text */
+          margin: 0.5rem 0; /* Reduced margin */
+        }
+
+        > a img {
+          max-width: 140px; /* Smaller app store badges */
+          min-width: 120px; /* Smaller minimum width */
+          transform: scale(0.8); /* Slightly smaller */
+        }
       }
     }
   }

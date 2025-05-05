@@ -89,7 +89,6 @@ async function getUserData(userRef) {
     if (userSnapshot.exists()) {
         return userSnapshot.data();
     } else {
-        console.log("No user found for reference:", userRef);
         return null;
     }
 }
