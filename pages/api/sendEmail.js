@@ -32,7 +32,12 @@ async function sendDynamicTemplateEmail(email, templateId, templateData) {
 
     try {
         await sgMail.send(msg);  // Make sure to await
+        console.log(`Email sent successfully to ${email} using template ${templateId}`);
     } catch (error) {
-
+        console.error('Error sending email:', error);
+        if (error.response) {
+            console.error('SendGrid API error:', error.response.body);
+        }
+        throw error; // Re-throw to be handled by the caller
     }
 }
