@@ -4,20 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="Fixed swiping issue where we moved more than one photo per swipe">
-      <change afterPath="$PROJECT_DIR$/components/PostSkeleton.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/styles/skeleton.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/imageConverter.js" afterDir="false" />
+    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="mobile style fix">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/navlink.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/navlink.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/_document.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/_document.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/stories.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/stories.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/notifications.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/notifications.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/notification.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/notification.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/styles/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/styles/styles.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/styles/styles.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/styles/styles.css.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/styles.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/styles.scss" afterDir="false" />
     </list>
     <list id="382160bb-9221-4f9b-9560-69e35a8e70aa" name="auto modified" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
@@ -155,49 +147,57 @@
   <component name="LineStatusTrackerManager">
     <file path="$PROJECT_DIR$/.idea/workspace.xml">
       <ranges>
-        <range start1="6" end1="7" start2="6" end2="10" changelist="fc440dac-09dd-4333-855f-f4bd9e5c1f62" />
-        <range start1="8" end1="10" start2="11" end2="18" changelist="fc440dac-09dd-4333-855f-f4bd9e5c1f62" />
-        <range start1="12" end1="12" start2="20" end2="24" changelist="fc440dac-09dd-4333-855f-f4bd9e5c1f62" />
-        <range start1="13" end1="14" start2="25" end2="25" changelist="fc440dac-09dd-4333-855f-f4bd9e5c1f62" />
-        <range start1="144" end1="144" start2="155" end2="168" changelist="fc440dac-09dd-4333-855f-f4bd9e5c1f62" />
-        <range start1="170" end1="171" start2="194" end2="195" changelist="fc440dac-09dd-4333-855f-f4bd9e5c1f62" />
-        <range start1="219" end1="228" start2="243" end2="244" changelist="fc440dac-09dd-4333-855f-f4bd9e5c1f62" />
-        <range start1="613" end1="614" start2="629" end2="638" changelist="382160bb-9221-4f9b-9560-69e35a8e70aa" />
-        <range start1="642" end1="643" start2="666" end2="666" changelist="382160bb-9221-4f9b-9560-69e35a8e70aa" />
-        <range start1="667" end1="668" start2="690" end2="692" changelist="382160bb-9221-4f9b-9560-69e35a8e70aa" />
+        <range start1="6" end1="10" start2="6" end2="7" changelist="fc440dac-09dd-4333-855f-f4bd9e5c1f62" />
+        <range start1="11" end1="17" start2="8" end2="10" changelist="fc440dac-09dd-4333-855f-f4bd9e5c1f62" />
+        <range start1="19" end1="20" start2="12" end2="12" changelist="fc440dac-09dd-4333-855f-f4bd9e5c1f62" />
+        <range start1="157" end1="167" start2="149" end2="161" changelist="fc440dac-09dd-4333-855f-f4bd9e5c1f62" />
+        <range start1="172" end1="172" start2="166" end2="169" changelist="fc440dac-09dd-4333-855f-f4bd9e5c1f62" />
+        <range start1="177" end1="177" start2="174" end2="177" changelist="fc440dac-09dd-4333-855f-f4bd9e5c1f62" />
+        <range start1="181" end1="198" start2="181" end2="198" changelist="fc440dac-09dd-4333-855f-f4bd9e5c1f62" />
+        <range start1="199" end1="200" start2="199" end2="200" changelist="fc440dac-09dd-4333-855f-f4bd9e5c1f62" />
+        <range start1="245" end1="310" start2="245" end2="248" changelist="fc440dac-09dd-4333-855f-f4bd9e5c1f62" />
+        <range start1="631" end1="632" start2="569" end2="642" changelist="382160bb-9221-4f9b-9560-69e35a8e70aa" />
+        <range start1="660" end1="668" start2="670" end2="670" changelist="382160bb-9221-4f9b-9560-69e35a8e70aa" />
+        <range start1="685" end1="686" start2="687" end2="696" changelist="382160bb-9221-4f9b-9560-69e35a8e70aa" />
       </ranges>
     </file>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6
 }</component>
   <component name="ProjectId" id="2iZFS9dZTS6kFyMxYQX6NwSO7Cs" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "master",
-    "junie.onboarding.icon.badge.shown": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "project.propVCSSupport.Confirmation",
-    "ts.external.directory.path": "/Applications/WebStorm.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.Confirmation&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Applications/WebStorm.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/lib" />
@@ -243,71 +243,9 @@
       <workItem from="1745699697830" duration="38000" />
       <workItem from="1745699750841" duration="138000" />
       <workItem from="1745700101810" duration="108000" />
-      <workItem from="1745700227649" duration="12136000" />
-    </task>
-    <task id="LOCAL-00002" summary="Fixed UI crash from likes on missing user">
-      <option name="closed" value="true" />
-      <created>1722020420359</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1722020420359</updated>
-    </task>
-    <task id="LOCAL-00003" summary="August banner update">
-      <option name="closed" value="true" />
-      <created>1722625818311</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1722625818313</updated>
-    </task>
-    <task id="LOCAL-00004" summary="Update to store uploads by user.id">
-      <option name="closed" value="true" />
-      <created>1723158734010</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1723158734010</updated>
-    </task>
-    <task id="LOCAL-00005" summary="Updated local storage to update on new post or post delete">
-      <option name="closed" value="true" />
-      <created>1723319707219</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1723319707219</updated>
-    </task>
-    <task id="LOCAL-00006" summary="Added notifications">
-      <option name="closed" value="true" />
-      <created>1723590790102</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1723590790102</updated>
-    </task>
-    <task id="LOCAL-00007" summary="Updated for when there are no notifications">
-      <option name="closed" value="true" />
-      <created>1723591206446</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1723591206446</updated>
-    </task>
-    <task id="LOCAL-00008" summary="Retrieve posts faster, fix styling">
-      <option name="closed" value="true" />
-      <created>1723680368657</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1723680368657</updated>
-    </task>
-    <task id="LOCAL-00009" summary="Added random 'like' notification titles">
-      <option name="closed" value="true" />
-      <created>1723681427520</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1723681427520</updated>
+      <workItem from="1745700227649" duration="13659000" />
+      <workItem from="1746301965825" duration="1170000" />
+      <workItem from="1746310356575" duration="12550000" />
     </task>
     <task id="LOCAL-00010" summary="Fixed notification page style for mobile">
       <option name="closed" value="true" />

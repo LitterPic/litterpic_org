@@ -113,7 +113,10 @@ const NotificationsPage = () => {
                                 >
                                     <div
                                         className="status-indicator"
-                                        onClick={() => markAsRead(notification.id)}
+                                        onClick={(e) => {
+                                            e.stopPropagation(); // Prevent triggering parent click
+                                            markAsRead(notification.id);
+                                        }}
                                         title="Mark as Read"
                                     />
                                     <div
@@ -127,7 +130,11 @@ const NotificationsPage = () => {
                                     </div>
                                     <button
                                         className="delete-notification-button"
-                                        onClick={() => deleteNotification(notification.id)}
+                                        onClick={(e) => {
+                                            e.stopPropagation(); // Prevent triggering parent click
+                                            deleteNotification(notification.id);
+                                        }}
+                                        aria-label="Delete notification"
                                     >
                                         <FaTrashAlt/>
                                     </button>
