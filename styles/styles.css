@@ -1348,7 +1348,7 @@ p .index-inspire-change-text {
 .sign-in-button {
   border-radius: 0.5rem;
   font-family: Poppins, sans-serif;
-  margin-left: auto;
+  margin-left: 15px;
   margin-right: auto;
   margin-top: 1.9rem;
   width: 6.25rem;
@@ -2707,7 +2707,7 @@ p .index-inspire-change-text {
 .sign-in-button {
   border-radius: 0.5rem;
   font-family: Poppins, sans-serif;
-  margin-left: auto;
+  margin-left: 15px;
   margin-right: auto;
   margin-top: 1.9rem;
   width: 6.25rem;

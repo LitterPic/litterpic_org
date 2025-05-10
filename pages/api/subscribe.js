@@ -42,6 +42,16 @@ export default async function handler(req, res) {
             res.status(400).json({success: false});
         }
     } catch (error) {
-        res.status(500).json({success: false, error: error.response.data});
+        console.error('Subscribe API error:', error);
+
+        // Safely extract error data if available
+        const errorData = error.response && error.response.data 
+            ? error.response.data 
+            : { message: error.message || 'Unknown error' };
+
+        res.status(500).json({
+            success: false, 
+            error: errorData
+        });
     }
 }
