@@ -3,6 +3,7 @@ import withAuth from '../components/withAuth';
 import LeaderboardContainer from '../components/ReportLeaderboardContainer';
 import FilterContainer from '../components/ReportFilterContainer';
 import ReportResults from '../components/ReportResults';
+import MemberStats from '../components/MemberStats';
 import GoogleAnalytics from "../components/GoogleAnalytics";
 import ReportBanner from "../components/ReportBanner";
 import ReportMeta from "../components/ReportMeta";
@@ -42,6 +43,8 @@ const ReportsPage = () => {
             <div className="page">
                 <div className="content">
                     <h1 className="heading-text">Litter Stats</h1>
+
+                    <MemberStats />
 
                     <LeaderboardContainer />
 
