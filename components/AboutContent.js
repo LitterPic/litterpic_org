@@ -4,34 +4,22 @@ const AboutContent = () => (
     <div className="content">
         <h1 className="heading-text">About Us</h1>
         <p className="about-us-content">
-            At LitterPic Inc., our vision is bold and unwavering: a world free of litter. We refuse to
-            accept a reality where trash litters our streets, pollutes our waterways, and endangers our
-            wildlife.
+            At LitterPic Inc., we hold a bold and unwavering vision: a world free of litter. We refuse to accept a reality where trash scars our streets, clutters our waterways, and threatens wildlife.
         </p>
         <p className="about-us-content">
-            We believe that every person has the power to make a difference, and our mission is to inspire
-            and empower individuals worldwide to act against litter. By uniting our efforts, we can create a
-            cleaner, safer, and healthier planet for ourselves and future generations.
+            We believe in the incredible power of individuals to spark real change. Our mission is to ignite and empower people around the world to stand up and take action against litter. By uniting our efforts, we can build a cleaner, safer, and healthier planet—not just for today, but for generations to come.
         </p>
         <p className="about-us-content">
-            At LitterPic, we're not just dreaming of a better world but actively working to make it a
-            reality. We're harnessing the power of technology to connect people, facilitate litter cleanups,
-            and share inspiring stories of individuals who are making a difference.
+            But we’re not just dreaming of a better world—we are building it. At LitterPic, we are leveraging the power of technology to connect people, organize impactful cleanups, and share inspiring stories of those who are already making a difference.
         </p>
         <p className="about-us-content">
-            In addition to our efforts to inspire and empower individuals to act against litter, we are also
-            leveraging technology to make it easier for people to participate. Our team is developing a
-            mobile app that will enable users to connect with other volunteers, organize litter cleanups,
-            and share their progress and impact.
+            Our mobile app, available on both iOS and Android, is designed to make it easier for individuals to collaborate, track their progress, and celebrate their collective impact. Every cleanup, every step forward, brings us closer to a litter-free future.
         </p>
         <p className="about-us-content">
-            Our long-term goal is to create a fleet of self-driving vacuum trucks that can efficiently and
-            effectively clean up litter in even the busiest urban areas.
+            Looking ahead, our long-term goal is to revolutionize cleanup efforts with self-driving vacuum trucks—cutting-edge technology designed to tackle litter in even the busiest urban areas.
         </p>
         <p className="about-us-content">
-            Through the power of technology and community, we are determined to make our vision of a world
-            free of litter a reality. Join us in the fight against litter, and together, we can create a
-            cleaner, safer, and more beautiful planet for all.
+            Through the power of community, technology, and innovation, we are determined to turn our vision of a world free of litter into a reality. Join us in this transformative movement, and together, we can create a cleaner, safer, and more beautiful planet for all.
         </p>
     </div>
 );

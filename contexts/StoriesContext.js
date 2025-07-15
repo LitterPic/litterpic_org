@@ -65,12 +65,18 @@ export const StoriesProvider = ({ children }) => {
 
   // Function to update the cached stories
   const updateCachedStories = (stories, timestamp = Date.now()) => {
+    // If stories is empty, clear the cache instead of updating
+    if (!stories || stories.length === 0) {
+      clearCache();
+      return;
+    }
+
     setCachedStories(stories);
     setLastCacheTime(timestamp);
     setHasLoadedFromCache(true);
 
     // Also store in sessionStorage for persistence across page navigations
-    if (typeof window !== 'undefined' && stories.length > 0) {
+    if (typeof window !== 'undefined') {
       try {
         sessionStorage.setItem('cachedStories', JSON.stringify({
           stories,
@@ -98,13 +104,29 @@ export const StoriesProvider = ({ children }) => {
     }
   };
 
+  // Function to force refresh cache
+  const forceRefresh = () => {
+    console.log('Force refreshing stories cache');
+    clearCache();
+
+    // Clear all related localStorage items
+    if (typeof window !== 'undefined') {
+      Object.keys(localStorage).forEach(key => {
+        if (key.includes('all_posts_') || key.includes('stories_prefetch')) {
+          localStorage.removeItem(key);
+        }
+      });
+    }
+  };
+
   // The context value
   const contextValue = {
     cachedStories,
     hasLoadedFromCache,
     lastCacheTime,
     updateCachedStories,
-    clearCache
+    clearCache,
+    forceRefresh
   };
 
   return (

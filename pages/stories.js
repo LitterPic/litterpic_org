@@ -75,6 +75,36 @@ function Stories() {
     const getAllPostsCacheKey = (page, version) => `all_posts_cache_page_${page}_v${version}`;
     const getMyPostsCacheKey = (page, userId, version) => `my_posts_cache_page_${userId}_${page}_v${version}`;
 
+    // Function to clear all cache layers
+    const clearAllCaches = () => {
+        console.log('Clearing all cache layers');
+
+        // Clear localStorage cache
+        Object.keys(localStorage).forEach(key => {
+            if (key.includes('all_posts_') || key.includes('my_posts_') ||
+                key.includes('stories_prefetch') || key === 'users') {
+                localStorage.removeItem(key);
+                console.log('Removed localStorage key:', key);
+            }
+        });
+
+        // Clear sessionStorage cache
+        if (typeof window !== 'undefined') {
+            try {
+                sessionStorage.removeItem('cachedStories');
+                console.log('Cleared sessionStorage cachedStories');
+            } catch (error) {
+                console.error('Error clearing sessionStorage:', error);
+            }
+        }
+
+        // Clear context cache
+        if (typeof forceRefresh === 'function') {
+            forceRefresh();
+            console.log('Cleared context cache');
+        }
+    };
+
     const fetchUserRefsFromPosts = async () => {
         const postUserRefs = new Set();
         const querySnapshot = await getDocs(collection(getFirestore(), 'userPosts'));
@@ -109,24 +139,32 @@ function Stories() {
         // Real-time listener for posts
         const postsQuery = collection(getFirestore(), 'userPosts');
         const unsubscribe = onSnapshot(postsQuery, (snapshot) => {
-            if (!snapshot.metadata.hasPendingWrites) {
-                // Data has been updated, invalidate only the posts cache
-                setPostsVersion(prevVersion => prevVersion + 1);
+            // Check if this is a real change (not just initial load or pending writes)
+            if (!snapshot.metadata.fromCache && !snapshot.metadata.hasPendingWrites) {
+                console.log('Real-time update detected, invalidating cache');
 
-                // Clear only posts-related cache, not all localStorage
-                Object.keys(localStorage).forEach(key => {
-                    if (key.includes('all_posts_') || key.includes('my_posts_')) {
-                        localStorage.removeItem(key);
-                    }
+                // Increment version to invalidate cache
+                setPostsVersion(prevVersion => {
+                    const newVersion = prevVersion + 1;
+                    console.log('Posts version updated to:', newVersion);
+                    return newVersion;
                 });
 
-                setPosts([]); // Clear local posts state.
-                fetchAndSetPosts(1);
+                // Clear all cache layers
+                clearAllCaches();
+
+                // Only refresh if we're currently showing all posts (not filtered)
+                if (!showMyPosts && !selectedUser) {
+                    console.log('Refreshing posts due to real-time update');
+                    setPosts([]); // Clear local posts state
+                    setPage(1); // Reset to first page
+                    fetchAndSetPosts(1);
+                }
             }
         });
 
         return () => unsubscribe();
-    }, []);
+    }, [showMyPosts, selectedUser]);
 
     useEffect(() => {
         const cacheKey = 'users_cache';
@@ -187,11 +225,32 @@ function Stories() {
     };
 
     // Get the stories context
-    const { cachedStories, hasLoadedFromCache, lastCacheTime, updateCachedStories } = useStoriesContext();
+    const { cachedStories, hasLoadedFromCache, lastCacheTime, updateCachedStories, forceRefresh } = useStoriesContext();
+
+    // Function to recalculate like status for posts
+    const recalculateLikeStatus = (postsToUpdate) => {
+        if (!user || !postsToUpdate || postsToUpdate.length === 0) {
+            return postsToUpdate;
+        }
+
+        return postsToUpdate.map(post => {
+            // Recalculate currentUserLiked based on current user
+            const currentUserLiked = post.likedUsers && Array.isArray(post.likedUsers)
+                ? post.likedUsers.includes(user.uid)
+                : false;
+
+            return {
+                ...post,
+                currentUserLiked
+            };
+        });
+    };
 
     // Immediately set posts if we have cached stories (no waiting for useEffect)
     if (hasLoadedFromCache && cachedStories.length > 0 && posts.length === 0) {
-        setPosts(cachedStories);
+        // Recalculate like status for cached stories
+        const updatedCachedStories = recalculateLikeStatus(cachedStories);
+        setPosts(updatedCachedStories);
     }
 
     // Preload the banner image
@@ -210,7 +269,11 @@ function Stories() {
             // First check if we have stories in the global context
             if (hasLoadedFromCache && cachedStories.length > 0) {
                 const cacheAge = (Date.now() - lastCacheTime) / 1000;
-                setPosts(cachedStories);
+                console.log(`Using global context cache, age: ${cacheAge.toFixed(2)}s`);
+
+                // Recalculate like status for cached stories
+                const updatedCachedStories = recalculateLikeStatus(cachedStories);
+                setPosts(updatedCachedStories);
                 setPage(1);
                 setHasMorePosts(cachedStories.length >= 6); // 6 is postsPerPage
                 setIsLoading(false);
@@ -228,7 +291,27 @@ function Stories() {
 
             // Check if we have cached data before showing loading state
             const cacheKey = getAllPostsCacheKey(1, postsVersion);
-            const cachedData = localStorage.getItem(cacheKey);
+            let cachedData = localStorage.getItem(cacheKey);
+
+            // If no cache for current version, try to find the most recent cache
+            if (!cachedData) {
+                const allCacheKeys = Object.keys(localStorage).filter(key =>
+                    key.startsWith('all_posts_cache_page_1_')
+                );
+
+                if (allCacheKeys.length > 0) {
+                    // Sort by version number (highest first)
+                    allCacheKeys.sort((a, b) => {
+                        const versionA = parseInt(a.split('_v')[1]) || 0;
+                        const versionB = parseInt(b.split('_v')[1]) || 0;
+                        return versionB - versionA;
+                    });
+
+                    // Use the most recent cache
+                    cachedData = localStorage.getItem(allCacheKeys[0]);
+                    console.log('Using most recent cache:', allCacheKeys[0]);
+                }
+            }
 
             if (cachedData) {
                 try {
@@ -238,21 +321,26 @@ function Stories() {
 
                     // If cache is still valid, use it immediately without showing loading state
                     if (now - timestamp < ALL_POSTS_CACHE_EXPIRATION_MS) {
-                        setPosts(cachedPosts);
-                        // Also update the global context
-                        updateCachedStories(cachedPosts, timestamp);
+                        console.log(`Using cached data, age: ${cacheAge.toFixed(2)}s`);
+
+                        // Recalculate like status for cached posts
+                        const updatedCachedPosts = recalculateLikeStatus(cachedPosts);
+                        setPosts(updatedCachedPosts);
+
+                        // Also update the global context with recalculated posts
+                        updateCachedStories(updatedCachedPosts, timestamp);
                         setPage(1);
                         setHasMorePosts(cachedPosts.length >= 6); // 6 is postsPerPage
                         setIsLoading(false);
                         return;
                     } else {
-                        console.log('Cache expired, fetching fresh data');
+                        console.log(`Cache expired, age: ${cacheAge.toFixed(2)}s, fetching fresh data`);
                     }
                 } catch (error) {
                     console.error('Error parsing cached data:', error);
                 }
             } else {
-                console.log('No cached data found');
+                console.log('No cached data found for any version');
             }
 
             // If no valid cache, fetch posts normally
@@ -373,6 +461,15 @@ function Stories() {
 
         return () => unsubscribe();
     }, [hasLoadedFromCache, cachedStories]);
+
+    // Recalculate like status when user changes
+    useEffect(() => {
+        if (user && posts.length > 0) {
+            console.log('User changed, recalculating like status for', posts.length, 'posts');
+            const updatedPosts = recalculateLikeStatus(posts);
+            setPosts(updatedPosts);
+        }
+    }, [user?.uid]); // Only trigger when user ID changes
 
     const handleToggleLike = async (postId) => {
         if (!user) {
@@ -690,9 +787,10 @@ function Stories() {
                         setPosts(prevPosts => {
                             if (page > 1) {
                                 // Combine previous and new posts, then remove duplicates
-                                return removeDuplicatePosts([...prevPosts, ...stories]);
+                                const combinedPosts = removeDuplicatePosts([...prevPosts, ...stories]);
+                                return recalculateLikeStatus(combinedPosts);
                             } else {
-                                return stories;
+                                return recalculateLikeStatus(stories);
                             }
                         });
                         setPage(page);
@@ -707,8 +805,34 @@ function Stories() {
         }
 
         // Then check localStorage
-        const cachedData = localStorage.getItem(cacheKey);
+        let cachedData = localStorage.getItem(cacheKey);
         const postsPerPage = 6;
+
+        // If no cache for current version, try to find a recent cache for page 1
+        if (!cachedData && page === 1 && !isMyPosts) {
+            const allCacheKeys = Object.keys(localStorage).filter(key =>
+                key.startsWith('all_posts_cache_page_1_')
+            );
+
+            if (allCacheKeys.length > 0) {
+                // Sort by timestamp (most recent first)
+                const cacheOptions = allCacheKeys.map(key => {
+                    try {
+                        const data = JSON.parse(localStorage.getItem(key));
+                        return { key, timestamp: data.timestamp, data };
+                    } catch (error) {
+                        return null;
+                    }
+                }).filter(Boolean);
+
+                cacheOptions.sort((a, b) => b.timestamp - a.timestamp);
+
+                if (cacheOptions.length > 0) {
+                    cachedData = JSON.stringify(cacheOptions[0].data);
+                    console.log('Using fallback cache:', cacheOptions[0].key);
+                }
+            }
+        }
 
         // Current time
         const now = new Date().getTime();
@@ -720,6 +844,7 @@ function Stories() {
 
             // Check if cache is not older than expiration
             if (now - timestamp < cacheExpiration) {
+                console.log(`Using cached data for ${cacheKey}, age: ${cacheAge.toFixed(2)}s`);
 
                 // Preload images from cached posts for instant display
                 cachedPosts.forEach(post => {
@@ -733,9 +858,10 @@ function Stories() {
                     // Only append if we're loading a new page, otherwise replace
                     if (page > 1) {
                         // Combine previous and new posts, then remove duplicates
-                        return removeDuplicatePosts([...prevPosts, ...cachedPosts]);
+                        const combinedPosts = removeDuplicatePosts([...prevPosts, ...cachedPosts]);
+                        return recalculateLikeStatus(combinedPosts);
                     } else {
-                        return cachedPosts;
+                        return recalculateLikeStatus(cachedPosts);
                     }
                 });
 
@@ -1129,9 +1255,26 @@ function Stories() {
                 <div className="content">
                     <div className="stories-top-bar">
                         <h1 className="heading-text">User Stories</h1>
-                        <Link href="/createpost">
-                            <button className="create-post-button">Post Your Story</button>
-                        </Link>
+                        <div className="stories-top-buttons">
+                            <Link href="/createpost">
+                                <button className="create-post-button">Post Your Story</button>
+                            </Link>
+                            {process.env.NODE_ENV === 'development' && (
+                                <button
+                                    className="refresh-cache-button"
+                                    onClick={() => {
+                                        console.log('Manual cache refresh triggered');
+                                        clearAllCaches();
+                                        setPosts([]);
+                                        setPage(1);
+                                        fetchAndSetPosts(1);
+                                    }}
+                                    title="Refresh Cache (Dev Only)"
+                                >
+                                    🔄
+                                </button>
+                            )}
+                        </div>
                     </div>
                     <div className="stories-about-us">
                         Discover the heartwarming and inspiring stories shared by our dedicated volunteers. Each post is
