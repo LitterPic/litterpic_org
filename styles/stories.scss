@@ -107,6 +107,7 @@
 
   .likes-comments-likes-field {
     margin-right: 2rem;
+    position: relative;
   }
 
   .likes-comments-comment-field {
@@ -115,21 +116,25 @@
 }
 
 .like-list-container {
-  font-size: 9px;
+  font-size: 12px;
   left: 50%;
   position: absolute;
   text-align: start;
-  top: 98%;
-  transform: translateX(-75%);
-  z-index: 1;
+  top: 100%;
+  margin-top: 5px;
+  transform: translateX(-50%);
+  z-index: 1000;
+  min-width: 150px;
 }
 
 .like-list {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  background-color: $light-gray;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  padding: 12px;
+  border: 1px solid #ddd;
+  background-color: white;
+  min-width: 180px;
+  max-width: 250px;
 }
 
 .like-user {
@@ -143,10 +148,11 @@
 }
 
 .user-photo {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
-  margin-right: 10px;
+  margin-right: 12px;
+  object-fit: cover;
 }
 
 .user-name {
@@ -161,6 +167,32 @@
 
     &:hover {
       color: #999;
+    }
+  }
+}
+
+// Comment user styling
+.comment-user {
+  &.clickable {
+    color: $litterpic-green;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: 600;
+
+    &:hover {
+      color: darken($litterpic-green, 15%);
+      text-decoration: underline;
+    }
+  }
+}
+
+.comment-user-avatar {
+  &.clickable {
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 0.8;
     }
   }
 }

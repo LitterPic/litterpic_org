@@ -1045,9 +1045,18 @@ function Stories() {
         let isCancelled = false;
 
         const fetchAndSetPostComments = async () => {
+            // Only fetch comments if we have posts
+            if (!posts || posts.length === 0) {
+                return;
+            }
+
             const cachedPostComments = localStorage.getItem('postComments');
             if (cachedPostComments) {
-                setPostComments(JSON.parse(cachedPostComments));
+                try {
+                    setPostComments(JSON.parse(cachedPostComments));
+                } catch (error) {
+                    // Silent error handling
+                }
             }
 
             const db = getFirestore();
@@ -1055,42 +1064,59 @@ function Stories() {
             const commenterUserIds = new Set();
 
             for (const post of posts) {
-                const q = query(collection(db, 'storyComments'), where('postAssociation', '==', doc(db, 'userPosts', post.id)), orderBy('timePosted'));
-                const querySnapshot = await getDocs(q);
+                try {
+                    const q = query(
+                        collection(db, 'storyComments'),
+                        where('postAssociation', '==', doc(db, 'userPosts', post.id)),
+                        orderBy('timePosted')
+                    );
+                    const querySnapshot = await getDocs(q);
 
-                fetchedPostComments[post.id] = querySnapshot.docs.map(doc => {
-                    const commentUser = doc.data().commentUser;
-                    if (commentUser && commentUser._key && commentUser._key.path && commentUser._key.path.segments) {
-                        const userIdFromComment = commentUser._key.path.segments[6];
-                        commenterUserIds.add(userIdFromComment);
-                    }
+                    fetchedPostComments[post.id] = querySnapshot.docs.map(docSnap => {
+                        const commentData = docSnap.data();
+                        const commentUser = commentData.commentUser;
 
-                    return {
-                        ...doc.data(), id: doc.id
-                    };
-                });
+                        if (commentUser && commentUser._key && commentUser._key.path && commentUser._key.path.segments) {
+                            const userIdFromComment = commentUser._key.path.segments[6];
+                            commenterUserIds.add(userIdFromComment);
+                        }
+
+                        return {
+                            ...commentData,
+                            id: docSnap.id
+                        };
+                    });
+                } catch (error) {
+                    fetchedPostComments[post.id] = [];
+                }
             }
 
+            // Fetch user data for commenters
             const postUserIds = posts.map(post => post.userId).filter(Boolean);
             await fetchAndSetUsers([...new Set([...postUserIds, ...commenterUserIds])]);
 
             if (!isCancelled) {
                 setPostComments(prevComments => ({...prevComments, ...fetchedPostComments}));
-            }
 
-            // Recalculate likes after fetching comments using our comprehensive function
-            if (!isCancelled) {
-                const updatedPosts = recalculateLikeStatus(posts);
-                setPosts(updatedPosts);
+                // Cache the comments
+                try {
+                    localStorage.setItem('postComments', JSON.stringify(fetchedPostComments));
+                } catch (error) {
+                    // Silent error handling
+                }
             }
         };
 
-        fetchAndSetPostComments();
+        // Add a small delay to ensure posts are fully loaded
+        const timeoutId = setTimeout(() => {
+            fetchAndSetPostComments();
+        }, 100);
 
         return () => {
             isCancelled = true;
+            clearTimeout(timeoutId);
         };
-    }, [posts, user]);
+    }, [posts.length]); // Only depend on posts.length, not posts content or user
 
 
     const deletePost = async (postId) => {
@@ -1457,10 +1483,9 @@ function Stories() {
                     </span>
                                         </div>
                                         <div className="story-comment-input">
-                                            {openCommentInput === post.id && (
-                                                <>
-                                                    {postComments[post.id] &&
-                                                        postComments[post.id].map((commentData) => {
+                                            {/* Always show existing comments */}
+                                            {postComments[post.id] &&
+                                                postComments[post.id].map((commentData) => {
                                                             const commentUserId =
                                                                 commentData?.commentUser?._key?.path?.segments?.[6] || null;
                                                             const commentUser = users?.[commentUserId] || {};
@@ -1477,18 +1502,21 @@ function Stories() {
                                                                 <div key={commentData.id} className="comment">
                                                                     {commentUser && (
                                                                         <>
-                                                                            <img
-                                                                                src={commentUser.photo_url}
-                                                                                alt={commentUser.display_name}
-                                                                                onError={(e) =>
-                                                                                    (e.target.src =
-                                                                                        'https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg')
-                                                                                }
-                                                                            />
+                                                                            <Link href={`/profile/${commentUserId}`}>
+                                                                                <img
+                                                                                    src={commentUser.photo_url}
+                                                                                    alt={commentUser.display_name}
+                                                                                    className="comment-user-avatar clickable"
+                                                                                    onError={(e) =>
+                                                                                        (e.target.src =
+                                                                                            'https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg')
+                                                                                    }
+                                                                                />
+                                                                            </Link>
                                                                             <div className="comment-text">
-                                        <span className="comment-user">
-                                            {commentUser.display_name}
-                                        </span>
+                                                                                <Link href={`/profile/${commentUserId}`} className="comment-user clickable">
+                                                                                    {commentUser.display_name}
+                                                                                </Link>
                                                                                 {commentTime && commentTime instanceof Date && (
                                                                                     <span className="comment-time">
                                                 {commentTime.toLocaleString('en-US', {
@@ -1513,9 +1541,13 @@ function Stories() {
                                                                 </div>
                                                             );
                                                         })}
+
+                                            {/* Only show comment input when opened */}
+                                            {openCommentInput === post.id && (
+                                                <>
                                                     <textarea
                                                         className="comment-text-input"
-                                                        ref={openCommentInput === post.id ? commentInputRef : null}
+                                                        ref={commentInputRef}
                                                         value={comments[post.id] || ''}
                                                         onChange={(event) => handleCommentChange(event, post.id)}
                                                         placeholder="Add a comment..."
