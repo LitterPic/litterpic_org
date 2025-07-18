@@ -1472,10 +1472,10 @@ function Stories() {
 
                                             <span className="likes-comments-comment-field">
                         <i
-                            className={`material-icons ${numComments > 0 ? 'filled-comment' : 'empty-comment'}`}
+                            className="material-icons empty-comment"
                             onClick={() => setOpenCommentInput(openCommentInput !== post.id ? post.id : null)}
                         >
-                            mode_comment
+                            chat_bubble_outline
                         </i>
 
                         <span className="comment-count">{numComments}</span>

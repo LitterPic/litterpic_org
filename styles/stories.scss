@@ -121,16 +121,27 @@
   position: absolute;
   text-align: start;
   top: 100%;
-  margin-top: 5px;
+  margin-top: -2px;
   transform: translateX(-50%);
   z-index: 1000;
   min-width: 150px;
+
+  // Create invisible bridge to prevent popup from disappearing
+  &::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 0;
+    right: 0;
+    height: 12px;
+    background: transparent;
+  }
 }
 
 .like-list {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   border-radius: 8px;
-  padding: 12px;
+  padding: 8px 12px 12px 12px;
   border: 1px solid #ddd;
   background-color: white;
   min-width: 180px;
