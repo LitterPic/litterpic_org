@@ -167,47 +167,42 @@ export default function Index() {
         }
     }, [recentPosts]);
 
-    // Prefetch stories data as early as possible
+    // Prefetch stories data as early as possible (only once)
     useEffect(() => {
+        let hasStartedPrefetch = false;
+
         // Start prefetching stories data immediately
         const prefetchStoriesData = async () => {
+            if (hasStartedPrefetch) return; // Prevent multiple calls
+            hasStartedPrefetch = true;
+
             const auth = getAuth();
             const currentUser = auth.currentUser;
             const prefetchedStories = await prefetchStories(0, currentUser);
 
             // If stories were successfully prefetched, update the global context
             if (prefetchedStories && prefetchedStories.length > 0) {
-                console.log(`Updating global context with ${prefetchedStories.length} prefetched stories`);
                 updateCachedStories(prefetchedStories);
             }
         };
 
-        // Use multiple strategies to ensure stories are prefetched
+        // Only prefetch if we're in the browser
         if (typeof window !== 'undefined') {
-            // 1. Start prefetching immediately with no delay
-            prefetchStoriesData(); // Immediate call
+            // Single prefetch call with a small delay to ensure DOM is ready
+            setTimeout(prefetchStoriesData, 100);
 
-            // Also set a backup timeout just in case
-            setTimeout(prefetchStoriesData, 50);
-
-            // 2. Also prefetch when the page becomes idle
-            if ('requestIdleCallback' in window) {
-                window.requestIdleCallback(prefetchStoriesData, { timeout: 1000 });
-            }
-
-            // 3. Add a link prefetch hint for the stories page
+            // Add performance optimizations
             const linkElement = document.createElement('link');
             linkElement.rel = 'prefetch';
             linkElement.href = '/stories';
             document.head.appendChild(linkElement);
 
-            // 4. Preconnect to Firebase storage for faster image loading
             const preconnectElement = document.createElement('link');
             preconnectElement.rel = 'preconnect';
             preconnectElement.href = 'https://firebasestorage.googleapis.com';
             document.head.appendChild(preconnectElement);
         }
-    }, [updateCachedStories]);
+    }, []); // Empty dependency array - only run once
 
     useEffect(() => {
         const fetchTotalWeight = async () => {

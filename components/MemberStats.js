@@ -40,7 +40,20 @@ const MemberStats = () => {
         try {
             setIsLoading(true);
             const usersSnapshot = await getDocs(collection(db, 'users'));
-            setTotalMembers(usersSnapshot.size);
+
+            // Count only users with non-empty display_name (matches Flutter app logic)
+            // Flutter app: .where((user) => user.displayName.isNotEmpty)
+            let validMemberCount = 0;
+            usersSnapshot.forEach(doc => {
+                const userData = doc.data();
+
+                // Match Flutter app logic: only check for non-empty display_name
+                if (userData.display_name && userData.display_name.trim() !== '') {
+                    validMemberCount++;
+                }
+            });
+
+            setTotalMembers(validMemberCount);
         } catch (error) {
             console.error('Error fetching total members:', error);
         } finally {
@@ -67,8 +80,8 @@ const MemberStats = () => {
             usersSnapshot.forEach(doc => {
                 const userData = doc.data();
 
-                // Check if user has created_time field
-                if (userData.created_time) {
+                // Check if user has created_time field and non-empty display_name (matching Flutter app logic)
+                if (userData.created_time && userData.display_name && userData.display_name.trim() !== '') {
                     totalUsersWithCreatedTime++;
 
                     let memberDate;

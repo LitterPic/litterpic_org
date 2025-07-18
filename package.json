@@ -13,11 +13,17 @@
     "export": "next export",
     "lint": "sass-lint -v",
     "lint:fix": "sass-lint-auto-fix",
-    "clean": "rm -rf out & npm ci"
+    "clean": "rm -rf out & npm ci",
+    "deploy": "npm run build && vercel --prod",
+    "deploy:preview": "npm run build && vercel"
   },
   "keywords": [],
   "author": "Alek Babich",
   "license": "ISC",
+  "engines": {
+    "node": ">=22.0.0",
+    "npm": ">=10.0.0"
+  },
   "dependencies": {
     "@ffmpeg/ffmpeg": "^0.12.15",
     "@ffmpeg/util": "^0.12.2",
@@ -34,12 +40,12 @@
     "kill-port": "^2.0.1",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
-    "next": "^13.4.4",
+    "next": "^14.2.0",
     "postcss": "^8.4.47",
-    "react": "^18.2.0",
+    "react": "^18.3.0",
     "react-big-calendar": "^1.8.0",
     "react-bootstrap": "^2.7.4",
-    "react-dom": "^18.2.0",
+    "react-dom": "^18.3.0",
     "react-google-places-autocomplete": "^4.0.1",
     "react-icons": "^4.9.0",
     "react-lazy-load-image-component": "^1.5.6",

@@ -153,6 +153,16 @@
   flex-grow: 1;
   text-decoration: none;
   cursor: pointer;
+
+  &.disabled {
+    cursor: default;
+    color: #999;
+    text-decoration: none;
+
+    &:hover {
+      color: #999;
+    }
+  }
 }
 
 .like-date {

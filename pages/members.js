@@ -52,7 +52,7 @@ const MembersPage = () => {
 
             usersSnapshot.forEach(doc => {
                 const userData = doc.data();
-                if (userData.created_time && userData.display_name) {
+                if (userData.created_time && userData.display_name && userData.display_name.trim() !== '') {
                     const memberDate = userData.created_time.toDate();
                     years.add(memberDate.getFullYear());
                     

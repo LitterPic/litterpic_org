@@ -12,7 +12,7 @@ const LikePopup = ({likedUsers}) => {
             {Array.isArray(likedUsers) && likedUsers.length > 0 && (
                 <div className="like-list">
                     {likedUsers.map((user, index) => (
-                        <div key={user?.id || index} className={`like-user ${imageLoaded ? 'loaded' : 'loading'}`}>
+                        <div key={user?.uid || user?.id || index} className={`like-user ${imageLoaded ? 'loaded' : 'loading'}`}>
                             <div className="user-info">
                                 <img
                                     src={user?.photo_url || "https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg"}
@@ -20,9 +20,15 @@ const LikePopup = ({likedUsers}) => {
                                     className="user-photo"
                                     onLoad={() => setImageLoaded(true)}
                                 />
-                                <Link href={`/user/${user?.uid || '#'}`} className="user-name">
-                                    {user?.display_name || "Volunteer"}
-                                </Link>
+                                {user?.uid ? (
+                                    <Link href={`/profile/${user.uid}`} className="user-name">
+                                        {user?.display_name || "Volunteer"}
+                                    </Link>
+                                ) : (
+                                    <span className="user-name disabled">
+                                        {user?.display_name || "Volunteer"}
+                                    </span>
+                                )}
                             </div>
                         </div>
                     ))}

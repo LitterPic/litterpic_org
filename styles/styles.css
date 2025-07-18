@@ -3496,6 +3496,14 @@ h1.heading-text.profile-heading {
   text-decoration: none;
   cursor: pointer;
 }
+.user-name.disabled {
+  cursor: default;
+  color: #999;
+  text-decoration: none;
+}
+.user-name.disabled:hover {
+  color: #999;
+}
 
 .like-date {
   margin-left: 10px;
@@ -5474,6 +5482,14 @@ input::placeholder {
   flex-grow: 1;
   text-decoration: none;
   cursor: pointer;
+}
+.user-name.disabled {
+  cursor: default;
+  color: #999;
+  text-decoration: none;
+}
+.user-name.disabled:hover {
+  color: #999;
 }
 
 .like-date {

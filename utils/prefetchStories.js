@@ -23,38 +23,26 @@ export const prefetchStories = async (postsVersion = 0, currentUser = null) => {
 
   // Check if prefetching is already in progress
   if (localStorage.getItem(prefetchingKey) === 'true') {
-    console.log('Stories prefetching already in progress');
     return;
   }
 
   // Set the prefetching flag
   localStorage.setItem(prefetchingKey, 'true');
   try {
-    console.log('Prefetching stories data...');
     const postsPerPage = 6; // Match the value in stories.js
     const page = 1;
     const cacheKey = getAllPostsCacheKey(page, postsVersion);
 
     // Check if we already have a recent cache
-    console.log('Prefetching with cache key:', cacheKey);
     const cachedData = localStorage.getItem(cacheKey);
     if (cachedData) {
-      console.log('Found existing prefetched data');
       const { timestamp, posts } = JSON.parse(cachedData);
       const now = new Date().getTime();
-      const cacheAge = (now - timestamp) / 1000;
-
-      console.log(`Prefetch cache age: ${cacheAge.toFixed(2)} seconds, posts: ${posts?.length || 0}`);
 
       // If cache is still fresh, return the cached posts
       if (now - timestamp < ALL_POSTS_CACHE_EXPIRATION_MS / 2) {
-        console.log('Using existing prefetched stories data');
         return posts;
-      } else {
-        console.log('Prefetch cache expired, fetching fresh data');
       }
-    } else {
-      console.log('No prefetched data found, will fetch fresh data');
     }
 
     // Fetch posts directly from Firestore for better performance
@@ -91,7 +79,6 @@ export const prefetchStories = async (postsVersion = 0, currentUser = null) => {
         try {
           return await getDownloadURL(ref(storage, photoRef));
         } catch (error) {
-          console.error('Error getting photo URL:', error);
           return "https://ih1.redbubble.net/image.4905811447.8675/flat,750x,075,f-pad,750x1000,f8f8f8.jpg";
         }
       });
@@ -160,8 +147,6 @@ export const prefetchStories = async (postsVersion = 0, currentUser = null) => {
     };
 
     localStorage.setItem(cacheKey, JSON.stringify(postsToCache));
-    console.log(`Prefetched ${fetchedPosts.length} stories successfully with key: ${cacheKey}`);
-
     // Also cache the users data
     localStorage.setItem('users', JSON.stringify(users));
 
@@ -173,7 +158,7 @@ export const prefetchStories = async (postsVersion = 0, currentUser = null) => {
     return fetchedPosts;
 
   } catch (error) {
-    console.error('Error prefetching stories:', error);
+    // Silent error handling
   } finally {
     // Clear the prefetching flag
     localStorage.removeItem(prefetchingKey);

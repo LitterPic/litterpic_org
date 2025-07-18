@@ -16,6 +16,19 @@ module.exports = {
         ];
     },
     images: {
-        domains: ['firebasestorage.googleapis.com', 't4.ftcdn.net'],
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'firebasestorage.googleapis.com',
+                port: '',
+                pathname: '/**',
+            },
+            {
+                protocol: 'https',
+                hostname: 't4.ftcdn.net',
+                port: '',
+                pathname: '/**',
+            },
+        ],
     },
 };

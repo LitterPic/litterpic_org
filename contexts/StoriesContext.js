@@ -83,7 +83,7 @@ export const StoriesProvider = ({ children }) => {
           timestamp
         }));
       } catch (error) {
-        console.error('Error storing stories in sessionStorage:', error);
+        // Silent error handling
       }
     }
   };
@@ -99,7 +99,7 @@ export const StoriesProvider = ({ children }) => {
       try {
         sessionStorage.removeItem('cachedStories');
       } catch (error) {
-        console.error('Error clearing stories from sessionStorage:', error);
+        // Silent error handling
       }
     }
   };
