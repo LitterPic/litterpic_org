@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="Fixed like popup and comment icon">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/stories.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/stories.js" afterDir="false" />
-    </list>
+    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="Fixed load more stories" />
     <list id="382160bb-9221-4f9b-9560-69e35a8e70aa" name="auto modified" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,12 +106,12 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
-                    <option name="branchName" value="master" />
-                    <option name="lastUsedInstant" value="1720742844" />
+                    <option name="branchName" value="fix-show-more-stories" />
+                    <option name="lastUsedInstant" value="1754439378" />
                   </RecentBranch>
                   <RecentBranch>
-                    <option name="branchName" value="DEV" />
-                    <option name="lastUsedInstant" value="1718150587" />
+                    <option name="branchName" value="master" />
+                    <option name="lastUsedInstant" value="1720742844" />
                   </RecentBranch>
                 </list>
               </option>
@@ -163,9 +160,8 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "fix-show-more-stories",
     "junie.onboarding.icon.badge.shown": "true",
     "last_opened_file_path": "/Users/alekbabich/GIT/litterpic_org/styles",
     "node.js.detected.package.eslint": "true",
@@ -241,15 +237,7 @@
       <workItem from="1754437323432" duration="55000" />
       <workItem from="1754437409309" duration="7000" />
       <workItem from="1754437761018" duration="151000" />
-      <workItem from="1754438042242" duration="969000" />
-    </task>
-    <task id="LOCAL-00019" summary="Added missing alt tag for img">
-      <option name="closed" value="true" />
-      <created>1723979368443</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1723979368443</updated>
+      <workItem from="1754438042242" duration="1302000" />
     </task>
     <task id="LOCAL-00020" summary="September raffle update">
       <option name="closed" value="true" />
@@ -635,7 +623,15 @@
       <option name="project" value="LOCAL" />
       <updated>1752856963848</updated>
     </task>
-    <option name="localTasksCounter" value="68" />
+    <task id="LOCAL-00068" summary="Fixed load more stories">
+      <option name="closed" value="true" />
+      <created>1754439107321</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1754439107322</updated>
+    </task>
+    <option name="localTasksCounter" value="69" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -664,7 +660,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Fixed like/unlike, and stories caching to reload new posts" />
     <MESSAGE value="fix page not loading for missing like" />
     <MESSAGE value="Fixed likes" />
     <MESSAGE value="Code improvements" />
@@ -689,6 +684,7 @@
     <MESSAGE value="Fixed Node update" />
     <MESSAGE value="Fixed navigation to user from comment, fixed like popup hover" />
     <MESSAGE value="Fixed like popup and comment icon" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed like popup and comment icon" />
+    <MESSAGE value="Fixed load more stories" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed load more stories" />
   </component>
 </project>
