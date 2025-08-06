@@ -4,16 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="mobile style fix">
+    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="Fixed like popup and comment icon">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/notifications.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/notifications.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/notification.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/notification.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/styles/styles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/styles.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/styles/styles.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/stories.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/stories.js" afterDir="false" />
     </list>
-    <list id="382160bb-9221-4f9b-9560-69e35a8e70aa" name="auto modified" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list id="382160bb-9221-4f9b-9560-69e35a8e70aa" name="auto modified" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -144,24 +139,6 @@
     &quot;accountId&quot;: &quot;d6e10271-1a0e-4ea7-b61c-1ec61c897260&quot;
   }
 }</component>
-  <component name="LineStatusTrackerManager">
-    <file path="$PROJECT_DIR$/.idea/workspace.xml">
-      <ranges>
-        <range start1="6" end1="10" start2="6" end2="7" changelist="fc440dac-09dd-4333-855f-f4bd9e5c1f62" />
-        <range start1="11" end1="17" start2="8" end2="10" changelist="fc440dac-09dd-4333-855f-f4bd9e5c1f62" />
-        <range start1="19" end1="20" start2="12" end2="12" changelist="fc440dac-09dd-4333-855f-f4bd9e5c1f62" />
-        <range start1="157" end1="167" start2="149" end2="161" changelist="fc440dac-09dd-4333-855f-f4bd9e5c1f62" />
-        <range start1="172" end1="172" start2="166" end2="169" changelist="fc440dac-09dd-4333-855f-f4bd9e5c1f62" />
-        <range start1="177" end1="177" start2="174" end2="177" changelist="fc440dac-09dd-4333-855f-f4bd9e5c1f62" />
-        <range start1="181" end1="198" start2="181" end2="198" changelist="fc440dac-09dd-4333-855f-f4bd9e5c1f62" />
-        <range start1="199" end1="200" start2="199" end2="200" changelist="fc440dac-09dd-4333-855f-f4bd9e5c1f62" />
-        <range start1="245" end1="310" start2="245" end2="248" changelist="fc440dac-09dd-4333-855f-f4bd9e5c1f62" />
-        <range start1="631" end1="632" start2="569" end2="642" changelist="382160bb-9221-4f9b-9560-69e35a8e70aa" />
-        <range start1="660" end1="668" start2="670" end2="670" changelist="382160bb-9221-4f9b-9560-69e35a8e70aa" />
-        <range start1="685" end1="686" start2="687" end2="696" changelist="382160bb-9221-4f9b-9560-69e35a8e70aa" />
-      </ranges>
-    </file>
-  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -179,26 +156,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.Confirmation&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Applications/WebStorm.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "master",
+    "junie.onboarding.icon.badge.shown": "true",
+    "last_opened_file_path": "/Users/alekbabich/GIT/litterpic_org/styles",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "/Applications/WebStorm.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/styles" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/lib" />
       <recent name="$PROJECT_DIR$/pages/edit-profile" />
@@ -209,7 +191,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-f27c65a3e318-JavaScript-WS-251.23774.424" />
+        <option value="bundled-js-predefined-d6986cc7102b-e03c56caf84a-JavaScript-WS-252.23892.411" />
       </set>
     </attachedChunks>
   </component>
@@ -245,79 +227,21 @@
       <workItem from="1745700101810" duration="108000" />
       <workItem from="1745700227649" duration="13659000" />
       <workItem from="1746301965825" duration="1170000" />
-      <workItem from="1746310356575" duration="12550000" />
-    </task>
-    <task id="LOCAL-00010" summary="Fixed notification page style for mobile">
-      <option name="closed" value="true" />
-      <created>1723764581013</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1723764581013</updated>
-    </task>
-    <task id="LOCAL-00011" summary="Updated notification push messages">
-      <option name="closed" value="true" />
-      <created>1723764675263</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1723764675263</updated>
-    </task>
-    <task id="LOCAL-00012" summary="Updated notification mobile style">
-      <option name="closed" value="true" />
-      <created>1723765521609</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1723765521609</updated>
-    </task>
-    <task id="LOCAL-00013" summary="Updated notification style">
-      <option name="closed" value="true" />
-      <created>1723794495567</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1723794495567</updated>
-    </task>
-    <task id="LOCAL-00014" summary="Added random titles for comment push notifications">
-      <option name="closed" value="true" />
-      <created>1723795089940</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1723795089940</updated>
-    </task>
-    <task id="LOCAL-00015" summary="Added follow up notifications when other people comment or like a post you commented or liked">
-      <option name="closed" value="true" />
-      <created>1723837761926</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1723837761926</updated>
-    </task>
-    <task id="LOCAL-00016" summary="Dont send duplicate notifications to post author">
-      <option name="closed" value="true" />
-      <created>1723977970161</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1723977970161</updated>
-    </task>
-    <task id="LOCAL-00017" summary="Clean-up notifications - remove duplicates">
-      <option name="closed" value="true" />
-      <created>1723979065083</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1723979065083</updated>
-    </task>
-    <task id="LOCAL-00018" summary="fix compilation error with img tag">
-      <option name="closed" value="true" />
-      <created>1723979308041</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1723979308041</updated>
+      <workItem from="1746310356575" duration="15140000" />
+      <workItem from="1746745926713" duration="2408000" />
+      <workItem from="1746898030564" duration="114000" />
+      <workItem from="1749941007003" duration="28000" />
+      <workItem from="1749941068855" duration="103000" />
+      <workItem from="1749941220947" duration="186000" />
+      <workItem from="1749941478214" duration="137000" />
+      <workItem from="1749943004389" duration="275000" />
+      <workItem from="1751804454359" duration="52000" />
+      <workItem from="1751804527917" duration="13950000" />
+      <workItem from="1754437273555" duration="25000" />
+      <workItem from="1754437323432" duration="55000" />
+      <workItem from="1754437409309" duration="7000" />
+      <workItem from="1754437761018" duration="151000" />
+      <workItem from="1754438042242" duration="969000" />
     </task>
     <task id="LOCAL-00019" summary="Added missing alt tag for img">
       <option name="closed" value="true" />
@@ -567,7 +491,151 @@
       <option name="project" value="LOCAL" />
       <updated>1745779125680</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="Fixed swiping issue where we moved more than one photo per swipe">
+      <option name="closed" value="true" />
+      <created>1745783001774</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1745783001774</updated>
+    </task>
+    <task id="LOCAL-00051" summary="Increased loading speed for stories.js">
+      <option name="closed" value="true" />
+      <created>1745881360777</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1745881360777</updated>
+    </task>
+    <task id="LOCAL-00052" summary="Speed up loading stories page">
+      <option name="closed" value="true" />
+      <created>1746391233148</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1746391233149</updated>
+    </task>
+    <task id="LOCAL-00053" summary="Update mobile experience">
+      <option name="closed" value="true" />
+      <created>1746393190477</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1746393190477</updated>
+    </task>
+    <task id="LOCAL-00054" summary="Update mobile experience">
+      <option name="closed" value="true" />
+      <created>1746393796820</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1746393796820</updated>
+    </task>
+    <task id="LOCAL-00055" summary="Fixed swiping display">
+      <option name="closed" value="true" />
+      <created>1746401054124</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1746401054124</updated>
+    </task>
+    <task id="LOCAL-00056" summary="Updated mobile styles">
+      <option name="closed" value="true" />
+      <created>1746482927286</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1746482927286</updated>
+    </task>
+    <task id="LOCAL-00057" summary="Fixed compilation issue">
+      <option name="closed" value="true" />
+      <created>1746483441607</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1746483441607</updated>
+    </task>
+    <task id="LOCAL-00058" summary="mobile style fix">
+      <option name="closed" value="true" />
+      <created>1746484166912</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1746484166912</updated>
+    </task>
+    <task id="LOCAL-00059" summary="fixed mobile notification display">
+      <option name="closed" value="true" />
+      <created>1746738730862</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1746738730862</updated>
+    </task>
+    <task id="LOCAL-00060" summary="Extracted send email notification logic">
+      <option name="closed" value="true" />
+      <created>1746739133499</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1746739133499</updated>
+    </task>
+    <task id="LOCAL-00061" summary="Sign up fix">
+      <option name="closed" value="true" />
+      <created>1746881609719</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1746881609720</updated>
+    </task>
+    <task id="LOCAL-00062" summary="Added members count and members page">
+      <option name="closed" value="true" />
+      <created>1751839501792</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1751839501792</updated>
+    </task>
+    <task id="LOCAL-00063" summary="About us update and caching fix">
+      <option name="closed" value="true" />
+      <created>1752619550643</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1752619550644</updated>
+    </task>
+    <task id="LOCAL-00064" summary="Fixed caching, fixed likes, fixed member count, fixed stuck on post from notification, updated to Node 22">
+      <option name="closed" value="true" />
+      <created>1752797430708</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1752797430708</updated>
+    </task>
+    <task id="LOCAL-00065" summary="Fixed Node update">
+      <option name="closed" value="true" />
+      <created>1752797718714</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1752797718714</updated>
+    </task>
+    <task id="LOCAL-00066" summary="Fixed navigation to user from comment, fixed like popup hover">
+      <option name="closed" value="true" />
+      <created>1752799102774</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1752799102774</updated>
+    </task>
+    <task id="LOCAL-00067" summary="Fixed like popup and comment icon">
+      <option name="closed" value="true" />
+      <created>1752856963848</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1752856963848</updated>
+    </task>
+    <option name="localTasksCounter" value="68" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -596,23 +664,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Updated unfollow to following" />
-    <MESSAGE value="Added (manual) function to update display_name from first part of email if display_name is missing" />
-    <MESSAGE value="October message and user updates" />
-    <MESSAGE value="Update initial number of posts loaded" />
-    <MESSAGE value="View followers/following, style update, links in comments work" />
-    <MESSAGE value="Tailwind fix for production" />
-    <MESSAGE value="Fixed dropdown arrow next to profile picture to open up menu" />
-    <MESSAGE value="Fixed edit profile, updated edit profile style" />
-    <MESSAGE value="Fixed ambassador label in user stories" />
-    <MESSAGE value="Flipped menu arrow next to profile picture in logo-bar" />
-    <MESSAGE value="Fixed first time login logic" />
-    <MESSAGE value="Support links in post description" />
-    <MESSAGE value="Lessen number of posts to 6 on initial load" />
-    <MESSAGE value="November banner message update" />
-    <MESSAGE value="Upload multiple images one at a time, update style on create post component" />
-    <MESSAGE value="Added upload retry logic" />
-    <MESSAGE value="Updated donation image" />
     <MESSAGE value="Fixed like/unlike, and stories caching to reload new posts" />
     <MESSAGE value="fix page not loading for missing like" />
     <MESSAGE value="Fixed likes" />
@@ -621,6 +672,23 @@
     <MESSAGE value="Improved image loading on Community Service Hours page" />
     <MESSAGE value="Added webp images" />
     <MESSAGE value="Multiple updates to stories.js" />
-    <option name="LAST_COMMIT_MESSAGE" value="Multiple updates to stories.js" />
+    <MESSAGE value="Fixed swiping issue where we moved more than one photo per swipe" />
+    <MESSAGE value="Increased loading speed for stories.js" />
+    <MESSAGE value="Speed up loading stories page" />
+    <MESSAGE value="Update mobile experience" />
+    <MESSAGE value="Fixed swiping display" />
+    <MESSAGE value="Updated mobile styles" />
+    <MESSAGE value="Fixed compilation issue" />
+    <MESSAGE value="mobile style fix" />
+    <MESSAGE value="fixed mobile notification display" />
+    <MESSAGE value="Extracted send email notification logic" />
+    <MESSAGE value="Sign up fix" />
+    <MESSAGE value="Added members count and members page" />
+    <MESSAGE value="About us update and caching fix" />
+    <MESSAGE value="Fixed caching, fixed likes, fixed member count, fixed stuck on post from notification, updated to Node 22" />
+    <MESSAGE value="Fixed Node update" />
+    <MESSAGE value="Fixed navigation to user from comment, fixed like popup hover" />
+    <MESSAGE value="Fixed like popup and comment icon" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed like popup and comment icon" />
   </component>
 </project>

@@ -158,7 +158,7 @@ function Stories() {
                         clearAllCaches();
 
                         // Only refresh if we're currently showing all posts (not filtered)
-                        if (!showMyPosts && !selectedUser && posts.length > 0) {
+                        if (!showMyPosts && !selectedUser) {
                             setPosts([]); // Clear local posts state
                             setPage(1); // Reset to first page
                             fetchAndSetPosts(1);
@@ -175,7 +175,7 @@ function Stories() {
         });
 
         return () => unsubscribe();
-    }, [showMyPosts, selectedUser, posts.length]);
+    }, [showMyPosts, selectedUser]); // Removed posts.length dependency
 
     useEffect(() => {
         const cacheKey = 'users_cache';
@@ -780,8 +780,8 @@ function Stories() {
             // Combine with existing posts and remove duplicates
             const combinedPosts = removeDuplicatePosts([...currentPosts, ...newPosts]);
 
-            // Update state
-            setPosts(combinedPosts);
+            // Update state with recalculated like status
+            setPosts(recalculateLikeStatus(combinedPosts));
             setPage(nextPage);
             setHasMorePosts(newPosts.length >= postsPerPage);
 
