@@ -49,8 +49,8 @@ export default async function handler(req, res) {
 
             console.log('✅ Report submitted to MailerLite successfully');
             
-            // Step 2: Send immediate notification email to admins via MailerLite
-            await sendAdminNotification(reportData, API_KEY);
+            // Step 2: Send immediate notification email to admins via Postmark
+            await sendAdminNotification(reportData);
 
             return res.status(200).json({ 
                 message: "Report submitted successfully to MailerLite",
@@ -73,68 +73,32 @@ export default async function handler(req, res) {
     }
 }
 
-async function sendAdminNotification(reportData, apiKey) {
+async function sendAdminNotification(reportData) {
     try {
-        // Simpler approach: Add admin to a special "reports" group that triggers automation
-        console.log('Sending admin notification via MailerLite automation...');
+        // Send immediate notification via Postmark
+        console.log('Sending admin notification via Postmark...');
 
-        const adminEmail = 'contact@litterpic.org';
-
-        // Create a unique subscriber entry for this report
-        const reportSubscriberData = {
-            email: `report-${Date.now()}@litterpic.org`, // Unique email for each report
-            fields: {
-                admin_email: adminEmail,
-                report_type: 'inappropriate_post',
-                post_id: reportData.postID,
-                post_date: reportData.postDate,
-                reporter: reportData.reporter,
-                reported_user: reportData.userWhoPosted,
-                user_concern: reportData.userConcern.substring(0, 200),
-                post_description: reportData.postDescription.substring(0, 200),
-                report_timestamp: new Date().toISOString()
-            }
-        };
-
-        console.log('Adding report subscriber to trigger automation:', reportSubscriberData);
-
-        const response = await axios.post('https://api.mailerlite.com/api/v2/subscribers', reportSubscriberData, {
+        const response = await fetch(`${process.env.VERCEL_URL || 'http://localhost:3000'}/api/sendSimpleReportEmail`, {
+            method: "POST",
             headers: {
-                'X-MailerLite-ApiKey': apiKey,
-                'Content-Type': 'application/json'
-            }
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                reportData: reportData,
+            }),
         });
 
-        console.log('✅ Report subscriber added to MailerLite - automation should trigger');
-        console.log('Response:', response.data);
-
-        // Also try a direct approach - add the actual admin email with report data
-        const adminSubscriberData = {
-            email: adminEmail,
-            fields: {
-                last_report_post_id: reportData.postID,
-                last_report_date: reportData.postDate,
-                last_reporter: reportData.reporter,
-                last_reported_user: reportData.userWhoPosted,
-                last_report_concern: reportData.userConcern.substring(0, 100),
-                last_report_timestamp: new Date().toISOString()
-            }
-        };
-
-        await axios.post('https://api.mailerlite.com/api/v2/subscribers', adminSubscriberData, {
-            headers: {
-                'X-MailerLite-ApiKey': apiKey,
-                'Content-Type': 'application/json'
-            }
-        });
-
-        console.log('✅ Admin subscriber updated with latest report data');
+        if (response.ok) {
+            const data = await response.json();
+            console.log('✅ Admin notification email sent successfully via Postmark');
+            console.log('Message ID:', data.messageId);
+        } else {
+            const errorData = await response.json();
+            console.error('❌ Failed to send admin notification email:', errorData);
+        }
 
     } catch (error) {
-        console.error('❌ Error sending admin notification via MailerLite:');
-        console.error('Status:', error.response?.status);
-        console.error('Data:', error.response?.data);
-        console.error('Message:', error.message);
+        console.error('❌ Error sending admin notification via Postmark:', error);
         // Don't throw error - we don't want to fail the report submission if email fails
     }
 }

@@ -42,6 +42,7 @@
     "moment": "^2.29.4",
     "next": "^14.2.0",
     "postcss": "^8.4.47",
+    "postmark": "^4.0.5",
     "react": "^18.3.0",
     "react-big-calendar": "^1.8.0",
     "react-bootstrap": "^2.7.4",
