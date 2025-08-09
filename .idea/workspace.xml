@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="removed sendEmail">
-      <change beforePath="$PROJECT_DIR$/pages/api/sendMailerSendEmail.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/api/sendMailerSendEmail.js" afterDir="false" />
+    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="removed private files">
+      <change beforePath="$PROJECT_DIR$/.idea/AugmentWebviewStateStore.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/AugmentWebviewStateStore.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <list id="382160bb-9221-4f9b-9560-69e35a8e70aa" name="auto modified" comment="auto modified" />
     <option name="SHOW_DIALOG" value="false" />
@@ -246,14 +247,6 @@
       <workItem from="1754437409309" duration="7000" />
       <workItem from="1754437761018" duration="151000" />
       <workItem from="1754438042242" duration="969000" />
-    </task>
-    <task id="LOCAL-00020" summary="September raffle update">
-      <option name="closed" value="true" />
-      <created>1725404941527</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1725404941527</updated>
     </task>
     <task id="LOCAL-00021" summary="Added follow user notifications style">
       <option name="closed" value="true" />
@@ -639,7 +632,15 @@
       <option name="project" value="LOCAL" />
       <updated>1754743573042</updated>
     </task>
-    <option name="localTasksCounter" value="69" />
+    <task id="LOCAL-00069" summary="removed private files">
+      <option name="closed" value="true" />
+      <created>1754762364077</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1754762364077</updated>
+    </task>
+    <option name="localTasksCounter" value="70" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -668,7 +669,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fix page not loading for missing like" />
     <MESSAGE value="Fixed likes" />
     <MESSAGE value="Code improvements" />
     <MESSAGE value="Improve website speed" />
@@ -693,6 +693,7 @@
     <MESSAGE value="Fixed navigation to user from comment, fixed like popup hover" />
     <MESSAGE value="Fixed like popup and comment icon" />
     <MESSAGE value="removed sendEmail" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed sendEmail" />
+    <MESSAGE value="removed private files" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed private files" />
   </component>
 </project>

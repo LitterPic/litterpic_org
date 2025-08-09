@@ -61,11 +61,16 @@ async function sendMailerSendTemplateEmail(email, templateId, templateData, apiK
     };
 
     try {
+        console.log('Sending MailerSend email with payload:', JSON.stringify(payload, null, 2));
         const response = await axios.post(url, payload, config);
-        console.log(`MailerSend email sent successfully to ${email} using template ${templateId}`);
+        console.log(`✅ MailerSend email sent successfully to ${email} using template ${templateId}`);
+        console.log('MailerSend response:', response.data);
         return response.data;
     } catch (error) {
-        console.error('MailerSend API error details:', error.response?.data || error.message);
+        console.error('❌ MailerSend API error details:');
+        console.error('Status:', error.response?.status);
+        console.error('Data:', error.response?.data);
+        console.error('Message:', error.message);
         throw error;
     }
 }
