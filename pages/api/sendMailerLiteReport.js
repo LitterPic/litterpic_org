@@ -75,32 +75,29 @@ export default async function handler(req, res) {
 
 async function sendAdminNotification(reportData) {
     try {
-        // Send a simple email notification to admins
-        const emailData = {
-            to: 'contact@litterpic.org',
-            subject: `🚨 Inappropriate Post Reported - Post ID: ${reportData.postID}`,
-            text: `
-INAPPROPRIATE POST REPORT
+        // Send immediate email notification to admin using existing SendGrid system
+        console.log('Sending admin notification email...');
 
-Post ID: ${reportData.postID}
-Post Date: ${reportData.postDate}
-Reporter: ${reportData.reporter}
-Reported User: ${reportData.userWhoPosted}
+        const response = await fetch(`${process.env.VERCEL_URL || 'http://localhost:3000'}/api/sendEmail`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: 'contact@litterpic.org',
+                templateId: 'd-95a2eee11b234269a6d05c06a4c334fa', // Existing inappropriate post template
+                templateData: reportData,
+            }),
+        });
 
-User Concern:
-${reportData.userConcern}
+        if (response.ok) {
+            console.log('✅ Admin notification email sent successfully');
+        } else {
+            console.error('❌ Failed to send admin notification email');
+        }
 
-Post Description:
-${reportData.postDescription}
-
-Please review this report and take appropriate action.
-            `
-        };
-
-        // You could use MailerLite's campaign API or a simple email service here
-        console.log('Admin notification prepared:', emailData);
-        
     } catch (error) {
-        console.error('Error sending admin notification:', error);
+        console.error('❌ Error sending admin notification:', error);
+        // Don't throw error - we don't want to fail the report submission if email fails
     }
 }
