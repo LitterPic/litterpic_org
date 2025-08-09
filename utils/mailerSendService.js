@@ -39,21 +39,23 @@ export const sendMailerSendEmail = async (email, templateId, templateData) => {
 
 /**
  * Send RSVP confirmation email to participant
- * 
+ * NOTE: Currently not used - RSVP emails still use original system
+ * This function is available for future migration if needed
+ *
  * @param {string} participantEmail - Email address of the person who RSVP'd
  * @param {Object} eventData - Event information
  * @returns {Promise} - Promise that resolves with the API response
  */
 export const sendRSVPConfirmationEmail = async (participantEmail, eventData) => {
   const templateId = "pxkjn41xv7pgz781"; // Your MailerSend template ID
-  
+
   const templateData = {
     eventDate: eventData.eventDate,
     eventStartTime: eventData.eventStartTime,
     eventEndTime: eventData.eventEndTime,
     eventLocation: eventData.eventLocation
   };
-  
+
   return sendMailerSendEmail(participantEmail, templateId, templateData);
 };
 

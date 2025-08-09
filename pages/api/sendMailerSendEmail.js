@@ -10,7 +10,7 @@ export default async function handler(req, res) {
 
         // MailerSend API configuration
         const API_KEY = process.env.MAILERSEND_API_KEY;
-        const FROM_EMAIL = process.env.MAILERSEND_FROM_EMAIL || "info@litterpic.org";
+        const FROM_EMAIL = process.env.MAILERSEND_FROM_EMAIL || "contact@litterpic.org";
 
         if (!API_KEY) {
             return res.status(500).json({

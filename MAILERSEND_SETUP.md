@@ -23,9 +23,9 @@ MAILERSEND_FROM_EMAIL=info@litterpic.org
 - Event creation confirmation function
 
 ### **3. Updated Volunteer Page (`pages/volunteer.js`)**
-- **RSVP confirmation emails** now use MailerSend
-- **Event creation emails** now use MailerSend
-- Uses template ID: `pxkjn41xv7pgz781`
+- **Event creation confirmation emails** (to organizers) now use MailerSend
+- **RSVP confirmation emails** (to participants) still use original system
+- Uses MailerSend template ID: `pxkjn41xv7pgz781` for organizer confirmations
 
 ## Template Data Mapping
 
@@ -68,13 +68,20 @@ Your MailerSend template `pxkjn41xv7pgz781` expects these variables:
 }
 ```
 
+## What Uses MailerSend
+
+✅ **Event Creation Confirmation Emails** - When organizers create new events
+✅ **Template ID**: `pxkjn41xv7pgz781` (your existing template)
+
+**Note:** RSVP confirmation emails (to participants) still use the original email system.
+
 ## Benefits of MailerSend
 
-✅ **Better deliverability** - Higher email delivery rates  
-✅ **Advanced analytics** - Detailed email tracking  
-✅ **Template management** - Easy template editing  
-✅ **Cost effective** - Competitive pricing  
-✅ **API reliability** - Robust email infrastructure  
+✅ **Better deliverability** - Higher email delivery rates
+✅ **Advanced analytics** - Detailed email tracking
+✅ **Template management** - Easy template editing
+✅ **Cost effective** - Competitive pricing
+✅ **API reliability** - Robust email infrastructure
 
 ## Testing
 
