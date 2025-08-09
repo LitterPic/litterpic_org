@@ -4,7 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="Fixed load more stories" />
+    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="Fixed load more stories">
+      <change afterPath="$PROJECT_DIR$/MAILERLITE_SETUP.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test-mailerlite.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/AugmentWebviewStateStore.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/AugmentWebviewStateStore.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/SignUpForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/SignUpForm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/api/subscribe.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/api/subscribe.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/createpost.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/createpost.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/emailService.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/subscribeUserToMail.js" beforeDir="false" afterPath="$PROJECT_DIR$/utils/subscribeUserToMail.js" afterDir="false" />
+    </list>
     <list id="382160bb-9221-4f9b-9560-69e35a8e70aa" name="auto modified" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -237,7 +247,7 @@
       <workItem from="1754437323432" duration="55000" />
       <workItem from="1754437409309" duration="7000" />
       <workItem from="1754437761018" duration="151000" />
-      <workItem from="1754438042242" duration="1302000" />
+      <workItem from="1754438042242" duration="2818000" />
     </task>
     <task id="LOCAL-00020" summary="September raffle update">
       <option name="closed" value="true" />

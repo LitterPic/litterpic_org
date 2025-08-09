@@ -24,8 +24,6 @@ import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {capitalizeFirstWordOfSentences} from "../utils/textUtils";
 import {convertToWebP} from "../utils/imageConverter";
-import {sendNewPostNotificationEmail} from "../utils/emailService";
-
 
 const libraries = ['places'];
 const mapApiKey = process.env.NEXT_PUBLIC_PLACES_API_KEY;
@@ -318,23 +316,6 @@ function CreatePost() {
             await updateDoc(userRef, {totalWeight: currentUserTotalWeight + postLitterWeightInPounds});
 
             await notifyFollowersOfNewPost(postDocRef.id);
-
-            const now = new Date();
-
-            // Send email notification about the new post
-            try {
-                await sendNewPostNotificationEmail(
-                    'alek@litterpic.org',  // Recipient email
-                    postDescription,
-                    roundedLitterWeight,
-                    now,
-                    selectedAddress,
-                    auth.currentUser.email
-                );
-            } catch (error) {
-                console.error("Error sending email notification:", error);
-                // Continue with the rest of the function even if email fails
-            }
 
             // Clear the form
             setPostDescription('');

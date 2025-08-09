@@ -6,7 +6,6 @@ import {doc, getFirestore, serverTimestamp, setDoc, getDocs, collection, query, 
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {subscribeUserToMail} from '../utils/subscribeUserToMail';
-import {sendNewUserEnrollmentEmail} from "../utils/emailService";
 
 export default function SignUpForm() {
     const [email, setEmail] = useState('');
@@ -112,13 +111,6 @@ export default function SignUpForm() {
                 // Continue with the signup process even if subscription fails
                 // But show a toast notification about the partial success
                 toast.warning('Account created, but there was an issue with the mailing list subscription');
-            }
-
-            try {
-                // Send email notification about the new user enrollment
-                await sendNewUserEnrollmentEmail("contact@litterpic.org", user.email);
-            } catch (subscribeError) {
-                console.error('Error sending new user enrollment email for user to mailing list:', subscribeError);
             }
 
             // Log out the user immediately after account creation
