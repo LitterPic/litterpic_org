@@ -9,7 +9,7 @@
 
 ### **2. Set Up Sender Signature**
 1. In Postmark dashboard → **Sender Signatures**
-2. Add `reports@litterpic.org` as sender
+2. Add `contact@litterpic.org` as sender
 3. Verify the email address (check your email for verification)
 
 ### **3. Get API Key**
@@ -74,7 +74,7 @@ After setup, you can:
 ### **Troubleshooting:**
 - **No email received:** Check spam folder
 - **API errors:** Verify API key in environment variables
-- **Sender issues:** Ensure `reports@litterpic.org` is verified
+- **Sender issues:** Ensure `contact@litterpic.org` is verified
 
 ## 💰 Pricing
 

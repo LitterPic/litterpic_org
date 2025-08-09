@@ -101,7 +101,7 @@ This is an automated notification from LitterPic.org`;
 
             // Send email via Postmark
             const result = await client.sendEmail({
-                From: 'reports@litterpic.org',
+                From: 'contact@litterpic.org',
                 To: 'contact@litterpic.org',
                 Subject: `🚨 Inappropriate Post Reported - Post ID: ${reportData.postID}`,
                 HtmlBody: htmlContent,
