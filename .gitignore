@@ -13,4 +13,5 @@ out/
 /secrets/
 /AugmentWebviewStateStore.xml
 .idea/AugmentWebviewStateStore.xml
+.idea/workspace.xml
 
