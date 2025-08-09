@@ -62,23 +62,3 @@ export const sendNewPostNotificationEmail = async (
   
   return sendEmail(recipientEmail, templateId, templateData);
 };
-
-
-/**
- * Send a notification email about a new user enrollment
- *
- * @param {string} recipientEmail - Email address to send notification to
- * @param {string} userEmail - Email of user who enrolled
- * @returns {Promise} - Promise that resolves with the API response
- */
-export const sendNewUserEnrollmentEmail = async (
-    recipientEmail,
-    userEmail
-) => {
-  const templateId = "d-2e5eae9b819246a9947dda25f4f18f30";
-  const templateData = {
-    userWhoAdded: userEmail,
-  };
-
-  return sendEmail(recipientEmail, templateId, templateData);
-};
