@@ -370,20 +370,12 @@ const Volunteer = () => {
                     templateData: eventConfirmTemplateData,
                 }),
             })
-                .then((response) => {
-                    console.log("MailerSend API response status:", response.status);
-                    return response.json();
-                })
-                .then((data) => {
-                    console.log("MailerSend API response data:", data);
-                    if (data.message) {
-                        console.log("✅ Event creation confirmation email sent successfully via MailerSend");
-                    } else {
-                        console.error("❌ MailerSend API error:", data.error);
-                    }
+                .then((response) => response.json())
+                .then(() => {
+                    console.log("Event creation confirmation email sent successfully via MailerSend");
                 })
                 .catch((error) => {
-                    console.error("❌ Error sending MailerSend event confirmation email:", error);
+                    console.error("Error sending MailerSend event confirmation email:", error);
                 });
         } catch (error) {
 
