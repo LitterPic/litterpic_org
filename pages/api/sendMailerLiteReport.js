@@ -49,8 +49,8 @@ export default async function handler(req, res) {
 
             console.log('✅ Report submitted to MailerLite successfully');
             
-            // Step 2: Send immediate notification email to admins
-            await sendAdminNotification(reportData);
+            // Step 2: Send immediate notification email to admins via MailerLite
+            await sendAdminNotification(reportData, API_KEY);
 
             return res.status(200).json({ 
                 message: "Report submitted successfully to MailerLite",
@@ -73,31 +73,130 @@ export default async function handler(req, res) {
     }
 }
 
-async function sendAdminNotification(reportData) {
+async function sendAdminNotification(reportData, apiKey) {
     try {
-        // Send immediate email notification to admin using existing SendGrid system
-        console.log('Sending admin notification email...');
+        // Send immediate email notification to admin using MailerLite
+        console.log('Sending admin notification email via MailerLite...');
 
-        const response = await fetch(`${process.env.VERCEL_URL || 'http://localhost:3000'}/api/sendEmail`, {
-            method: "POST",
+        // First, temporarily add admin email as subscriber to send email
+        const adminEmail = 'contact@litterpic.org';
+
+        // Add admin as subscriber with report data
+        const adminSubscriberData = {
+            email: adminEmail,
+            fields: {
+                notification_type: 'admin_alert',
+                post_id: reportData.postID,
+                post_date: reportData.postDate,
+                reporter: reportData.reporter,
+                reported_user: reportData.userWhoPosted,
+                user_concern: reportData.userConcern.substring(0, 100),
+                post_description: reportData.postDescription.substring(0, 100)
+            }
+        };
+
+        await axios.post('https://api.mailerlite.com/api/v2/subscribers', adminSubscriberData, {
             headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                email: 'contact@litterpic.org',
-                templateId: 'd-95a2eee11b234269a6d05c06a4c334fa', // Existing inappropriate post template
-                templateData: reportData,
-            }),
+                'X-MailerLite-ApiKey': apiKey,
+                'Content-Type': 'application/json'
+            }
         });
 
-        if (response.ok) {
-            console.log('✅ Admin notification email sent successfully');
-        } else {
-            console.error('❌ Failed to send admin notification email');
+        // Create and send campaign to admin
+        const campaignData = {
+            type: 'regular',
+            subject: `🚨 Inappropriate Post Reported - Post ID: ${reportData.postID}`,
+            from: 'reports@litterpic.org',
+            from_name: 'LitterPic Reports',
+            content: `
+<h2 style="color: #ff6b6b;">🚨 INAPPROPRIATE POST REPORT</h2>
+
+<div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+    <table style="width: 100%; border-collapse: collapse;">
+        <tr>
+            <td style="padding: 8px; font-weight: bold; border-bottom: 1px solid #dee2e6;">Post ID:</td>
+            <td style="padding: 8px; border-bottom: 1px solid #dee2e6;">${reportData.postID}</td>
+        </tr>
+        <tr>
+            <td style="padding: 8px; font-weight: bold; border-bottom: 1px solid #dee2e6;">Post Date:</td>
+            <td style="padding: 8px; border-bottom: 1px solid #dee2e6;">${reportData.postDate}</td>
+        </tr>
+        <tr>
+            <td style="padding: 8px; font-weight: bold; border-bottom: 1px solid #dee2e6;">Reporter:</td>
+            <td style="padding: 8px; border-bottom: 1px solid #dee2e6;">${reportData.reporter}</td>
+        </tr>
+        <tr>
+            <td style="padding: 8px; font-weight: bold; border-bottom: 1px solid #dee2e6;">Reported User:</td>
+            <td style="padding: 8px; border-bottom: 1px solid #dee2e6;">${reportData.userWhoPosted}</td>
+        </tr>
+    </table>
+</div>
+
+<div style="margin: 20px 0;">
+    <h3 style="color: #dc3545;">User Concern:</h3>
+    <div style="background: #fff3cd; padding: 15px; border-left: 4px solid #ffc107; margin: 10px 0;">
+        ${reportData.userConcern}
+    </div>
+</div>
+
+<div style="margin: 20px 0;">
+    <h3 style="color: #17a2b8;">Post Description:</h3>
+    <div style="background: #d1ecf1; padding: 15px; border-left: 4px solid #17a2b8; margin: 10px 0;">
+        ${reportData.postDescription}
+    </div>
+</div>
+
+<div style="background: #d4edda; padding: 15px; border-radius: 5px; margin: 20px 0;">
+    <strong>⚠️ Action Required:</strong> Please review this report and take appropriate action.
+</div>
+
+<hr style="margin: 30px 0;">
+<p style="color: #6c757d; font-size: 12px; text-align: center;">
+    This is an automated notification from LitterPic.org
+</p>
+            `,
+            plain_text: `🚨 INAPPROPRIATE POST REPORT
+
+Post ID: ${reportData.postID}
+Post Date: ${reportData.postDate}
+Reporter: ${reportData.reporter}
+Reported User: ${reportData.userWhoPosted}
+
+User Concern:
+${reportData.userConcern}
+
+Post Description:
+${reportData.postDescription}
+
+⚠️ Please review this report and take appropriate action.
+
+---
+This is an automated notification from LitterPic.org`
+        };
+
+        const campaignResponse = await axios.post('https://api.mailerlite.com/api/v2/campaigns', campaignData, {
+            headers: {
+                'X-MailerLite-ApiKey': apiKey,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        // Send the campaign to the admin email
+        if (campaignResponse.data && campaignResponse.data.id) {
+            await axios.post(`https://api.mailerlite.com/api/v2/campaigns/${campaignResponse.data.id}/actions/send`, {
+                emails: [adminEmail]
+            }, {
+                headers: {
+                    'X-MailerLite-ApiKey': apiKey,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            console.log('✅ Admin notification email sent successfully via MailerLite');
         }
 
     } catch (error) {
-        console.error('❌ Error sending admin notification:', error);
+        console.error('❌ Error sending admin notification via MailerLite:', error.response?.data || error.message);
         // Don't throw error - we don't want to fail the report submission if email fails
     }
 }
