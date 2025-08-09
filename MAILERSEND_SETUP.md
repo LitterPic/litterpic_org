@@ -6,7 +6,7 @@ Add these environment variables to your `.env.local` file and Vercel environment
 
 ```bash
 # MailerSend API Configuration
-MAILERSEND_API_KEY=mlsn.5b1c0086a153fc62e780db73e0c8e4b367fa926c25357123b36e7ce9088e14e8
+MAILERSEND_API_KEY=your_mailersend_api_key_here
 MAILERSEND_FROM_EMAIL=info@litterpic.org
 ```
 
@@ -102,7 +102,7 @@ Your MailerSend template `pxkjn41xv7pgz781` expects these variables:
 ### **Vercel Environment Variables:**
 1. Go to Vercel Dashboard → Your Project → Settings → Environment Variables
 2. Add:
-   - `MAILERSEND_API_KEY` = `mlsn.5b1c0086a153fc62e780db73e0c8e4b367fa926c25357123b36e7ce9088e14e8`
+   - `MAILERSEND_API_KEY` = `your_mailersend_api_key_here`
    - `MAILERSEND_FROM_EMAIL` = `info@litterpic.org`
 
 ## Migration Notes
