@@ -341,7 +341,7 @@ const Volunteer = () => {
             };
 
             //send email to event organizer
-            const eventConfirmTemplateId = "d-691c9d30786c47d3b005e3a3bc896c68";
+            const eventConfirmTemplateId = "pxkjn41xv7pgz781";
             const eventConfirmTemplateData = {
                 eventDate: date.toLocaleDateString('en-US', options),
                 eventStartTime: eventStartTime.toLocaleTimeString([], {
@@ -359,7 +359,7 @@ const Volunteer = () => {
                 eventLocation: selectedAddress,
             };
 
-            fetch("/api/sendEmail", {
+            fetch("/api/sendMailerSendEmail", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -372,10 +372,10 @@ const Volunteer = () => {
             })
                 .then((response) => response.json())
                 .then(() => {
-
+                    console.log("Event creation confirmation email sent successfully via MailerSend");
                 })
-                .catch(() => {
-
+                .catch((error) => {
+                    console.error("Error sending MailerSend event confirmation email:", error);
                 });
         } catch (error) {
 
@@ -479,8 +479,8 @@ const Volunteer = () => {
 
                 setShowThankYou(true);
 
-                //send email to person who RSVP'd
-                const participantRsvpTemplateId = "d-06e757b5a0464ed7a043a33b3f9fa686";
+                //send email to person who RSVP'd using MailerSend
+                const participantRsvpTemplateId = "pxkjn41xv7pgz781"; // MailerSend template ID
                 const participantTemplateData = {
                     eventDate: selectedEventInfo.start.toDateString(),
                     eventStartTime: selectedEventInfo.eventStartTime?.toDate().toLocaleTimeString([], {
@@ -498,7 +498,7 @@ const Volunteer = () => {
                     eventLocation: selectedEventInfo.location,
                 };
 
-                fetch("/api/sendEmail", {
+                fetch("/api/sendMailerSendEmail", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -511,10 +511,10 @@ const Volunteer = () => {
                 })
                     .then((response) => response.json())
                     .then(() => {
-
+                        console.log("RSVP confirmation email sent successfully via MailerSend");
                     })
                     .catch((error) => {
-                        console.error("Error sending email to participant:", error);
+                        console.error("Error sending MailerSend email to participant:", error);
                     });
 
                 //send email to event organizer

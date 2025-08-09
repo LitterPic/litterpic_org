@@ -4,11 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="Fixed like popup and comment icon">
+    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="removed sendEmail">
+      <change afterPath="$PROJECT_DIR$/pages/api/sendMailerSendEmail.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/mailerSendService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/AugmentWebviewStateStore.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/AugmentWebviewStateStore.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/stories.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/stories.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/volunteer.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/volunteer.js" afterDir="false" />
     </list>
-    <list id="382160bb-9221-4f9b-9560-69e35a8e70aa" name="auto modified" comment="" />
+    <list id="382160bb-9221-4f9b-9560-69e35a8e70aa" name="auto modified" comment="auto modified">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -17,7 +23,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="DEV" />
+        <entry key="$PROJECT_DIR$" value="fix-stories-final" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -110,11 +116,15 @@
                 <list>
                   <RecentBranch>
                     <option name="branchName" value="master" />
-                    <option name="lastUsedInstant" value="1720742844" />
+                    <option name="lastUsedInstant" value="1754761521" />
                   </RecentBranch>
                   <RecentBranch>
-                    <option name="branchName" value="DEV" />
-                    <option name="lastUsedInstant" value="1718150587" />
+                    <option name="branchName" value="fix-stories-final" />
+                    <option name="lastUsedInstant" value="1754758991" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="fix-stories-caching-issues" />
+                    <option name="lastUsedInstant" value="1754744983" />
                   </RecentBranch>
                 </list>
               </option>
@@ -139,6 +149,27 @@
     &quot;accountId&quot;: &quot;d6e10271-1a0e-4ea7-b61c-1ec61c897260&quot;
   }
 }</component>
+  <component name="LineStatusTrackerManager">
+    <file path="$PROJECT_DIR$/.idea/workspace.xml">
+      <ranges>
+        <range start1="6" end1="7" start2="6" end2="12" changelist="fc440dac-09dd-4333-855f-f4bd9e5c1f62" />
+        <range start1="8" end1="9" start2="13" end2="13" changelist="fc440dac-09dd-4333-855f-f4bd9e5c1f62" />
+        <range start1="10" end1="11" start2="14" end2="14" changelist="fc440dac-09dd-4333-855f-f4bd9e5c1f62" />
+        <range start1="19" end1="20" start2="22" end2="23" changelist="fc440dac-09dd-4333-855f-f4bd9e5c1f62" />
+        <range start1="111" end1="111" start2="114" end2="118" changelist="fc440dac-09dd-4333-855f-f4bd9e5c1f62" />
+        <range start1="112" end1="113" start2="119" end2="120" changelist="fc440dac-09dd-4333-855f-f4bd9e5c1f62" />
+        <range start1="115" end1="117" start2="122" end2="124" changelist="fc440dac-09dd-4333-855f-f4bd9e5c1f62" />
+        <range start1="141" end1="141" start2="148" end2="168" changelist="fc440dac-09dd-4333-855f-f4bd9e5c1f62" />
+        <range start1="167" end1="168" start2="194" end2="195" changelist="fc440dac-09dd-4333-855f-f4bd9e5c1f62" />
+        <range start1="169" end1="170" start2="196" end2="197" changelist="382160bb-9221-4f9b-9560-69e35a8e70aa" />
+        <range start1="181" end1="181" start2="208" end2="209" changelist="382160bb-9221-4f9b-9560-69e35a8e70aa" />
+        <range start1="244" end1="252" start2="272" end2="272" changelist="382160bb-9221-4f9b-9560-69e35a8e70aa" />
+        <range start1="637" end1="638" start2="657" end2="666" changelist="382160bb-9221-4f9b-9560-69e35a8e70aa" />
+        <range start1="666" end1="667" start2="694" end2="694" changelist="382160bb-9221-4f9b-9560-69e35a8e70aa" />
+        <range start1="691" end1="692" start2="718" end2="720" changelist="382160bb-9221-4f9b-9560-69e35a8e70aa" />
+      </ranges>
+    </file>
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -167,7 +198,7 @@
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "master",
     "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "/Users/alekbabich/GIT/litterpic_org/styles",
+    "last_opened_file_path": "/Users/alekbabich/GIT/litterpic_org/utils",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
@@ -179,6 +210,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/utils" />
       <recent name="$PROJECT_DIR$/styles" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -242,14 +274,6 @@
       <workItem from="1754437409309" duration="7000" />
       <workItem from="1754437761018" duration="151000" />
       <workItem from="1754438042242" duration="969000" />
-    </task>
-    <task id="LOCAL-00019" summary="Added missing alt tag for img">
-      <option name="closed" value="true" />
-      <created>1723979368443</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1723979368443</updated>
     </task>
     <task id="LOCAL-00020" summary="September raffle update">
       <option name="closed" value="true" />
@@ -635,7 +659,15 @@
       <option name="project" value="LOCAL" />
       <updated>1752856963848</updated>
     </task>
-    <option name="localTasksCounter" value="68" />
+    <task id="LOCAL-00068" summary="removed sendEmail">
+      <option name="closed" value="true" />
+      <created>1754743573042</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1754743573042</updated>
+    </task>
+    <option name="localTasksCounter" value="69" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -664,7 +696,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Fixed like/unlike, and stories caching to reload new posts" />
     <MESSAGE value="fix page not loading for missing like" />
     <MESSAGE value="Fixed likes" />
     <MESSAGE value="Code improvements" />
@@ -689,6 +720,7 @@
     <MESSAGE value="Fixed Node update" />
     <MESSAGE value="Fixed navigation to user from comment, fixed like popup hover" />
     <MESSAGE value="Fixed like popup and comment icon" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed like popup and comment icon" />
+    <MESSAGE value="removed sendEmail" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed sendEmail" />
   </component>
 </project>

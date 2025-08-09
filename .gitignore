@@ -11,3 +11,5 @@ out/
 .vercel
 /utils/litterpic-fa0bb-key.json
 /secrets/
+/AugmentWebviewStateStore.xml
+
