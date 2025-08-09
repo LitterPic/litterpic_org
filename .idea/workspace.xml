@@ -4,9 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="removed private files">
-      <change beforePath="$PROJECT_DIR$/.idea/AugmentWebviewStateStore.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/AugmentWebviewStateStore.xml" afterDir="false" />
+    <list default="true" id="fc440dac-09dd-4333-855f-f4bd9e5c1f62" name="Changes" comment="Revert &quot;Fix Show More Stories button and Firebase listener loop, improve like popup positioning, add clickable comment authors&quot;&#10;&#10;This reverts commit c6954b06">
+      <change afterPath="$PROJECT_DIR$/MAILERLITE_SETUP.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MAILERSEND_SETUP.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/git_toolbox_blame.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/litterpic_org.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/api/sendMailerSendEmail.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/api/sendMailerSendEmail.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/api/testMailerSend.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/stories.js.bak" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/volunteer.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/volunteer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/styles/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vercel.json" beforeDir="false" />
     </list>
     <list id="382160bb-9221-4f9b-9560-69e35a8e70aa" name="auto modified" comment="auto modified" />
     <option name="SHOW_DIALOG" value="false" />
@@ -17,7 +28,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="fix-stories-final" />
+        <entry key="$PROJECT_DIR$" value="augement" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -110,7 +121,11 @@
                 <list>
                   <RecentBranch>
                     <option name="branchName" value="master" />
-                    <option name="lastUsedInstant" value="1754761521" />
+                    <option name="lastUsedInstant" value="1754767258" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="augement" />
+                    <option name="lastUsedInstant" value="1754767229" />
                   </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="fix-stories-final" />
@@ -247,14 +262,6 @@
       <workItem from="1754437409309" duration="7000" />
       <workItem from="1754437761018" duration="151000" />
       <workItem from="1754438042242" duration="969000" />
-    </task>
-    <task id="LOCAL-00021" summary="Added follow user notifications style">
-      <option name="closed" value="true" />
-      <created>1726952825744</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1726952825744</updated>
     </task>
     <task id="LOCAL-00022" summary="Fixed user info display">
       <option name="closed" value="true" />
@@ -640,7 +647,15 @@
       <option name="project" value="LOCAL" />
       <updated>1754762364077</updated>
     </task>
-    <option name="localTasksCounter" value="70" />
+    <task id="LOCAL-00070" summary="Revert &quot;Fix Show More Stories button and Firebase listener loop, improve like popup positioning, add clickable comment authors&quot;&#10;&#10;This reverts commit c6954b06">
+      <option name="closed" value="true" />
+      <created>1754766906368</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1754766906368</updated>
+    </task>
+    <option name="localTasksCounter" value="71" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -669,7 +684,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Fixed likes" />
     <MESSAGE value="Code improvements" />
     <MESSAGE value="Improve website speed" />
     <MESSAGE value="Improved image loading on Community Service Hours page" />
@@ -694,6 +708,7 @@
     <MESSAGE value="Fixed like popup and comment icon" />
     <MESSAGE value="removed sendEmail" />
     <MESSAGE value="removed private files" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed private files" />
+    <MESSAGE value="Revert &quot;Fix Show More Stories button and Firebase listener loop, improve like popup positioning, add clickable comment authors&quot;&#10;&#10;This reverts commit c6954b06" />
+    <option name="LAST_COMMIT_MESSAGE" value="Revert &quot;Fix Show More Stories button and Firebase listener loop, improve like popup positioning, add clickable comment authors&quot;&#10;&#10;This reverts commit c6954b06" />
   </component>
 </project>

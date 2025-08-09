@@ -10,9 +10,15 @@ export default async function handler(req, res) {
 
         // MailerSend API configuration
         const API_KEY = process.env.MAILERSEND_API_KEY;
-        const FROM_EMAIL = process.env.MAILERSEND_FROM_EMAIL || "contact@litterpic.org";
+        const FROM_EMAIL = process.env.MAILERSEND_FROM_EMAIL || "info@litterpic.org";
+
+        console.log('MailerSend Environment Check:');
+        console.log('API_KEY present:', !!API_KEY);
+        console.log('API_KEY length:', API_KEY ? API_KEY.length : 0);
+        console.log('FROM_EMAIL:', FROM_EMAIL);
 
         if (!API_KEY) {
+            console.error('❌ MAILERSEND_API_KEY environment variable not set');
             return res.status(500).json({
                 error: 'MailerSend API key not configured'
             });
@@ -32,17 +38,19 @@ export default async function handler(req, res) {
 
 async function sendMailerSendTemplateEmail(email, templateId, templateData, apiKey, fromEmail) {
     const url = 'https://api.mailersend.com/v1/email';
-    
-    // Prepare the MailerSend payload
+
+    // Prepare the MailerSend payload according to their API docs
     const payload = {
         from: {
-            email: fromEmail
+            email: fromEmail,
+            name: "LitterPic"
         },
         to: [
             {
                 email: email
             }
         ],
+        subject: "Event Confirmation", // Required field
         template_id: templateId,
         personalization: [
             {
@@ -61,16 +69,11 @@ async function sendMailerSendTemplateEmail(email, templateId, templateData, apiK
     };
 
     try {
-        console.log('Sending MailerSend email with payload:', JSON.stringify(payload, null, 2));
         const response = await axios.post(url, payload, config);
-        console.log(`✅ MailerSend email sent successfully to ${email} using template ${templateId}`);
-        console.log('MailerSend response:', response.data);
+        console.log(`MailerSend email sent successfully to ${email} using template ${templateId}`);
         return response.data;
     } catch (error) {
-        console.error('❌ MailerSend API error details:');
-        console.error('Status:', error.response?.status);
-        console.error('Data:', error.response?.data);
-        console.error('Message:', error.message);
+        console.error('MailerSend API error details:', error.response?.data || error.message);
         throw error;
     }
 }
