@@ -1204,15 +1204,13 @@ function Stories() {
                 userWhoPosted: userDoc.email,
             };
 
-            await fetch("/api/sendEmail", {
+            await fetch("/api/sendMailerLiteReport", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    email: 'contact@litterpic.org',
-                    templateId: reportInappropriatePostTemplateId,
-                    templateData: reportInappropriatePostTemplateData,
+                    reportData: reportInappropriatePostTemplateData,
                 }),
             });
 
