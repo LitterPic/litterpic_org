@@ -3,55 +3,72 @@ import axios from 'axios';
 
 export default async function handler(req, res) {
     try {
-        const {email} = req.body;
+        const { email, Custom_Fields } = req.body;
 
-        // Your SendGrid settings
-        const API_KEY = process.env.NEXT_PUBLIC_SENDGRID_ACCESS_TOKEN;
+        // Your MailerLite settings
+        const API_KEY = process.env.MAILERLITE_API_KEY;
+        const GROUP_ID = process.env.MAILERLITE_GROUP_ID; // Optional: specific group/list ID
 
-        // SendGrid API endpoint for adding or updating contacts
-        const url = 'https://api.sendgrid.com/v3/marketing/contacts';
+        if (!API_KEY) {
+            return res.status(500).json({
+                success: false,
+                error: 'MailerLite API key not configured'
+            });
+        }
 
-        // Define the data payload with email and list_ids
+        // MailerLite API endpoint for adding subscribers (v1 API)
+        const url = 'https://api.mailerlite.com/api/v2/subscribers';
+
+        // Define the data payload for MailerLite v2 API
         const data = {
-            list_ids: [],
-            contacts: [
-                {
-                    email: email.toLowerCase(),
-                    Custom_Fields: {
-                        Tag: req.body.Custom_Fields.Tag
-                    },
-                },
-            ],
+            email: email.toLowerCase(),
+            fields: {
+                // Map your custom fields to MailerLite fields
+                tag: Custom_Fields?.Tag || 'general'
+            },
+            // Optionally add to specific groups
+            ...(GROUP_ID && { groups: [GROUP_ID] })
         };
 
-        // Request headers
+        // Request headers for MailerLite v2 API
         const config = {
             headers: {
-                Authorization: `Bearer ${API_KEY}`,
-                'Content-Type': 'application/json',
+                'X-MailerLite-ApiKey': API_KEY,
+                'Content-Type': 'application/json'
             },
         };
 
-        // Make the SendGrid API request with a PUT request
-        const response = await axios.put(url, data, config);
+        // Make the MailerLite API request
+        const response = await axios.post(url, data, config);
 
         // Check the response status
-        if (response.status === 202) { // Updated status code to 202
-            res.status(200).json({success: true});
+        if (response.status === 200 || response.status === 201) {
+            res.status(200).json({
+                success: true,
+                subscriber: response.data
+            });
         } else {
-            res.status(400).json({success: false});
+            res.status(400).json({
+                success: false,
+                error: 'Failed to subscribe to MailerLite'
+            });
         }
     } catch (error) {
-        console.error('Subscribe API error:', error);
+        console.error('MailerLite Subscribe API error:', error);
 
-        // Safely extract error data if available
-        const errorData = error.response && error.response.data 
-            ? error.response.data 
-            : { message: error.message || 'Unknown error' };
+        // Handle MailerLite specific errors
+        let errorMessage = 'Unknown error';
+        if (error.response?.data?.message) {
+            errorMessage = error.response.data.message;
+        } else if (error.response?.data?.errors) {
+            errorMessage = Object.values(error.response.data.errors).flat().join(', ');
+        } else if (error.message) {
+            errorMessage = error.message;
+        }
 
         res.status(500).json({
-            success: false, 
-            error: errorData
+            success: false,
+            error: errorMessage
         });
     }
 }
