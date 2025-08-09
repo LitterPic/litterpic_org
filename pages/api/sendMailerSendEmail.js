@@ -39,6 +39,22 @@ export default async function handler(req, res) {
 async function sendMailerSendTemplateEmail(email, templateId, templateData, apiKey, fromEmail) {
     const url = 'https://api.mailersend.com/v1/email';
 
+    // Determine subject based on template ID
+    let subject;
+    switch (templateId) {
+        case "pxkjn41xv7pgz781":
+            subject = "Event Confirmation: Thanks for creating your LitterPic event!";
+            break;
+        case "ynrw7gyq7vk42k8e":
+            subject = "Someone signed up for a LitterPic event you created.";
+            break;
+        case "v69oxl5yj1x4785k":
+            subject = "You signed up for a LitterPic event!";
+            break;
+        default:
+            subject = "LitterPic Event Notification";
+    }
+
     // Prepare the MailerSend payload according to their API docs
     const payload = {
         from: {
@@ -50,7 +66,7 @@ async function sendMailerSendTemplateEmail(email, templateId, templateData, apiK
                 email: email
             }
         ],
-        subject: "Event Confirmation: Thanks for creating your LitterPic event!", // Required field
+        subject: subject,
         template_id: templateId,
         personalization: [
             {

@@ -479,8 +479,8 @@ const Volunteer = () => {
 
                 setShowThankYou(true);
 
-                //send email to person who RSVP'd (keep using original system)
-                const participantRsvpTemplateId = "d-06e757b5a0464ed7a043a33b3f9fa686";
+                //send email to person who RSVP'd using MailerSend
+                const participantRsvpTemplateId = "v69oxl5yj1x4785k";
                 const participantTemplateData = {
                     eventDate: selectedEventInfo.start.toDateString(),
                     eventStartTime: selectedEventInfo.eventStartTime?.toDate().toLocaleTimeString([], {
@@ -498,7 +498,7 @@ const Volunteer = () => {
                     eventLocation: selectedEventInfo.location,
                 };
 
-                fetch("/api/sendEmail", {
+                fetch("/api/sendMailerSendEmail", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -517,8 +517,8 @@ const Volunteer = () => {
                         console.error("Error sending email to participant:", error);
                     });
 
-                //send email to event organizer
-                const organizerRsvpTemplateId = "d-4d8f6c48259f43f2b40f38bc6267e4fa";
+                //send email to event organizer using MailerSend
+                const organizerRsvpTemplateId = "ynrw7gyq7vk42k8e";
                 const organizerTemplateData = {
                     participantName: rsvpFormData.name || rsvpFormData.email,
                     eventDate: selectedEventInfo.start.toDateString(),
@@ -540,7 +540,7 @@ const Volunteer = () => {
                     participantNote: rsvpData.noteToOrganizer,
                 };
 
-                fetch("/api/sendEmail", {
+                fetch("/api/sendMailerSendEmail", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",

@@ -12,7 +12,7 @@
  */
 export const sendMailerSendEmail = async (email, templateId, templateData) => {
   try {
-    const response = await fetch("/api/sendMailerSendEmail", {
+    const response = await fetch("/api/sendEventConfirmationEmail", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
