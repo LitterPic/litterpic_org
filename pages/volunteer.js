@@ -177,26 +177,96 @@ const Volunteer = () => {
 
     useEffect(() => {
         const fetchOwnerData = async () => {
+            // Get existing cached user data
+            const cachedUsers = localStorage.getItem('event_users');
+            let existingUsers = {};
+            if (cachedUsers) {
+                try {
+                    existingUsers = JSON.parse(cachedUsers);
+                } catch (error) {
+                    // Silent error handling
+                }
+            }
+
             const newOwnerPhotos = {};
             const newOwnerEmails = {};
+            const usersToFetch = [];
+            const userIdToEventMap = {};
 
+            // First, check what we already have cached
             for (const event of events) {
                 const ownerRef = event.owner;
+                if (ownerRef && ownerRef.id) {
+                    const userId = ownerRef.id;
+                    userIdToEventMap[userId] = event.id;
 
-                if (ownerRef) {
-                    const ownerData = await getDoc(ownerRef);
-                    if (ownerData.exists()) {
-                        newOwnerPhotos[event.id] = ownerData.data().photo_url;
-                        newOwnerEmails[event.id] = ownerData.data().email; // Fetch the email
+                    if (existingUsers[userId]) {
+                        // Use cached data
+                        newOwnerPhotos[event.id] = existingUsers[userId].photo_url;
+                        newOwnerEmails[event.id] = existingUsers[userId].email;
+                    } else {
+                        // Need to fetch this user
+                        usersToFetch.push({ userId, eventId: event.id, ownerRef });
                     }
                 }
             }
 
+            // Fetch only the users we don't have cached
+            const newUserData = {};
+            for (const { userId, eventId, ownerRef } of usersToFetch) {
+                try {
+                    const ownerData = await getDoc(ownerRef);
+                    if (ownerData.exists()) {
+                        const userData = ownerData.data();
+                        newOwnerPhotos[eventId] = userData.photo_url;
+                        newOwnerEmails[eventId] = userData.email;
+
+                        // Cache this user data
+                        newUserData[userId] = {
+                            photo_url: userData.photo_url,
+                            email: userData.email,
+                            display_name: userData.display_name,
+                            cached_at: Date.now()
+                        };
+                    }
+                } catch (error) {
+                    console.error('Error fetching owner data:', error);
+                }
+            }
+
+            // Update cache with new user data
+            if (Object.keys(newUserData).length > 0) {
+                const updatedCache = { ...existingUsers, ...newUserData };
+
+                // Clean up old cache entries (older than 24 hours)
+                const now = Date.now();
+                const oneDayMs = 24 * 60 * 60 * 1000;
+                const cleanedCache = {};
+
+                Object.entries(updatedCache).forEach(([userId, userData]) => {
+                    if (userData.cached_at && (now - userData.cached_at) < oneDayMs) {
+                        cleanedCache[userId] = userData;
+                    }
+                });
+
+                localStorage.setItem('event_users', JSON.stringify(cleanedCache));
+            }
+
             setOwnerPhotos(newOwnerPhotos);
             setOwnerEmails(newOwnerEmails);
+
+            // Preload avatar images for better performance
+            Object.values(newOwnerPhotos).forEach(photoUrl => {
+                if (photoUrl) {
+                    const img = new Image();
+                    img.src = photoUrl;
+                }
+            });
         };
 
-        fetchOwnerData();
+        if (events.length > 0) {
+            fetchOwnerData();
+        }
     }, [events]);
 
 
