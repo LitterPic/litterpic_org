@@ -456,7 +456,7 @@ function Stories() {
         return () => unsubscribe();
     }, [hasLoadedFromCache, cachedStories]);
 
-    // Recalculate like status when user changes OR when user becomes available
+    // Recalculate like status when user changes
     useEffect(() => {
         if (user && posts.length > 0) {
             const updatedPosts = recalculateLikeStatus(posts);
@@ -468,7 +468,7 @@ function Stories() {
                 setPosts(updatedPosts);
             }
         }
-    }, [user]); // Only depend on user, not posts.length
+    }, [user]); // Only depend on user to avoid infinite loops
 
     const handleToggleLike = async (postId) => {
         if (!user) {
