@@ -159,9 +159,9 @@ function Stories() {
 
                         // Only refresh if we're currently showing all posts (not filtered)
                         if (!showMyPosts && !selectedUser) {
-                            // Instead of clearing posts, just fetch fresh data in background
+                            // Fetch fresh data with force refresh
                             setTimeout(() => {
-                                fetchAndSetPosts(1);
+                                fetchAndSetPosts(1, null, true); // Force refresh = true
                             }, 1000);
                         }
                     }
@@ -288,91 +288,63 @@ function Stories() {
 
     useEffect(() => {
         if (!loadingUser) {
-            // First check if we have stories in the global context
-            if (hasLoadedFromCache && cachedStories.length > 0) {
-                const cacheAge = (Date.now() - lastCacheTime) / 1000;
+            // Always fetch fresh data on page load/refresh
+            // But show cached data immediately for better UX if available
 
-                // Always use cached stories for instant loading, regardless of age
-                // We'll fetch fresh data in background if needed
+            // First check if we have cached stories to show immediately
+            let hasShownCachedData = false;
+
+            if (hasLoadedFromCache && cachedStories.length > 0) {
                 const updatedCachedStories = recalculateLikeStatus(cachedStories);
                 setPosts(updatedCachedStories);
                 setPage(1);
-                setHasMorePosts(cachedStories.length >= 6); // 6 is postsPerPage
+                setHasMorePosts(cachedStories.length >= 6);
                 setIsLoading(false);
-
-                // If cache is older than instant cache time, fetch fresh data in background
-                if (cacheAge > INSTANT_CACHE_EXPIRATION_MS / 1000) {
-                    setTimeout(() => {
-                        fetchAndSetPosts(1);
-                    }, 100); // Small delay to let UI render first
-                }
-                return;
-            }
-
-            // Check if prefetching was completed
-            const prefetchComplete = localStorage.getItem('stories_prefetch_complete');
-            const prefetchTimestamp = localStorage.getItem('stories_prefetch_timestamp');
-            if (prefetchComplete === 'true' && prefetchTimestamp) {
-                const prefetchAge = (Date.now() - parseInt(prefetchTimestamp)) / 1000;
+                hasShownCachedData = true;
             } else {
-            }
+                // Check localStorage for cached data to show immediately
+                const cacheKey = getAllPostsCacheKey(1, postsVersion);
+                let cachedData = localStorage.getItem(cacheKey);
 
-            // Check if we have cached data before showing loading state
-            const cacheKey = getAllPostsCacheKey(1, postsVersion);
-            let cachedData = localStorage.getItem(cacheKey);
+                // If no cache for current version, try to find the most recent cache
+                if (!cachedData) {
+                    const allCacheKeys = Object.keys(localStorage).filter(key =>
+                        key.startsWith('all_posts_cache_page_1_')
+                    );
 
-            // If no cache for current version, try to find the most recent cache
-            if (!cachedData) {
-                const allCacheKeys = Object.keys(localStorage).filter(key =>
-                    key.startsWith('all_posts_cache_page_1_')
-                );
-
-                if (allCacheKeys.length > 0) {
-                    // Sort by version number (highest first)
-                    allCacheKeys.sort((a, b) => {
-                        const versionA = parseInt(a.split('_v')[1]) || 0;
-                        const versionB = parseInt(b.split('_v')[1]) || 0;
-                        return versionB - versionA;
-                    });
-
-                    // Use the most recent cache
-                    cachedData = localStorage.getItem(allCacheKeys[0]);
-                }
-            }
-
-            if (cachedData) {
-                try {
-                    const { posts: cachedPosts, timestamp } = JSON.parse(cachedData);
-                    const now = new Date().getTime();
-                    const cacheAge = (now - timestamp) / 1000;
-
-                    // Recalculate like status for cached posts
-                    const updatedCachedPosts = recalculateLikeStatus(cachedPosts);
-                    setPosts(updatedCachedPosts);
-
-                    // Also update the global context with recalculated posts
-                    updateCachedStories(updatedCachedPosts, timestamp);
-                    setPage(1);
-                    setHasMorePosts(cachedPosts.length >= 6); // 6 is postsPerPage
-                    setIsLoading(false);
-
-                    // If cache is older than instant cache time, fetch fresh data in background
-                    if (now - timestamp > INSTANT_CACHE_EXPIRATION_MS) {
-                        setTimeout(() => {
-                            fetchAndSetPosts(1);
-                        }, 100); // Small delay to let UI render first
+                    if (allCacheKeys.length > 0) {
+                        allCacheKeys.sort((a, b) => {
+                            const versionA = parseInt(a.split('_v')[1]) || 0;
+                            const versionB = parseInt(b.split('_v')[1]) || 0;
+                            return versionB - versionA;
+                        });
+                        cachedData = localStorage.getItem(allCacheKeys[0]);
                     }
-                    return;
-                } catch (error) {
-                    // Silent error handling
                 }
-            } else {
+
+                if (cachedData) {
+                    try {
+                        const { posts: cachedPosts, timestamp } = JSON.parse(cachedData);
+                        const updatedCachedPosts = recalculateLikeStatus(cachedPosts);
+                        setPosts(updatedCachedPosts);
+                        updateCachedStories(updatedCachedPosts, timestamp);
+                        setPage(1);
+                        setHasMorePosts(cachedPosts.length >= 6);
+                        setIsLoading(false);
+                        hasShownCachedData = true;
+                    } catch (error) {
+                        // Silent error handling
+                    }
+                }
             }
 
-            // If no valid cache, fetch posts normally
-            fetchAndSetPosts(1);
+            // Always fetch fresh data, regardless of cache
+            // This ensures we get the latest posts on page load/refresh
+            setTimeout(() => {
+                fetchAndSetPosts(1, null, true); // Force refresh = true
+            }, hasShownCachedData ? 100 : 0); // Small delay if we showed cached data first
         }
-    }, [loadingUser, cachedStories, hasLoadedFromCache, lastCacheTime, updateCachedStories]);
+    }, [loadingUser]);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -818,9 +790,9 @@ function Stories() {
         }
     };
 
-    const fetchAndSetPosts = async (page, userId = null) => {
-        // If we already have posts and this is page 1, don't show loading indicator
-        const showLoadingIndicator = !(posts.length > 0 && page === 1);
+    const fetchAndSetPosts = async (page, userId = null, forceRefresh = false) => {
+        // If we already have posts and this is page 1, don't show loading indicator unless forcing refresh
+        const showLoadingIndicator = !(posts.length > 0 && page === 1 && !forceRefresh);
 
         if (showLoadingIndicator) {
             setIsLoading(true);
@@ -830,8 +802,8 @@ function Stories() {
         const isMyPosts = userId != null;
         const cacheKey = isMyPosts ? getMyPostsCacheKey(page, userId, postsVersion) : getAllPostsCacheKey(page, postsVersion);
 
-        // First check sessionStorage (fastest)
-        if (page === 1 && !isMyPosts && typeof window !== 'undefined') {
+        // Skip cache if forcing refresh or if this is a direct call for fresh data
+        if (!forceRefresh && page === 1 && !isMyPosts && typeof window !== 'undefined') {
             const sessionData = sessionStorage.getItem('cachedStories');
             if (sessionData) {
                 try {
@@ -868,12 +840,15 @@ function Stories() {
             }
         }
 
-        // Then check localStorage
-        let cachedData = localStorage.getItem(cacheKey);
+        // Then check localStorage (skip if forcing refresh)
+        let cachedData = null;
+        if (!forceRefresh) {
+            cachedData = localStorage.getItem(cacheKey);
+        }
         const postsPerPage = 6;
 
-        // If no cache for current version, try to find a recent cache for page 1
-        if (!cachedData && page === 1 && !isMyPosts) {
+        // If no cache for current version, try to find a recent cache for page 1 (skip if forcing refresh)
+        if (!forceRefresh && !cachedData && page === 1 && !isMyPosts) {
             const allCacheKeys = Object.keys(localStorage).filter(key =>
                 key.startsWith('all_posts_cache_page_1_')
             );
