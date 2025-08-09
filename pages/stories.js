@@ -145,31 +145,28 @@ function Stories() {
                 const timeSinceLastUpdate = now - lastUpdateTime;
 
                 // Only invalidate cache if enough time has passed (prevent rapid invalidations)
-                if (timeSinceLastUpdate > 5000) { // 5 seconds minimum between cache invalidations
-                    
+                if (timeSinceLastUpdate > 30000) { // 30 seconds minimum between cache invalidations
+
                     // Instead of immediately clearing cache, just increment version
                     setPostsVersion(prevVersion => {
                         const newVersion = prevVersion + 1;
                         return newVersion;
                     });
 
-                    // Only clear cache if user is actively viewing the page
-                    if (document.visibilityState === 'visible') {
-                        clearAllCaches();
+                    // Only clear cache if user is actively viewing the page and on first page
+                    if (document.visibilityState === 'visible' && page === 1) {
+                        // Don't clear all caches, just mark for refresh
 
                         // Only refresh if we're currently showing all posts (not filtered)
                         if (!showMyPosts && !selectedUser) {
-                            setPosts([]); // Clear local posts state
-                            setPage(1); // Reset to first page
-                            fetchAndSetPosts(1);
+                            // Instead of clearing posts, just fetch fresh data in background
+                            setTimeout(() => {
+                                fetchAndSetPosts(1);
+                            }, 1000);
                         }
-                    } else {
-
                     }
 
                     lastUpdateTime = now;
-                } else {
-
                 }
             }
         });
@@ -491,10 +488,15 @@ function Stories() {
     useEffect(() => {
         if (user && posts.length > 0) {
             const updatedPosts = recalculateLikeStatus(posts);
-            setPosts(updatedPosts);
-        } else if (!user && posts.length > 0) {
+            // Only update if there's actually a change to prevent infinite loops
+            const hasChanges = updatedPosts.some((post, index) =>
+                post.currentUserLiked !== posts[index]?.currentUserLiked
+            );
+            if (hasChanges) {
+                setPosts(updatedPosts);
+            }
         }
-    }, [user, posts.length]); // Trigger when user changes OR when posts are first loaded
+    }, [user]); // Only depend on user, not posts.length
 
     const handleToggleLike = async (postId) => {
         if (!user) {
@@ -640,15 +642,24 @@ function Stories() {
     const fetchAndSetUsers = async (userIds) => {
         userIds = userIds.filter(Boolean);
 
+        // Get existing cached users
         const cachedUsers = localStorage.getItem('users');
+        let existingUsers = {};
         if (cachedUsers) {
-            setUsers(JSON.parse(cachedUsers));
+            try {
+                existingUsers = JSON.parse(cachedUsers);
+                setUsers(prevUsers => ({...prevUsers, ...existingUsers}));
+            } catch (error) {
+                // Silent error handling
+            }
         }
 
         const db = getFirestore();
         const usersData = {};
+        const usersToFetch = userIds.filter(userId => !existingUsers[userId]);
 
-        for (const userId of userIds) {
+        // Only fetch users we don't already have
+        for (const userId of usersToFetch) {
             try {
                 const userDoc = await getDoc(doc(db, 'users', userId));
 
@@ -660,8 +671,10 @@ function Stories() {
             }
         }
 
-        setUsers((prevUsers) => ({...prevUsers, ...usersData}))
-        localStorage.setItem('users', JSON.stringify(usersData));
+        // Merge with existing users and update cache
+        const allUsers = {...existingUsers, ...usersData};
+        setUsers(prevUsers => ({...prevUsers, ...usersData}));
+        localStorage.setItem('users', JSON.stringify(allUsers));
     };
 
     useEffect(() => {
@@ -762,12 +775,16 @@ function Stories() {
                     ? likedUserIds.includes(user.uid)
                     : false;
 
+                // Get fresh user data from state
+                const currentUsers = JSON.parse(localStorage.getItem('users') || '{}');
+                const userData = currentUsers[userIdFromPost] || users[userIdFromPost] || {};
+
                 // Create updated post
                 const updatedPost = {
                     ...post,
                     user: {
                         uid: userIdFromPost,
-                        ...users[userIdFromPost],
+                        ...userData,
                     },
                     likedUsers: likedUserIds,
                     currentUserLiked,
@@ -960,18 +977,26 @@ function Stories() {
                     ? likedUserIds.includes(user.uid)
                     : false;
 
-                // Fetch user data if not already fetched
-                if (!users[userIdFromPost]) {
+                // Get user data from cache or current state
+                const cachedUsers = JSON.parse(localStorage.getItem('users') || '{}');
+                let postUserData = users[userIdFromPost] || cachedUsers[userIdFromPost];
+
+                // Fetch user data if not already available
+                if (!postUserData) {
                     const userDocRef = doc(getFirestore(), 'users', userIdFromPost);
                     const userDoc = await getDoc(userDocRef);
                     if (userDoc.exists()) {
-                        setUsers(prevUsers => ({...prevUsers, [userIdFromPost]: userDoc.data()}));
+                        postUserData = userDoc.data();
+                        setUsers(prevUsers => ({...prevUsers, [userIdFromPost]: postUserData}));
+                        // Update cache
+                        const updatedCache = {...cachedUsers, [userIdFromPost]: postUserData};
+                        localStorage.setItem('users', JSON.stringify(updatedCache));
                     } else {
                         continue; // Skip posts where user data can't be fetched
                     }
                 }
 
-                const postUserData = users[userIdFromPost] || {}; // Fallback if no user data found
+                postUserData = postUserData || {}; // Final fallback
 
                 // Update the post with user and like information
                 const updatedPost = {
