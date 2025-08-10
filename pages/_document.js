@@ -29,7 +29,6 @@ class MyDocument extends Document {
 
                     {/* Preload critical fonts */}
                     <link rel="preload" href="https://fonts.googleapis.com/icon?family=Material+Icons" as="style" />
-                    <link rel="preload" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" as="style" />
 
                     {/* Load Material Icons stylesheet */}
                     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
