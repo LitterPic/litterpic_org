@@ -7,27 +7,36 @@ const DonationContent = () => (
         <div className="donate">
             <div className="donorbox-widget">
                 <div className="donation-use">
-                    <h1 className="donation-text-grid">With your help, We will...</h1>
-                    <img className="donate-use-image" src="/images/Donation_Use.png"
-                         alt="What we use donations for"/>
+                    <h1 className="donation-text-grid">With your help, we can help with...</h1>
 
                     <div className="donate-grid-container">
                         <div className="donate-grid-item">
+                            <div className="donate-icon">🌍</div>
+                            <h3 className="donate-item-title">Community Events</h3>
                             <p>By contributing, you're helping us organize impactful community events and cleanups, uniting individuals in the common goal of keeping our neighborhoods clean and green.</p>
                         </div>
 
                         <div className="donate-grid-item">
+                            <div className="donate-icon">🚀</div>
+                            <h3 className="donate-item-title">Innovation & Technology</h3>
                             <p>With your donations, we invest in cutting-edge technology and innovative solutions, amplifying our ability to address litter issues efficiently and pave the way for a cleaner future.</p>
                         </div>
 
                         <div className="donate-grid-item">
+                            <div className="donate-icon">📚</div>
+                            <h3 className="donate-item-title">Education & Awareness</h3>
                             <p>Your support helps us create and distribute educational materials, fostering awareness about the consequences of litter and promoting sustainable practices.</p>
                         </div>
 
                         <div className="donate-grid-item">
+                            <div className="donate-icon">🧤</div>
+                            <h3 className="donate-item-title">Cleanup Supplies</h3>
                             <p>With your generous donations, we provide essential cleanup supplies like gloves and bags, empowering volunteers to make a tangible impact on our environment.</p>
                         </div>
                     </div>
+
+                    <img className="donate-use-image" src="/images/Donation_Use.png"
+                         alt="What we use donations for"/>
                 </div>
                 <div className="donorbox-container">
                     <DonorBox/>

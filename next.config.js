@@ -13,6 +13,15 @@ module.exports = {
                     },
                 ],
             },
+            {
+                source: '/(.*)',
+                headers: [
+                    {
+                        key: 'Permissions-Policy',
+                        value: 'camera=(), microphone=(), geolocation=(), payment=(self "https://donorbox.org"), publickey-credentials-get=()',
+                    },
+                ],
+            },
         ];
     },
     images: {

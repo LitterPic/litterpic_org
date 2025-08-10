@@ -19,7 +19,8 @@ class MyDocument extends Document {
                     />
                     <meta charSet="utf-8"/>
                     <meta name="theme-color" content="#015e41"/>
-                    <link rel="icon" href="/public/favicon.ico"/>
+                    <link rel="icon" href="/favicon.ico"/>
+                    <link rel="manifest" href="/manifest.json"/>
                     {/*<meta name="google-site-verification" content="YOUR_VERIFICATION_CODE"/>*/}
 
                     {/* Preload critical resources */}

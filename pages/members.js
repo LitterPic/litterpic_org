@@ -60,7 +60,7 @@ const MembersPage = () => {
                         id: doc.id,
                         displayName: userData.display_name || userData.email || 'Unknown User',
                         email: userData.email || '',
-                        photoUrl: userData.photo_url || '/images/default-avatar.png',
+                        photoUrl: userData.photo_url || '/images/default-avatar.jpg',
                         organization: userData.organization || 'Independent',
                         createdTime: memberDate,
                         totalWeight: userData.totalWeight || 0
@@ -219,7 +219,10 @@ const MembersPage = () => {
                                     src={member.photoUrl} 
                                     alt={member.displayName}
                                     onError={(e) => {
-                                        e.target.src = '/images/default-avatar.png';
+                                        // Prevent infinite loop by checking if we're already using the fallback
+                                        if (!e.target.src.endsWith('/images/default-avatar.jpg')) {
+                                            e.target.src = '/images/default-avatar.jpg';
+                                        }
                                     }}
                                 />
                             </div>

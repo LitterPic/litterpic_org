@@ -73,7 +73,7 @@ const FollowersFollowingPage = () => {
                                 <div className="flex-shrink-0">
                                     <div className="w-20 h-20 rounded-full overflow-hidden flex-shrink-0">
                                         <Image
-                                            src={user.photo_url || 'https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg'}
+                                            src={user.photo_url || '/images/default-avatar.jpg'}
                                             alt={`${user.display_name}'s profile picture`}
                                             width={80}
                                             height={80}

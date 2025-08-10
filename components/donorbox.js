@@ -18,13 +18,13 @@ const DonorBox = () => {
             <iframe
                 src="https://donorbox.org/embed/litterpic-first-campaign?default_interval=o"
                 name="donorbox"
-                allowpaymentrequest="allowpaymentrequest"
-                seamless="seamless"
+                allow="payment"
                 frameBorder="0"
                 scrolling="no"
                 height="900px"
                 width="100%"
-                style={{maxWidth: "100%", minWidth: "100%", maxHeight: "none!important"}}
+                style={{maxWidth: "100%", minWidth: "100%", maxHeight: "none"}}
+                title="Donation Form"
             />
         </div>
     );

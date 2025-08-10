@@ -1,0 +1,37 @@
+{
+  "name": "LitterPic",
+  "short_name": "LitterPic",
+  "description": "LitterPic Inc. is dedicated to creating a litter-free world. Harnessing technology, we empower individuals to combat litter, facilitate cleanups, and share impactful stories.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#015e41",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "32x32",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/images/litter_pic_logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/litter_pic_logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

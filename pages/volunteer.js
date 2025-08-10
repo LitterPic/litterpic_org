@@ -1137,7 +1137,7 @@ const Volunteer = () => {
                                 return (
                                     <tr key={index}>
                                         <td className="volunteer-event-organizer-photo">
-                                            <img src={ownerPhotos[event.id] || 'https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg'} alt="Owner"
+                                            <img src={ownerPhotos[event.id] || '/images/default-avatar.jpg'} alt="Owner"
                                                  width="50"/>
                                         </td>
                                         <td>{event.event_title}</td>

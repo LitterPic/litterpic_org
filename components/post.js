@@ -53,7 +53,7 @@ function Post({post, currentUser}) {
 
                 setUserName(display_name || 'Anonymous');
                 setUserPhoto(
-                    photo_url || 'https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg'
+                    photo_url || '/images/default-avatar.jpg'
                 );
                 setIsAmbassador(ambassador || false);
 
@@ -66,7 +66,7 @@ function Post({post, currentUser}) {
                 }
             } else {
                 setUserName('Anonymous');
-                setUserPhoto('https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg');
+                setUserPhoto('/images/default-avatar.jpg');
                 setIsAmbassador(false);
             }
         };

@@ -15,7 +15,7 @@ const LikePopup = ({likedUsers}) => {
                         <div key={user?.uid || user?.id || index} className={`like-user ${imageLoaded ? 'loaded' : 'loading'}`}>
                             <div className="user-info">
                                 <img
-                                    src={user?.photo_url || "https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg"}
+                                    src={user?.photo_url || "/images/default-avatar.jpg"}
                                     alt={user?.display_name || "Volunteer"}
                                     className="user-photo"
                                     onLoad={() => setImageLoaded(true)}
