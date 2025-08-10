@@ -1257,13 +1257,7 @@ function Stories() {
                 {/* Preload critical resources */}
                 <link rel="preload" href="/images/user_posts_banner.webp" as="image" />
 
-                {/* Mobile optimization scripts */}
-                <script dangerouslySetInnerHTML={{
-                    __html: `
-                        // Fix for 300ms tap delay on mobile devices
-                        document.addEventListener('touchstart', function() {}, {passive: true});
-                    `
-                }} />
+                {/* Mobile optimization scripts moved to Script component below */}
 
                 <meta name="twitter:card" content="summary_large_image"/>
                 <meta name="twitter:title" content="LitterPic - Inspiring Litter Collection"/>
@@ -1290,6 +1284,17 @@ function Stories() {
                         function gtag(){dataLayer.push(arguments);}
                         gtag('js', new Date());
                         gtag('config', 'G-3VZE7E59CL');
+                    `,
+                }}
+            />
+
+            {/* Mobile optimization script */}
+            <Script
+                strategy="afterInteractive"
+                dangerouslySetInnerHTML={{
+                    __html: `
+                        // Fix for 300ms tap delay on mobile devices
+                        document.addEventListener('touchstart', function() {}, {passive: true});
                     `,
                 }}
             />
