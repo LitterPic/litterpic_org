@@ -78,19 +78,31 @@ export default function Index() {
 
     const requestNotificationPermission = async () => {
         try {
-            const messaging = getMessaging();
-            const token = await getToken(messaging);
-            if (token) {
-                console.log('FCM token:', token);
-                const userId = auth.currentUser?.uid;
-                if (userId) {
-                    await saveTokenToDatabase(userId, token);
-                }
-            } else {
-                console.log('No registration token available. Request permission to generate one.');
+            // Check if notifications are supported and permission is granted
+            if (!('Notification' in window)) {
+                return; // Notifications not supported
             }
+
+            if (Notification.permission === 'denied') {
+                return; // User has explicitly denied permission
+            }
+
+            if (Notification.permission === 'granted') {
+                const messaging = getMessaging();
+                const token = await getToken(messaging);
+                if (token) {
+                    const userId = auth.currentUser?.uid;
+                    if (userId) {
+                        await saveTokenToDatabase(userId, token);
+                    }
+                }
+            }
+            // Don't automatically request permission - let user opt in
         } catch (err) {
-            console.log('An error occurred while retrieving the token. ', err);
+            // Silent error handling - don't spam console
+            if (err.code !== 'messaging/permission-blocked') {
+                console.log('Notification setup error:', err.message);
+            }
         }
     };
 
@@ -100,8 +112,11 @@ export default function Index() {
     };
 
     useEffect(() => {
-        requestNotificationPermission();
-    }, []);
+        // Only try to set up notifications for logged-in users
+        if (auth.currentUser) {
+            requestNotificationPermission();
+        }
+    }, [auth.currentUser]);
 
     useEffect(() => {
         async function sendNotification() {
