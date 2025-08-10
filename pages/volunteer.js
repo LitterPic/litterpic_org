@@ -1028,18 +1028,22 @@ const Volunteer = () => {
                                                     />
                                                     <div className="autocomplete-dropdown-container">
                                                         {loading && <div>Loading...</div>}
-                                                        {suggestions.map((suggestion, index) => (
-                                                            <div
-                                                                key={index}
-                                                                {...getSuggestionItemProps(suggestion, {
-                                                                    className: suggestion.active
-                                                                        ? 'suggestion-item active'
-                                                                        : 'suggestion-item',
-                                                                })}
-                                                            >
-                                                                <span>{suggestion.description}</span>
-                                                            </div>
-                                                        ))}
+                                                        {suggestions.map((suggestion, index) => {
+                                                            const suggestionProps = getSuggestionItemProps(suggestion, {
+                                                                className: suggestion.active
+                                                                    ? 'suggestion-item active'
+                                                                    : 'suggestion-item',
+                                                            });
+                                                            const { key, ...restProps } = suggestionProps;
+                                                            return (
+                                                                <div
+                                                                    key={index}
+                                                                    {...restProps}
+                                                                >
+                                                                    <span>{suggestion.description}</span>
+                                                                </div>
+                                                            );
+                                                        })}
                                                     </div>
                                                 </div>
                                             )}
