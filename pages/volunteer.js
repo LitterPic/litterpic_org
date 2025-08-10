@@ -177,7 +177,7 @@ const Volunteer = () => {
 
     useEffect(() => {
         const fetchOwnerData = async () => {
-            // Get existing cached user data
+            // Get existing cached user data (should be prefetched by now)
             const cachedUsers = localStorage.getItem('event_users');
             let existingUsers = {};
             if (cachedUsers) {
@@ -211,27 +211,48 @@ const Volunteer = () => {
                 }
             }
 
-            // Fetch only the users we don't have cached
+            // Batch fetch users we don't have cached for better performance
             const newUserData = {};
-            for (const { userId, eventId, ownerRef } of usersToFetch) {
-                try {
-                    const ownerData = await getDoc(ownerRef);
-                    if (ownerData.exists()) {
-                        const userData = ownerData.data();
+            if (usersToFetch.length > 0) {
+                console.log(`Fetching ${usersToFetch.length} event creators...`);
+
+                // Use Promise.all to fetch all users in parallel instead of sequentially
+                const userPromises = usersToFetch.map(async ({ userId, eventId, ownerRef }) => {
+                    try {
+                        const ownerData = await getDoc(ownerRef);
+                        if (ownerData.exists()) {
+                            const userData = ownerData.data();
+                            return {
+                                userId,
+                                eventId,
+                                userData: {
+                                    photo_url: userData.photo_url,
+                                    email: userData.email,
+                                    display_name: userData.display_name,
+                                    cached_at: Date.now()
+                                }
+                            };
+                        }
+                    } catch (error) {
+                        console.error(`Error fetching owner data for user ${userId}:`, error);
+                    }
+                    return null;
+                });
+
+                // Wait for all user fetches to complete in parallel
+                const userResults = await Promise.all(userPromises);
+
+                // Process results
+                userResults.forEach(result => {
+                    if (result) {
+                        const { userId, eventId, userData } = result;
                         newOwnerPhotos[eventId] = userData.photo_url;
                         newOwnerEmails[eventId] = userData.email;
-
-                        // Cache this user data
-                        newUserData[userId] = {
-                            photo_url: userData.photo_url,
-                            email: userData.email,
-                            display_name: userData.display_name,
-                            cached_at: Date.now()
-                        };
+                        newUserData[userId] = userData;
                     }
-                } catch (error) {
-                    console.error('Error fetching owner data:', error);
-                }
+                });
+
+                console.log(`✅ Fetched ${Object.keys(newUserData).length} event creators`);
             }
 
             // Update cache with new user data
@@ -783,9 +804,80 @@ const Volunteer = () => {
             );
 
             setEvents(eventList);
+
+            // Prefetch user data immediately after events are loaded
+            prefetchEventCreators(eventList);
         };
         fetchData();
     }, [eventsChanged]);
+
+    // Prefetch function to load user data before it's needed
+    const prefetchEventCreators = async (eventList) => {
+        if (eventList.length === 0) return;
+
+        // Get existing cached user data
+        const cachedUsers = localStorage.getItem('event_users');
+        let existingUsers = {};
+        if (cachedUsers) {
+            try {
+                existingUsers = JSON.parse(cachedUsers);
+            } catch (error) {
+                // Silent error handling
+            }
+        }
+
+        // Find users we need to fetch
+        const usersToFetch = [];
+        eventList.forEach(event => {
+            if (event.owner && event.owner.id && !existingUsers[event.owner.id]) {
+                usersToFetch.push({
+                    userId: event.owner.id,
+                    ownerRef: event.owner
+                });
+            }
+        });
+
+        if (usersToFetch.length > 0) {
+            console.log(`🚀 Prefetching ${usersToFetch.length} event creators...`);
+
+            // Fetch all users in parallel
+            const userPromises = usersToFetch.map(async ({ userId, ownerRef }) => {
+                try {
+                    const ownerData = await getDoc(ownerRef);
+                    if (ownerData.exists()) {
+                        const userData = ownerData.data();
+                        return {
+                            userId,
+                            userData: {
+                                photo_url: userData.photo_url,
+                                email: userData.email,
+                                display_name: userData.display_name,
+                                cached_at: Date.now()
+                            }
+                        };
+                    }
+                } catch (error) {
+                    console.error(`Error prefetching user ${userId}:`, error);
+                }
+                return null;
+            });
+
+            const userResults = await Promise.all(userPromises);
+            const newUserData = {};
+
+            userResults.forEach(result => {
+                if (result) {
+                    newUserData[result.userId] = result.userData;
+                }
+            });
+
+            if (Object.keys(newUserData).length > 0) {
+                const updatedCache = { ...existingUsers, ...newUserData };
+                localStorage.setItem('event_users', JSON.stringify(updatedCache));
+                console.log(`✅ Prefetched ${Object.keys(newUserData).length} event creators`);
+            }
+        }
+    };
 
     const onEventSelect = (event) => {
         setSelectedDate(event.start.toISOString().split('T')[0]);
