@@ -887,20 +887,11 @@ a.post-user-name {
     font-size: 0.875rem !important;
     padding: 12px 16px !important;
     margin: 0 !important;
+    color: #333; // Same color for all options
 
     &:hover {
-      background-color: #fff3cd;
-      color: #856404;
-    }
-
-    // Report options get warning styling
-    &:not(:first-child) {
-      color: #dc3545;
-
-      &:hover {
-        background-color: #f8d7da;
-        color: #721c24;
-      }
+      background-color: #f8f9fa;
+      color: $litterpic-green;
     }
   }
 }
