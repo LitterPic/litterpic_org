@@ -113,10 +113,11 @@ export default function Index() {
 
     useEffect(() => {
         // Only try to set up notifications for logged-in users
+        const auth = getAuth();
         if (auth.currentUser) {
             requestNotificationPermission();
         }
-    }, [auth.currentUser]);
+    }, []); // Empty dependency array - run once on mount
 
     useEffect(() => {
         async function sendNotification() {
