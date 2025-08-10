@@ -191,24 +191,27 @@ const Volunteer = () => {
             const newOwnerPhotos = {};
             const newOwnerEmails = {};
             const usersToFetch = [];
-            const userIdToEventMap = {};
 
-            // First, check what we already have cached
+            // Check what we already have cached (most should be prefetched)
             for (const event of events) {
                 const ownerRef = event.owner;
                 if (ownerRef && ownerRef.id) {
                     const userId = ownerRef.id;
-                    userIdToEventMap[userId] = event.id;
 
                     if (existingUsers[userId]) {
-                        // Use cached data
+                        // Use cached data (from prefetch)
                         newOwnerPhotos[event.id] = existingUsers[userId].photo_url;
                         newOwnerEmails[event.id] = existingUsers[userId].email;
                     } else {
-                        // Need to fetch this user
+                        // Only fetch if not prefetched (should be rare)
                         usersToFetch.push({ userId, eventId: event.id, ownerRef });
                     }
                 }
+            }
+
+            // Most users should be cached from prefetch, so this should be minimal
+            if (usersToFetch.length > 0) {
+                console.log(`⚠️ ${usersToFetch.length} event creators not prefetched, fetching now...`);
             }
 
             // Batch fetch users we don't have cached for better performance
@@ -252,7 +255,7 @@ const Volunteer = () => {
                     }
                 });
 
-                console.log(`✅ Fetched ${Object.keys(newUserData).length} event creators`);
+                // console.log(`✅ Fetched ${Object.keys(newUserData).length} event creators`);
             }
 
             // Update cache with new user data
@@ -838,7 +841,7 @@ const Volunteer = () => {
         });
 
         if (usersToFetch.length > 0) {
-            console.log(`🚀 Prefetching ${usersToFetch.length} event creators...`);
+            // console.log(`🚀 Prefetching ${usersToFetch.length} event creators...`);
 
             // Fetch all users in parallel
             const userPromises = usersToFetch.map(async ({ userId, ownerRef }) => {
@@ -874,7 +877,7 @@ const Volunteer = () => {
             if (Object.keys(newUserData).length > 0) {
                 const updatedCache = { ...existingUsers, ...newUserData };
                 localStorage.setItem('event_users', JSON.stringify(updatedCache));
-                console.log(`✅ Prefetched ${Object.keys(newUserData).length} event creators`);
+                // console.log(`✅ Prefetched ${Object.keys(newUserData).length} event creators`);
             }
         }
     };
@@ -1126,7 +1129,7 @@ const Volunteer = () => {
                                 return (
                                     <tr key={index}>
                                         <td className="volunteer-event-organizer-photo">
-                                            <img src={ownerPhotos[event.id] || 'default_image_url'} alt="Owner"
+                                            <img src={ownerPhotos[event.id] || 'https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg'} alt="Owner"
                                                  width="50"/>
                                         </td>
                                         <td>{event.event_title}</td>
