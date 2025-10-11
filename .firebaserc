@@ -1,5 +1,12 @@
 {
   "projects": {
     "default": "litterpic-fa0bb"
-  }
+  },
+  "targets": {},
+  "etags": {
+    "litterpic-fa0bb": {
+      "extensionInstances": {}
+    }
+  },
+  "dataconnectEmulatorConfig": {}
 }

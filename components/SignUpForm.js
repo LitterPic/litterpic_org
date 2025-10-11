@@ -2,7 +2,7 @@ import {useState} from 'react';
 import {createUserWithEmailAndPassword, sendEmailVerification, signOut} from 'firebase/auth';
 import {auth} from '../lib/firebase';
 import {useRouter} from 'next/router';
-import {doc, getFirestore, serverTimestamp, setDoc, getDocs, collection, query, where} from 'firebase/firestore';
+import {doc, getFirestore, serverTimestamp, setDoc, getDocs, collection} from 'firebase/firestore';
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {subscribeUserToMail} from '../utils/subscribeUserToMail';
@@ -105,7 +105,7 @@ export default function SignUpForm() {
             }, {merge: true});
 
             try {
-                // Add user to SendGrid subscription list
+                // Add user to MailerLite subscription list
                 await subscribeUserToMail(user.email, "Member");
             } catch (subscribeError) {
                 console.error('Error subscribing user to mailing list:', subscribeError);
