@@ -1,0 +1,31 @@
+2025-09-04 18:23:32,951 - INFO - Starting ambassador status update process...
+2025-09-04 18:23:33,011 - INFO - Firebase Admin SDK initialized successfully
+2025-09-04 18:23:33,011 - INFO - Processing all users
+2025-09-04 18:23:38,847 - INFO - Found 261 users to process
+2025-09-04 18:23:47,225 - INFO - User TLy1fqsZ0CSW8m4CMXsC8Zc3t1S2 promoted to ambassador status
+2025-09-04 18:23:49,921 - INFO - User cFu1BlhpzmP3LwIpDQLwP9QvjZo1 removed from ambassador status
+2025-09-04 18:23:56,405 - INFO - User wg5qPkLNJBTCwWN0ecXsf3vBS1A2 removed from ambassador status
+2025-09-04 18:23:57,457 - INFO - Ambassador status update process completed
+2025-09-04 18:23:57,458 - INFO - Summary: {'promoted': 1, 'demoted': 2, 'no_change': 256, 'skipped_admin': 2, 'error': 0}
+2025-09-04 18:26:17,035 - INFO - Starting ambassador status update process...
+2025-09-04 18:26:17,090 - INFO - Firebase Admin SDK initialized successfully
+2025-09-04 18:26:17,090 - INFO - Processing all users
+2025-09-04 18:26:22,929 - INFO - Found 261 users to process
+2025-09-04 18:26:25,669 - INFO - Skipping admin user: alek@litterpic.org
+2025-09-04 18:26:26,158 - INFO - Skipping admin user: melanie.tolman@gmail.com
+2025-09-04 18:26:31,208 - INFO - User TLy1fqsZ0CSW8m4CMXsC8Zc3t1S2 promoted to ambassador status
+2025-09-04 18:26:33,964 - INFO - User cFu1BlhpzmP3LwIpDQLwP9QvjZo1 removed from ambassador status
+2025-09-04 18:26:40,278 - INFO - User wg5qPkLNJBTCwWN0ecXsf3vBS1A2 removed from ambassador status
+2025-09-04 18:26:41,325 - INFO - Ambassador status update process completed
+2025-09-04 18:26:41,326 - INFO - Summary: {'promoted': 1, 'demoted': 2, 'no_change': 256, 'skipped_admin': 2, 'error': 0}
+2025-09-04 18:26:59,929 - INFO - Starting ambassador status update process...
+2025-09-04 18:26:59,986 - INFO - Firebase Admin SDK initialized successfully
+2025-09-04 18:26:59,986 - INFO - Processing all users
+2025-09-04 18:27:05,594 - INFO - Found 261 users to process
+2025-09-04 18:27:07,788 - INFO - Skipping admin user: alek@litterpic.org
+2025-09-04 18:27:08,169 - INFO - Skipping admin user: melanie.tolman@gmail.com
+2025-09-04 18:27:12,430 - INFO - User TLy1fqsZ0CSW8m4CMXsC8Zc3t1S2 promoted to ambassador status
+2025-09-04 18:27:14,771 - INFO - User cFu1BlhpzmP3LwIpDQLwP9QvjZo1 removed from ambassador status
+2025-09-04 18:27:20,164 - INFO - User wg5qPkLNJBTCwWN0ecXsf3vBS1A2 removed from ambassador status
+2025-09-04 18:27:21,046 - INFO - Ambassador status update process completed
+2025-09-04 18:27:21,046 - INFO - Summary: {'promoted': 1, 'demoted': 2, 'no_change': 256, 'skipped_admin': 2, 'error': 0}

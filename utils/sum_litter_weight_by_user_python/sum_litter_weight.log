@@ -1,0 +1,74 @@
+2025-09-04 17:13:16,180 - INFO - Starting litter weight update process...
+2025-09-04 17:13:16,239 - INFO - Firebase Admin SDK initialized successfully
+2025-09-04 17:13:16,240 - INFO - Looking for posts since: 2025-09-03 16:13:16.240277
+2025-09-04 17:13:21,811 - INFO - Found 0 users with recent posts
+2025-09-04 17:13:21,811 - INFO - No users found with recent posts
+2025-09-04 17:14:36,286 - INFO - Starting litter weight update process...
+2025-09-04 17:14:36,345 - INFO - Firebase Admin SDK initialized successfully
+2025-09-04 17:14:36,345 - INFO - Looking for posts since: 2025-08-10 17:14:36.345486
+2025-09-04 17:14:41,953 - ERROR - Error getting recent post users: 'DocumentSnapshot' object has no attribute 'data'
+2025-09-04 17:14:41,953 - INFO - No users found with recent posts
+2025-09-04 17:17:47,538 - INFO - Starting litter weight update process...
+2025-09-04 17:17:47,608 - INFO - Firebase Admin SDK initialized successfully
+2025-09-04 17:17:47,608 - INFO - Looking for posts since: 2025-03-08 21:17:47.608538+00:00
+2025-09-04 17:17:53,406 - INFO - Processed 78 recent posts
+2025-09-04 17:17:53,406 - INFO - Found 8 users with recent posts
+2025-09-04 17:17:53,620 - INFO - User cFu1BlhpzmP3LwIpDQLwP9QvjZo1: 65 posts, total weight: 33420.0
+2025-09-04 17:17:53,620 - INFO - Updated user cFu1BlhpzmP3LwIpDQLwP9QvjZo1 totalWeight to 33420.0
+2025-09-04 17:17:53,747 - INFO - User MTrZrJtEuPV8uLJqJt5YymIKGsd2: 25 posts, total weight: 40.0
+2025-09-04 17:17:53,747 - INFO - Updated user MTrZrJtEuPV8uLJqJt5YymIKGsd2 totalWeight to 40.0
+2025-09-04 17:17:53,899 - INFO - User TLy1fqsZ0CSW8m4CMXsC8Zc3t1S2: 50 posts, total weight: 976.0
+2025-09-04 17:17:53,899 - INFO - Updated user TLy1fqsZ0CSW8m4CMXsC8Zc3t1S2 totalWeight to 976.0
+2025-09-04 17:17:54,074 - INFO - User wg5qPkLNJBTCwWN0ecXsf3vBS1A2: 86 posts, total weight: 1032.0
+2025-09-04 17:17:54,074 - INFO - Updated user wg5qPkLNJBTCwWN0ecXsf3vBS1A2 totalWeight to 1032.0
+2025-09-04 17:17:54,175 - INFO - User Uhh3Mnzgb3VBKuznAxmbyZEDDgQ2: 4 posts, total weight: 5775.0
+2025-09-04 17:17:54,175 - INFO - Updated user Uhh3Mnzgb3VBKuznAxmbyZEDDgQ2 totalWeight to 5775.0
+2025-09-04 17:17:54,280 - INFO - User WyzYE5jawjcoxlLidStKNKsEpx13: 1 posts, total weight: 20.0
+2025-09-04 17:17:54,280 - INFO - Updated user WyzYE5jawjcoxlLidStKNKsEpx13 totalWeight to 20.0
+2025-09-04 17:17:54,469 - INFO - User 9mumST0cjAOdZydKAYMd1HLfwTr2: 111 posts, total weight: 6594.0
+2025-09-04 17:17:54,470 - INFO - Updated user 9mumST0cjAOdZydKAYMd1HLfwTr2 totalWeight to 6594.0
+2025-09-04 17:17:54,567 - INFO - User 7c00Wt6zUkXGe4m3PFXpm1kYhrh1: 1 posts, total weight: 36.0
+2025-09-04 17:17:54,567 - INFO - Updated user 7c00Wt6zUkXGe4m3PFXpm1kYhrh1 totalWeight to 36.0
+2025-09-04 17:17:54,567 - INFO - Successfully updated 8 out of 8 users
+2025-09-04 17:17:54,567 - INFO - Litter weight update process completed successfully
+2025-09-04 17:18:31,762 - INFO - Starting litter weight update process...
+2025-09-04 17:18:31,817 - INFO - Firebase Admin SDK initialized successfully
+2025-09-04 17:18:31,818 - INFO - Looking for posts since: 2024-09-04 21:18:31.818341+00:00
+2025-09-04 17:18:37,525 - INFO - Processed 192 recent posts
+2025-09-04 17:18:37,525 - INFO - Found 17 users with recent posts
+2025-09-04 17:18:37,645 - INFO - User BUBG8Xo3vAgCGPzVJRlfu9M52k73: 26 posts, total weight: 189.0
+2025-09-04 17:18:37,746 - INFO - Updated user BUBG8Xo3vAgCGPzVJRlfu9M52k73 totalWeight to 189.0
+2025-09-04 17:18:37,857 - INFO - User OMmO6s346Th7DMqgMz49YADScr52: 5 posts, total weight: 136.0
+2025-09-04 17:18:37,956 - INFO - Updated user OMmO6s346Th7DMqgMz49YADScr52 totalWeight to 136.0
+2025-09-04 17:18:38,044 - INFO - User W9G9RKh5olPkwCfqIrpF92Be2Kj1: 2 posts, total weight: 110.0
+2025-09-04 17:18:38,137 - ERROR - Error updating user W9G9RKh5olPkwCfqIrpF92Be2Kj1: 404 No document to update: projects/litterpic-fa0bb/databases/(default)/documents/users/W9G9RKh5olPkwCfqIrpF92Be2Kj1
+2025-09-04 17:18:38,212 - INFO - User bwGgfSxp77etuosT7YSTtJCE3j42: 1 posts, total weight: 70.0
+2025-09-04 17:18:38,308 - INFO - Updated user bwGgfSxp77etuosT7YSTtJCE3j42 totalWeight to 70.0
+2025-09-04 17:18:38,407 - INFO - User Jwr90dnwyhaBqJqrr51oRrqrAhK2: 2 posts, total weight: 1.0
+2025-09-04 17:18:38,499 - INFO - Updated user Jwr90dnwyhaBqJqrr51oRrqrAhK2 totalWeight to 1.0
+2025-09-04 17:18:38,569 - INFO - User Sm6wIcEWPSfeXvL4a3np9IWPTMu1: 1 posts, total weight: 31.0
+2025-09-04 17:18:38,657 - INFO - Updated user Sm6wIcEWPSfeXvL4a3np9IWPTMu1 totalWeight to 31.0
+2025-09-04 17:18:38,810 - INFO - User 9mumST0cjAOdZydKAYMd1HLfwTr2: 111 posts, total weight: 6594.0
+2025-09-04 17:18:38,897 - INFO - Updated user 9mumST0cjAOdZydKAYMd1HLfwTr2 totalWeight to 6594.0
+2025-09-04 17:18:39,014 - INFO - User TLy1fqsZ0CSW8m4CMXsC8Zc3t1S2: 50 posts, total weight: 976.0
+2025-09-04 17:18:39,102 - INFO - Updated user TLy1fqsZ0CSW8m4CMXsC8Zc3t1S2 totalWeight to 976.0
+2025-09-04 17:18:39,187 - INFO - User Uhh3Mnzgb3VBKuznAxmbyZEDDgQ2: 4 posts, total weight: 5775.0
+2025-09-04 17:18:39,260 - INFO - Updated user Uhh3Mnzgb3VBKuznAxmbyZEDDgQ2 totalWeight to 5775.0
+2025-09-04 17:18:39,439 - INFO - User wg5qPkLNJBTCwWN0ecXsf3vBS1A2: 86 posts, total weight: 1032.0
+2025-09-04 17:18:39,528 - INFO - Updated user wg5qPkLNJBTCwWN0ecXsf3vBS1A2 totalWeight to 1032.0
+2025-09-04 17:18:39,643 - INFO - User cFu1BlhpzmP3LwIpDQLwP9QvjZo1: 65 posts, total weight: 33420.0
+2025-09-04 17:18:39,721 - INFO - Updated user cFu1BlhpzmP3LwIpDQLwP9QvjZo1 totalWeight to 33420.0
+2025-09-04 17:18:39,811 - INFO - User MTrZrJtEuPV8uLJqJt5YymIKGsd2: 25 posts, total weight: 40.0
+2025-09-04 17:18:39,885 - INFO - Updated user MTrZrJtEuPV8uLJqJt5YymIKGsd2 totalWeight to 40.0
+2025-09-04 17:18:39,953 - INFO - User 7c00Wt6zUkXGe4m3PFXpm1kYhrh1: 1 posts, total weight: 36.0
+2025-09-04 17:18:40,018 - INFO - Updated user 7c00Wt6zUkXGe4m3PFXpm1kYhrh1 totalWeight to 36.0
+2025-09-04 17:18:40,077 - INFO - User WyzYE5jawjcoxlLidStKNKsEpx13: 1 posts, total weight: 20.0
+2025-09-04 17:18:40,148 - INFO - Updated user WyzYE5jawjcoxlLidStKNKsEpx13 totalWeight to 20.0
+2025-09-04 17:18:40,245 - INFO - User YHjYSTgS9xaZL8Eujf07UYfbQzb2: 18 posts, total weight: 480.0
+2025-09-04 17:18:40,305 - INFO - Updated user YHjYSTgS9xaZL8Eujf07UYfbQzb2 totalWeight to 480.0
+2025-09-04 17:18:40,391 - INFO - User cvPll3rbfVZYMhhHiE9gs9ot3bx2: 1 posts, total weight: 0.0
+2025-09-04 17:18:40,504 - INFO - Updated user cvPll3rbfVZYMhhHiE9gs9ot3bx2 totalWeight to 0.0
+2025-09-04 17:18:40,569 - INFO - User k53W7PNrH7V1fKWTcPft87pyJrj1: 1 posts, total weight: 1.0
+2025-09-04 17:18:40,642 - INFO - Updated user k53W7PNrH7V1fKWTcPft87pyJrj1 totalWeight to 1.0
+2025-09-04 17:18:40,642 - INFO - Successfully updated 17 out of 17 users
+2025-09-04 17:18:40,642 - INFO - Litter weight update process completed successfully
