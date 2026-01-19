@@ -16,6 +16,7 @@ import {
 import {db, storage} from '../lib/firebase';
 import {getDownloadURL, ref} from 'firebase/storage';
 import {getAuth} from 'firebase/auth';
+import NotificationSender from '../utils/notifictionSender';
 
 export async function* fetchPosts(page, postsPerPage, userId = null) {
     let postQuery;
@@ -182,9 +183,19 @@ export async function toggleLike(post) {
     // Create the user document reference
     const userDocRef = doc(db, 'users', userId);
 
+    // Get the post author ID
+    const postAuthorRef = updatedPostData.postUser;
+    const postAuthorId = postAuthorRef?.id || postAuthorRef?.path?.split('/')[1];
+
     // Check if the user has already liked the post using their document reference
     if (!currentLikes || !Array.isArray(currentLikes)) {
         await updateDoc(postRef, { likes: arrayUnion(userDocRef) });
+
+        // Send like notification to post author (if not liking own post)
+        if (postAuthorId && postAuthorId !== userId) {
+            await NotificationSender.createLikeNotification(post.id, postAuthorId, currentUser);
+        }
+
         return true;
     } else {
         // Check if the userDocRef is in the array.
@@ -194,6 +205,12 @@ export async function toggleLike(post) {
             return false;
         } else {
             await updateDoc(postRef, { likes: arrayUnion(userDocRef) });
+
+            // Send like notification to post author (if not liking own post)
+            if (postAuthorId && postAuthorId !== userId) {
+                await NotificationSender.createLikeNotification(post.id, postAuthorId, currentUser);
+            }
+
             return true;
         }
     }
