@@ -174,6 +174,13 @@ function CreatePost() {
     const uploadImages = async (postDocRef) => {
         setUploading(true);
 
+        // Create date folder in format: MMDDYYYY (matching Flutter app)
+        const now = new Date();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const year = now.getFullYear();
+        const dateFolder = `${month}${day}${year}`;
+
         const uploadSingleImage = async (file) => {
             // Check if the file is an image that can be converted to WebP
             const isImage = file.type.startsWith('image/');
@@ -203,7 +210,8 @@ function CreatePost() {
                 }
             }
 
-            const storageRef = ref(storage, `userPosts/${user.uid}/${fileName}`);
+            // Store images in date-organized folders: userPosts/MMDDYYYY/userId/filename
+            const storageRef = ref(storage, `userPosts/${dateFolder}/${user.uid}/${fileName}`);
             const task = uploadBytesResumable(storageRef, fileToUpload);
 
             for (let attempt = 1; attempt <= 3; attempt++) {
