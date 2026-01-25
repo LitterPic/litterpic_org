@@ -1,44 +1,108 @@
 import React, {useEffect, useState} from 'react';
-import {collection, deleteDoc, doc, onSnapshot, orderBy, query, updateDoc} from 'firebase/firestore';
-import {auth, db} from '../lib/firebase';
+import {collection, deleteDoc, doc, getDoc, onSnapshot, orderBy, query, updateDoc} from 'firebase/firestore';
+import {auth, db, useAuth} from '../lib/firebase';
 import {formatDistanceToNow} from 'date-fns'; // For better time formatting
 import {useRouter} from 'next/router';
 import Head from "next/head";
 import Script from "next/script";
 import withAuth from "../components/withAuth";
 import {FaTrashAlt} from "react-icons/fa";
+import {toast, ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const NotificationsPage = () => {
     const [notifications, setNotifications] = useState([]);
     const router = useRouter();
-    const currentUser = auth.currentUser;
+    const {user} = useAuth();
 
     useEffect(() => {
-        if (!currentUser) return;
+        if (!user) return;
 
         // Query to fetch notifications ordered by timestamp in descending order
-        const notificationsRef = collection(db, `users/${currentUser.uid}/notifications`);
+        const notificationsRef = collection(db, `users/${user.uid}/notifications`);
         const notificationsQuery = query(notificationsRef, orderBy('timestamp', 'desc'));
 
         const unsubscribe = onSnapshot(notificationsQuery, (snapshot) => {
-            const fetchedNotifications = snapshot.docs.map(doc => ({
-                id: doc.id,
-                ...doc.data(),
-            }));
+            const fetchedNotifications = snapshot.docs.map(doc => {
+                const data = doc.data();
+                // Remove the 'id' field from data if it exists to prevent overwriting doc.id
+                const {id: dataId, ...restData} = data;
+                return {
+                    ...restData,
+                    id: doc.id,  // Use the actual Firestore document ID
+                };
+            });
             setNotifications(fetchedNotifications);
         });
 
         return () => unsubscribe();
-    }, [currentUser]);
+    }, [user]);
 
     const markAsRead = async (notificationId) => {
-        const notificationRef = doc(db, `users/${currentUser.uid}/notifications`, notificationId);
-        await updateDoc(notificationRef, {isRead: true});
+        if (!user) {
+            console.error('No user logged in');
+            return;
+        }
+
+        try {
+            const notificationRef = doc(db, `users/${user.uid}/notifications`, notificationId);
+            await updateDoc(notificationRef, {isRead: true});
+        } catch (error) {
+            console.error('Error marking notification as read:', error);
+        }
     };
 
     const deleteNotification = async (notificationId) => {
-        const notificationRef = doc(db, `users/${currentUser.uid}/notifications`, notificationId);
-        await deleteDoc(notificationRef);
+        if (!user) {
+            toast.error('Unable to delete notification. Please try again.');
+            return;
+        }
+
+        try {
+            const notificationRef = doc(db, `users/${user.uid}/notifications`, notificationId);
+            await deleteDoc(notificationRef);
+            toast.success('Notification deleted!');
+        } catch (error) {
+            console.error('Error deleting notification:', error);
+            toast.error('Failed to delete notification. Please try again.');
+        }
+    };
+
+    const clearAllNotifications = async () => {
+        if (!user) {
+            toast.error('Unable to clear notifications. Please try again.');
+            return;
+        }
+
+        // Show confirmation dialog
+        const confirmed = window.confirm(
+            `Are you sure you want to delete all ${notifications.length} notification${notifications.length !== 1 ? 's' : ''}? This action cannot be undone.`
+        );
+
+        if (!confirmed) {
+            return;
+        }
+
+        try {
+            // Delete all notifications in parallel
+            const deletePromises = notifications.map(notification => {
+                const notificationRef = doc(db, `users/${user.uid}/notifications`, notification.id);
+                return deleteDoc(notificationRef);
+            });
+
+            const results = await Promise.allSettled(deletePromises);
+
+            // Check for any failures
+            const failures = results.filter(r => r.status === 'rejected');
+            if (failures.length > 0) {
+                toast.error(`Failed to delete ${failures.length} notification(s). Please try again.`);
+            } else {
+                toast.success('All notifications cleared!');
+            }
+        } catch (error) {
+            console.error('Error clearing all notifications:', error);
+            toast.error('Failed to clear all notifications. Please try again.');
+        }
     };
 
     const handleNotificationClick = async (notification) => {
@@ -100,7 +164,19 @@ const NotificationsPage = () => {
 
             <div className="page">
                 <div className="notif-content">
-                    <h1 className="heading-text">Notifications</h1>
+                    <div className="notifications-header">
+                        <h1 className="heading-text">Notifications</h1>
+                        {notifications.length > 0 && (
+                            <button
+                                className="clear-all-button"
+                                onClick={clearAllNotifications}
+                                title="Clear all notifications"
+                            >
+                                <i className="material-icons">delete_sweep</i>
+                                Clear All
+                            </button>
+                        )}
+                    </div>
                     <div className="notifications-list">
                         {notifications.length === 0 ? (
                             <p className="no-notifications-message">You have no notifications at the moment. Stay tuned
@@ -144,6 +220,8 @@ const NotificationsPage = () => {
                     </div>
                 </div>
             </div>
+
+            <ToastContainer position="bottom-center" autoClose={3000} />
         </div>
     );
 };

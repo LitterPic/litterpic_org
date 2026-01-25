@@ -7428,6 +7428,45 @@ textarea.event-description-input {
   padding: 0 10px;
   box-sizing: border-box;
 }
+.page .notif-content .notifications-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+.page .notif-content .notifications-header .heading-text {
+  margin: 0;
+  flex: 1;
+}
+.page .notif-content .notifications-header .clear-all-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #d32f2f 0%, #f44336 100%);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(211, 47, 47, 0.3);
+}
+.page .notif-content .notifications-header .clear-all-button .material-icons {
+  font-size: 1.2rem;
+}
+.page .notif-content .notifications-header .clear-all-button:hover {
+  background: linear-gradient(135deg, #c62828 0%, #e53935 100%);
+  box-shadow: 0 4px 12px rgba(211, 47, 47, 0.4);
+  transform: translateY(-2px);
+}
+.page .notif-content .notifications-header .clear-all-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(211, 47, 47, 0.3);
+}
 .page .notif-content .notifications-list {
   margin-top: 20px;
 }
@@ -7518,6 +7557,13 @@ textarea.event-description-input {
   .notif-content {
     max-width: 90%;
   }
+  .notif-content .notifications-header .clear-all-button {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+  .notif-content .notifications-header .clear-all-button .material-icons {
+    font-size: 1.1rem;
+  }
   .notif-content .notification-item {
     position: relative;
     padding-right: 45px;
@@ -7558,6 +7604,21 @@ textarea.event-description-input {
 @media (max-width: 400px) {
   .notif-content {
     padding: 0 5px;
+  }
+  .notif-content .notifications-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .notif-content .notifications-header .heading-text {
+    text-align: center;
+    font-size: 1.5rem;
+  }
+  .notif-content .notifications-header .clear-all-button {
+    width: 100%;
+    justify-content: center;
+    padding: 10px 16px;
+    font-size: 0.85rem;
   }
   .notif-content .notification-item {
     padding: 10px 45px 10px 25px;
