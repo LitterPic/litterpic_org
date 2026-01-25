@@ -4323,6 +4323,7 @@ a.post-user-name {
   border-radius: 0.5rem;
   font-size: 0.9rem;
   width: 600px;
+  padding: 10px;
 }
 .create-post-content .no-increment-decrement::-webkit-outer-spin-button,
 .create-post-content .no-increment-decrement::-webkit-inner-spin-button {
@@ -4347,9 +4348,85 @@ a.post-user-name {
   padding: 5px;
   width: 600px;
 }
+.create-post-content .description-container {
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+}
+@media (max-width: 768px) {
+  .create-post-content .description-container {
+    width: 80vw;
+  }
+}
+.create-post-content .ai-button-container {
+  display: flex;
+  justify-content: center;
+  margin: 15px 0;
+  width: 600px;
+}
+@media (max-width: 768px) {
+  .create-post-content .ai-button-container {
+    width: 80vw;
+  }
+}
+.create-post-content .ai-generate-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #015e41 0%, #45a049 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+}
+.create-post-content .ai-generate-button .material-icons {
+  font-size: 1.2rem;
+}
+.create-post-content .ai-generate-button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #45a049 0%, #015e41 100%);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+  transform: translateY(-2px);
+}
+.create-post-content .ai-generate-button:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(76, 175, 80, 0.3);
+}
+.create-post-content .ai-generate-button:disabled {
+  background: linear-gradient(135deg, #ccc 0%, #999 100%);
+  cursor: not-allowed;
+  box-shadow: none;
+  opacity: 0.6;
+}
+.create-post-content .ai-generate-button .spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (max-width: 768px) {
+  .create-post-content .ai-generate-button {
+    width: 100%;
+    padding: 10px 20px;
+    font-size: 0.85rem;
+  }
+}
 
 .litter-container {
   margin-bottom: 9px;
+  padding-left: 5px;
 }
 .litter-container .radio-buttons {
   display: flex;
@@ -4378,6 +4455,10 @@ a.post-user-name {
 }
 .litter-container .radio-buttons label span {
   font-size: 14px;
+}
+
+.location-container {
+  padding-left: 5px;
 }
 
 .create-post-limit-message {
@@ -4640,6 +4721,7 @@ a.post-user-name {
     border-width: 1px;
     border-color: initial;
     width: 80vw;
+    padding: 10px;
   }
   .create-post-content textarea {
     height: 100px;
@@ -6379,6 +6461,7 @@ a.post-user-name {
   border-radius: 0.5rem;
   font-size: 0.9rem;
   width: 600px;
+  padding: 10px;
 }
 .create-post-content .no-increment-decrement::-webkit-outer-spin-button,
 .create-post-content .no-increment-decrement::-webkit-inner-spin-button {
@@ -6403,9 +6486,85 @@ a.post-user-name {
   padding: 5px;
   width: 600px;
 }
+.create-post-content .description-container {
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+}
+@media (max-width: 768px) {
+  .create-post-content .description-container {
+    width: 80vw;
+  }
+}
+.create-post-content .ai-button-container {
+  display: flex;
+  justify-content: center;
+  margin: 15px 0;
+  width: 600px;
+}
+@media (max-width: 768px) {
+  .create-post-content .ai-button-container {
+    width: 80vw;
+  }
+}
+.create-post-content .ai-generate-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #015e41 0%, #45a049 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+}
+.create-post-content .ai-generate-button .material-icons {
+  font-size: 1.2rem;
+}
+.create-post-content .ai-generate-button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #45a049 0%, #015e41 100%);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+  transform: translateY(-2px);
+}
+.create-post-content .ai-generate-button:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(76, 175, 80, 0.3);
+}
+.create-post-content .ai-generate-button:disabled {
+  background: linear-gradient(135deg, #ccc 0%, #999 100%);
+  cursor: not-allowed;
+  box-shadow: none;
+  opacity: 0.6;
+}
+.create-post-content .ai-generate-button .spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (max-width: 768px) {
+  .create-post-content .ai-generate-button {
+    width: 100%;
+    padding: 10px 20px;
+    font-size: 0.85rem;
+  }
+}
 
 .litter-container {
   margin-bottom: 9px;
+  padding-left: 5px;
 }
 .litter-container .radio-buttons {
   display: flex;
@@ -6434,6 +6593,10 @@ a.post-user-name {
 }
 .litter-container .radio-buttons label span {
   font-size: 14px;
+}
+
+.location-container {
+  padding-left: 5px;
 }
 
 .create-post-limit-message {
@@ -6696,6 +6859,7 @@ a.post-user-name {
     border-width: 1px;
     border-color: initial;
     width: 80vw;
+    padding: 10px;
   }
   .create-post-content textarea {
     height: 100px;
