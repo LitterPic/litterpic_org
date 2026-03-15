@@ -408,6 +408,42 @@ export default function Index() {
 
             <div className="page">
                 <div className="content">
+                    <div className='qr-section top-qr-section'>
+                        <div className='app-text'>
+                            <div className='head-and-icon'>
+                                <h2 className='heading-text '> Stay informed with the LitterPic: Community Cleanup app!</h2>
+                                <img src='../images/litter_pic_logo.png' alt='LitterPic Logo'></img>
+                            </div>
+
+                            <p><span className=" index-inspire-change-text">Inspire Change</span> by capturing your
+                                moments and inspire others with your story!</p>
+                        </div>
+                        <div className='qr-group'>
+                            <div className=" qr-container">
+                                <img className=" test" src='../images/large_ios_qr.jpg' alt='iOS app QR code'/>
+                                <div className='qr-box'>
+                                    <p> Scan the QR Code to download the app.</p>
+                                    <a target=" _blank" href='https://apps.apple.com/us/app/litterpic/id6447652360'>
+                                        <img className='store-link'
+                                             src='../images/apple_store_badge.png'
+                                             alt='apple store'/>
+                                    </a>
+                                </div>
+                            </div>
+                            <div className=" qr-container">
+                                <img className=" test" src='../images/large_android_qr.jpg' alt='Android app QR code'/>
+                                <div className='qr-box'>
+                                    <p> Scan the QR Code to download the app.</p>
+                                    <a target=" _blank"
+                                       href='https://play.google.com/store/apps/details?id=com.litterpic.app&pcampaignid=web_share'>
+                                        <img className='store-link' src='../images/google_play_badge.png'
+                                             alt='google play'/>
+                                    </a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     {/*<div className="announcement-bar">*/}
                     {/*    <p>Join the Movement to Keep Our Planet Clean and Win in November!</p>*/}
                     {/*    <p>*/}
@@ -596,42 +632,6 @@ export default function Index() {
                         </div>
                         <br/>
                         <br/>
-                    </div>
-                    <div className='qr-section'>
-                        <div className='app-text'>
-                            <div className='head-and-icon'>
-                                <h2 className='heading-text '> Stay informed with the LitterPic app!</h2>
-                                <img src='../images/litter_pic_logo.png' alt='LitterPic Logo'></img>
-                            </div>
-
-                            <p><span className=" index-inspire-change-text">Inspire Change</span> by capturing your
-                                moments and inspire others with your story!</p>
-                        </div>
-                        <div className='qr-group'>
-                            <div className=" qr-container">
-                                <img className=" test" src='../images/large_ios_qr.jpg' alt='iOS app QR code'/>
-                                <div className='qr-box'>
-                                    <p> Scan the QR Code to download the app.</p>
-                                    <a target=" _blank" href='https://apps.apple.com/us/app/litterpic/id6447652360'>
-                                        <img className='store-link'
-                                             src='../images/apple_store_badge.png'
-                                             alt='apple store'/>
-                                    </a>
-                                </div>
-                            </div>
-                            <div className=" qr-container">
-                                <img className=" test" src='../images/large_android_qr.jpg' alt='Android app QR code'/>
-                                <div className='qr-box'>
-                                    <p> Scan the QR Code to download the app.</p>
-                                    <a target=" _blank"
-                                       href='https://play.google.com/store/apps/details?id=com.litterpic.app&pcampaignid=web_share'>
-                                        <img className='store-link' src='../images/google_play_badge.png'
-                                             alt='google play'/>
-                                    </a>
-
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

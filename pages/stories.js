@@ -68,6 +68,7 @@ function Stories() {
     const [showOptions, setShowOptions] = useState(false);
     const [postsVersion, setPostsVersion] = useState(0);
     const [hasScrolledToPost, setHasScrolledToPost] = useState(false);
+    const [shareEnabled, setShareEnabled] = useState(false);
 
     // Cache expiration times - more reasonable for user experience
     const ALL_POSTS_CACHE_EXPIRATION_MS = 300000; // 5 minutes for all posts
@@ -274,6 +275,23 @@ function Stories() {
         // Set posts immediately, like status will be recalculated when user becomes available
         setPosts(cachedStories);
     }
+
+    // Fetch feature flags from appConfig/feature_flags
+    useEffect(() => {
+        const fetchFeatureFlags = async () => {
+            try {
+                const configRef = doc(getFirestore(), 'appConfig', 'feature_flags');
+                const configSnap = await getDoc(configRef);
+                if (configSnap.exists()) {
+                    const flags = configSnap.data();
+                    setShareEnabled(flags.enable_share_button === true);
+                }
+            } catch (error) {
+                // Silent error handling - share button stays hidden if config fails
+            }
+        };
+        fetchFeatureFlags();
+    }, []);
 
     // Preload the banner image
     useEffect(() => {
@@ -1484,6 +1502,22 @@ function Stories() {
                         <span className="comment-count">{numComments}</span>
 
                     </span>
+
+                                            {shareEnabled && (
+                                            <span className="likes-comments-share-field">
+                        <i
+                            className="material-icons share-icon"
+                            onClick={() => {
+                                const shareUrl = `https://litterpic.org/post/${post.id}`;
+                                const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
+                                window.open(facebookShareUrl, '_blank', 'width=600,height=400,scrollbars=yes');
+                            }}
+                            title="Share on Facebook"
+                        >
+                            share
+                        </i>
+                    </span>
+                                            )}
                                         </div>
                                         <div className="story-comment-input">
                                             {/* Always show existing comments */}

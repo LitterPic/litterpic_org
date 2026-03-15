@@ -1293,6 +1293,12 @@ p .index-inspire-change-text {
   transform: scale(0.9);
 }
 
+.top-qr-section {
+  background-color: #f7f7f7;
+  padding: 2rem 0;
+  border-bottom: 1px solid #ddd;
+}
+
 @media (max-width: 45.5rem) {
   .qr-group {
     flex-direction: column;
@@ -2924,6 +2930,12 @@ p .index-inspire-change-text {
   transform: scale(0.9);
 }
 
+.top-qr-section {
+  background-color: #f7f7f7;
+  padding: 2rem 0;
+  border-bottom: 1px solid #ddd;
+}
+
 @media (max-width: 45.5rem) {
   .qr-group {
     flex-direction: column;
@@ -3767,6 +3779,18 @@ h1.heading-text.profile-heading {
 }
 .likes-comments .likes-comments-comment-field {
   margin-left: 2rem;
+}
+.likes-comments .likes-comments-share-field {
+  margin-left: 2rem;
+}
+.likes-comments .likes-comments-share-field .share-icon {
+  cursor: pointer;
+  color: #1877F2;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+.likes-comments .likes-comments-share-field .share-icon:hover {
+  color: #0d5bbd;
+  transform: scale(1.1);
 }
 
 .like-list-container {
@@ -5905,6 +5929,18 @@ input::placeholder {
 }
 .likes-comments .likes-comments-comment-field {
   margin-left: 2rem;
+}
+.likes-comments .likes-comments-share-field {
+  margin-left: 2rem;
+}
+.likes-comments .likes-comments-share-field .share-icon {
+  cursor: pointer;
+  color: #1877F2;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+.likes-comments .likes-comments-share-field .share-icon:hover {
+  color: #0d5bbd;
+  transform: scale(1.1);
 }
 
 .like-list-container {

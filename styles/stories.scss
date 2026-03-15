@@ -113,6 +113,21 @@
   .likes-comments-comment-field {
     margin-left: 2rem;
   }
+
+  .likes-comments-share-field {
+    margin-left: 2rem;
+
+    .share-icon {
+      cursor: pointer;
+      color: #1877F2;
+      transition: color 0.2s ease, transform 0.2s ease;
+
+      &:hover {
+        color: darken(#1877F2, 15%);
+        transform: scale(1.1);
+      }
+    }
+  }
 }
 
 .like-list-container {
