@@ -142,6 +142,7 @@ export default function PostShareRedirect({ id, description, authorName, photoUr
                 <meta property="og:title" content={ogTitle} />
                 <meta property="og:description" content={ogDescription} />
                 <meta property="og:site_name" content="LitterPic" />
+                <meta property="fb:app_id" content="1948502922329534" />
 
                 {/* Collage image combining all post photos */}
                 <meta property="og:image" content={`${baseUrl}/api/collage/${id}`} />
