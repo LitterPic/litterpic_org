@@ -1509,7 +1509,8 @@ function Stories() {
                             className="material-icons share-icon"
                             onClick={() => {
                                 const shareUrl = `https://litterpic.org/post/${post.id}`;
-                                const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
+                                const description = post.description ? post.description.replace(/<[^>]*>?/gm, '').trim() : '';
+                                const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(description)}`;
                                 window.open(facebookShareUrl, '_blank', 'width=600,height=400,scrollbars=yes');
                             }}
                             title="Share on Facebook"
