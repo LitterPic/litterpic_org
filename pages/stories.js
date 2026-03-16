@@ -24,7 +24,8 @@ import {
     updateDoc,
     where
 } from 'firebase/firestore';
-import {auth, db} from "../lib/firebase";
+import {auth, db, storage} from "../lib/firebase";
+import {getDownloadURL, ref as storageRef} from 'firebase/storage';
 import {capitalizeFirstWordOfSentences} from "../utils/textUtils";
 import Head from "next/head";
 import LikePopup from "../components/LikePopup";
@@ -667,6 +668,64 @@ function Stories() {
         localStorage.setItem('users', JSON.stringify(allUsers));
     };
 
+    // Fetch a specific shared post by ID if it's not already in the loaded posts
+    useEffect(() => {
+        if (!postId || hasScrolledToPost) return;
+
+        const normalizedPostId = postId.split('/').pop();
+        const postAlreadyLoaded = posts.some(p => p.id === normalizedPostId);
+        if (postAlreadyLoaded || posts.length === 0) return;
+
+        const fetchSharedPost = async () => {
+            try {
+                const postRef = doc(db, 'userPosts', normalizedPostId);
+                const postSnap = await getDoc(postRef);
+                if (!postSnap.exists()) return;
+
+                const postData = postSnap.data();
+                const photos = postData.postPhotos || [];
+                const photoUrls = await Promise.all(photos.map(async (photoPath) => {
+                    try {
+                        return await getDownloadURL(storageRef(storage, photoPath));
+                    } catch {
+                        return '/images/litter_pic_logo.png';
+                    }
+                }));
+
+                const userRef = postData.postUser;
+                let userData = null;
+                if (userRef) {
+                    const userSnap = await getDoc(userRef);
+                    if (userSnap.exists()) {
+                        userData = userSnap.data();
+                    }
+                }
+
+                const sharedPost = {
+                    id: postSnap.id,
+                    photos: photoUrls,
+                    user: userData,
+                    dateCreated: postData.timePosted?.toDate(),
+                    location: postData.location,
+                    description: postData.postDescription,
+                    litterWeight: postData.litterWeight,
+                    likes: postData.likes || [],
+                    numComments: postData.numComments || 0,
+                };
+
+                // Prepend the shared post so it appears at the top
+                setPosts(prevPosts => {
+                    if (prevPosts.some(p => p.id === normalizedPostId)) return prevPosts;
+                    return [sharedPost, ...prevPosts];
+                });
+            } catch (error) {
+                // Silent - fall back to normal page behavior
+            }
+        };
+
+        fetchSharedPost();
+    }, [postId, posts.length, hasScrolledToPost]);
+
     useEffect(() => {
         if (!postId) {
             return;
@@ -704,7 +763,7 @@ function Stories() {
                     window.history.replaceState({}, '', url);
                 }, 1000);
             }
-        }, 100);
+        }, 300);
 
         return () => clearTimeout(timeoutId);
     }, [postId, posts.length, hasScrolledToPost]); // Only depend on posts.length, not posts content
