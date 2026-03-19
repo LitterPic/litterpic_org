@@ -3782,6 +3782,7 @@ h1.heading-text.profile-heading {
 }
 .likes-comments .likes-comments-share-field {
   margin-left: 2rem;
+  position: relative;
 }
 .likes-comments .likes-comments-share-field .share-icon {
   cursor: pointer;
@@ -3789,10 +3790,69 @@ h1.heading-text.profile-heading {
   transition: color 0.2s ease, transform 0.2s ease;
 }
 .likes-comments .likes-comments-share-field .share-icon:hover {
-  color: #0d5bbd;
+  color: #0a54b3;
   transform: scale(1.1);
 }
+.likes-comments .likes-comments-share-field .share-menu {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  padding: 6px 0;
+  z-index: 100;
+  min-width: 160px;
+  animation: shareMenuFadeIn 0.15s ease-out;
+}
+.likes-comments .likes-comments-share-field .share-menu::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: white;
+}
+.likes-comments .likes-comments-share-field .share-menu .share-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: inherit;
+  color: #333;
+  white-space: nowrap;
+  transition: background 0.15s ease;
+}
+.likes-comments .likes-comments-share-field .share-menu .share-menu-item:hover {
+  background: #f5f5f5;
+}
+.likes-comments .likes-comments-share-field .share-menu .share-menu-item:first-child {
+  border-radius: 10px 10px 0 0;
+}
+.likes-comments .likes-comments-share-field .share-menu .share-menu-item:last-child {
+  border-radius: 0 0 10px 10px;
+}
+.likes-comments .likes-comments-share-field .share-menu .share-menu-item svg {
+  flex-shrink: 0;
+}
 
+@keyframes shareMenuFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
 .like-list-container {
   font-size: 12px;
   left: 50%;
@@ -5932,6 +5992,7 @@ input::placeholder {
 }
 .likes-comments .likes-comments-share-field {
   margin-left: 2rem;
+  position: relative;
 }
 .likes-comments .likes-comments-share-field .share-icon {
   cursor: pointer;
@@ -5939,10 +6000,69 @@ input::placeholder {
   transition: color 0.2s ease, transform 0.2s ease;
 }
 .likes-comments .likes-comments-share-field .share-icon:hover {
-  color: #0d5bbd;
+  color: #0a54b3;
   transform: scale(1.1);
 }
+.likes-comments .likes-comments-share-field .share-menu {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  padding: 6px 0;
+  z-index: 100;
+  min-width: 160px;
+  animation: shareMenuFadeIn 0.15s ease-out;
+}
+.likes-comments .likes-comments-share-field .share-menu::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: white;
+}
+.likes-comments .likes-comments-share-field .share-menu .share-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: inherit;
+  color: #333;
+  white-space: nowrap;
+  transition: background 0.15s ease;
+}
+.likes-comments .likes-comments-share-field .share-menu .share-menu-item:hover {
+  background: #f5f5f5;
+}
+.likes-comments .likes-comments-share-field .share-menu .share-menu-item:first-child {
+  border-radius: 10px 10px 0 0;
+}
+.likes-comments .likes-comments-share-field .share-menu .share-menu-item:last-child {
+  border-radius: 0 0 10px 10px;
+}
+.likes-comments .likes-comments-share-field .share-menu .share-menu-item svg {
+  flex-shrink: 0;
+}
 
+@keyframes shareMenuFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
 .like-list-container {
   font-size: 12px;
   left: 50%;

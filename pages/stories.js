@@ -70,6 +70,8 @@ function Stories() {
     const [postsVersion, setPostsVersion] = useState(0);
     const [hasScrolledToPost, setHasScrolledToPost] = useState(false);
     const [shareEnabled, setShareEnabled] = useState(false);
+    const [openShareMenuId, setOpenShareMenuId] = useState(null);
+    const shareMenuRef = useRef(null);
 
     // Cache expiration times - more reasonable for user experience
     const ALL_POSTS_CACHE_EXPIRATION_MS = 300000; // 5 minutes for all posts
@@ -444,6 +446,9 @@ function Stories() {
         if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
             setOpenMenuId(null);
             setShowOptions(false);
+        }
+        if (shareMenuRef.current && !shareMenuRef.current.contains(event.target)) {
+            setOpenShareMenuId(null);
         }
     };
 
@@ -1563,19 +1568,63 @@ function Stories() {
                     </span>
 
                                             {shareEnabled && (
-                                            <span className="likes-comments-share-field">
+                                            <span className="likes-comments-share-field" ref={openShareMenuId === post.id ? shareMenuRef : null}>
                         <i
                             className="material-icons share-icon"
-                            onClick={() => {
-                                const shareUrl = `https://litterpic.org/post/${post.id}`;
-                                const description = post.description ? post.description.replace(/<[^>]*>?/gm, '').trim() : '';
-                                const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(description)}`;
-                                window.open(facebookShareUrl, '_blank', 'width=600,height=400,scrollbars=yes');
-                            }}
-                            title="Share on Facebook"
+                            onClick={() => setOpenShareMenuId(openShareMenuId === post.id ? null : post.id)}
+                            title="Share"
                         >
                             share
                         </i>
+                        {openShareMenuId === post.id && (
+                            <div className="share-menu">
+                                <button
+                                    className="share-menu-item share-facebook"
+                                    onClick={() => {
+                                        const shareUrl = `https://litterpic.org/post/${post.id}`;
+                                        const description = post.description ? post.description.replace(/<[^>]*>?/gm, '').trim() : '';
+                                        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(description)}`, '_blank', 'width=600,height=400,scrollbars=yes');
+                                        setOpenShareMenuId(null);
+                                    }}
+                                >
+                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="#1877F2"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
+                                    Facebook
+                                </button>
+                                <button
+                                    className="share-menu-item share-linkedin"
+                                    onClick={() => {
+                                        const shareUrl = `https://litterpic.org/post/${post.id}`;
+                                        window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`, '_blank', 'width=600,height=600,scrollbars=yes');
+                                        setOpenShareMenuId(null);
+                                    }}
+                                >
+                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="#0A66C2"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                                    LinkedIn
+                                </button>
+                                <button
+                                    className="share-menu-item share-threads"
+                                    onClick={() => {
+                                        const shareUrl = `https://litterpic.org/post/${post.id}`;
+                                        window.open(`https://www.threads.net/intent/post?text=${encodeURIComponent(shareUrl)}`, '_blank', 'width=600,height=600,scrollbars=yes');
+                                        setOpenShareMenuId(null);
+                                    }}
+                                >
+                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="#000000"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.59 12c.025 3.086.718 5.496 2.057 7.164 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.29 3.276-.865 1.076-2.082 1.691-3.59 1.691-1.439 0-2.61-.467-3.479-1.388-.84-.89-1.265-2.07-1.265-3.505 0-1.553.476-2.832 1.413-3.798.862-.888 2.01-1.358 3.315-1.422 1.374.093 2.458.46 3.227 1.072.34-.656.55-1.477.62-2.455l2.04.138c-.1 1.41-.455 2.6-1.058 3.54.288.322.544.682.765 1.075.6 1.074.87 2.32.806 3.71-.075 1.594-.672 3.092-1.776 4.453C16.932 22.509 14.853 23.975 12.186 24zm.088-8.17c.921 0 1.553-.295 1.99-.93.455-.66.685-1.633.685-2.893 0-.623-.044-1.166-.133-1.627-.55-.24-1.2-.368-1.94-.41-.868.04-1.537.315-1.99.817-.476.528-.717 1.276-.717 2.224 0 .926.197 1.643.587 2.131.374.468.877.688 1.518.688z"/></svg>
+                                    Threads
+                                </button>
+                                <button
+                                    className="share-menu-item share-x"
+                                    onClick={() => {
+                                        const shareUrl = `https://litterpic.org/post/${post.id}`;
+                                        window.open(`https://x.com/intent/post?url=${encodeURIComponent(shareUrl)}`, '_blank', 'width=600,height=400,scrollbars=yes');
+                                        setOpenShareMenuId(null);
+                                    }}
+                                >
+                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="#000000"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                                    X
+                                </button>
+                            </div>
+                        )}
                     </span>
                                             )}
                                         </div>
