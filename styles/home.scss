@@ -424,6 +424,10 @@ p {
   background-color: #f7f7f7;
   padding: 2rem 0;
   border-bottom: 1px solid #ddd;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 }
 
 @media (max-width: 45.5rem) {

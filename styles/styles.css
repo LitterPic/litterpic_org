@@ -1298,6 +1298,11 @@ p .index-inspire-change-text {
   padding: 2rem 0;
   border-bottom: 1px solid #ddd;
 }
+@media (max-width: 768px) {
+  .top-qr-section {
+    display: none;
+  }
+}
 
 @media (max-width: 45.5rem) {
   .qr-group {
@@ -2935,6 +2940,11 @@ p .index-inspire-change-text {
   padding: 2rem 0;
   border-bottom: 1px solid #ddd;
 }
+@media (max-width: 768px) {
+  .top-qr-section {
+    display: none;
+  }
+}
 
 @media (max-width: 45.5rem) {
   .qr-group {
@@ -4049,7 +4059,6 @@ h1.heading-text.profile-heading {
   width: 100%;
   height: 0;
   padding-bottom: 75%; /* 4:3 aspect ratio */
-  position: relative;
   /* Create a container for the media to allow for smooth transitions */
 }
 .post-carousel:active {
@@ -6259,7 +6268,6 @@ input::placeholder {
   width: 100%;
   height: 0;
   padding-bottom: 75%; /* 4:3 aspect ratio */
-  position: relative;
   /* Create a container for the media to allow for smooth transitions */
 }
 .post-carousel:active {
@@ -8046,7 +8054,7 @@ textarea.event-description-input {
   right: 0;
   width: 30%;
   height: 100%;
-  background-image: linear-gradient(to right, rgba(249, 249, 249, 0), rgb(249, 249, 249)), url("/images/litter_on_road.jpeg");
+  background-image: linear-gradient(to right, rgba(249, 249, 249, 0), rgb(249, 249, 249)), url("/public/images/litter_on_road.jpeg");
   background-size: cover;
   background-position: center;
   z-index: 1;
