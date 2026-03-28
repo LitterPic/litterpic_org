@@ -1,101 +1,18 @@
 import Head from 'next/head';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+const { fetchPostData } = require('../../utils/firebaseStorageUrl');
 
 export async function getServerSideProps(context) {
     const { id } = context.params;
-    let authorName = 'A Volunteer';
-    let photoUrls = ['https://litterpic.org/images/litter_pic_logo.png'];
-    let description = 'Check out this inspiring LitterPic story!';
-    let location = '';
 
     // Get the base URL for the og:url meta tag
     const protocol = context.req.headers['x-forwarded-proto'] || 'http';
     const host = context.req.headers.host || 'litterpic.org';
     const baseUrl = `${protocol}://${host}`;
 
-    const projectId = 'litterpic-fa0bb';
-    const apiKey = 'AIzaSyA-s9rMh2K9dDqJAERWj6EyQ4Qj3hlIRHg';
-
-    try {
-        // Fetch from Firestore REST API with API key for authentication
-        const postUrl = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/userPosts/${id}?key=${apiKey}`;
-
-        const response = await fetch(postUrl);
-        const data = await response.json();
-
-        if (!data.fields) {
-            console.error("[SSR] No fields in Firestore response for post:", id, JSON.stringify(data).substring(0, 500));
-        }
-
-        if (data.fields) {
-            let rawDescription = data.fields.postDescription?.stringValue;
-            if (rawDescription) {
-                // Strip HTML tags and newlines for meta description
-                description = rawDescription.replace(/<[^>]*>?/gm, '').replace(/\n/g, ' ').trim();
-                // Allow longer descriptions for Facebook Open Graph, but don't truncate unless really long
-                if (description.length > 500) {
-                    description = description.substring(0, 497) + '...';
-                }
-            }
-
-            // Get photo URLs from postPhotos field
-            if (data.fields.postPhotos?.arrayValue?.values?.length > 0) {
-                const resolvedUrls = [];
-                for (const val of data.fields.postPhotos.arrayValue.values) {
-                    let storagePath = val.stringValue;
-                    if (!storagePath) continue;
-
-                    if (storagePath.startsWith('http')) {
-                        // Already a full download URL (includes token for access)
-                        resolvedUrls.push(storagePath);
-                    } else {
-                        // It's a storage path — resolve it to a download URL
-                        let cleanPath = storagePath;
-                        if (cleanPath.startsWith('gs://')) {
-                            cleanPath = cleanPath.split('/').slice(3).join('/');
-                        }
-                        const storageUrl = `https://firebasestorage.googleapis.com/v0/b/${projectId}.appspot.com/o/${encodeURIComponent(cleanPath)}`;
-                        try {
-                            // Fetch metadata to get the download token
-                            const metaResponse = await fetch(`${storageUrl}?key=${apiKey}`);
-                            const metaData = await metaResponse.json();
-                            if (metaData.downloadTokens) {
-                                resolvedUrls.push(`${storageUrl}?alt=media&token=${metaData.downloadTokens.split(',')[0]}`);
-                            } else {
-                                resolvedUrls.push(`${storageUrl}?alt=media`);
-                            }
-                        } catch (storageErr) {
-                            console.error("[SSR] Error resolving storage path:", cleanPath, storageErr);
-                            resolvedUrls.push(`${storageUrl}?alt=media`);
-                        }
-                    }
-                }
-                if (resolvedUrls.length > 0) {
-                    photoUrls = resolvedUrls;
-                }
-            }
-
-            // Get location
-            if (data.fields.location?.stringValue) {
-                location = data.fields.location.stringValue;
-            }
-
-            // Try to fetch author name
-            if (data.fields.postUser?.referenceValue) {
-                const userRef = data.fields.postUser.referenceValue;
-                const userDocId = userRef.split('/').pop();
-                const userUrl = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/users/${userDocId}?key=${apiKey}`;
-                const userResponse = await fetch(userUrl);
-                const userData = await userResponse.json();
-                if (userData.fields?.display_name) {
-                    authorName = userData.fields.display_name.stringValue;
-                }
-            }
-        }
-    } catch (e) {
-        console.error("[SSR] Error fetching post data for SSR:", e);
-    }
+    // Single parallelized fetch for all post data (photos + user resolved concurrently)
+    const { description, authorName, photoUrls, location } = await fetchPostData(id);
 
     return {
         props: {
