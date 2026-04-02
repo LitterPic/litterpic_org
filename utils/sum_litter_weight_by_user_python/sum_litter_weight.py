@@ -50,14 +50,14 @@ def get_total_litter_weight(db):
         db: Firestore client
 
     Returns:
-        float: Total litter weight across all posts
+        int: Total litter weight across all posts
     """
-    total_weight = 0.0
+    total_weight = 0
     posts = db.collection('userPosts').stream()
     for post_doc in posts:
         post_data = post_doc.to_dict()
         if 'litterWeight' in post_data and post_data['litterWeight'] is not None:
-            total_weight += float(post_data['litterWeight'])
+            total_weight += int(post_data['litterWeight'])
     return total_weight
 
 
@@ -67,9 +67,6 @@ def main():
         db = initialize_firebase()
         total_weight = get_total_litter_weight(db)
         logger.info(f"Total litter weight collected: {total_weight}")
-
-        db.collection('stats').document('totalWeight').update({'totalWeight': int(total_weight)})
-        logger.info(f"Updated stats/totalWeight/totalWeight to {total_weight}")
 
         return total_weight
     except Exception as e:

@@ -341,8 +341,6 @@ const Volunteer = () => {
         libraries: libraries,
         preventGoogleFontsLoading: true,
         version: "weekly",
-        // Add loading=async parameter to the URL
-        url: `https://maps.googleapis.com/maps/api/js?key=${mapApiKey}&libraries=places&loading=async&v=weekly&callback=initMap`
     });
 
     const debouncedGeocode = debounce((address) => {

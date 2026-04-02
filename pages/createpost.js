@@ -60,8 +60,6 @@ function CreatePost() {
     const router = useRouter();
     const fileInputRef = React.useRef(null);
     const [latLng, setLatLng] = useState(null);
-    const [generatingDescription, setGeneratingDescription] = useState(false);
-    const [aiUsed, setAiUsed] = useState(false);
 
     const getAllPostsCacheKey = (page) => `all_posts_cache_page_${page}`;
     const getMyPostsCacheKey = (page, userId) => `my_posts_cache_page_${userId}_${page}`;
@@ -82,8 +80,6 @@ function CreatePost() {
         libraries: libraries,
         preventGoogleFontsLoading: true,
         version: "weekly",
-        // Add loading=async parameter to the URL
-        url: `https://maps.googleapis.com/maps/api/js?key=${mapApiKey}&libraries=places&loading=async&v=weekly&callback=initMap`
     });
 
     const debouncedGeocode = debounce((address) => {
@@ -360,7 +356,6 @@ function CreatePost() {
             setPreviews([]);
             setSelectedAddress('');
             setLocationSelected(false);
-            setAiUsed(false);
 
             localStorage.removeItem(getAllPostsCacheKey(1));
             localStorage.removeItem(getMyPostsCacheKey(1, user.uid));
@@ -434,104 +429,6 @@ function CreatePost() {
             await setDoc(doc(db, `users/${followerId}/notifications/${notification.id}`), notification);
         } catch (e) {
             console.error("Failed to add notification:", e);
-        }
-    };
-
-    const generateAIDescription = async () => {
-        // Validation
-        if (!Array.isArray(postImages) || postImages.length === 0) {
-            toast.error('Please add at least one photo first');
-            return;
-        }
-
-        if (!litterWeight || litterWeight <= 0) {
-            toast.error('Please enter the litter weight first');
-            return;
-        }
-
-        if (!selectedAddress || !selectedAddress.trim()) {
-            toast.error('Please enter a location first');
-            return;
-        }
-
-        setGeneratingDescription(true);
-
-        try {
-            // Only use first 3 images to speed up generation
-            const imagesToUse = postImages.slice(0, 3);
-
-            // Convert and compress images to base64
-            const imagePromises = imagesToUse.map(file => {
-                return new Promise((resolve, reject) => {
-                    const reader = new FileReader();
-                    reader.onloadend = () => {
-                        // Compress image before sending
-                        const img = new Image();
-                        img.onload = () => {
-                            const canvas = document.createElement('canvas');
-                            const ctx = canvas.getContext('2d');
-
-                            // Resize to max 800px width while maintaining aspect ratio
-                            const maxWidth = 800;
-                            const scale = Math.min(1, maxWidth / img.width);
-                            canvas.width = img.width * scale;
-                            canvas.height = img.height * scale;
-
-                            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-                            // Convert to base64 with reduced quality
-                            const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
-                            resolve(compressedBase64);
-                        };
-                        img.onerror = reject;
-                        img.src = reader.result;
-                    };
-                    reader.onerror = reject;
-                    reader.readAsDataURL(file);
-                });
-            });
-
-            const base64Images = await Promise.all(imagePromises);
-
-            // Call the API with timeout
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
-
-            const response = await fetch('/api/generateDescription', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    images: base64Images,
-                    location: selectedAddress || 'Not specified',
-                    litterWeight: litterWeight,
-                    unit: unit
-                }),
-                signal: controller.signal
-            });
-
-            clearTimeout(timeoutId);
-
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                throw new Error(errorData.error || 'Failed to generate description');
-            }
-
-            const data = await response.json();
-            setPostDescription(data.description);
-            setAiUsed(true); // Mark AI as used
-            toast.success('Description generated!');
-
-        } catch (error) {
-            console.error('Error generating description:', error);
-            if (error.name === 'AbortError') {
-                toast.error('Request timed out. Please try again with smaller images.');
-            } else {
-                toast.error('Failed to generate description. Please try again.');
-            }
-        } finally {
-            setGeneratingDescription(false);
         }
     };
 
@@ -628,75 +525,55 @@ function CreatePost() {
 
                             {/* 3. Location */}
                             <div className="location-container">
-                                <PlacesAutocomplete
-                                    value={selectedAddress}
-                                    onChange={setSelectedAddress}
-                                    onSelect={(address, result) => handleAddressSelect(address, result)}
-                                >
-                                    {({getInputProps, suggestions, getSuggestionItemProps, loading}) => (
-                                        <div>
-                                            <input
-                                                className="location-input hint-placeholder"
-                                                {...getInputProps({
-                                                    placeholder: 'Enter a location',
-                                                    onKeyDown: (e) => {
-                                                        if ((e.key === 'Backspace' || e.key === 'Delete') && selectedAddress !== '') {
-                                                            setAddressModified(true);
-                                                        }
-                                                    },
-                                                })}
-                                            />
-                                            <div className="autocomplete-dropdown-container">
-                                                {loading && <div>Loading...</div>}
-                                                {suggestions.map((suggestion, index) => {
-                                                    const suggestionProps = getSuggestionItemProps(suggestion, {
-                                                        className: suggestion.active ? 'suggestion-item active' : 'suggestion-item',
-                                                    });
-                                                    const { key, ...restProps } = suggestionProps;
-                                                    return (
-                                                        <div
-                                                            key={index}
-                                                            {...restProps}
-                                                        >
-                                                            <span>{suggestion.description}</span>
-                                                        </div>
-                                                    );
-                                                })}
+                                {isLoaded ? (
+                                    <PlacesAutocomplete
+                                        value={selectedAddress}
+                                        onChange={setSelectedAddress}
+                                        onSelect={(address, result) => handleAddressSelect(address, result)}
+                                    >
+                                        {({getInputProps, suggestions, getSuggestionItemProps, loading}) => (
+                                            <div>
+                                                <input
+                                                    className="location-input hint-placeholder"
+                                                    {...getInputProps({
+                                                        placeholder: 'Enter a location',
+                                                        onKeyDown: (e) => {
+                                                            if ((e.key === 'Backspace' || e.key === 'Delete') && selectedAddress !== '') {
+                                                                setAddressModified(true);
+                                                            }
+                                                        },
+                                                    })}
+                                                />
+                                                <div className="autocomplete-dropdown-container">
+                                                    {loading && <div>Loading...</div>}
+                                                    {suggestions.map((suggestion, index) => {
+                                                        const suggestionProps = getSuggestionItemProps(suggestion, {
+                                                            className: suggestion.active ? 'suggestion-item active' : 'suggestion-item',
+                                                        });
+                                                        const { key, ...restProps } = suggestionProps;
+                                                        return (
+                                                            <div
+                                                                key={index}
+                                                                {...restProps}
+                                                            >
+                                                                <span>{suggestion.description}</span>
+                                                            </div>
+                                                        );
+                                                    })}
+                                                </div>
                                             </div>
-                                        </div>
-                                    )}
-                                </PlacesAutocomplete>
+                                        )}
+                                    </PlacesAutocomplete>
+                                ) : (
+                                    <input
+                                        className="location-input hint-placeholder"
+                                        placeholder="Loading location services..."
+                                        disabled
+                                    />
+                                )}
                             </div>
 
-                            {/* 4. AI Generate Button */}
-                            <div className="ai-button-container">
-                                <button
-                                    type="button"
-                                    className="ai-generate-button"
-                                    onClick={generateAIDescription}
-                                    disabled={generatingDescription || !Array.isArray(postImages) || postImages.length === 0 || !litterWeight || litterWeight <= 0 || !selectedAddress || aiUsed}
-                                    title={aiUsed ? "AI description already generated for this post" : "Generate description using AI"}
-                                >
-                                    {generatingDescription ? (
-                                        <>
-                                            <span className="spinner"></span>
-                                            Generating...
-                                        </>
-                                    ) : aiUsed ? (
-                                        <>
-                                            <i className="material-icons">check_circle</i>
-                                            AI Already Used
-                                        </>
-                                    ) : (
-                                        <>
-                                            <i className="material-icons">auto_awesome</i>
-                                            Generate description with AI
-                                        </>
-                                    )}
-                                </button>
-                            </div>
-
-                            {/* 5. Description */}
+                            {/* 4. Description */}
                             <div className="description-container">
                                 <textarea
                                     value={postDescription}
