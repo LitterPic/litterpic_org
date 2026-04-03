@@ -352,9 +352,9 @@ exports.fetchBlueOceanEvents = functions.pubsub.schedule('0 6 * * *') // Runs da
                 auth: googleApiKey
             });
 
-            // Get upcoming events within next 90 days
+            // Get upcoming events within next 45 days
             const now = new Date();
-            const ninetyDaysFromNow = new Date(now.getTime() + 90 * 24 * 60 * 60 * 1000);
+            const ninetyDaysFromNow = new Date(now.getTime() + 45 * 24 * 60 * 60 * 1000);
 
             console.log(`Fetching events from ${now.toISOString()} to ${ninetyDaysFromNow.toISOString()}`);
 
@@ -379,8 +379,8 @@ exports.fetchBlueOceanEvents = functions.pubsub.schedule('0 6 * * *') // Runs da
 
             for (const event of events) {
                 try {
-                    // Skip private beach cleanups
-                    if (event.summary && event.summary.includes('Private Beach Cleanup')) {
+                    // Skip any events containing the word "private" (case-insensitive)
+                    if (event.summary && event.summary.toLowerCase().includes('private')) {
                         console.log(`Skipping private event: ${event.summary}`);
                         skippedCount++;
                         continue;
