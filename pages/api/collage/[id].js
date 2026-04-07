@@ -102,10 +102,15 @@ async function buildCollage(photoUrls) {
 }
 
 export default async function handler(req, res) {
-    const { id } = req.query;
+    let { id } = req.query;
 
     if (!id) {
         return res.status(400).json({ error: 'Missing post ID' });
+    }
+
+    // Strip extension if present so we get the clean Firestore document ID
+    if (id.includes('.')) {
+        id = id.substring(0, id.lastIndexOf('.'));
     }
 
     try {

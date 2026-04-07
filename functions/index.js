@@ -54,15 +54,22 @@ exports.createEvent = functions.https.onRequest(async (request, response) => {
             // Create Firestore document reference for the owner
             const ownerRef = admin.firestore().doc('users/jte56G8cX7RVxvXXmhZTcysW9jL2');
 
-            // Extract latitude and longitude from request body and create a GeoPoint
-            const latitude = parseFloat(eventData.latitude);
-            const longitude = parseFloat(eventData.longitude);
-            const latLng = new admin.firestore.GeoPoint(latitude, longitude);
+	            // Extract latitude and longitude from request body and create a GeoPoint (if valid)
+	            // Some scraped events may not have a location or may fail geocoding, leaving lat/lng null.
+	            // Firestore GeoPoint rejects NaN/null, so only set latLng when both values are finite numbers.
+	            // Use parseFloat so null/undefined/"" become NaN (Number(null) would become 0).
+	            const latitude = parseFloat(eventData.latitude);
+	            const longitude = parseFloat(eventData.longitude);
+	            const hasValidLatLng = Number.isFinite(latitude) && Number.isFinite(longitude);
+	            const latLng = hasValidLatLng
+	                ? new admin.firestore.GeoPoint(latitude, longitude)
+	                : null;
 
 
-            const event = {
-                ...eventData,
-                latLng: latLng,  // Include GeoPoint object in event data
+	            const event = {
+	                ...eventData,
+	                // Only include a GeoPoint when it's valid; otherwise store null so reads don't explode.
+	                latLng: latLng,
                 eventStartTime: admin.firestore.Timestamp.fromDate(startTime),
                 eventEndTime: admin.firestore.Timestamp.fromDate(endTime),
                 date: admin.firestore.Timestamp.fromDate(date),
@@ -379,9 +386,23 @@ exports.fetchBlueOceanEvents = functions.pubsub.schedule('0 6 * * *') // Runs da
 
             for (const event of events) {
                 try {
-                    // Skip any events containing the word "private" (case-insensitive)
-                    if (event.summary && event.summary.toLowerCase().includes('private')) {
-                        console.log(`Skipping private event: ${event.summary}`);
+                    // Skip private events.
+                    // Relying only on the word "private" in the summary/description misses cases where
+                    // Google Calendar marks an event as private via the `visibility` field (or shows as "Busy").
+                    const visibility = (event.visibility || '').toString().toLowerCase();
+                    const summary = (event.summary || '').toString();
+                    const description = (event.description || '').toString();
+                    const location = (event.location || '').toString();
+                    const haystack = `${summary} ${description} ${location}`.toLowerCase();
+                    const isPrivateByVisibility = visibility === 'private' || visibility === 'confidential';
+                    const isPrivateByKeywords = haystack.includes('private') || haystack.includes('confidential');
+                    const isPrivateBusyPlaceholder = summary.trim().toLowerCase() === 'busy';
+
+                    if (isPrivateByVisibility || isPrivateByKeywords || isPrivateBusyPlaceholder) {
+                        console.log(
+                            `Skipping private event: ${summary || '(no title)'} ` +
+                            `(visibility=${visibility || 'unknown'}, id=${event.id || 'unknown'})`
+                        );
                         skippedCount++;
                         continue;
                     }

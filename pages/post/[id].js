@@ -62,17 +62,19 @@ export default function PostShareRedirect({ id, description, authorName, photoUr
                 <meta property="fb:app_id" content="1948502922329534" />
 
                 {/* Collage image combining all post photos */}
-                <meta property="og:image" content={`${baseUrl}/api/collage/${id}`} />
-                <meta property="og:image:secure_url" content={`${baseUrl}/api/collage/${id}`} />
+                <meta property="og:image" content={`${baseUrl}/api/collage/${id}.jpeg`} />
+                <meta property="og:image:secure_url" content={`${baseUrl}/api/collage/${id}.jpeg`} />
+                <meta property="og:image:type" content="image/jpeg" />
                 <meta property="og:image:width" content="1200" />
                 <meta property="og:image:height" content="630" />
+                <meta property="og:image:alt" content={ogTitle} />
 
                 {/* Twitter */}
                 <meta name="twitter:card" content="summary_large_image" />
                 <meta name="twitter:url" content={`${baseUrl}/post/${id}`} />
                 <meta name="twitter:title" content={ogTitle} />
                 <meta name="twitter:description" content={ogDescription} />
-                <meta name="twitter:image" content={`${baseUrl}/api/collage/${id}`} />
+                <meta name="twitter:image" content={`${baseUrl}/api/collage/${id}.jpeg`} />
             </Head>
 
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', flexDirection: 'column', padding: '20px' }}>
