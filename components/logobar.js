@@ -16,8 +16,27 @@ const Logobar = () => {
     const [isUserDataLoaded, setIsUserDataLoaded] = useState(false);
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-            setUser(user);
+		const unsubscribe = onAuthStateChanged(auth, async (user) => {
+			if (user && !user.emailVerified) {
+				// Enforce email verification globally.
+				setUser(null);
+				setUserPhoto('');
+				setDisplayName('');
+				setUnreadNotifications(0);
+				setIsUserDataLoaded(false);
+				setShowDropdown(false);
+				try {
+					await signOut(auth);
+				} catch (e) {
+					// ignore
+				}
+				if (router.pathname !== '/verify_email') {
+					router.push('/verify_email');
+				}
+				return;
+			}
+
+			setUser(user);
 
             if (user) {
                 const fetchUserData = async () => {
@@ -48,9 +67,10 @@ const Logobar = () => {
 
                 fetchUserData();
             } else {
-                setUserPhoto(null);
+				setUserPhoto('');
                 setDisplayName('');
                 setUnreadNotifications(0);
+				setIsUserDataLoaded(false);
             }
         });
 

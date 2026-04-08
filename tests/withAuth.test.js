@@ -1,3 +1,4 @@
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { useRouter } from 'next/router';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -6,6 +7,7 @@ import withAuth from '../components/withAuth';
 // Mock the Firebase auth module
 vi.mock('firebase/auth', () => ({
   onAuthStateChanged: vi.fn(),
+  signOut: vi.fn(() => Promise.resolve()),
 }));
 
 // Mock the Next.js router
@@ -14,7 +16,8 @@ vi.mock('next/router', () => ({
 }));
 
 // Mock the component to be wrapped
-const TestComponent = () => <div>Test Component</div>;
+// Avoid JSX here to keep Vitest/Vite parsing happy for .js test files.
+const TestComponent = () => React.createElement('div', null, 'Test Component');
 
 describe('withAuth HOC', () => {
   let mockRouterPush;
@@ -34,15 +37,28 @@ describe('withAuth HOC', () => {
   it('should render the component if authenticated', () => {
     // Mock authenticated user
     onAuthStateChanged.mockImplementation((auth, callback) => {
-      callback({ uid: '123' }); // Simulate authenticated user
+	  callback({ uid: '123', emailVerified: true }); // Simulate authenticated + verified user
       return vi.fn(); // Return unsubscribe function
     });
 
     const WrappedComponent = withAuth(TestComponent);
-    render(<WrappedComponent />);
+	    render(React.createElement(WrappedComponent));
 
     expect(screen.getByText('Test Component')).toBeInTheDocument();
     expect(mockRouterPush).not.toHaveBeenCalled();
+  });
+
+  it('should redirect to verify email if authenticated but not verified', () => {
+    onAuthStateChanged.mockImplementation((auth, callback) => {
+      callback({ uid: '123', emailVerified: false });
+      return vi.fn();
+    });
+
+    const WrappedComponent = withAuth(TestComponent);
+	    render(React.createElement(WrappedComponent));
+
+    expect(screen.queryByText('Test Component')).not.toBeInTheDocument();
+    expect(mockRouterPush).toHaveBeenCalledWith('/verify_email');
   });
 
   it('should redirect to login if not authenticated', () => {
@@ -53,7 +69,7 @@ describe('withAuth HOC', () => {
     });
 
     const WrappedComponent = withAuth(TestComponent);
-    render(<WrappedComponent />);
+	    render(React.createElement(WrappedComponent));
 
     expect(screen.queryByText('Test Component')).not.toBeInTheDocument();
     expect(mockRouterPush).toHaveBeenCalledWith('/login?redirectTo=%2Fprotected');
@@ -67,25 +83,22 @@ describe('withAuth HOC', () => {
     });
 
     const WrappedComponent = withAuth(TestComponent);
-    render(<WrappedComponent />);
+	    render(React.createElement(WrappedComponent));
 
     expect(screen.getByText('Loading...')).toBeInTheDocument();
   });
 
-  it('should show error message if authentication check fails', () => {
-    // Mock authentication error
+  it('should show error message if authentication check fails', async () => {
+    // Simulate a failure while redirecting
+    mockRouterPush.mockImplementation(() => Promise.reject(new Error('Authentication failed')));
     onAuthStateChanged.mockImplementation((auth, callback) => {
-      try {
-        throw new Error('Authentication failed');
-      } catch (err) {
-        callback(null); // Simulate error
-      }
-      return vi.fn(); // Return unsubscribe function
+      callback(null); // unauthenticated triggers redirect
+      return vi.fn();
     });
 
     const WrappedComponent = withAuth(TestComponent);
-    render(<WrappedComponent />);
+	    render(React.createElement(WrappedComponent));
 
-    expect(screen.getByText('Error: Authentication failed')).toBeInTheDocument();
+    expect(await screen.findByText('Error: Authentication failed')).toBeInTheDocument();
   });
 });

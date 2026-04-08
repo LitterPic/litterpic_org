@@ -133,8 +133,8 @@ export default function SignUpForm() {
             // Add a delay before redirecting to give users time to read the toast message
             await new Promise(resolve => setTimeout(resolve, 5000));
 
-            // Redirect the user to the home page
-            await router.push('/');
+	            // Redirect the user to the verify email page
+	            await router.push('/verify_email');
         } catch (error) {
             setIsSubmitting(false);
             console.error('Signup error:', error);

@@ -499,6 +499,11 @@ function Stories() {
             router.push('/login');
             return;
         }
+	        if (!user.emailVerified) {
+	            toast.error('Please verify your email before liking posts.');
+	            router.push('/verify_email');
+	            return;
+	        }
 
         try {
             const postIndex = posts.findIndex((post) => post.id === postId);
@@ -524,9 +529,10 @@ function Stories() {
             }
 
             setPosts(updatedPosts);
-        } catch (error) {
-            // Silent error handling
-        }
+	        } catch (error) {
+	            // Keep errors quiet for UX, but log for debugging.
+	            console.error('Error toggling like:', error);
+	        }
     };
 
 
@@ -541,6 +547,11 @@ function Stories() {
             router.push('/login');
             return;
         }
+	        if (!user.emailVerified) {
+	            toast.error('Please verify your email before commenting.');
+	            router.push('/verify_email');
+	            return;
+	        }
 
         if (comments[postId].trim() === '') {
             return;

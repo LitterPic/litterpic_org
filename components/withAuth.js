@@ -1,6 +1,6 @@
 // components/withAuth.js
 
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useEffect, useState, memo } from 'react';
 import { useRouter } from 'next/router';
 import { auth } from '../lib/firebase';
@@ -19,21 +19,39 @@ export default function withAuth(Component, redirectPath = '/login') {
         const router = useRouter();
 
         useEffect(() => {
-            const unsubscribe = onAuthStateChanged(auth, user => {
+	        let didCancel = false;
+	        const unsubscribe = onAuthStateChanged(auth, async (user) => {
                 try {
-                    if (!user) {
-                        router.push(`${redirectPath}?redirectTo=${encodeURIComponent(router.asPath)}`);
-                    } else {
-                        setIsAuth(true);
-                    }
+	                if (!user) {
+	                    setIsAuth(false);
+	                    await router.push(`${redirectPath}?redirectTo=${encodeURIComponent(router.asPath)}`);
+	                    return;
+	                }
+
+	                // Require verified email for protected pages.
+	                // (OAuth providers typically set this true; email/password requires verification.)
+	                if (!user.emailVerified) {
+	                    setIsAuth(false);
+	                    // Ensure the user can't remain authenticated if they haven't verified.
+	                    await signOut(auth);
+	                    await router.push('/verify_email');
+	                    return;
+	                }
+
+	                setIsAuth(true);
                 } catch (err) {
                     setError(err.message);
                 } finally {
-                    setIsLoading(false);
+	                if (!didCancel) {
+	                    setIsLoading(false);
+	                }
                 }
             });
 
-            return () => unsubscribe();
+	        return () => {
+	            didCancel = true;
+	            unsubscribe();
+	        };
         }, [router, redirectPath]);
 
         if (isLoading) {

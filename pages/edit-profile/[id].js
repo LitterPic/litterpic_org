@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { auth, db, useAuth } from '../../lib/firebase';
 import { useRouter } from 'next/router';
-import { updateProfile } from 'firebase/auth';
+import { updateProfile, signOut } from 'firebase/auth';
 import { collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import { resizeImage } from '../../components/utils';
@@ -23,13 +23,25 @@ export default function EditProfilePage() {
     const { id } = router.query;  // Get id from route parameter
     const [showNewOrganizationInput, setShowNewOrganizationInput] = useState(false);
     const [newOrganization, setNewOrganization] = useState('');
+    const [isRedirecting, setIsRedirecting] = useState(false);
 
     // Redirect if not logged in and loading is finished
     useEffect(() => {
-        if (!loading && !user) {
+        if (loading || isRedirecting) return;
+
+        if (!user) {
             router.push('/');
+            return;
         }
-    }, [loading, user, router]);
+
+        if (!user.emailVerified) {
+            setIsRedirecting(true);
+            toast.error('Please verify your email before editing your profile.', { autoClose: 3000 });
+            // Keep policy consistent with login: unverified users should not remain authenticated.
+            signOut(auth).catch(() => {});
+            router.push('/verify_email');
+        }
+    }, [loading, user, router, isRedirecting]);
 
     // Fetch user data and organizations when user and id are available
     useEffect(() => {

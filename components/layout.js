@@ -22,8 +22,25 @@ const Layout = ({children}) => {
         const authInstance = getAuth();
         const firestore = getFirestore();
         const unsubscribe = onAuthStateChanged(authInstance, async (user) => {
-            if (user) {
-                setUserLoggedIn(true);
+			if (user && !user.emailVerified) {
+				// Firebase allows users to sign in before verifying email.
+				// Treat unverified users as signed-out across the entire app.
+				setUserLoggedIn(false);
+				setUserPhoto('');
+				setDisplayName('');
+				try {
+					await signOut(authInstance);
+				} catch (e) {
+					// Ignore signOut errors; we'll still redirect.
+				}
+				if (router.pathname !== '/verify_email') {
+					await router.push('/verify_email');
+				}
+				return;
+			}
+
+			if (user) {
+				setUserLoggedIn(true);
                 const userRef = doc(firestore, `users/${user.uid}`);
                 const userDoc = await getDoc(userRef);
 
@@ -37,6 +54,7 @@ const Layout = ({children}) => {
             } else {
                 setUserLoggedIn(false);
                 setUserPhoto('');
+				setDisplayName('');
             }
         });
 

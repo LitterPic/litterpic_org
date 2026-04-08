@@ -1,4 +1,4 @@
-import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
+import { signInWithEmailAndPassword, sendPasswordResetEmail, signOut } from 'firebase/auth';
 import { updateDoc, doc } from 'firebase/firestore';
 import { auth, db } from '../lib/firebase';
 import { toast } from 'react-toastify';
@@ -20,8 +20,12 @@ export default function SignInActions({
             const user = userCredential.user;
 
             if (!user.emailVerified) {
-                toast.error('Please verify your email before logging in.');
-                return;
+	                toast.error('Please verify your email before logging in.');
+	                // Important: signing in succeeds even when email is not verified.
+	                // If we just `return` here, the user remains authenticated and can perform actions.
+	                await signOut(auth);
+	                await router.push('/verify_email');
+	                return;
             }
 
             if (router.query.redirectTo) {

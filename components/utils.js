@@ -166,6 +166,11 @@ export async function toggleLike(post) {
         return;
     }
 
+    // Defense-in-depth: unverified accounts should not be able to mutate likes.
+    if (!currentUser.emailVerified) {
+        return false;
+    }
+
     const userId = currentUser.uid;
     const db = getFirestore();
     const postRef = doc(db, 'userPosts', post.id);
