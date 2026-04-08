@@ -18,6 +18,11 @@ const Logobar = () => {
     useEffect(() => {
 		const unsubscribe = onAuthStateChanged(auth, async (user) => {
 			if (user && !user.emailVerified) {
+				// Don't interfere with signup flow - let SignUpForm complete its work
+				if (router.pathname === '/signup') {
+					return;
+				}
+
 				// Enforce email verification globally.
 				setUser(null);
 				setUserPhoto('');

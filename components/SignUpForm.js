@@ -89,7 +89,8 @@ export default function SignUpForm() {
             // Generate a unique display name
             displayName = await generateUniqueDisplayName(displayName);
 
-            // Create the user document in Firestore
+            // Create the user document in Firestore BEFORE signing out
+            // (Firestore rules require authentication for writes)
             const db = getFirestore();
             const userDocRef = doc(db, 'users', user.uid);
 
@@ -121,7 +122,7 @@ export default function SignUpForm() {
                 console.error('Error sending new user enrollment email for user to mailing list:', subscribeError);
             }
 
-            // Log out the user immediately after account creation
+            // Log out the user AFTER all writes are complete
             await signOut(auth);
 
             // Show success message to the user

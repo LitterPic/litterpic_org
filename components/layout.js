@@ -23,6 +23,11 @@ const Layout = ({children}) => {
         const firestore = getFirestore();
         const unsubscribe = onAuthStateChanged(authInstance, async (user) => {
 			if (user && !user.emailVerified) {
+				// Don't interfere with signup flow - let SignUpForm complete its work
+				if (router.pathname === '/signup') {
+					return;
+				}
+
 				// Firebase allows users to sign in before verifying email.
 				// Treat unverified users as signed-out across the entire app.
 				setUserLoggedIn(false);
