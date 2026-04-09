@@ -1,14 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { collection, doc, getDocs, getDoc } from 'firebase/firestore';
-import { db } from '../../../lib/firebase';
+import { db, useAuth } from '../../../lib/firebase';
 import Image from 'next/image';
 
 const FollowersFollowingPage = () => {
     const router = useRouter();
     const { userId, type } = router.query;
+    const { user: currentUser, loading: authLoading } = useAuth();
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    // Redirect to login if not authenticated
+    useEffect(() => {
+        if (!authLoading && !currentUser) {
+            router.push('/login');
+        }
+    }, [authLoading, currentUser, router]);
 
     useEffect(() => {
         if (!userId || !type) return;
@@ -46,12 +54,18 @@ const FollowersFollowingPage = () => {
         fetchUsers();
     }, [userId, type]);
 
-    if (loading) {
+    // Show loading while authenticating or fetching data
+    if (authLoading || loading) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-green-950 to-green-500">
                 <p className="text-white text-xl font-semibold">Loading...</p>
             </div>
         );
+    }
+
+    // If not authenticated, don't render (redirect will happen via useEffect)
+    if (!currentUser) {
+        return null;
     }
 
     return (

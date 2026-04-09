@@ -507,3 +507,212 @@ async function processEventData(event, googleApiKey) {
     }
 }
 
+// Delete Old Anonymous Users - Dry Run (HTTPS callable for testing)
+// Call this function to see what would be deleted without actually deleting
+exports.deleteOldAnonymousUsersDryRun = functions.https.onRequest(async (request, response) => {
+    cors(request, response, async () => {
+        console.log('Starting anonymous user cleanup DRY RUN...');
+
+        try {
+            const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+            const db = admin.firestore();
+
+            let wouldDeleteCount = 0;
+            let skippedCount = 0;
+            let skippedHasEmail = 0;
+            let skippedHasProviders = 0;
+            let errorCount = 0;
+            const wouldDeleteUsers = [];
+
+            // List all users (Firebase Auth)
+            let nextPageToken;
+            do {
+                const listUsersResult = await admin.auth().listUsers(1000, nextPageToken);
+
+                for (const userRecord of listUsersResult.users) {
+                    try {
+                        // SAFETY CHECK: Skip users with email
+                        if (userRecord.email) {
+                            skippedHasEmail++;
+                            continue;
+                        }
+
+                        // SAFETY CHECK: Skip users with auth providers
+                        if (userRecord.providerData.length > 0) {
+                            skippedHasProviders++;
+                            continue;
+                        }
+
+                        // At this point, user is confirmed anonymous (no email, no providers)
+                        const isAnonymous = true;
+
+                        // Check if user is older than 7 days
+                        const creationTime = new Date(userRecord.metadata.creationTime);
+                        if (creationTime > sevenDaysAgo) {
+                            skippedCount++;
+                            continue;
+                        }
+
+                        // DRY RUN - Just log what would be deleted
+                        wouldDeleteCount++;
+
+                        const userInfo = {
+                            uid: userRecord.uid,
+                            createdAt: creationTime.toISOString(),
+                            daysOld: Math.floor((Date.now() - creationTime.getTime()) / (1000 * 60 * 60 * 24)),
+                            lastSignIn: userRecord.metadata.lastSignInTime
+                        };
+
+                        wouldDeleteUsers.push(userInfo);
+
+                        console.log(`[DRY RUN] Would delete anonymous user: ${userRecord.uid} (created: ${creationTime.toISOString()}, ${userInfo.daysOld} days old)`);
+
+                        // Check if they have a Firestore document
+                        try {
+                            const userDocRef = db.collection('users').doc(userRecord.uid);
+                            const userDoc = await userDocRef.get();
+                            if (userDoc.exists) {
+                                console.log(`[DRY RUN] Would also delete Firestore document for: ${userRecord.uid}`);
+                            }
+                        } catch (firestoreError) {
+                            console.error(`Error checking Firestore document for ${userRecord.uid}:`, firestoreError);
+                        }
+
+                    } catch (error) {
+                        console.error(`Error processing user ${userRecord.uid}:`, error);
+                        errorCount++;
+                    }
+                }
+
+                nextPageToken = listUsersResult.pageToken;
+            } while (nextPageToken);
+
+            const summary = {
+                mode: 'DRY RUN - No users were actually deleted',
+                safetyChecks: {
+                    skippedBecauseHasEmail: skippedHasEmail,
+                    skippedBecauseHasProviders: skippedHasProviders,
+                    message: 'All users with email or auth providers are PROTECTED'
+                },
+                wouldDelete: wouldDeleteCount,
+                skippedTooRecent: skippedCount,
+                errors: errorCount,
+                cutoffDate: sevenDaysAgo.toISOString(),
+                users: wouldDeleteUsers.slice(0, 50) // Return first 50 for review
+            };
+
+            console.log('=== DRY RUN SUMMARY ===');
+            console.log(`PROTECTED (has email): ${skippedHasEmail} users`);
+            console.log(`PROTECTED (has auth providers): ${skippedHasProviders} users`);
+            console.log(`Would delete: ${wouldDeleteCount} anonymous users`);
+            console.log(`Skipped (< 7 days old): ${skippedCount}`);
+            console.log(`Errors: ${errorCount}`);
+
+            response.status(200).json(summary);
+
+        } catch (error) {
+            console.error('Error in anonymous user cleanup dry run:', error);
+            response.status(500).json({error: error.message});
+        }
+    });
+});
+
+// Delete Old Anonymous Users - Scheduled Function
+// Runs daily at 4 AM EST to clean up anonymous sign-ins older than 7 days
+exports.deleteOldAnonymousUsers = functions
+    .runWith({
+        timeoutSeconds: 540, // 9 minutes (max is 540 for scheduled functions)
+        memory: '512MB'
+    })
+    .pubsub.schedule('0 4 * * *')
+    .timeZone('America/New_York')
+    .onRun(async (context) => {
+        console.log('Starting anonymous user cleanup process...');
+
+        try {
+            const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+            const db = admin.firestore();
+
+            let deletedCount = 0;
+            let skippedCount = 0;
+            let skippedHasEmail = 0;
+            let skippedHasProviders = 0;
+            let errorCount = 0;
+            const deletedUids = [];
+
+            // List all users (Firebase Auth)
+            let nextPageToken;
+            do {
+                const listUsersResult = await admin.auth().listUsers(1000, nextPageToken);
+
+                for (const userRecord of listUsersResult.users) {
+                    try {
+                        // SAFETY CHECK #1: Skip users with email (PROTECTED)
+                        if (userRecord.email) {
+                            skippedHasEmail++;
+                            continue;
+                        }
+
+                        // SAFETY CHECK #2: Skip users with auth providers (PROTECTED)
+                        if (userRecord.providerData.length > 0) {
+                            skippedHasProviders++;
+                            continue;
+                        }
+
+                        // At this point, user is confirmed anonymous (no email, no providers)
+                        const isAnonymous = true;
+
+                        // Check if user is older than 7 days
+                        const creationTime = new Date(userRecord.metadata.creationTime);
+                        if (creationTime > sevenDaysAgo) {
+                            skippedCount++;
+                            continue;
+                        }
+
+                        // Delete user from Firebase Auth
+                        await admin.auth().deleteUser(userRecord.uid);
+                        deletedCount++;
+                        deletedUids.push(userRecord.uid);
+
+                        console.log(`Deleted anonymous user: ${userRecord.uid} (created: ${creationTime.toISOString()})`);
+
+                        // Also delete their Firestore document if it exists
+                        try {
+                            const userDocRef = db.collection('users').doc(userRecord.uid);
+                            const userDoc = await userDocRef.get();
+                            if (userDoc.exists) {
+                                await userDocRef.delete();
+                                console.log(`Deleted Firestore document for anonymous user: ${userRecord.uid}`);
+                            }
+                        } catch (firestoreError) {
+                            console.error(`Error deleting Firestore document for ${userRecord.uid}:`, firestoreError);
+                        }
+
+                    } catch (error) {
+                        console.error(`Error processing user ${userRecord.uid}:`, error);
+                        errorCount++;
+                    }
+                }
+
+                nextPageToken = listUsersResult.pageToken;
+            } while (nextPageToken);
+
+            console.log('=== Anonymous User Cleanup Completed ===');
+            console.log(`PROTECTED (has email): ${skippedHasEmail} users`);
+            console.log(`PROTECTED (has auth providers): ${skippedHasProviders} users`);
+            console.log(`Deleted: ${deletedCount} anonymous users`);
+            console.log(`Skipped (< 7 days old): ${skippedCount} anonymous users`);
+            console.log(`Errors: ${errorCount}`);
+
+            if (deletedUids.length > 0) {
+                console.log('Deleted UIDs:', deletedUids.slice(0, 10).join(', '), deletedUids.length > 10 ? '...' : '');
+            }
+
+            return null;
+
+        } catch (error) {
+            console.error('Error in anonymous user cleanup process:', error);
+            throw error;
+        }
+    });
+

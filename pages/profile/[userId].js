@@ -7,7 +7,7 @@ import NotificationSender from "../../utils/notifictionSender";
 
 const UserProfilePage = () => {
     const router = useRouter();
-    const {user: currentUser} = useAuth();
+    const {user: currentUser, loading: authLoading} = useAuth();
     const [profileUser, setProfileUser] = useState(null);
     const [userPhoto, setUserPhoto] = useState('');
     const [userBio, setUserBio] = useState('');
@@ -22,6 +22,13 @@ const UserProfilePage = () => {
     const [following, setFollowing] = useState(0);
 
     const userId = router.query.userId; // The profile user ID
+
+    // Redirect to login if not authenticated
+    useEffect(() => {
+        if (!authLoading && !currentUser) {
+            router.push('/login');
+        }
+    }, [authLoading, currentUser, router]);
 
     const renderCollected = () => {
         if (userOrganization === 'Blue Ocean Society') {
@@ -79,8 +86,14 @@ const UserProfilePage = () => {
     }, [router.query.userId, currentUser]);
 
 
-    if (!profileUser) {
+    // Show loading while authenticating or fetching profile
+    if (authLoading || !profileUser) {
         return <p>Loading...</p>;
+    }
+
+    // If not authenticated, don't render (redirect will happen via useEffect)
+    if (!currentUser) {
+        return null;
     }
 
     return (
