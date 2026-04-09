@@ -5,7 +5,8 @@ const ContactForm = () => {
         firstName: '',
         lastName: '',
         email: '',
-        message: ''
+        message: '',
+        website: '' // Honeypot field - should remain empty
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitStatus, setSubmitStatus] = useState(null);
@@ -22,6 +23,21 @@ const ContactForm = () => {
         e.preventDefault();
         setIsSubmitting(true);
         setSubmitStatus(null);
+
+        // Honeypot check - if the "website" field is filled, it's a bot
+        if (formData.website) {
+            console.log('Spam detected - honeypot field filled');
+            setSubmitStatus('success'); // Show success to fool the bot
+            setFormData({
+                firstName: '',
+                lastName: '',
+                email: '',
+                message: '',
+                website: ''
+            });
+            setIsSubmitting(false);
+            return;
+        }
 
         try {
             const response = await fetch('/api/contact', {
@@ -40,7 +56,8 @@ const ContactForm = () => {
                     firstName: '',
                     lastName: '',
                     email: '',
-                    message: ''
+                    message: '',
+                    website: ''
                 });
             } else {
                 setSubmitStatus('error');
@@ -100,6 +117,20 @@ const ContactForm = () => {
                         onChange={handleInputChange}
                         required
                     ></textarea>
+                </div>
+
+                {/* Honeypot field - hidden from humans, filled by bots */}
+                <div style={{ position: 'absolute', left: '-5000px' }} aria-hidden="true">
+                    <label htmlFor="website">Website (leave blank)</label>
+                    <input
+                        type="text"
+                        id="website"
+                        name="website"
+                        value={formData.website}
+                        onChange={handleInputChange}
+                        tabIndex="-1"
+                        autoComplete="off"
+                    />
                 </div>
 
                 {submitStatus === 'success' && (

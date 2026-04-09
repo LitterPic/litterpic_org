@@ -11,6 +11,7 @@ export default function SignUpForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [honeypot, setHoneypot] = useState(''); // Honeypot field for spam detection
     const [showPassword, setShowPassword] = useState(false);
     const [isLongEnough, setIsLongEnough] = useState(false);
     const [passwordMatch, setPasswordMatch] = useState(false);
@@ -63,6 +64,18 @@ export default function SignUpForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Honeypot spam check - if filled, it's a bot
+        if (honeypot) {
+            console.log('Spam bot detected - honeypot field was filled');
+            toast.success('Account created! Please check your email to verify.');
+            // Reset form to fool the bot
+            setEmail('');
+            setPassword('');
+            setConfirmPassword('');
+            setHoneypot('');
+            return; // Silently reject without creating account
+        }
 
         if (password !== confirmPassword) {
             toast.error('Passwords do not match');
@@ -158,6 +171,21 @@ export default function SignUpForm() {
                 placeholder="Email"
                 required
             />
+
+            {/* Honeypot field - hidden from humans, filled by bots */}
+            <div style={{ position: 'absolute', left: '-5000px' }} aria-hidden="true">
+                <label htmlFor="username">Username (leave blank)</label>
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    value={honeypot}
+                    onChange={(e) => setHoneypot(e.target.value)}
+                    tabIndex="-1"
+                    autoComplete="off"
+                />
+            </div>
+
             <div className="signup-password-container">
                 <input
                     className="signup-password"
