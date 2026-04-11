@@ -1495,6 +1495,9 @@ p .index-inspire-change-text {
 
 .sign-in-sign-up-link {
   padding-left: 0.5rem;
+  font-weight: bold;
+  font-style: italic;
+  color: #015e41;
 }
 
 .sign-in-email {
@@ -3023,6 +3026,9 @@ p .index-inspire-change-text {
 
 .sign-in-sign-up-link {
   padding-left: 0.5rem;
+  font-weight: bold;
+  font-style: italic;
+  color: #015e41;
 }
 
 .sign-in-email {
