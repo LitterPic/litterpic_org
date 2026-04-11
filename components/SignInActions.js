@@ -20,10 +20,12 @@ export default function SignInActions({
             const user = userCredential.user;
 
             if (!user.emailVerified) {
-	                toast.error('Please verify your email before logging in.');
+	                toast.warning('Please verify your email before logging in. You can request a new verification email on the next page.', {
+                    autoClose: 5000
+                });
 	                // Important: signing in succeeds even when email is not verified.
 	                // If we just `return` here, the user remains authenticated and can perform actions.
-	                await signOut(auth);
+	                // We keep them signed in so they can resend the verification email
 	                await router.push('/verify_email');
 	                return;
             }
