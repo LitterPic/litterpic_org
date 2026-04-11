@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ReportResults = ({ isLoading, isSubmitted, totalWeight, cityWeights, renderNoDataMessage }) => {
+const ReportResults = ({ isLoading, isSubmitted, totalWeight, cityWeights }) => {
     return (
         <div>
             {isLoading ? (
@@ -30,7 +30,9 @@ const ReportResults = ({ isLoading, isSubmitted, totalWeight, cityWeights, rende
                         </table>
                     </div>
                 ) : (
-                    renderNoDataMessage()
+                    <div className="report-no-data" style={{ textAlign: 'center', padding: '2rem' }}>
+                        <p>No data available for the selected filters.</p>
+                    </div>
                 )
             )}
         </div>

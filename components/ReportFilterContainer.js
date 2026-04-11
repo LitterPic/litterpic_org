@@ -3,6 +3,85 @@ import { db } from '../lib/firebase';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import ReportFilters from '../components/ReportFilters';
 
+// Normalize country names (handle abbreviations and full names)
+const normalizeCountry = (country) => {
+    if (!country) return '';
+    const normalized = country.trim().toUpperCase();
+    const countryMap = {
+        'US': 'United States',
+        'USA': 'United States',
+        'UNITED STATES': 'United States',
+        'UNITED STATES OF AMERICA': 'United States',
+        'CA': 'Canada',
+        'CANADA': 'Canada',
+        'MX': 'Mexico',
+        'MEXICO': 'Mexico',
+    };
+    return countryMap[normalized] || country.trim();
+};
+
+// Normalize state/province to full name (handles both abbreviations and full names)
+const normalizeState = (state) => {
+    if (!state) return '';
+    const normalized = state.trim().toUpperCase();
+
+    // Map of both abbreviations and full names to full state name
+    const stateMap = {
+        'AL': 'Alabama', 'ALABAMA': 'Alabama',
+        'AK': 'Alaska', 'ALASKA': 'Alaska',
+        'AZ': 'Arizona', 'ARIZONA': 'Arizona',
+        'AR': 'Arkansas', 'ARKANSAS': 'Arkansas',
+        'CA': 'California', 'CALIFORNIA': 'California',
+        'CO': 'Colorado', 'COLORADO': 'Colorado',
+        'CT': 'Connecticut', 'CONNECTICUT': 'Connecticut',
+        'DE': 'Delaware', 'DELAWARE': 'Delaware',
+        'FL': 'Florida', 'FLORIDA': 'Florida',
+        'GA': 'Georgia', 'GEORGIA': 'Georgia',
+        'HI': 'Hawaii', 'HAWAII': 'Hawaii',
+        'ID': 'Idaho', 'IDAHO': 'Idaho',
+        'IL': 'Illinois', 'ILLINOIS': 'Illinois',
+        'IN': 'Indiana', 'INDIANA': 'Indiana',
+        'IA': 'Iowa', 'IOWA': 'Iowa',
+        'KS': 'Kansas', 'KANSAS': 'Kansas',
+        'KY': 'Kentucky', 'KENTUCKY': 'Kentucky',
+        'LA': 'Louisiana', 'LOUISIANA': 'Louisiana',
+        'ME': 'Maine', 'MAINE': 'Maine',
+        'MD': 'Maryland', 'MARYLAND': 'Maryland',
+        'MA': 'Massachusetts', 'MASSACHUSETTS': 'Massachusetts',
+        'MI': 'Michigan', 'MICHIGAN': 'Michigan',
+        'MN': 'Minnesota', 'MINNESOTA': 'Minnesota',
+        'MS': 'Mississippi', 'MISSISSIPPI': 'Mississippi',
+        'MO': 'Missouri', 'MISSOURI': 'Missouri',
+        'MT': 'Montana', 'MONTANA': 'Montana',
+        'NE': 'Nebraska', 'NEBRASKA': 'Nebraska',
+        'NV': 'Nevada', 'NEVADA': 'Nevada',
+        'NH': 'New Hampshire', 'NEW HAMPSHIRE': 'New Hampshire',
+        'NJ': 'New Jersey', 'NEW JERSEY': 'New Jersey',
+        'NM': 'New Mexico', 'NEW MEXICO': 'New Mexico',
+        'NY': 'New York', 'NEW YORK': 'New York',
+        'NC': 'North Carolina', 'NORTH CAROLINA': 'North Carolina',
+        'ND': 'North Dakota', 'NORTH DAKOTA': 'North Dakota',
+        'OH': 'Ohio', 'OHIO': 'Ohio',
+        'OK': 'Oklahoma', 'OKLAHOMA': 'Oklahoma',
+        'OR': 'Oregon', 'OREGON': 'Oregon',
+        'PA': 'Pennsylvania', 'PENNSYLVANIA': 'Pennsylvania',
+        'RI': 'Rhode Island', 'RHODE ISLAND': 'Rhode Island',
+        'SC': 'South Carolina', 'SOUTH CAROLINA': 'South Carolina',
+        'SD': 'South Dakota', 'SOUTH DAKOTA': 'South Dakota',
+        'TN': 'Tennessee', 'TENNESSEE': 'Tennessee',
+        'TX': 'Texas', 'TEXAS': 'Texas',
+        'UT': 'Utah', 'UTAH': 'Utah',
+        'VT': 'Vermont', 'VERMONT': 'Vermont',
+        'VA': 'Virginia', 'VIRGINIA': 'Virginia',
+        'WA': 'Washington', 'WASHINGTON': 'Washington',
+        'WV': 'West Virginia', 'WEST VIRGINIA': 'West Virginia',
+        'WI': 'Wisconsin', 'WISCONSIN': 'Wisconsin',
+        'WY': 'Wyoming', 'WYOMING': 'Wyoming',
+        'DC': 'District of Columbia', 'DISTRICT OF COLUMBIA': 'District of Columbia',
+    };
+    return stateMap[normalized] || state.trim();
+};
+
 const ReportFilterContainer = ({ onSubmit, onReset }) => {
     const [countries, setCountries] = useState([]);
     const [states, setStates] = useState([]);
@@ -42,9 +121,12 @@ const ReportFilterContainer = ({ onSubmit, onReset }) => {
                 const countriesSnapshot = await getDocs(countriesQuery);
                 const countrySet = new Set();
                 countriesSnapshot.forEach((doc) => {
-                    countrySet.add(doc.data().Country);
+                    const normalizedCountry = normalizeCountry(doc.data().Country);
+                    if (normalizedCountry) {
+                        countrySet.add(normalizedCountry);
+                    }
                 });
-                const countryList = Array.from(countrySet);
+                const countryList = Array.from(countrySet).sort();
                 setCountries(countryList);
             } catch (error) {
                 console.error("Error fetching countries:", error);
@@ -63,11 +145,15 @@ const ReportFilterContainer = ({ onSubmit, onReset }) => {
                 const statesSnapshot = await getDocs(statesQuery);
                 const stateSet = new Set();
                 statesSnapshot.forEach((doc) => {
-                    if (doc.data().State) {
-                        stateSet.add(doc.data().State);
+                    const rawState = doc.data().State;
+                    if (rawState) {
+                        const normalizedState = normalizeState(rawState);
+                        if (normalizedState) {
+                            stateSet.add(normalizedState);
+                        }
                     }
                 });
-                const stateList = Array.from(stateSet);
+                const stateList = Array.from(stateSet).sort();
                 setStates(stateList);
             } catch (error) {
                 console.error("Error fetching states:", error);
@@ -125,6 +211,21 @@ const ReportFilterContainer = ({ onSubmit, onReset }) => {
     const handleStartDateChange = (e) => setStartDate(e.target.value);
     const handleEndDateChange = (e) => setEndDate(e.target.value);
 
+    const handleResetFilters = () => {
+        // Clear all filter selections
+        setSelectedCountry('');
+        setSelectedState('');
+        setSelectedCity('');
+        setSelectedGroup('');
+        // Reset dates to current month
+        setStartDate(new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().split("T")[0]);
+        setEndDate(new Date().toISOString().split("T")[0]);
+        // Call parent reset
+        if (onReset) {
+            onReset();
+        }
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
         onSubmit({
@@ -156,7 +257,7 @@ const ReportFilterContainer = ({ onSubmit, onReset }) => {
             onStartDateChange={handleStartDateChange}
             onEndDateChange={handleEndDateChange}
             onSubmit={handleSubmit}
-            onReset={onReset}
+            onReset={handleResetFilters}
         />
     );
 };
