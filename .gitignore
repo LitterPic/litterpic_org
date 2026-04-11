@@ -15,3 +15,25 @@ out/
 .idea/AugmentWebviewStateStore.xml
 .idea/workspace.xml
 
+# Mac OS
+.DS_Store
+
+# IDE files
+.idea/
+functions/.idea/
+
+# Firebase credentials and runtime config
+*-key.json
+**/*-key.json
+.runtimeconfig.json
+functions/.runtimeconfig.json
+
+# Log files
+*.log
+
+# Backup files
+*.backup
+
+# Documentation (add manually if needed)
+FIRESTORE_RULES_CHANGES.md
+

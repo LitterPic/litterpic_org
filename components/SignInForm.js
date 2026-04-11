@@ -13,6 +13,7 @@ export default function SignInForm() {
     const [isMigratedUser, setIsMigratedUser] = useState(false);
     const [userId, setUserId] = useState(null);
     const [showMigratedUserError, setShowMigratedUserError] = useState(false);
+    const [honeypot, setHoneypot] = useState(''); // Bot detection
     const router = useRouter();
 
     const debouncedCheckIfMigratedUser = debounce(checkIfMigratedUser, 500);
@@ -24,6 +25,16 @@ export default function SignInForm() {
 
     return (
         <div>
+            {/* Honeypot field - hidden from real users, visible to bots */}
+            <input
+                type="text"
+                name="website"
+                value={honeypot}
+                onChange={(e) => setHoneypot(e.target.value)}
+                style={{ display: 'none' }}
+                tabIndex="-1"
+                autoComplete="off"
+            />
             <SignInInputs
                 email={email}
                 setEmail={setEmail}
@@ -38,6 +49,7 @@ export default function SignInForm() {
                 userId={userId}
                 showMigratedUserError={showMigratedUserError}
                 setShowMigratedUserError={setShowMigratedUserError}
+                honeypot={honeypot}
                 router={router}
             />
             <ToastContainer />

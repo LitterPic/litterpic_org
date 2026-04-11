@@ -10,6 +10,7 @@ export default function SignInActions({
     userId,
     showMigratedUserError,
     setShowMigratedUserError,
+    honeypot,
     router,
 }) {
     const handleSubmit = async (e) => {
@@ -46,6 +47,20 @@ export default function SignInActions({
 
     const handleForgotPassword = async (e) => {
         e.preventDefault();
+
+        // Honeypot check - if filled, it's a bot
+        if (honeypot) {
+            console.log('Bot detected via honeypot on password reset');
+            // Don't show error to bot, just silently fail but show success message
+            toast.success('Password reset email sent');
+            return;
+        }
+
+        if (!email) {
+            toast.error('Please enter your email address first.');
+            return;
+        }
+
         try {
             await sendPasswordResetEmail(auth, email);
             toast.success('Password reset email sent');

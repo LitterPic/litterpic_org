@@ -28,8 +28,17 @@ const Layout = ({children}) => {
 					return;
 				}
 
+				// Keep user signed in on verify_email page so they can resend verification email
+				if (router.pathname === '/verify_email') {
+					setUserLoggedIn(false); // Don't show them as "logged in" in UI
+					setUserPhoto('');
+					setDisplayName('');
+					// Don't sign them out - they need to be authenticated to resend verification email
+					return;
+				}
+
 				// Firebase allows users to sign in before verifying email.
-				// Treat unverified users as signed-out across the entire app.
+				// Treat unverified users as signed-out across the entire app (except verify_email page).
 				setUserLoggedIn(false);
 				setUserPhoto('');
 				setDisplayName('');
@@ -38,9 +47,7 @@ const Layout = ({children}) => {
 				} catch (e) {
 					// Ignore signOut errors; we'll still redirect.
 				}
-				if (router.pathname !== '/verify_email') {
-					await router.push('/verify_email');
-				}
+				await router.push('/verify_email');
 				return;
 			}
 

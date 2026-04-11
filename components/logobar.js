@@ -16,7 +16,9 @@ const Logobar = () => {
     const [isUserDataLoaded, setIsUserDataLoaded] = useState(false);
 
     useEffect(() => {
-		const unsubscribe = onAuthStateChanged(auth, async (user) => {
+        let notificationsUnsubscribe = null;
+
+		const authUnsubscribe = onAuthStateChanged(auth, async (user) => {
 			if (user && !user.emailVerified) {
 				// Don't interfere with signup flow - let SignUpForm complete its work
 				if (router.pathname === '/signup') {
@@ -30,6 +32,13 @@ const Logobar = () => {
 				setUnreadNotifications(0);
 				setIsUserDataLoaded(false);
 				setShowDropdown(false);
+
+                // Clean up notifications listener if it exists
+                if (notificationsUnsubscribe) {
+                    notificationsUnsubscribe();
+                    notificationsUnsubscribe = null;
+                }
+
 				try {
 					await signOut(auth);
 				} catch (e) {
@@ -61,9 +70,22 @@ const Logobar = () => {
                                 where('isRead', '==', false)
                             );
 
-                            onSnapshot(notificationsQuery, (snapshot) => {
-                                setUnreadNotifications(snapshot.size);
-                            });
+                            // Clean up previous listener if it exists
+                            if (notificationsUnsubscribe) {
+                                notificationsUnsubscribe();
+                            }
+
+                            // Subscribe to notifications with error handling
+                            notificationsUnsubscribe = onSnapshot(
+                                notificationsQuery,
+                                (snapshot) => {
+                                    setUnreadNotifications(snapshot.size);
+                                },
+                                (error) => {
+                                    console.error("Error in notifications listener:", error);
+                                    setUnreadNotifications(0);
+                                }
+                            );
                         }
                     } catch (error) {
                         console.error("Error fetching user data:", error);
@@ -72,6 +94,12 @@ const Logobar = () => {
 
                 fetchUserData();
             } else {
+                // Clean up notifications listener when user logs out
+                if (notificationsUnsubscribe) {
+                    notificationsUnsubscribe();
+                    notificationsUnsubscribe = null;
+                }
+
 				setUserPhoto('');
                 setDisplayName('');
                 setUnreadNotifications(0);
@@ -79,7 +107,12 @@ const Logobar = () => {
             }
         });
 
-        return () => unsubscribe();
+        return () => {
+            authUnsubscribe();
+            if (notificationsUnsubscribe) {
+                notificationsUnsubscribe();
+            }
+        };
     }, []);
 
     const handleSignOut = async () => {
