@@ -1,0 +1,28 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Root level - deny by default
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+
+    // User posts - PUBLIC reads (for home page), but restricted writes
+    match /userPosts/{dateFolder}/{userId}/{fileName} {
+      // Allow public reads (unauthenticated and authenticated users can view)
+      allow read: if true;
+
+      // Allow writes only for verified users uploading to their own folder
+      allow write: if request.auth != null &&
+                      request.auth.token.email_verified == true &&
+                      request.auth.uid == userId && // User can only upload to their own folder
+                      request.resource.size < 50 * 1024 * 1024; // 50MB limit per file
+
+      // Allow deletes only for the owner (verified)
+      allow delete: if request.auth != null &&
+                       request.auth.token.email_verified == true &&
+                       request.auth.uid == userId;
+    }
+  }
+}
+
+

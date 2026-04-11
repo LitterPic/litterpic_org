@@ -14,5 +14,11 @@
   ],
   "firestore": {
     "rules": "firestore.rules"
-  }
+  },
+  "storage": [
+    {
+      "bucket": "litterpic-fa0bb.appspot.com",
+      "rules": "storage.rules"
+    }
+  ]
 }

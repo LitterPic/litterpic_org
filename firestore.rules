@@ -14,7 +14,7 @@ service cloud.firestore {
 
     // Users collection
     match /users/{userId} {
-      allow read: if request.auth != null;
+      allow read: if true; // Public - anyone can read user profiles
       allow create: if request.auth != null && isOwner(userId);
       allow update: if isVerifiedUser() && isOwner(userId);
       allow delete: if false;
@@ -22,7 +22,7 @@ service cloud.firestore {
       // Notifications subcollection
       match /notifications/{notificationId} {
         allow read: if isOwner(userId);
-        allow create: if request.auth != null;
+        allow create: if request.auth != null; // Cloud Functions can create notifications for users
         allow update: if isOwner(userId);
         allow delete: if isOwner(userId);
       }
@@ -30,7 +30,7 @@ service cloud.firestore {
 
     // User posts
     match /userPosts/{postId} {
-      allow read: if request.auth != null;
+      allow read: if true; // Public - anyone can read posts
       allow create: if isVerifiedUser();
       allow update: if isVerifiedUser() &&
         resource.data.postUser == /databases/$(database)/documents/users/$(request.auth.uid);
@@ -47,21 +47,21 @@ service cloud.firestore {
 
     // Story comments
     match /storyComments/{commentId} {
-      allow read: if request.auth != null;
+      allow read: if true; // Public - anyone can read comments
       allow create: if isVerifiedUser();
       allow update, delete: if false;
     }
 
     // Events
     match /events/{eventId} {
-      allow read: if request.auth != null;
+      allow read: if true; // Public - anyone can read events
       allow create, update: if isVerifiedUser();
       allow delete: if false;
     }
 
     // RSVP (top-level collection)
     match /rsvp/{rsvpId} {
-      allow read: if request.auth != null;
+      allow read: if true; // Public - anyone can read RSVPs (to see who's attending)
       allow create: if isVerifiedUser();
       allow update: if isVerifiedUser();
       allow delete: if false;
@@ -94,21 +94,23 @@ service cloud.firestore {
       allow update, delete: if false;
     }
 
-    // Stats (read-only, managed by Cloud Functions)
+    // Stats (read-only for users, can be updated by verified users via transactions)
     match /stats/{docId} {
-      allow read: if request.auth != null;
-      allow create, update, delete: if false;
+      allow read: if true; // Public - anyone can read stats
+      allow create: if false; // Created by Cloud Functions only
+      allow update: if isVerifiedUser(); // Allow verified users to update via transactions
+      allow delete: if false;
     }
 
     // Litter facts (read-only)
     match /litterFacts/{factId} {
-      allow read: if request.auth != null;
+      allow read: if true; // Public - anyone can read facts
       allow create, update, delete: if false;
     }
 
     // App config (read-only)
     match /appConfig/{docId} {
-      allow read: if request.auth != null;
+      allow read: if true; // Public - anyone can read config
       allow create, update, delete: if false;
     }
 
