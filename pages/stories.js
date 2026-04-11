@@ -142,38 +142,45 @@ function Stories() {
         const postsQuery = collection(getFirestore(), 'userPosts');
         let lastUpdateTime = Date.now();
 
-        const unsubscribe = onSnapshot(postsQuery, (snapshot) => {
-            // Check if this is a real change (not just initial load or pending writes)
-            if (!snapshot.metadata.fromCache && !snapshot.metadata.hasPendingWrites) {
-                const now = Date.now();
-                const timeSinceLastUpdate = now - lastUpdateTime;
+        const unsubscribe = onSnapshot(
+            postsQuery,
+            (snapshot) => {
+                // Check if this is a real change (not just initial load or pending writes)
+                if (!snapshot.metadata.fromCache && !snapshot.metadata.hasPendingWrites) {
+                    const now = Date.now();
+                    const timeSinceLastUpdate = now - lastUpdateTime;
 
-                // Only invalidate cache if enough time has passed (prevent rapid invalidations)
-                if (timeSinceLastUpdate > 30000) { // 30 seconds minimum between cache invalidations
+                    // Only invalidate cache if enough time has passed (prevent rapid invalidations)
+                    if (timeSinceLastUpdate > 30000) { // 30 seconds minimum between cache invalidations
 
-                    // Instead of immediately clearing cache, just increment version
-                    setPostsVersion(prevVersion => {
-                        const newVersion = prevVersion + 1;
-                        return newVersion;
-                    });
+                        // Instead of immediately clearing cache, just increment version
+                        setPostsVersion(prevVersion => {
+                            const newVersion = prevVersion + 1;
+                            return newVersion;
+                        });
 
-                    // Only clear cache if user is actively viewing the page and on first page
-                    if (document.visibilityState === 'visible' && page === 1) {
-                        // Don't clear all caches, just mark for refresh
+                        // Only clear cache if user is actively viewing the page and on first page
+                        if (document.visibilityState === 'visible' && page === 1) {
+                            // Don't clear all caches, just mark for refresh
 
-                        // Only refresh if we're currently showing all posts (not filtered)
-                        if (!showMyPosts && !selectedUser) {
-                            // Fetch fresh data with force refresh
-                            setTimeout(() => {
-                                fetchAndSetPosts(1, null, true); // Force refresh = true
-                            }, 1000);
+                            // Only refresh if we're currently showing all posts (not filtered)
+                            if (!showMyPosts && !selectedUser) {
+                                // Fetch fresh data with force refresh
+                                setTimeout(() => {
+                                    fetchAndSetPosts(1, null, true); // Force refresh = true
+                                }, 1000);
+                            }
                         }
-                    }
 
-                    lastUpdateTime = now;
+                        lastUpdateTime = now;
+                    }
                 }
+            },
+            (error) => {
+                // Handle permission errors gracefully
+                console.debug('Error in posts listener:', error.code);
             }
-        });
+        );
 
         return () => unsubscribe();
     }, [showMyPosts, selectedUser]); // Removed posts.length dependency

@@ -769,24 +769,32 @@ const Volunteer = () => {
         const fetchRsvps = () => {
             const rsvpCollection = collection(db, "rsvp");
 
-            return onSnapshot(rsvpCollection, (rsvpSnapshot) => {
-                setRsvpSnapshot(rsvpSnapshot.docs);
+            return onSnapshot(
+                rsvpCollection,
+                (rsvpSnapshot) => {
+                    setRsvpSnapshot(rsvpSnapshot.docs);
 
-                const numberAttendingByEvent = rsvpSnapshot.docs.reduce((acc, doc) => {
-                    const {eventAssociation, numberAttending = 0} = doc.data();
+                    const numberAttendingByEvent = rsvpSnapshot.docs.reduce((acc, doc) => {
+                        const {eventAssociation, numberAttending = 0} = doc.data();
 
-                    if (eventAssociation && eventAssociation.id) {
-                        const eventId = eventAssociation.id;
-                        acc[eventId] = (acc[eventId] || 0) + numberAttending;
-                    }
+                        if (eventAssociation && eventAssociation.id) {
+                            const eventId = eventAssociation.id;
+                            acc[eventId] = (acc[eventId] || 0) + numberAttending;
+                        }
 
-                    return acc;
-                }, {});
+                        return acc;
+                    }, {});
 
-                setRsvps((prevRsvps) => {
-                    return {...prevRsvps, ...numberAttendingByEvent};
-                });
-            });
+                    setRsvps((prevRsvps) => {
+                        return {...prevRsvps, ...numberAttendingByEvent};
+                    });
+                },
+                (error) => {
+                    // Handle permission errors gracefully
+                    console.debug('Error in RSVP listener:', error.code);
+                    setRsvpSnapshot([]);
+                }
+            );
         };
 
         fetchRsvps();
@@ -795,23 +803,28 @@ const Volunteer = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const eventCollection = collection(db, "events");
-            const eventSnapshot = await getDocs(eventCollection);
-            let eventList = eventSnapshot.docs.map((doc) => ({
-                ...doc.data(),
-                id: doc.id,
-                start: doc.data().date.toDate(),
-                end: doc.data().date.toDate()
-            }));
+            try {
+                const eventCollection = collection(db, "events");
+                const eventSnapshot = await getDocs(eventCollection);
+                let eventList = eventSnapshot.docs.map((doc) => ({
+                    ...doc.data(),
+                    id: doc.id,
+                    start: doc.data().date.toDate(),
+                    end: doc.data().date.toDate()
+                }));
 
-            eventList = eventList.sort(
-                (a, b) => a.start.getTime() - b.start.getTime()
-            );
+                eventList = eventList.sort(
+                    (a, b) => a.start.getTime() - b.start.getTime()
+                );
 
-            setEvents(eventList);
+                setEvents(eventList);
 
-            // Prefetch user data immediately after events are loaded
-            prefetchEventCreators(eventList);
+                // Prefetch user data immediately after events are loaded
+                prefetchEventCreators(eventList);
+            } catch (error) {
+                console.debug('Error fetching events:', error.code);
+                setEvents([]);
+            }
         };
         fetchData();
     }, [eventsChanged]);

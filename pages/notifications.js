@@ -22,18 +22,26 @@ const NotificationsPage = () => {
         const notificationsRef = collection(db, `users/${user.uid}/notifications`);
         const notificationsQuery = query(notificationsRef, orderBy('timestamp', 'desc'));
 
-        const unsubscribe = onSnapshot(notificationsQuery, (snapshot) => {
-            const fetchedNotifications = snapshot.docs.map(doc => {
-                const data = doc.data();
-                // Remove the 'id' field from data if it exists to prevent overwriting doc.id
-                const {id: dataId, ...restData} = data;
-                return {
-                    ...restData,
-                    id: doc.id,  // Use the actual Firestore document ID
-                };
-            });
-            setNotifications(fetchedNotifications);
-        });
+        const unsubscribe = onSnapshot(
+            notificationsQuery,
+            (snapshot) => {
+                const fetchedNotifications = snapshot.docs.map(doc => {
+                    const data = doc.data();
+                    // Remove the 'id' field from data if it exists to prevent overwriting doc.id
+                    const {id: dataId, ...restData} = data;
+                    return {
+                        ...restData,
+                        id: doc.id,  // Use the actual Firestore document ID
+                    };
+                });
+                setNotifications(fetchedNotifications);
+            },
+            (error) => {
+                // Handle permission errors gracefully
+                console.debug('Error in notifications listener:', error.code);
+                setNotifications([]);
+            }
+        );
 
         return () => unsubscribe();
     }, [user]);

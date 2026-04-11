@@ -53,7 +53,14 @@ export const prefetchStories = async (postsVersion = 0, currentUser = null) => {
       limit(postsPerPage)
     );
 
-    const querySnapshot = await getDocs(postsQuery);
+    let querySnapshot;
+    try {
+      querySnapshot = await getDocs(postsQuery);
+    } catch (firestoreError) {
+      console.debug('Error fetching posts for prefetch:', firestoreError.code);
+      return [];
+    }
+
     const fetchedPosts = [];
     const users = {};
     const userIds = new Set();

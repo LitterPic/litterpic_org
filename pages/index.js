@@ -20,48 +20,53 @@ AWS.config.update({
 });
 
 async function fetchRecentPosts() {
-    const postsQuery = query(
-        collection(db, 'userPosts'),
-        orderBy('timePosted', 'desc'),
-        limit(10)
-    );
-    const postsSnapshot = await getDocs(postsQuery);
+    try {
+        const postsQuery = query(
+            collection(db, 'userPosts'),
+            orderBy('timePosted', 'desc'),
+            limit(10)
+        );
+        const postsSnapshot = await getDocs(postsQuery);
 
-    const posts = [];
-    let totalPhotosCount = 0;
+        const posts = [];
+        let totalPhotosCount = 0;
 
-    for (const postDoc of postsSnapshot.docs) {
-        const postData = postDoc.data();
-        const photos = [];
+        for (const postDoc of postsSnapshot.docs) {
+            const postData = postDoc.data();
+            const photos = [];
 
-        if (Array.isArray(postData.postPhotos)) {
-            const remainingPhotosCount = 10 - totalPhotosCount;
-            const limitedPhotos = postData.postPhotos.slice(0, remainingPhotosCount);
+            if (Array.isArray(postData.postPhotos)) {
+                const remainingPhotosCount = 10 - totalPhotosCount;
+                const limitedPhotos = postData.postPhotos.slice(0, remainingPhotosCount);
 
-            for (const pictureRef of limitedPhotos) {
-                try {
-                    const pictureUrl = await getDownloadURL(ref(storage, pictureRef));
-                    photos.push(pictureUrl);
-                } catch (error) {
-                    photos.push("https://ih1.redbubble.net/image.4905811447.8675/flat,750x,075,f-pad,750x1000,f8f8f8.jpg");
+                for (const pictureRef of limitedPhotos) {
+                    try {
+                        const pictureUrl = await getDownloadURL(ref(storage, pictureRef));
+                        photos.push(pictureUrl);
+                    } catch (error) {
+                        photos.push("https://ih1.redbubble.net/image.4905811447.8675/flat,750x,075,f-pad,750x1000,f8f8f8.jpg");
+                    }
                 }
+
+                totalPhotosCount += limitedPhotos.length;
             }
 
-            totalPhotosCount += limitedPhotos.length;
+            posts.push({
+                user: postData.postUser,
+                photos: photos,
+                dateCreated: postData.timePosted.toDate(),
+            });
+
+            if (totalPhotosCount >= 10) {
+                break;
+            }
         }
 
-        posts.push({
-            user: postData.postUser,
-            photos: photos,
-            dateCreated: postData.timePosted.toDate(),
-        });
-
-        if (totalPhotosCount >= 10) {
-            break;
-        }
+        return posts;
+    } catch (error) {
+        console.debug('Error fetching recent posts:', error.code);
+        return [];
     }
-
-    return posts;
 }
 
 export default function Index() {
@@ -164,9 +169,10 @@ export default function Index() {
             setRecentPosts(posts);
         };
 
-        (async () => {
-            await fetchPosts();
-        })();
+        fetchPosts().catch(error => {
+            console.debug('Unhandled error in fetchPosts:', error);
+            setRecentPosts([]);
+        });
     }, []);
 
     useEffect(() => {
@@ -236,21 +242,27 @@ export default function Index() {
                 }
 
                 if (totalWeight === undefined) {
-                    const statsRef = doc(db, 'stats', 'totalWeight');
-                    const statsDoc = await getDoc(statsRef);
-                    totalWeight = statsDoc.data().totalWeight;
+                    try {
+                        const statsRef = doc(db, 'stats', 'totalWeight');
+                        const statsDoc = await getDoc(statsRef);
+                        totalWeight = statsDoc.data().totalWeight;
 
-                    // Cache the fetched total weight with timestamp
-                    localStorage.setItem(
-                        'totalWeight',
-                        JSON.stringify({value: totalWeight, timestamp: Date.now()})
-                    );
+                        // Cache the fetched total weight with timestamp
+                        localStorage.setItem(
+                            'totalWeight',
+                            JSON.stringify({value: totalWeight, timestamp: Date.now()})
+                        );
+                    } catch (firestoreError) {
+                        console.debug('Error fetching total weight:', firestoreError.code);
+                        totalWeight = 0; // Default to 0 if fetch fails
+                    }
                 }
 
                 setTotalWeight(totalWeight);
                 setIsDataLoaded(true);
             } catch (error) {
-                console.error('Error fetching total weight:', error);
+                console.debug('Unexpected error in fetchTotalWeight:', error);
+                setIsDataLoaded(true);
             }
         };
 
