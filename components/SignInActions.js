@@ -2,6 +2,7 @@ import { signInWithEmailAndPassword, sendPasswordResetEmail, signOut } from 'fir
 import { updateDoc, doc } from 'firebase/firestore';
 import { auth, db } from '../lib/firebase';
 import { toast } from 'react-toastify';
+import { trackLogin, setGAUserId } from '../lib/ga';
 
 export default function SignInActions({
     email,
@@ -20,8 +21,7 @@ export default function SignInActions({
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
 
-            if (!user.emailVerified) {
-	                toast.warning('Please verify your email before logging in. You can request a new verification email on the next page.', {
+            if (!user.emailVerified) {	                toast.warning('Please verify your email before logging in. You can request a new verification email on the next page.', {
                     autoClose: 5000
                 });
 	                // Important: signing in succeeds even when email is not verified.
@@ -32,8 +32,12 @@ export default function SignInActions({
             }
 
             if (router.query.redirectTo) {
+                trackLogin();
+                setGAUserId(user.uid);
                 await router.push(router.query.redirectTo);
             } else {
+                trackLogin();
+                setGAUserId(user.uid);
                 await router.push('/');
             }
         } catch (error) {

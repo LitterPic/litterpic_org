@@ -4,12 +4,13 @@ import {getDownloadURL, ref} from 'firebase/storage';
 import {db, storage} from '../lib/firebase';
 import 'firebase/firestore';
 import Head from "next/head";
-import Script from "next/script";
+
 import {getMessaging, getToken} from "firebase/messaging";
 import {prefetchStories} from '../utils/prefetchStories';
 import {getAuth} from 'firebase/auth';
 import { useStoriesContext } from '../contexts/StoriesContext';
 import SimpleCarousel from '../components/SimpleCarousel';
+import { trackAppStoreClick } from '../lib/ga';
 
 const AWS = require('aws-sdk');
 
@@ -387,22 +388,6 @@ export default function Index() {
                 <meta name="author" content="LitterPic Inc."/>
             </Head>
 
-            {/* Google Analytics Scripts */}
-            <Script
-                src="https://www.googletagmanager.com/gtag/js?id=G-3VZE7E59CL"
-                strategy="afterInteractive"
-            />
-            <Script
-                strategy="afterInteractive"
-                dangerouslySetInnerHTML={{
-                    __html: `
-                        window.dataLayer = window.dataLayer || [];
-                        function gtag(){dataLayer.push(arguments);}
-                        gtag('js', new Date());
-                        gtag('config', 'G-3VZE7E59CL');
-                    `,
-                }}
-            />
 
             <div className="banner">
                 <img src="/images/homeBanner.webp" alt="Banner Image"/>
@@ -435,7 +420,7 @@ export default function Index() {
                                 <img className=" test" src='../images/large_ios_qr.jpg' alt='iOS app QR code'/>
                                 <div className='qr-box'>
                                     <p> Scan the QR Code to download the app.</p>
-                                    <a target=" _blank" href='https://apps.apple.com/us/app/litterpic/id6447652360'>
+                                        <a target=" _blank" href='https://apps.apple.com/us/app/litterpic/id6447652360' onClick={() => trackAppStoreClick('ios')}>
                                         <img className='store-link'
                                              src='../images/apple_store_badge.png'
                                              alt='apple store'/>
@@ -446,8 +431,9 @@ export default function Index() {
                                 <img className=" test" src='../images/large_android_qr.jpg' alt='Android app QR code'/>
                                 <div className='qr-box'>
                                     <p> Scan the QR Code to download the app.</p>
-                                    <a target=" _blank"
-                                       href='https://play.google.com/store/apps/details?id=com.litterpic.app&pcampaignid=web_share'>
+                                        <a target=" _blank"
+                                           href='https://play.google.com/store/apps/details?id=com.litterpic.app&pcampaignid=web_share'
+                                           onClick={() => trackAppStoreClick('android')}>
                                         <img className='store-link' src='../images/google_play_badge.png'
                                              alt='google play'/>
                                     </a>

@@ -30,7 +30,7 @@ import Head from "next/head";
 import {capitalizeFirstWordOfSentences} from "../utils/textUtils";
 import {getFunctions, httpsCallable} from "firebase/functions";
 import {subscribeUserToMail} from '../utils/subscribeUserToMail';
-import Script from "next/script";
+import { trackRsvpSubmitted } from '../lib/ga';
 
 const libraries = ['places'];
 const mapApiKey = process.env.NEXT_PUBLIC_PLACES_API_KEY;
@@ -574,6 +574,7 @@ const Volunteer = () => {
                 await updateDoc(eventDocRef, {rsvps: updatedRsvpsArray});
 
                 setShowThankYou(true);
+                trackRsvpSubmitted(eventId, selectedEventInfo?.event_title || '');
 
                 //send email to person who RSVP'd using MailerSend
                 const participantRsvpTemplateId = "v69oxl5yj1x4785k";
@@ -957,22 +958,6 @@ const Volunteer = () => {
 
             </Head>
             
-            {/* Google Analytics Scripts */}
-            <Script
-                src="https://www.googletagmanager.com/gtag/js?id=G-3VZE7E59CL"
-                strategy="afterInteractive"
-            />
-            <Script
-                strategy="afterInteractive"
-                dangerouslySetInnerHTML={{
-                    __html: `
-                        window.dataLayer = window.dataLayer || [];
-                        function gtag(){dataLayer.push(arguments);}
-                        gtag('js', new Date());
-                        gtag('config', 'G-3VZE7E59CL');
-                    `,
-                }}
-            />
 
             <div className="banner">
                 <img src="/images/volunteer_banner.webp" alt="Banner Image"/>

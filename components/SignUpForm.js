@@ -6,6 +6,7 @@ import {doc, getFirestore, serverTimestamp, setDoc, getDocs, collection} from 'f
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {subscribeUserToMail} from '../utils/subscribeUserToMail';
+import { trackSignUp } from '../lib/ga';
 
 export default function SignUpForm() {
     const [email, setEmail] = useState('');
@@ -132,6 +133,7 @@ export default function SignUpForm() {
 
             // Show success message to the user
             toast.success('Account created successfully! Please check your email to verify your account.');
+            trackSignUp();
 
             // We don't set isSubmitting to false here because we want the spinner to continue showing
             // until the redirect happens, providing continuous feedback to the user

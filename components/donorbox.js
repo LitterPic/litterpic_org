@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react';
+import { trackEvent } from '../lib/ga';
 
 const DonorBox = () => {
     useEffect(() => {
@@ -8,8 +9,24 @@ const DonorBox = () => {
         script.paypalExpress = "true";
         document.body.appendChild(script);
 
+        // Listen for DonorBox postMessage events (donation_complete, etc.)
+        const handleMessage = (e) => {
+            if (!e.data || typeof e.data !== 'object') return;
+            const eventType = e.data.event || '';
+            if (eventType.includes('donation_complete') || eventType.includes('donation_submitted')) {
+                trackEvent('donate_completed', {
+                    amount: e.data.amount || undefined,
+                    currency: e.data.currency || 'USD',
+                    campaign: e.data.campaign || 'litterpic-first-campaign',
+                });
+            }
+        };
+
+        window.addEventListener('message', handleMessage);
+
         return () => {
             document.body.removeChild(script);
+            window.removeEventListener('message', handleMessage);
         };
     }, []);
 

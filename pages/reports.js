@@ -4,7 +4,6 @@ import LeaderboardContainer from '../components/ReportLeaderboardContainer';
 import FilterContainer from '../components/ReportFilterContainer';
 import ReportResults from '../components/ReportResults';
 import MemberStats from '../components/MemberStats';
-import GoogleAnalytics from "../components/GoogleAnalytics";
 import ReportBanner from "../components/ReportBanner";
 import ReportMeta from "../components/ReportMeta";
 import { fetchReportData } from '../utils/fetchReportData';
@@ -37,7 +36,6 @@ const ReportsPage = () => {
     return (
         <div>
             <ReportMeta />
-            <GoogleAnalytics />
             <ReportBanner />
 
             <div className="page">

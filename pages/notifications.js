@@ -4,7 +4,6 @@ import {auth, db, useAuth} from '../lib/firebase';
 import {formatDistanceToNow} from 'date-fns'; // For better time formatting
 import {useRouter} from 'next/router';
 import Head from "next/head";
-import Script from "next/script";
 import withAuth from "../components/withAuth";
 import {FaTrashAlt} from "react-icons/fa";
 import {toast, ToastContainer} from 'react-toastify';
@@ -149,22 +148,6 @@ const NotificationsPage = () => {
                 <meta name="author" content="LitterPic Inc."/>
             </Head>
 
-            {/* Google Analytics Scripts */}
-            <Script
-                src="https://www.googletagmanager.com/gtag/js?id=G-3VZE7E59CL"
-                strategy="afterInteractive"
-            />
-            <Script
-                strategy="afterInteractive"
-                dangerouslySetInnerHTML={{
-                    __html: `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-3VZE7E59CL');
-        `,
-                }}
-            />
 
             <div className="banner">
                 <img src="/images/AboutUsBanner.webp" alt="Banner Image"/>

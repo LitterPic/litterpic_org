@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import { useAuth } from '../lib/firebase';
 import withAuth from '../components/withAuth';
 import ProfileMeta from '../components/ProfileMeta';
-import GoogleAnalytics from '../components/GoogleAnalytics';
 import ProfileBanner from '../components/ProfileBanner';
 import ProfileHeader from '../components/ProfileHeader';
 import ProfileStats from '../components/ProfileStats';
@@ -50,7 +49,6 @@ const ProfilePage = () => {
     return (
         <div className="min-h-screen bg-gradient-to-b from-green-950 to-green-500 py-10 px-4">
             <ProfileMeta />
-            <GoogleAnalytics />
             <ProfileBanner />
             <div className="max-w-4xl mx-auto bg-white rounded-3xl shadow-xl p-8">
                 <ProfileHeader

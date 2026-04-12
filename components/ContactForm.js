@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { trackContactFormSubmitted } from '../lib/ga';
 
 const ContactForm = () => {
     const [formData, setFormData] = useState({
@@ -52,6 +53,7 @@ const ContactForm = () => {
 
             if (response.ok) {
                 setSubmitStatus('success');
+                trackContactFormSubmitted();
                 setFormData({
                     firstName: '',
                     lastName: '',

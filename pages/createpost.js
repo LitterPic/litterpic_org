@@ -26,6 +26,7 @@ import {capitalizeFirstWordOfSentences} from "../utils/textUtils";
 import {convertToWebP} from "../utils/imageConverter";
 import {sendNewPostNotificationEmail} from "../utils/emailService";
 import {generateCollage, blobToFile} from "../utils/collageGenerator";
+import { trackPostCreated } from '../lib/ga';
 
 
 const libraries = ['places'];
@@ -379,6 +380,8 @@ function CreatePost() {
             localStorage.removeItem(getAllPostsCacheKey(1));
             localStorage.removeItem(getMyPostsCacheKey(1, user.uid));
             localStorage.removeItem('totalWeight');
+
+            trackPostCreated(roundedLitterWeight, selectedAddress);
 
             // Redirect to the /stories.js page
             await router.push('/stories');
