@@ -34,6 +34,7 @@ import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Script from "next/script";
 import NotificationSender from "../utils/notifictionSender";
+import { trackEvent } from '../lib/ga';
 import DOMPurify from 'dompurify';
 import parseUrls from '../utils/parseUrls';
 
@@ -597,6 +598,7 @@ function Stories() {
                 setPostComments(updatedPostComments);
 
                 setComments({...comments, [postId]: ''});
+                trackEvent('comment_added', { post_id: postId });
 
                 // Create and send notification to the post author
                 const postToUpdate = updatedPosts[postIndex];

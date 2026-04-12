@@ -17,6 +17,7 @@ import {db, storage} from '../lib/firebase';
 import {getDownloadURL, ref} from 'firebase/storage';
 import {getAuth} from 'firebase/auth';
 import NotificationSender from '../utils/notifictionSender';
+import { trackEvent } from '../lib/ga';
 
 export async function* fetchPosts(page, postsPerPage, userId = null) {
     let postQuery;
@@ -216,6 +217,7 @@ export async function toggleLike(post) {
                 await NotificationSender.createLikeNotification(post.id, postAuthorId, currentUser);
             }
 
+            trackEvent('post_liked', { post_id: post.id });
             return true;
         }
     }
