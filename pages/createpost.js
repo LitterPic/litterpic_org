@@ -25,6 +25,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import {capitalizeFirstWordOfSentences} from "../utils/textUtils";
 import {convertToWebP} from "../utils/imageConverter";
 import {sendNewPostNotificationEmail} from "../utils/emailService";
+import {generateCollage, blobToFile} from "../utils/collageGenerator";
 
 
 const libraries = ['places'];
@@ -181,6 +182,22 @@ function CreatePost() {
         const year = now.getFullYear();
         const dateFolder = `${month}${day}${year}`;
 
+        // Generate collage if there are 2+ images
+        let collageFile = null;
+        if (postImages.length >= 2) {
+            try {
+                console.log('Generating collage for post with', postImages.length, 'images');
+                const collageBlob = await generateCollage(postImages);
+                if (collageBlob) {
+                    collageFile = blobToFile(collageBlob, `collage_${Date.now()}.png`);
+                    console.log('Collage generated successfully');
+                }
+            } catch (error) {
+                console.error('Failed to generate collage:', error);
+                toast.warn('Could not generate collage preview, continuing with regular upload');
+            }
+        }
+
         const uploadSingleImage = async (file) => {
             // Check if the file is an image that can be converted to WebP
             const isImage = file.type.startsWith('image/');
@@ -240,13 +257,15 @@ function CreatePost() {
             return null; // Failed after all attempts
         };
 
-        const promises = Array.from(postImages).map((file) => uploadSingleImage(file));
+        // Upload collage first if it exists
+        const imagesToUpload = collageFile ? [collageFile, ...postImages] : postImages;
+        const promises = imagesToUpload.map((file) => uploadSingleImage(file));
 
         const imageUrls = (await Promise.all(promises)).filter(Boolean); // Remove failed uploads
 
         setUploading(false);
 
-        if (imageUrls.length < postImages.length) {
+        if (imageUrls.length < imagesToUpload.length) {
             toast.warn('Some images failed to upload.');
         }
 
