@@ -54,18 +54,27 @@ test.describe('Notifications page', () => {
     });
 
     test('clicking the status dot marks a notification as read', async ({ page }) => {
-        const unreadNotif = page.locator('.notification-item.unread').first();
         const unreadCount = await page.locator('.notification-item.unread').count();
 
         if (unreadCount === 0) {
             test.skip(true, 'No unread notifications to mark as read');
         }
 
-        await unreadNotif.locator('.status-indicator').click();
+        // Find the index of the first unread item in the full list so we have a
+        // stable position-based reference that stays valid after the class changes.
+        const allItems = page.locator('.notification-item');
+        const totalCount = await allItems.count();
+        let targetIndex = 0;
+        for (let i = 0; i < totalCount; i++) {
+            const cls = await allItems.nth(i).getAttribute('class') ?? '';
+            if (cls.includes('unread')) { targetIndex = i; break; }
+        }
+        const stableRef = allItems.nth(targetIndex);
 
-        // The notification-item should lose the 'unread' class and gain 'read'
-        await page.waitForTimeout(2_000);
-        await expect(unreadNotif).not.toHaveClass(/unread/);
+        await stableRef.locator('.status-indicator').click();
+
+        // Wait for Firestore to update and the 'unread' class to be removed
+        await expect(stableRef).not.toHaveClass(/unread/, { timeout: 8_000 });
     });
 
     test('delete button removes a notification', async ({ page }) => {
