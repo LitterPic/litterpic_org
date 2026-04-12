@@ -86,6 +86,55 @@ exports.createEvent = functions.https.onRequest(async (request, response) => {
     });
 });
 
+// Update litter weight when a new post is created (real-time trigger)
+exports.onUserPostCreated = functions.firestore
+    .document('userPosts/{postId}')
+    .onCreate(async (snap, context) => {
+        const postData = snap.data();
+        const postUserRef = postData.postUser;
+
+        if (!postUserRef) {
+            console.log('No postUser reference found on post, skipping weight update');
+            return null;
+        }
+
+        const userId = postUserRef.id;
+        console.log(`New post created by user ${userId}, recalculating totalWeight...`);
+
+        try {
+            const db = admin.firestore();
+            const totalWeight = await getSumOfLitterWeight(db, userId);
+            await db.collection('users').doc(userId).update({ totalWeight });
+            console.log(`Updated totalWeight for user ${userId}: ${totalWeight}`);
+        } catch (error) {
+            console.error(`Error updating totalWeight for user ${userId}:`, error);
+        }
+
+        return null;
+    });
+
+// HTTP-callable function to manually recalculate litter weight for a specific user
+exports.recalculateUserLitterWeight = functions.https.onRequest((request, response) => {
+    cors(request, response, async () => {
+        try {
+            const userId = request.body.userId || request.query.userId;
+            if (!userId) {
+                return response.status(400).json({ error: 'userId is required' });
+            }
+
+            const db = admin.firestore();
+            const totalWeight = await getSumOfLitterWeight(db, userId);
+            await db.collection('users').doc(userId).update({ totalWeight });
+
+            console.log(`Manually updated totalWeight for user ${userId}: ${totalWeight}`);
+            response.status(200).json({ success: true, userId, totalWeight });
+        } catch (error) {
+            console.error('Error in recalculateUserLitterWeight:', error);
+            response.status(500).json({ error: error.message });
+        }
+    });
+});
+
 // Sum Litter Weight by User - Scheduled Function
 exports.sumLitterWeightByUser = functions.pubsub.schedule('0 2 * * *') // Runs daily at 2 AM UTC
     .timeZone('America/New_York') // Adjust timezone as needed

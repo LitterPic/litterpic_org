@@ -13,10 +13,8 @@ import {
     limit,
     updateDoc,
     doc,
-    deleteObject,
-    ref as storageRef
 } from 'firebase/firestore';
-import { getDownloadURL, uploadBytesResumable, ref } from 'firebase/storage';
+import { getDownloadURL, uploadBytesResumable, ref, deleteObject } from 'firebase/storage';
 import { db, storage } from '../lib/firebase';
 import { generateCollage, blobToFile, COLLAGE_PREFIX } from './collageGenerator';
 import { convertToWebP } from './imageConverter';
@@ -43,11 +41,10 @@ export const regenerateCollagesToLastPosts = async (userId, postsToProcess = 3, 
         console.log(`Starting collage regeneration for last ${postsToProcess} posts of user ${userId}`);
         onProgress?.({ status: 'Fetching posts...', step: 1, total: 4 });
 
-        // Fetch last N posts for this user
+        // Fetch last N posts across all users (admin tool - access is restricted at the page level)
         const postsRef = collection(db, 'userPosts');
         const q = query(
             postsRef,
-            where('postUser', '==', doc(db, `users/${userId}`)),
             orderBy('timePosted', 'desc'),
             limit(postsToProcess)
         );

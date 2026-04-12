@@ -12,6 +12,11 @@ service cloud.firestore {
       return request.auth != null && request.auth.uid == userId;
     }
 
+    // Helper: check if user is the admin
+    function isAdmin() {
+      return request.auth != null && request.auth.token.email == 'alek@litterpic.org' && request.auth.token.email_verified == true;
+    }
+
     // Users collection
     match /users/{userId} {
       allow read: if true; // Public - anyone can read user profiles
@@ -21,7 +26,9 @@ service cloud.firestore {
 
       // Notifications subcollection
       match /notifications/{notificationId} {
-        allow read: if isOwner(userId);
+        allow get: if isOwner(userId);
+        allow list: if isOwner(userId) ||
+                      (isVerifiedUser() && request.query.limit != null && request.query.limit <= 1);
         allow create: if request.auth != null; // Cloud Functions can create notifications for users
         allow update: if isOwner(userId);
         allow delete: if isOwner(userId);
@@ -32,8 +39,12 @@ service cloud.firestore {
     match /userPosts/{postId} {
       allow read: if true; // Public - anyone can read posts
       allow create: if isVerifiedUser();
-      allow update: if isVerifiedUser() &&
-        resource.data.postUser == /databases/$(database)/documents/users/$(request.auth.uid);
+      allow update: if isVerifiedUser() && (
+        resource.data.postUser == /databases/$(database)/documents/users/$(request.auth.uid) ||
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likes']) ||
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['numComments']) ||
+        isAdmin()
+      );
       allow delete: if isVerifiedUser() &&
         resource.data.postUser == /databases/$(database)/documents/users/$(request.auth.uid);
     }
