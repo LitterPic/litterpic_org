@@ -7,31 +7,42 @@
 #   1. test   — build Next.js, run Playwright E2E tests
 #   2. deploy — deploy to Vercel ONLY if tests pass (needs: test)
 #
-# Required GitHub Secrets:
-#   VERCEL_TOKEN          - Vercel personal access token
-#   VERCEL_ORG_ID         - Vercel team/org ID (from .vercel/project.json)
-#   VERCEL_PROJECT_ID     - Vercel project ID   (from .vercel/project.json)
-#   TEST_USER_EMAIL       - Verified Firebase test account email
-#   TEST_USER_PASSWORD    - Its password
+# Required GitHub Secrets  (Settings → Secrets and variables → Actions):
 #
-#   All NEXT_PUBLIC_* variables (Firebase, GA, Maps key, AWS, etc.) must also
-#   be added as secrets so `next build` succeeds in CI:
-#   NEXT_PUBLIC_FIREBASE_API_KEY
-#   NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
-#   NEXT_PUBLIC_FIREBASE_PROJECT_ID
-#   NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
-#   NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
-#   NEXT_PUBLIC_FIREBASE_APP_ID
-#   NEXT_PUBLIC_GA_MEASUREMENT_ID
-#   NEXT_PUBLIC_PLACES_API_KEY
+#   ── Vercel deployment ──────────────────────────────────────────────────────
+#   VERCEL_TOKEN                    Vercel personal access token
+#   VERCEL_ORG_ID                   Vercel team/org ID  (.vercel/project.json)
+#   VERCEL_PROJECT_ID               Vercel project ID   (.vercel/project.json)
+#
+#   ── E2E test credentials ───────────────────────────────────────────────────
+#   TEST_USER_EMAIL                 Firebase test-account email
+#   TEST_USER_PASSWORD              Firebase test-account password
+#
+#   ── Firebase REST API (test helpers) ───────────────────────────────────────
+#   FIREBASE_API_KEY                Web API key  (Firebase console → Project settings)
+#   FIREBASE_PROJECT_ID             e.g. litterpic-fa0bb
+#
+#   ── Google Maps / Places ───────────────────────────────────────────────────
+#   NEXT_PUBLIC_PLACES_API_KEY      Google Cloud → APIs → Maps JavaScript API key
+#
+#   ── AWS (image uploads) ────────────────────────────────────────────────────
 #   NEXT_PUBLIC_AWS_ACCESS_KEY_ID
 #   NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY
 #   NEXT_PUBLIC_AWS_REGION
-#   FIREBASE_API_KEY
-#   FIREBASE_PROJECT_ID
+#
+#   ── IP geolocation ─────────────────────────────────────────────────────────
+#   NEXT_PUBLIC_IPINFO_ACCESS_TOKEN
+#   NEXT_PUBLIC_IPSTACK_ACCESS_TOKEN
+#
+#   ── Analytics ──────────────────────────────────────────────────────────────
+#   NEXT_PUBLIC_GA_MEASUREMENT_ID
+#
+#   ── Email services ─────────────────────────────────────────────────────────
 #   MAILERSEND_API_KEY
 #   MAILERSEND_FROM_EMAIL
-#   (add any other vars from your .env.local)
+#   MAILERLITE_API_KEY
+#   POSTMARK_API_KEY
+#
 ##############################################################################
 
 name: Test → Deploy
@@ -53,25 +64,28 @@ jobs:
 
     env:
       CI: true
-      # Firebase / app config — passed from GitHub Secrets
-      NEXT_PUBLIC_FIREBASE_API_KEY:              ${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}
-      NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN:          ${{ secrets.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN }}
-      NEXT_PUBLIC_FIREBASE_PROJECT_ID:           ${{ secrets.NEXT_PUBLIC_FIREBASE_PROJECT_ID }}
-      NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET:       ${{ secrets.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET }}
-      NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID:  ${{ secrets.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID }}
-      NEXT_PUBLIC_FIREBASE_APP_ID:               ${{ secrets.NEXT_PUBLIC_FIREBASE_APP_ID }}
-      NEXT_PUBLIC_GA_MEASUREMENT_ID:             ${{ secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
+      # Google Maps / Places (needed by /createpost)
       NEXT_PUBLIC_PLACES_API_KEY:                ${{ secrets.NEXT_PUBLIC_PLACES_API_KEY }}
+      # AWS (image uploads)
       NEXT_PUBLIC_AWS_ACCESS_KEY_ID:             ${{ secrets.NEXT_PUBLIC_AWS_ACCESS_KEY_ID }}
       NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY:         ${{ secrets.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY }}
       NEXT_PUBLIC_AWS_REGION:                    ${{ secrets.NEXT_PUBLIC_AWS_REGION }}
+      # IP geolocation
+      NEXT_PUBLIC_IPINFO_ACCESS_TOKEN:           ${{ secrets.NEXT_PUBLIC_IPINFO_ACCESS_TOKEN }}
+      NEXT_PUBLIC_IPSTACK_ACCESS_TOKEN:          ${{ secrets.NEXT_PUBLIC_IPSTACK_ACCESS_TOKEN }}
+      # Analytics
+      NEXT_PUBLIC_GA_MEASUREMENT_ID:             ${{ secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
+      # Firebase REST API (used by test helpers — config is hardcoded in lib/firebase.js)
       FIREBASE_API_KEY:                          ${{ secrets.FIREBASE_API_KEY }}
       FIREBASE_PROJECT_ID:                       ${{ secrets.FIREBASE_PROJECT_ID }}
+      # Email services
       MAILERSEND_API_KEY:                        ${{ secrets.MAILERSEND_API_KEY }}
       MAILERSEND_FROM_EMAIL:                     ${{ secrets.MAILERSEND_FROM_EMAIL }}
+      MAILERLITE_API_KEY:                        ${{ secrets.MAILERLITE_API_KEY }}
+      POSTMARK_API_KEY:                          ${{ secrets.POSTMARK_API_KEY }}
       # Test credentials
-      TEST_USER_EMAIL:      ${{ secrets.TEST_USER_EMAIL }}
-      TEST_USER_PASSWORD:   ${{ secrets.TEST_USER_PASSWORD }}
+      TEST_USER_EMAIL:                           ${{ secrets.TEST_USER_EMAIL }}
+      TEST_USER_PASSWORD:                        ${{ secrets.TEST_USER_PASSWORD }}
 
     steps:
       - name: Checkout code
