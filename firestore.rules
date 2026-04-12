@@ -60,7 +60,12 @@ service cloud.firestore {
     match /storyComments/{commentId} {
       allow read: if true; // Public - anyone can read comments
       allow create: if isVerifiedUser();
-      allow update, delete: if false;
+      allow update: if false;
+      // Author can delete their own comment; admin can delete any comment
+      allow delete: if isVerifiedUser() && (
+        resource.data.commentUser == /databases/$(database)/documents/users/$(request.auth.uid) ||
+        isAdmin()
+      );
     }
 
     // Events
@@ -75,7 +80,11 @@ service cloud.firestore {
       allow read: if true; // Public - anyone can read RSVPs (to see who's attending)
       allow create: if isVerifiedUser();
       allow update: if isVerifiedUser();
-      allow delete: if false;
+      // RSVP creator can cancel their own RSVP; admin can delete any RSVP
+      allow delete: if isVerifiedUser() && (
+        resource.data.user == /databases/$(database)/documents/users/$(request.auth.uid) ||
+        isAdmin()
+      );
     }
 
     // Followers subcollection

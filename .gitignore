@@ -3,6 +3,11 @@ node_modules/
 .next/
 out/
 
+# Playwright
+playwright/.auth/
+playwright-report/
+test-results/
+
 #environment
 .env.development.local
 .env.local
