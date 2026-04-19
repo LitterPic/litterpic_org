@@ -301,7 +301,7 @@ function CreatePost() {
 
         try {
             const postLitterWeightInPounds = unit === 'kg' ? parseFloat(litterWeight) * 2.20462 : parseFloat(litterWeight);
-            const roundedLitterWeight = parseFloat(postLitterWeightInPounds.toFixed());
+            const roundedLitterWeight = Math.round(postLitterWeightInPounds);
             let geoPoint = null;
 
             // Check if latLng is not null before attempting to create a GeoPoint
@@ -340,14 +340,14 @@ function CreatePost() {
                 const currentTotalWeight = statsDoc.data().totalWeight;
 
                 // Increment the total weight by the litterWeight from the new post
-                transaction.update(statsRef, {totalWeight: currentTotalWeight + parseInt(litterWeight)});
+                transaction.update(statsRef, {totalWeight: currentTotalWeight + roundedLitterWeight});
             });
 
             // Update user's totalWeight
             const userRef = doc(db, `users/${user.uid}`);
             const userDoc = await getDoc(userRef);
             const currentUserTotalWeight = userDoc.data().totalWeight || 0;
-            await updateDoc(userRef, {totalWeight: currentUserTotalWeight + postLitterWeightInPounds});
+            await updateDoc(userRef, {totalWeight: currentUserTotalWeight + roundedLitterWeight});
 
             await notifyFollowersOfNewPost(postDocRef.id);
 
