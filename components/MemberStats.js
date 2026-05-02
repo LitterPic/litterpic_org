@@ -75,12 +75,9 @@ const MemberStats = () => {
             let count = 0;
             let totalUsersWithCreatedTime = 0;
 
-            console.log('Total users in database:', usersSnapshot.size);
-
             usersSnapshot.forEach(doc => {
                 const userData = doc.data();
 
-                // Check if user has created_time field and non-empty display_name (matching Flutter app logic)
                 if (userData.created_time && userData.display_name && userData.display_name.trim() !== '') {
                     totalUsersWithCreatedTime++;
 
@@ -118,13 +115,9 @@ const MemberStats = () => {
 
                     if (matches) {
                         count++;
-                        console.log('Match found:', userData.display_name || userData.email, memberDate);
                     }
                 }
             });
-
-            console.log('Users with created_time field:', totalUsersWithCreatedTime);
-            console.log('Filtered count:', count);
 
             setFilteredMembers(count);
             setFilterEnabled(true);

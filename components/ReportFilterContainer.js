@@ -91,8 +91,12 @@ const ReportFilterContainer = ({ onSubmit, onReset }) => {
     const [selectedState, setSelectedState] = useState('');
     const [selectedCity, setSelectedCity] = useState('');
     const [selectedGroup, setSelectedGroup] = useState('');
-    const [startDate, setStartDate] = useState(new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().split("T")[0]);
-    const [endDate, setEndDate] = useState(new Date().toISOString().split("T")[0]);
+    const todayLocal = () => {
+        const d = new Date();
+        return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    };
+    const [startDate, setStartDate] = useState(`${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-01`);
+    const [endDate, setEndDate] = useState(todayLocal());
 
     useEffect(() => {
         const fetchData = async () => {
@@ -172,24 +176,24 @@ const ReportFilterContainer = ({ onSubmit, onReset }) => {
     useEffect(() => {
         const fetchCities = async () => {
             try {
-                let citiesQuery = query(
+                // Fetch all posts for the selected country and filter cities client-side
+                // (DB stores raw abbreviations like "ME" but selectedState is normalized "Maine")
+                const countriesQuery = query(
                     collection(db, 'userPosts'),
                     where('Country', '==', selectedCountry)
                 );
-                if (selectedState) {
-                    citiesQuery = query(
-                        citiesQuery,
-                        where('State', '==', selectedState)
-                    );
-                }
-                const citiesSnapshot = await getDocs(citiesQuery);
+                const citiesSnapshot = await getDocs(countriesQuery);
                 const citySet = new Set();
                 citiesSnapshot.forEach((doc) => {
-                    if (doc.data().City) {
-                        citySet.add(doc.data().City);
+                    const rawState = doc.data().State;
+                    const docCity = doc.data().City;
+                    // If a state is selected, only include cities where the normalized state matches
+                    if (selectedState && normalizeState(rawState) !== selectedState) return;
+                    if (docCity && docCity.trim()) {
+                        citySet.add(docCity.trim());
                     }
                 });
-                const cityList = Array.from(citySet);
+                const cityList = Array.from(citySet).sort();
                 setCities(cityList);
             } catch (error) {
                 console.error("Error fetching cities:", error);
@@ -218,8 +222,8 @@ const ReportFilterContainer = ({ onSubmit, onReset }) => {
         setSelectedCity('');
         setSelectedGroup('');
         // Reset dates to current month
-        setStartDate(new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().split("T")[0]);
-        setEndDate(new Date().toISOString().split("T")[0]);
+        setStartDate(`${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-01`);
+        setEndDate(todayLocal());
         // Call parent reset
         if (onReset) {
             onReset();

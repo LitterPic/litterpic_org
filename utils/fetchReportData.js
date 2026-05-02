@@ -108,10 +108,11 @@ export const fetchReportData = async (filters) => {
             const timePosted = doc.data().timePosted.toDate();
             const postDate = new Date(timePosted);
 
-            // Parse dates properly - set end date to end of day
-            const startDateTime = new Date(startDate);
-            const endDateTime = new Date(endDate);
-            endDateTime.setHours(23, 59, 59, 999);
+            // Parse dates - set start to beginning of day and end to end of day (local time)
+            const [startYear, startMonth, startDay] = startDate.split('-').map(Number);
+            const [endYear, endMonth, endDay] = endDate.split('-').map(Number);
+            const startDateTime = new Date(startYear, startMonth - 1, startDay, 0, 0, 0, 0);
+            const endDateTime = new Date(endYear, endMonth - 1, endDay, 23, 59, 59, 999);
 
             if (postDate < startDateTime || postDate > endDateTime) {
                 return; // Date filter
@@ -136,28 +137,27 @@ export const fetchReportData = async (filters) => {
                 return;
             }
 
-            // Parse location string: format is "City, State, Country"
-            // Examples: "Wells, ME, USA" or "2 Post Office Square, Kennebunk, ME 04043, USA"
-            const location = doc.data().location || '';
-            const locationParts = location.split(',').map(part => part.trim());
+            // Use stored City/State/Country fields first (more reliable),
+            // fall back to parsing the location string
+            let city = doc.data().City || '';
+            let state = doc.data().State || '';
+            let country = doc.data().Country || '';
 
-            // Extract parts - the last part is usually country, second-to-last is state/province
-            let city = '';
-            let state = '';
-            let country = '';
+            // If stored fields are missing, parse the location string
+            if (!city && !state && !country) {
+                const location = doc.data().location || '';
+                const locationParts = location.split(',').map(part => part.trim());
 
-            if (locationParts.length >= 3) {
-                // Last part is country
-                country = locationParts[locationParts.length - 1];
-                // Second-to-last is state (might have zip code, so extract just letters)
-                state = locationParts[locationParts.length - 2].replace(/\d+/g, '').trim();
-                // Everything before that is city
-                city = locationParts.slice(0, locationParts.length - 2).join(', ').trim();
-            } else if (locationParts.length === 2) {
-                state = locationParts[0];
-                country = locationParts[1];
-            } else if (locationParts.length === 1) {
-                city = locationParts[0];
+                if (locationParts.length >= 3) {
+                    country = locationParts[locationParts.length - 1];
+                    state = locationParts[locationParts.length - 2].replace(/\d+/g, '').trim();
+                    city = locationParts.slice(0, locationParts.length - 2).join(', ').trim();
+                } else if (locationParts.length === 2) {
+                    state = locationParts[0];
+                    country = locationParts[1];
+                } else if (locationParts.length === 1) {
+                    city = locationParts[0];
+                }
             }
 
             // Normalize state and country
@@ -182,7 +182,8 @@ export const fetchReportData = async (filters) => {
             // All filters passed - include this post
             total += litterWeight;
 
-            const key = `${city}${state ? ', ' + state : ''}${country ? ', ' + country : ''}`;
+            const keyParts = [city, state, country].filter(part => part && part.trim() !== '');
+            const key = keyParts.join(', ');
 
             if (cityWeightMap.has(key)) {
                 cityWeightMap.set(key, cityWeightMap.get(key) + litterWeight);
