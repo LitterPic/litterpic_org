@@ -120,6 +120,8 @@ export default function EditProfilePage() {
         setShowNewOrganizationInput(false);
     };
 
+    const DEFAULT_AVATAR = "https://litterpic.org/images/default-avatar.jpg";
+
     const handleChange = async (e) => {
         const file = e.target.files[0];
         if (!file) return;
@@ -149,9 +151,14 @@ export default function EditProfilePage() {
                 return;
             }
 
+            // Always use a full absolute URL for Firebase Auth
+            const finalPhotoUrl = photoUrl && photoUrl.startsWith('http')
+                ? photoUrl
+                : DEFAULT_AVATAR;
+
             await updateProfile(auth.currentUser, {
                 displayName: displayNameTrimmed,
-                photoURL: photoUrl,
+                photoURL: finalPhotoUrl,
             });
 
             const finalOrganization = showNewOrganizationInput ? newOrganization : organization;
@@ -163,7 +170,7 @@ export default function EditProfilePage() {
                     bio: bio.trim(),
                     display_name: displayNameTrimmed,
                     organization: finalOrganization,
-                    photo_url: photoUrl,
+                    photo_url: finalPhotoUrl,
                     first_login: false,
                 },
                 { merge: true }

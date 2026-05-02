@@ -112,7 +112,7 @@ export default function SignUpForm() {
                 created_time: serverTimestamp(),
                 email: user.email,
                 uid: user.uid,
-                photo_url: "/images/default-avatar.jpg",
+                photo_url: "https://litterpic.org/images/default-avatar.jpg",
                 organization: "Independent",
                 first_login: true,
                 display_name: displayName, // Use the unique display name
