@@ -3,7 +3,7 @@ import React from "react";
 const boardMembers = [
     {
         name: 'Alek Babich  - President & Executive Director',
-        image: '/images/Alek.webp',
+        image: '/images/Alek_Profile.webp',
         content: 'A software engineer by trade, I\'ve been passionate about the environment ever since I can ' +
             'remember. I saw a need for a change, and this year decided to start LitterPic Inc. to make a difference ' +
             'and inspire others to lend a hand in cleaning litter from our roads, beaches, and parks!',
@@ -48,7 +48,7 @@ const BoardMembers = () => (
         <div className="directors-text">LitterPic Inc. Board of Directors</div>
         {boardMembers.map((member, index) => (
             <div className="member-container" key={index}>
-                <img className="member-image" src={member.image} alt={member.name}/>
+                <img className="member-image" src={member.image} alt={member.name} width="120" height="160"/>
                 <div className="member-content">
                     <h3>{member.name}</h3>
                     <p>{member.content}</p>

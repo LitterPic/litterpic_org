@@ -71,9 +71,15 @@
 }
 
 .member-image {
-  height: 7.8rem;
+  height: 10rem !important;
+  width: 7.5rem !important;
+  min-height: 10rem;
+  min-width: 7.5rem;
+  object-fit: cover;
+  object-position: center 20%;
+  border-radius: 4px;
   margin-right: 1.25rem;
-  width: 7.2rem;
+  flex-shrink: 0;
 }
 
 .member-content {
@@ -108,10 +114,12 @@
   }
   .member-image {
     grid-row: span 0;
-    height: 100px;
+    height: 133px !important;
+    width: 100px !important;
+    object-fit: cover;
+    object-position: center 20%;
     margin-right: 0;
     margin-top: 1rem;
-    width: 100px;
   }
   .member-content {
     flex: 1;
@@ -127,8 +135,10 @@
     margin-left: 0;
   }
   .member-image {
-    height: 9.3rem;
-    width: 8.3rem;
+    height: 12rem !important;
+    width: 9rem !important;
+    object-fit: cover;
+    object-position: center 20%;
   }
 }
 .announcement-bar {
@@ -1941,9 +1951,15 @@ p .index-inspire-change-text {
 }
 
 .member-image {
-  height: 7.8rem;
+  height: 10rem !important;
+  width: 7.5rem !important;
+  min-height: 10rem;
+  min-width: 7.5rem;
+  object-fit: cover;
+  object-position: center 20%;
+  border-radius: 4px;
   margin-right: 1.25rem;
-  width: 7.2rem;
+  flex-shrink: 0;
 }
 
 .member-content {
@@ -1978,10 +1994,12 @@ p .index-inspire-change-text {
   }
   .member-image {
     grid-row: span 0;
-    height: 100px;
+    height: 133px !important;
+    width: 100px !important;
+    object-fit: cover;
+    object-position: center 20%;
     margin-right: 0;
     margin-top: 1rem;
-    width: 100px;
   }
   .member-content {
     flex: 1;
@@ -1997,8 +2015,10 @@ p .index-inspire-change-text {
     margin-left: 0;
   }
   .member-image {
-    height: 9.3rem;
-    width: 8.3rem;
+    height: 12rem !important;
+    width: 9rem !important;
+    object-fit: cover;
+    object-position: center 20%;
   }
 }
 .banner {

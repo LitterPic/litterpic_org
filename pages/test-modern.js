@@ -31,7 +31,7 @@ export default function TestModern() {
               <div className="modern-post-header">
                 <div className="modern-post-user">
                   <div className="modern-post-avatar">
-                    <img src="/images/Alek.webp" alt="User" />
+                    <img src="/images/Alek_Profile.webp" alt="User" />
                   </div>
                   <div className="modern-post-user-info">
                     <h3 className="modern-post-username">Test User</h3>
