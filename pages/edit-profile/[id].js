@@ -10,6 +10,7 @@ import { resizeImage } from '../../components/utils';
 import { capitalizeFirstWordOfSentences } from '../../utils/textUtils';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Head from 'next/head';
 
 export default function EditProfilePage() {
     const { user, loading } = useAuth();  // Added loading check
@@ -204,6 +205,9 @@ export default function EditProfilePage() {
 
     return (
         <div className="min-h-screen bg-gradient-to-b from-green-950 to-green-500 py-10 px-4">
+            <Head>
+                <title>Edit Profile - LitterPic</title>
+            </Head>
             {/* Banner */}
             <div className="banner w-full h-40 mb-8">
                 <img

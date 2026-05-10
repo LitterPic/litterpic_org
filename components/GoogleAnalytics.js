@@ -9,11 +9,13 @@ const GoogleAnalytics = () => {
     useEffect(() => {
         const handleRouteChange = (url) => {
             if (typeof window.gtag !== "function") return;
-            window.gtag("event", "page_view", {
-                page_path: url,
-                page_location: window.location.origin + url,
-                page_title: document.title,
-            });
+            setTimeout(() => {
+                window.gtag("event", "page_view", {
+                    page_path: url,
+                    page_location: window.location.origin + url,
+                    page_title: document.title,
+                });
+            }, 50);
         };
 
         router.events.on("routeChangeComplete", handleRouteChange);

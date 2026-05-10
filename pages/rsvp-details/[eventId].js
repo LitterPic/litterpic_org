@@ -1,15 +1,16 @@
-import {useRouter} from 'next/router';
-import {useEffect, useState} from 'react';
-import {db} from "../../lib/firebase";
-import {doc, getDoc} from 'firebase/firestore';
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import { db } from '../../lib/firebase';
+import { doc, getDoc } from 'firebase/firestore';
+import Head from 'next/head';
 
 const RsvpDetails = () => {
     const router = useRouter();
-    const {eventId} = router.query;
+    const { eventId } = router.query;
     const [rsvpDetails, setRsvpDetails] = useState([]);
 
     useEffect(() => {
-        const fetchRsvpDetails = async () => {
+        const fetchEventDetails = async () => {
             if (eventId) {
                 // Fetch the event document
                 const eventDocRef = doc(db, 'events', eventId);
@@ -60,7 +61,7 @@ const RsvpDetails = () => {
             }
         };
 
-        fetchRsvpDetails();
+        fetchEventDetails();
     }, [eventId]);
 
     const downloadCSV = () => {
@@ -69,7 +70,7 @@ const RsvpDetails = () => {
             csvContent += `${item.userEmail},${item.userName},${item.noteToOrganizer},${item.organization}\n`;
         });
 
-        const blob = new Blob([csvContent], {type: 'text/csv;charset=utf-8;'});
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
         const link = document.createElement('a');
         const url = URL.createObjectURL(blob);
         link.setAttribute('href', url);
@@ -82,28 +83,34 @@ const RsvpDetails = () => {
 
     return (
         <div>
+            <Head>
+                <title>RSVP Details - LitterPic</title>
+            </Head>
+            <div className="banner">
+                <img src="/images/user_posts_banner.webp" alt="Banner Image" />
+            </div>
             <table className="rsvp-details-table">
                 <thead>
-                <tr>
-                    <th>Email</th>
-                    <th>Name</th>
-                    <th>Note to Organizer</th>
-                    <th>Number Attending</th>
-                    <th>Organization</th>
-                </tr>
+                    <tr>
+                        <th>Email</th>
+                        <th>Name</th>
+                        <th>Note to Organizer</th>
+                        <th>Number Attending</th>
+                        <th>Organization</th>
+                    </tr>
                 </thead>
                 <tbody>
-                {
-                    rsvpDetails.map((rsvp, index) => (
-                        <tr key={index}>
-                            <td>{rsvp.userEmail}</td>
-                            <td>{rsvp.userName}</td>
-                            <td>{rsvp.noteToOrganizer}</td>
-                            <td>{rsvp.numberAttending || rsvp.numberAttending === 0 ? rsvp.numberAttending : 1}</td>
-                            <td>{rsvp.organization}</td>
-                        </tr>
-                    ))
-                }
+                    {
+                        rsvpDetails.map((rsvp, index) => (
+                            <tr key={index}>
+                                <td>{rsvp.userEmail}</td>
+                                <td>{rsvp.userName}</td>
+                                <td>{rsvp.noteToOrganizer}</td>
+                                <td>{rsvp.numberAttending || rsvp.numberAttending === 0 ? rsvp.numberAttending : 1}</td>
+                                <td>{rsvp.organization}</td>
+                            </tr>
+                        ))
+                    }
                 </tbody>
             </table>
             <button className="download-csv-button" onClick={downloadCSV}>Download CSV</button>

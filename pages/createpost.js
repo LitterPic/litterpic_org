@@ -27,7 +27,7 @@ import {convertToWebP} from "../utils/imageConverter";
 import {sendNewPostNotificationEmail} from "../utils/emailService";
 import {generateCollage, blobToFile} from "../utils/collageGenerator";
 import { trackPostCreated } from '../lib/ga';
-
+import Head from 'next/head';
 
 const libraries = ['places'];
 const mapApiKey = process.env.NEXT_PUBLIC_PLACES_API_KEY;
@@ -460,6 +460,9 @@ function CreatePost() {
 
     return (
         <div>
+            <Head>
+                <title>Create Post - LitterPic</title>
+            </Head>
             <div className="banner">
                 <img src="/images/create-post-banner.jpeg" alt="Banner Image"/>
                 <ToastContainer/>
