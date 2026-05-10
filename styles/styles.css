@@ -4055,6 +4055,37 @@ h1.heading-text.profile-heading {
   font-weight: bold;
   margin-right: 5px;
 }
+.comment .comment-like {
+  align-items: center;
+  display: flex;
+  gap: 3px;
+  margin-top: 2px;
+}
+.comment .comment-like .comment-like-icon {
+  color: #aaa;
+  cursor: pointer;
+  font-size: 14px;
+  transition: color 0.2s ease;
+}
+.comment .comment-like .comment-like-icon:hover {
+  color: #f00;
+}
+.comment .comment-like .comment-like-icon.liked {
+  color: #f00;
+}
+.comment .comment-like .comment-like-count {
+  color: #888;
+  cursor: default;
+  font-size: 0.7rem;
+  position: relative;
+}
+.comment .comment-like .comment-like-count .like-list-container {
+  bottom: auto;
+  left: 0;
+  position: absolute;
+  top: 1.2rem;
+  z-index: 100;
+}
 
 .suggestion-item {
   background-color: #fff;
@@ -6264,6 +6295,37 @@ input::placeholder {
 .comment .comment-text .comment-user {
   font-weight: bold;
   margin-right: 5px;
+}
+.comment .comment-like {
+  align-items: center;
+  display: flex;
+  gap: 3px;
+  margin-top: 2px;
+}
+.comment .comment-like .comment-like-icon {
+  color: #aaa;
+  cursor: pointer;
+  font-size: 14px;
+  transition: color 0.2s ease;
+}
+.comment .comment-like .comment-like-icon:hover {
+  color: #f00;
+}
+.comment .comment-like .comment-like-icon.liked {
+  color: #f00;
+}
+.comment .comment-like .comment-like-count {
+  color: #888;
+  cursor: default;
+  font-size: 0.7rem;
+  position: relative;
+}
+.comment .comment-like .comment-like-count .like-list-container {
+  bottom: auto;
+  left: 0;
+  position: absolute;
+  top: 1.2rem;
+  z-index: 100;
 }
 
 .suggestion-item {

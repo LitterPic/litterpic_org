@@ -8,6 +8,7 @@ import withAuth from "../components/withAuth";
 import {FaTrashAlt} from "react-icons/fa";
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { trackEvent } from '../lib/ga';
 
 const NotificationsPage = () => {
     const [notifications, setNotifications] = useState([]);
@@ -116,6 +117,7 @@ const NotificationsPage = () => {
         if (!notification.isRead) {
             await markAsRead(notification.id);
         }
+        trackEvent('notification_clicked', { notification_type: notification.title || 'unknown' });
         await router.push(`/stories?postId=${notification.postId}`);
     };
 

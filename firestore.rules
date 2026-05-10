@@ -60,7 +60,9 @@ service cloud.firestore {
     match /storyComments/{commentId} {
       allow read: if true; // Public - anyone can read comments
       allow create: if isVerifiedUser();
-      allow update: if false;
+      // Verified users may only touch the 'likes' array (like / unlike a comment)
+      allow update: if isVerifiedUser() &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likes']);
       // Author can delete their own comment; admin can delete any comment
       allow delete: if isVerifiedUser() && (
         resource.data.commentUser == /databases/$(database)/documents/users/$(request.auth.uid) ||
@@ -132,6 +134,18 @@ service cloud.firestore {
     match /appConfig/{docId} {
       allow read: if true; // Public - anyone can read config
       allow create, update, delete: if false;
+    }
+
+    // Contact form messages (write-only for authenticated users)
+    match /contact_messages/{messageId} {
+      allow create: if request.auth != null;
+      allow read, update, delete: if isAdmin();
+    }
+
+    // Reported posts (write-only for verified users)
+    match /reported_posts/{reportId} {
+      allow create: if isVerifiedUser();
+      allow read, update, delete: if isAdmin();
     }
 
     // Email verification resend requests collection

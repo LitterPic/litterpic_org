@@ -8,9 +8,12 @@ const GoogleAnalytics = () => {
 
     useEffect(() => {
         const handleRouteChange = (url) => {
-            if (typeof window.gtag === "function") {
-                window.gtag("config", GA_MEASUREMENT_ID, { page_path: url });
-            }
+            if (typeof window.gtag !== "function") return;
+            window.gtag("event", "page_view", {
+                page_path: url,
+                page_location: window.location.origin + url,
+                page_title: document.title,
+            });
         };
 
         router.events.on("routeChangeComplete", handleRouteChange);
@@ -21,6 +24,8 @@ const GoogleAnalytics = () => {
 
     return (
         <>
+            <link rel="preconnect" href="https://www.googletagmanager.com" />
+
             <Script
                 src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
                 strategy="afterInteractive"
@@ -33,7 +38,17 @@ const GoogleAnalytics = () => {
                         window.dataLayer = window.dataLayer || [];
                         function gtag(){dataLayer.push(arguments);}
                         gtag('js', new Date());
-                        gtag('config', '${GA_MEASUREMENT_ID}', { page_path: window.location.pathname });
+
+                        gtag('config', '${GA_MEASUREMENT_ID}', {
+                            send_page_view: false,
+                            cookie_domain: 'auto',
+                        });
+
+                        gtag('event', 'page_view', {
+                            page_path: window.location.pathname,
+                            page_location: window.location.href,
+                            page_title: document.title,
+                        });
                     `,
                 }}
             />

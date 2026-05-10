@@ -7,6 +7,7 @@ import MemberStats from '../components/MemberStats';
 import ReportBanner from "../components/ReportBanner";
 import ReportMeta from "../components/ReportMeta";
 import { fetchReportData } from '../utils/fetchReportData';
+import { trackEvent } from '../lib/ga';
 
 const ReportsPage = () => {
     const [totalWeight, setTotalWeight] = useState(0);
@@ -17,6 +18,7 @@ const ReportsPage = () => {
     const handleSubmit = async (filters) => {
         setIsLoading(true);
         setIsSubmitted(true);
+        trackEvent('report_generated', { city: filters?.city || 'all', state: filters?.state || 'all' });
         try {
             const { totalWeight, cityWeights } = await fetchReportData(filters);
             setTotalWeight(totalWeight);

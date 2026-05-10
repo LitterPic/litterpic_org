@@ -204,6 +204,34 @@ class NotificationSender {
         }
     }
 
+    static async createCommentLikeNotification(postId, commentId, commentAuthorId, likingUser) {
+        if (likingUser.uid === commentAuthorId) return; // Don't notify yourself
+
+        const db = getFirestore();
+        const randomTitle = this.titles[Math.floor(Math.random() * this.titles.length)];
+        const notificationMessage = `${likingUser.displayName || likingUser.email} liked your comment.`;
+
+        if (await NotificationSender.notificationExists(postId, commentAuthorId, likingUser.uid, notificationMessage)) {
+            return;
+        }
+
+        const notification = {
+            id: doc(collection(db, 'notifications')).id,
+            title: randomTitle,
+            message: notificationMessage,
+            timestamp: serverTimestamp(),
+            isRead: false,
+            postId: `userPosts/${postId}`,
+            userId: `users/${commentAuthorId}`,
+        };
+
+        try {
+            await setDoc(doc(db, `users/${commentAuthorId}/notifications/${notification.id}`), notification);
+        } catch (e) {
+            console.error("Failed to send comment like notification:", e);
+        }
+    }
+
     static async createCommentNotificationForOthers(postId, commentingUser, commentText, postAuthorId) {
         const db = getFirestore();
 

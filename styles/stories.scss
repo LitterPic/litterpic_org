@@ -378,6 +378,43 @@
       margin-right: 5px;
     }
   }
+
+  .comment-like {
+    align-items: center;
+    display: flex;
+    gap: 3px;
+    margin-top: 2px;
+
+    .comment-like-icon {
+      color: #aaa;
+      cursor: pointer;
+      font-size: 14px;
+      transition: color 0.2s ease;
+
+      &:hover {
+        color: $red;
+      }
+
+      &.liked {
+        color: $red;
+      }
+    }
+
+    .comment-like-count {
+      color: #888;
+      cursor: default;
+      font-size: .7rem;
+      position: relative;
+
+      .like-list-container {
+        bottom: auto;
+        left: 0;
+        position: absolute;
+        top: 1.2rem;
+        z-index: 100;
+      }
+    }
+  }
 }
 
 .suggestion-item {

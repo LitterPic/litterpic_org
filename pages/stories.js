@@ -73,6 +73,10 @@ function Stories() {
     const [shareEnabled, setShareEnabled] = useState(false);
     const [openShareMenuId, setOpenShareMenuId] = useState(null);
     const shareMenuRef = useRef(null);
+    const [commentLikes, setCommentLikes] = useState({}); // { commentId: [uid, uid, ...] }
+    const [hoveredCommentId, setHoveredCommentId] = useState(null);
+    const [commentLikePopupVisible, setCommentLikePopupVisible] = useState(false);
+    const [commentLikedUsers, setCommentLikedUsers] = useState([]);
 
     // Cache expiration times - more reasonable for user experience
     const ALL_POSTS_CACHE_EXPIRATION_MS = 300000; // 5 minutes for all posts
@@ -450,6 +454,39 @@ function Stories() {
         setLikedUsers([]);
     };
 
+    const handleCommentLikeHover = async (commentId, likedUids) => {
+        if (!likedUids || likedUids.length === 0) return;
+
+        if (debounceTimers[`comment_${commentId}`]) {
+            clearTimeout(debounceTimers[`comment_${commentId}`]);
+        }
+
+        debounceTimers[`comment_${commentId}`] = setTimeout(async () => {
+            const db = getFirestore();
+            const userPromises = likedUids.map(async (uid) => {
+                const userSnap = await getDoc(doc(db, 'users', uid));
+                return userSnap.exists() ? { uid, ...userSnap.data() } : null;
+            });
+            const fetchedUsers = (await Promise.all(userPromises)).filter(Boolean);
+
+            setHoveredCommentId(commentId);
+            setCommentLikedUsers(fetchedUsers);
+            setCommentLikePopupVisible(true);
+
+            delete debounceTimers[`comment_${commentId}`];
+        }, 400);
+    };
+
+    const handleCommentLeaveHover = (commentId) => {
+        if (debounceTimers[`comment_${commentId}`]) {
+            clearTimeout(debounceTimers[`comment_${commentId}`]);
+            delete debounceTimers[`comment_${commentId}`];
+        }
+        setCommentLikePopupVisible(false);
+        setHoveredCommentId(null);
+        setCommentLikedUsers([]);
+    };
+
     const handleClickOutside = (event) => {
         if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
             setOpenMenuId(null);
@@ -609,6 +646,52 @@ function Stories() {
             } catch (error) {
                 // Silent error handling
             }
+        }
+    };
+
+    const handleToggleCommentLike = async (commentData, postId) => {
+        if (!user) { router.push('/login'); return; }
+        if (!user.emailVerified) {
+            toast.error('Please verify your email before liking comments.');
+            router.push('/verify_email');
+            return;
+        }
+
+        const commentId = commentData.id;
+        const commentAuthorId = commentData?.commentUser?._key?.path?.segments?.[6];
+        const db = getFirestore();
+        const commentRef = doc(db, 'storyComments', commentId);
+
+        const currentLikes = commentLikes[commentId] || [];
+        const alreadyLiked = currentLikes.includes(user.uid);
+
+        // Optimistic UI update
+        setCommentLikes(prev => ({
+            ...prev,
+            [commentId]: alreadyLiked
+                ? currentLikes.filter(uid => uid !== user.uid)
+                : [...currentLikes, user.uid],
+        }));
+
+        try {
+            const commentSnap = await getDoc(commentRef);
+            const existingLikes = commentSnap.data()?.likes || [];
+            const updatedLikes = alreadyLiked
+                ? existingLikes.filter(uid => uid !== user.uid)
+                : [...existingLikes, user.uid];
+
+            await updateDoc(commentRef, { likes: updatedLikes });
+
+            if (!alreadyLiked) {
+                trackEvent('comment_liked', { post_id: postId, comment_id: commentId });
+                if (commentAuthorId) {
+                    await NotificationSender.createCommentLikeNotification(postId, commentId, commentAuthorId, user);
+                }
+            }
+        } catch (error) {
+            console.error('Error toggling comment like:', error);
+            // Revert optimistic update on failure
+            setCommentLikes(prev => ({ ...prev, [commentId]: currentLikes }));
         }
     };
 
@@ -1200,6 +1283,13 @@ function Stories() {
             if (!isCancelled) {
                 setPostComments(prevComments => ({...prevComments, ...fetchedPostComments}));
 
+                // Seed commentLikes from fetched data
+                const likeMap = {};
+                Object.values(fetchedPostComments).flat().forEach(c => {
+                    if (c.id && Array.isArray(c.likes)) likeMap[c.id] = c.likes;
+                });
+                setCommentLikes(prev => ({ ...prev, ...likeMap }));
+
                 // Cache the comments
                 try {
                     localStorage.setItem('postComments', JSON.stringify(fetchedPostComments));
@@ -1674,6 +1764,30 @@ function Stories() {
                                                                                         __html: sanitizedCommentHTML,
                                                                                     }}
                                                                                 />
+                                                                                {/* Comment like button */}
+                                                                                <div className="comment-like">
+                                                                                    <i
+                                                                                        className="material-icons comment-like-icon"
+                                                                                        style={{ color: (commentLikes[commentData.id] || []).includes(user?.uid) ? '#e53935' : '#aaa' }}
+                                                                                        onClick={() => handleToggleCommentLike(commentData, post.id)}
+                                                                                        title="Like this comment"
+                                                                                    >
+                                                                                        {(commentLikes[commentData.id] || []).includes(user?.uid) ? 'favorite' : 'favorite_border'}
+                                                                                    </i>
+                                                                                    {(commentLikes[commentData.id] || []).length > 0 && (
+                                                                                        <span
+                                                                                            className="comment-like-count"
+                                                                                            onMouseEnter={() => handleCommentLikeHover(commentData.id, commentLikes[commentData.id] || [])}
+                                                                                            onMouseLeave={() => handleCommentLeaveHover(commentData.id)}
+                                                                                            style={{ position: 'relative', cursor: 'default' }}
+                                                                                        >
+                                                                                            {(commentLikes[commentData.id] || []).length}
+                                                                                            {commentLikePopupVisible && hoveredCommentId === commentData.id && (
+                                                                                                <LikePopup likedUsers={commentLikedUsers} />
+                                                                                            )}
+                                                                                        </span>
+                                                                                    )}
+                                                                                </div>
                                                                             </div>
                                                                         </>
                                                                     )}

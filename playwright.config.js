@@ -74,6 +74,17 @@ module.exports = defineConfig({
             },
             dependencies: ['setup'],
         },
+        {
+            name: 'chromium-reports',
+            testMatch: '**/reports/**/*.spec.js',
+            use: {
+                ...devices['Desktop Chrome'],
+                /* Firestore queries for report data can be slow */
+                navigationTimeout: 45_000,
+                actionTimeout: 20_000,
+            },
+            dependencies: ['setup'],
+        },
 
         /* ── 3. Public (unauthenticated) tests ── no storageState needed */
         {
