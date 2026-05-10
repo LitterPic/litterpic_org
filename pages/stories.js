@@ -677,8 +677,9 @@ function Stories() {
             const commentSnap = await getDoc(commentRef);
             const existingLikes = commentSnap.data()?.likes || [];
             const updatedLikes = alreadyLiked
-                ? existingLikes.filter(uid => uid !== user.uid)
-                : [...existingLikes, user.uid];
+                // existingLikes are DocumentReferences — compare by .id
+                ? existingLikes.filter(ref => (ref?.id ?? ref) !== user.uid)
+                : [...existingLikes, doc(db, 'users', user.uid)];
 
             await updateDoc(commentRef, { likes: updatedLikes });
 
@@ -1283,10 +1284,14 @@ function Stories() {
             if (!isCancelled) {
                 setPostComments(prevComments => ({...prevComments, ...fetchedPostComments}));
 
-                // Seed commentLikes from fetched data
+                // Seed commentLikes from fetched data.
+                // likes[] are stored as Firestore DocumentReferences — extract the UID (.id).
+                // Falls back to plain string for backwards compatibility with old data.
                 const likeMap = {};
                 Object.values(fetchedPostComments).flat().forEach(c => {
-                    if (c.id && Array.isArray(c.likes)) likeMap[c.id] = c.likes;
+                    if (c.id && Array.isArray(c.likes)) {
+                        likeMap[c.id] = c.likes.map(ref => ref?.id ?? ref).filter(Boolean);
+                    }
                 });
                 setCommentLikes(prev => ({ ...prev, ...likeMap }));
 
