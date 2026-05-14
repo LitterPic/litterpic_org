@@ -173,6 +173,7 @@ export default function EditProfilePage() {
                     organization: finalOrganization,
                     photo_url: finalPhotoUrl,
                     first_login: false,
+                    has_visited_profile: true,   // clear the profile-redirect flag at the same time
                 },
                 { merge: true }
             );

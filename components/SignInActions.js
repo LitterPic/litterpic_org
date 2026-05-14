@@ -1,5 +1,5 @@
-import { signInWithEmailAndPassword, sendPasswordResetEmail, signOut } from 'firebase/auth';
-import { updateDoc, doc } from 'firebase/firestore';
+import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
+import { updateDoc, doc, getDoc } from 'firebase/firestore';
 import { auth, db } from '../lib/firebase';
 import { toast } from 'react-toastify';
 import { trackLogin, setGAUserId } from '../lib/ga';
@@ -31,13 +31,27 @@ export default function SignInActions({
 	                return;
             }
 
-            if (router.query.redirectTo) {
-                trackLogin();
-                setGAUserId(user.uid);
+            trackLogin();
+            setGAUserId(user.uid);
+
+            // Fetch the user doc to decide where to send the user
+            const userRef = doc(db, 'users', user.uid);
+            const userDoc = await getDoc(userRef);
+            const userData = userDoc.exists() ? userDoc.data() : {};
+
+            if (userData.first_login === true) {
+                // Brand-new user — send them to fill in their profile
+                await router.push(`/edit-profile/${user.uid}`);
+            } else if (userData.has_visited_profile !== true) {
+                // Existing user who has never seen their profile on the web —
+                // send them to the profile page once. The profile page will set
+                // has_visited_profile = true so this only fires once.
+                // The ?welcome=true flag tells the profile page to show the
+                // "please update your profile" prompt.
+                await router.push('/profile?welcome=true');
+            } else if (router.query.redirectTo) {
                 await router.push(router.query.redirectTo);
             } else {
-                trackLogin();
-                setGAUserId(user.uid);
                 await router.push('/');
             }
         } catch (error) {

@@ -3463,6 +3463,90 @@ p .index-inspire-change-text {
     top: 15%;
   }
 }
+.welcome-modal-overlay {
+  align-items: center;
+  background: rgba(0, 0, 0, 0.4);
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 1000;
+}
+
+.welcome-modal {
+  animation: welcome-modal-in 0.25s ease-out;
+  background: #fff;
+  border-radius: 1.25rem;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.25);
+  max-width: 480px;
+  padding: 2.5rem 2rem 2rem;
+  text-align: center;
+  width: calc(100% - 2rem);
+}
+
+@keyframes welcome-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.welcome-modal-icon {
+  font-size: 3rem;
+  line-height: 1;
+  margin-bottom: 0.75rem;
+}
+
+.welcome-modal-title {
+  color: #015e41;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.welcome-modal-message {
+  color: #444;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1.75rem;
+}
+
+.welcome-modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.welcome-modal-btn {
+  border: none;
+  border-radius: 0.6rem;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  transition: opacity 0.15s, transform 0.1s;
+}
+.welcome-modal-btn:hover {
+  opacity: 0.88;
+}
+.welcome-modal-btn:active {
+  transform: scale(0.97);
+}
+.welcome-modal-btn--primary {
+  background: #015e41;
+  color: #fff;
+}
+.welcome-modal-btn--secondary {
+  background: #e5e5e4;
+  color: #808080;
+}
+
 .profile-content {
   display: flex;
 }
@@ -5484,6 +5568,90 @@ textarea.event-description-input {
 }
 .privacy-ul {
   padding: 1rem 3rem;
+}
+
+.welcome-modal-overlay {
+  align-items: center;
+  background: rgba(0, 0, 0, 0.4);
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 1000;
+}
+
+.welcome-modal {
+  animation: welcome-modal-in 0.25s ease-out;
+  background: #fff;
+  border-radius: 1.25rem;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.25);
+  max-width: 480px;
+  padding: 2.5rem 2rem 2rem;
+  text-align: center;
+  width: calc(100% - 2rem);
+}
+
+@keyframes welcome-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.welcome-modal-icon {
+  font-size: 3rem;
+  line-height: 1;
+  margin-bottom: 0.75rem;
+}
+
+.welcome-modal-title {
+  color: #015e41;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.welcome-modal-message {
+  color: #444;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1.75rem;
+}
+
+.welcome-modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.welcome-modal-btn {
+  border: none;
+  border-radius: 0.6rem;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  transition: opacity 0.15s, transform 0.1s;
+}
+.welcome-modal-btn:hover {
+  opacity: 0.88;
+}
+.welcome-modal-btn:active {
+  transform: scale(0.97);
+}
+.welcome-modal-btn--primary {
+  background: #015e41;
+  color: #fff;
+}
+.welcome-modal-btn--secondary {
+  background: #e5e5e4;
+  color: #808080;
 }
 
 .profile-content {
