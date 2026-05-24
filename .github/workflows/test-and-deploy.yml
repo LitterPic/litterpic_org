@@ -48,10 +48,7 @@
 name: Test → Deploy
 
 on:
-  push:
-    branches: [master]
-  pull_request:
-    branches: [master]
+  workflow_dispatch: # This stops automated runs and enables the manual button
 
 jobs:
   # ──────────────────────────────────────────────────────────────────────────
