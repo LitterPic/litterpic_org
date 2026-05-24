@@ -1,11 +1,9 @@
 ##############################################################################
 # LitterPic CI/CD Pipeline
 #
-# Trigger: push to master
+# Trigger: push to master  → deploys to Vercel automatically
 #
-# Jobs:
-#   1. test   — build Next.js, run Playwright E2E tests
-#   2. deploy — deploy to Vercel ONLY if tests pass (needs: test)
+# E2E tests are run locally from the IDE only (not part of this pipeline).
 #
 # Required GitHub Secrets  (Settings → Secrets and variables → Actions):
 #
@@ -14,123 +12,21 @@
 #   VERCEL_ORG_ID                   Vercel team/org ID  (.vercel/project.json)
 #   VERCEL_PROJECT_ID               Vercel project ID   (.vercel/project.json)
 #
-#   ── E2E test credentials ───────────────────────────────────────────────────
-#   TEST_USER_EMAIL                 Firebase test-account email
-#   TEST_USER_PASSWORD              Firebase test-account password
-#
-#   ── Firebase REST API (test helpers) ───────────────────────────────────────
-#   FIREBASE_API_KEY                Web API key  (Firebase console → Project settings)
-#   FIREBASE_PROJECT_ID             e.g. litterpic-fa0bb
-#
-#   ── Google Maps / Places ───────────────────────────────────────────────────
-#   NEXT_PUBLIC_PLACES_API_KEY      Google Cloud → APIs → Maps JavaScript API key
-#
-#   ── AWS (image uploads) ────────────────────────────────────────────────────
-#   NEXT_PUBLIC_AWS_ACCESS_KEY_ID
-#   NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY
-#   NEXT_PUBLIC_AWS_REGION
-#
-#   ── IP geolocation ─────────────────────────────────────────────────────────
-#   NEXT_PUBLIC_IPINFO_ACCESS_TOKEN
-#   NEXT_PUBLIC_IPSTACK_ACCESS_TOKEN
-#
-#   ── Analytics ──────────────────────────────────────────────────────────────
-#   NEXT_PUBLIC_GA_MEASUREMENT_ID
-#
-#   ── Email services ─────────────────────────────────────────────────────────
-#   MAILERSEND_API_KEY
-#   MAILERSEND_FROM_EMAIL
-#   MAILERLITE_API_KEY
-#   POSTMARK_API_KEY
-#
 ##############################################################################
 
-name: Test → Deploy
+name: Deploy
 
 on:
-  workflow_dispatch: # This stops automated runs and enables the manual button
+  push:
+    branches: [master]
 
 jobs:
   # ──────────────────────────────────────────────────────────────────────────
-  # JOB 1: Run E2E Tests
-  # ──────────────────────────────────────────────────────────────────────────
-  test:
-    name: E2E Tests
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-
-    env:
-      CI: true
-      # Google Maps / Places (needed by /createpost)
-      NEXT_PUBLIC_PLACES_API_KEY:                ${{ secrets.NEXT_PUBLIC_PLACES_API_KEY }}
-      # AWS (image uploads)
-      NEXT_PUBLIC_AWS_ACCESS_KEY_ID:             ${{ secrets.NEXT_PUBLIC_AWS_ACCESS_KEY_ID }}
-      NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY:         ${{ secrets.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY }}
-      NEXT_PUBLIC_AWS_REGION:                    ${{ secrets.NEXT_PUBLIC_AWS_REGION }}
-      # IP geolocation
-      NEXT_PUBLIC_IPINFO_ACCESS_TOKEN:           ${{ secrets.NEXT_PUBLIC_IPINFO_ACCESS_TOKEN }}
-      NEXT_PUBLIC_IPSTACK_ACCESS_TOKEN:          ${{ secrets.NEXT_PUBLIC_IPSTACK_ACCESS_TOKEN }}
-      # Analytics
-      NEXT_PUBLIC_GA_MEASUREMENT_ID:             ${{ secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
-      # Firebase REST API (used by test helpers — config is hardcoded in lib/firebase.js)
-      FIREBASE_API_KEY:                          ${{ secrets.FIREBASE_API_KEY }}
-      FIREBASE_PROJECT_ID:                       ${{ secrets.FIREBASE_PROJECT_ID }}
-      # Email services
-      MAILERSEND_API_KEY:                        ${{ secrets.MAILERSEND_API_KEY }}
-      MAILERSEND_FROM_EMAIL:                     ${{ secrets.MAILERSEND_FROM_EMAIL }}
-      MAILERLITE_API_KEY:                        ${{ secrets.MAILERLITE_API_KEY }}
-      POSTMARK_API_KEY:                          ${{ secrets.POSTMARK_API_KEY }}
-      # Test credentials
-      TEST_USER_EMAIL:                           ${{ secrets.TEST_USER_EMAIL }}
-      TEST_USER_PASSWORD:                        ${{ secrets.TEST_USER_PASSWORD }}
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js 20
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Install Playwright Chromium browser
-        run: npx playwright install --with-deps chromium
-
-      - name: Build Next.js (production)
-        run: npm run build
-
-      - name: Run E2E tests
-        run: npx playwright test
-
-      - name: Upload Playwright report on failure
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 7
-
-      - name: Upload test traces on failure
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: playwright-traces
-          path: test-results/
-          retention-days: 7
-
-  # ──────────────────────────────────────────────────────────────────────────
-  # JOB 2: Deploy to Vercel Production
-  # Only runs on push to master AND only when tests pass
+  # Deploy to Vercel Production on every push to master
   # ──────────────────────────────────────────────────────────────────────────
   deploy:
     name: Deploy to Vercel
     runs-on: ubuntu-latest
-    needs: test  # ← Gates deployment on passing tests
-    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
 
     env:
       VERCEL_ORG_ID:     ${{ secrets.VERCEL_ORG_ID }}
@@ -157,4 +53,3 @@ jobs:
 
       - name: Deploy to Vercel production
         run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
-
