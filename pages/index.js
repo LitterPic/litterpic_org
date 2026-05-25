@@ -12,13 +12,6 @@ import { useStoriesContext } from '../contexts/StoriesContext';
 import SimpleCarousel from '../components/SimpleCarousel';
 import { trackAppStoreClick } from '../lib/ga';
 
-const AWS = require('aws-sdk');
-
-AWS.config.update({
-    accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY,
-    region: process.env.NEXT_PUBLIC_AWS_REGION || 'us-east-1'
-});
 
 async function fetchRecentPosts() {
     try {
@@ -125,44 +118,6 @@ export default function Index() {
         }
     }, []); // Empty dependency array - run once on mount
 
-    useEffect(() => {
-        async function sendNotification() {
-            try {
-                // Get the user's IP Address
-                const res = await fetch('https://api64.ipify.org?format=json');
-                const data = await res.json();
-                const ipAddress = data.ip;
-
-                // Get Geographical Info using ipstack
-                const geoRes = await fetch(`https://ipinfo.io/${ipAddress}?token=6b6a41269b8130`);
-                const geoData = await geoRes.json();
-                const location = 'City: ' + geoData.city +
-                    '\nRegion: ' + geoData.region +
-                    '\nPostal Code: ' + geoData.postal +
-                    '\nCountry: ' + geoData.country +
-                    '\nLocation: https://maps.google.com/?q=' + geoData.loc +
-                    '\nTime Zone: ' + geoData.timezone;
-
-                // Send SNS notification
-                const sns = new AWS.SNS();
-                const topicArn = 'arn:aws:sns:us-east-1:710280486241:litterpicOrgNewVisitor';
-                const message = `A user from has visited LitterPic.org! \n\n ${location}`;
-
-                const params = {
-                    Message: message,
-                    TopicArn: topicArn,
-                };
-
-                await sns.publish(params).promise();
-            } catch (error) {
-                console.error("Error sending notification: ", error.message);
-            }
-        }
-
-        (async () => {
-            await sendNotification();
-        })();
-    }, []);
 
     useEffect(() => {
         const fetchPosts = async () => {
