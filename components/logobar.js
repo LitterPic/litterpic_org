@@ -4,6 +4,7 @@ import {onAuthStateChanged, signOut} from 'firebase/auth';
 import {auth, db} from '../lib/firebase';
 import {collection, doc, getDoc, onSnapshot, query, where} from 'firebase/firestore';
 import CustomButton from './CustomButton';
+import { isSignupInProgress } from '../utils/signupInProgress';
 
 const Logobar = () => {
     const dropdownRef = useRef(null);
@@ -27,7 +28,8 @@ const Logobar = () => {
 				// Don't interfere with signup flow - let SignUpForm complete its work.
 				// Use routerRef (not the stale closure `router`) so we always see the
 				// current pathname even when the user navigated here from another page.
-				if (routerRef.current.pathname === '/signup') {
+				// Also check the global signup flag as a belt-and-suspenders guard.
+				if (routerRef.current.pathname === '/signup' || isSignupInProgress()) {
 					return;
 				}
 

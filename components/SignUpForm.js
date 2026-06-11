@@ -1,12 +1,13 @@
 import {useState} from 'react';
 import {createUserWithEmailAndPassword, sendEmailVerification, signOut} from 'firebase/auth';
-import {auth} from '../lib/firebase';
+import {auth, db} from '../lib/firebase';
 import {useRouter} from 'next/router';
-import {doc, getFirestore, serverTimestamp, setDoc, getDocs, collection} from 'firebase/firestore';
+import {doc, serverTimestamp, setDoc, getDocs, collection} from 'firebase/firestore';
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {subscribeUserToMail} from '../utils/subscribeUserToMail';
 import { trackSignUp } from '../lib/ga';
+import { setSignupInProgress } from '../utils/signupInProgress';
 
 export default function SignUpForm() {
     const [email, setEmail] = useState('');
@@ -36,7 +37,6 @@ export default function SignUpForm() {
 
     // Function to check if display name already exists in Firestore
     const checkDisplayNameExists = async (displayName) => {
-        const db = getFirestore();
         const usersRef = collection(db, 'users');
 
         // Fetch all potential matching documents and filter client-side for case-insensitive match
@@ -91,32 +91,45 @@ export default function SignUpForm() {
         setIsSubmitting(true);
 
         try {
-            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-            const user = userCredential.user;
+            // Step 1: Generate unique display name BEFORE creating the user.
+            // This is a public Firestore read (no auth required) and must happen
+            // before we set the signup flag so there's no delay between user
+            // creation and the Firestore document write.
+            const baseName = email.split('@')[0];
+            const displayName = await generateUniqueDisplayName(baseName);
 
+            // Step 2: Signal all onAuthStateChanged handlers that a signup is in
+            // progress so they do NOT call signOut() on the new unverified user.
+            setSignupInProgress(true);
+
+            let user;
+            try {
+                // Step 3: Create the Firebase Auth user.
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                user = userCredential.user;
+
+                // Step 4: Write the Firestore document IMMEDIATELY after user creation,
+                // before any async work that could give onAuthStateChanged callbacks a
+                // chance to sign the user out.
+                const userDocRef = doc(db, 'users', user.uid);
+                await setDoc(userDocRef, {
+                    ambassador: false,
+                    created_time: serverTimestamp(),
+                    email: user.email,
+                    uid: user.uid,
+                    photo_url: "https://litterpic.org/images/default-avatar.jpg",
+                    organization: "Independent",
+                    first_login: true,
+                    display_name: displayName,
+                }, {merge: true});
+            } finally {
+                // Always clear the flag so the rest of the app can enforce email
+                // verification normally after this point.
+                setSignupInProgress(false);
+            }
+
+            // Step 5: Send the verification email now that Firestore is written.
             await sendEmailVerification(user);
-
-            // Get base display name from the email
-            let displayName = user.email.split('@')[0];
-
-            // Generate a unique display name
-            displayName = await generateUniqueDisplayName(displayName);
-
-            // Create the user document in Firestore BEFORE signing out
-            // (Firestore rules require authentication for writes)
-            const db = getFirestore();
-            const userDocRef = doc(db, 'users', user.uid);
-
-            await setDoc(userDocRef, {
-                ambassador: false,
-                created_time: serverTimestamp(),
-                email: user.email,
-                uid: user.uid,
-                photo_url: "https://litterpic.org/images/default-avatar.jpg",
-                organization: "Independent",
-                first_login: true,
-                display_name: displayName, // Use the unique display name
-            }, {merge: true});
 
             try {
                 // Add user to MailerLite subscription list
@@ -124,7 +137,6 @@ export default function SignUpForm() {
             } catch (subscribeError) {
                 console.error('Error subscribing user to mailing list:', subscribeError);
                 // Continue with the signup process even if subscription fails
-                // But show a toast notification about the partial success
                 toast.warning('Account created, but there was an issue with the mailing list subscription');
             }
 
@@ -135,14 +147,11 @@ export default function SignUpForm() {
             toast.success('Account created successfully! Please check your email to verify your account.');
             trackSignUp();
 
-            // We don't set isSubmitting to false here because we want the spinner to continue showing
-            // until the redirect happens, providing continuous feedback to the user
-
             // Add a delay before redirecting to give users time to read the toast message
             await new Promise(resolve => setTimeout(resolve, 5000));
 
-	            // Redirect the user to the verify email page
-	            await router.push('/verify_email');
+            // Redirect the user to the verify email page
+            await router.push('/verify_email');
         } catch (error) {
             setIsSubmitting(false);
             console.error('Signup error:', error);

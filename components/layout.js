@@ -6,6 +6,7 @@ import Footer from "./footer";
 import {getAuth, onAuthStateChanged, signOut} from 'firebase/auth';
 import {doc, getDoc, getFirestore} from 'firebase/firestore';
 import {auth} from "../lib/firebase";
+import { isSignupInProgress } from "../utils/signupInProgress";
 
 const Layout = ({children}) => {
     const [showNavLinks, setShowNavLinks] = useState(false);
@@ -30,7 +31,8 @@ const Layout = ({children}) => {
 				// Don't interfere with signup flow - let SignUpForm complete its work.
 				// Use routerRef (not the stale closure `router`) so we always see the
 				// current pathname even when the user navigated here from another page.
-				if (routerRef.current.pathname === '/signup') {
+				// Also check the global signup flag as a belt-and-suspenders guard.
+				if (routerRef.current.pathname === '/signup' || isSignupInProgress()) {
 					return;
 				}
 
