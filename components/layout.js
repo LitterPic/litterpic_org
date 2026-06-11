@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {useRouter} from "next/router";
 import Link from "next/link";
 import Logobar from "./logobar";
@@ -10,6 +10,10 @@ import {auth} from "../lib/firebase";
 const Layout = ({children}) => {
     const [showNavLinks, setShowNavLinks] = useState(false);
     const router = useRouter();
+    // Keep a ref so the onAuthStateChanged closure always sees the latest pathname
+    // even though the effect only runs once (empty dep array).
+    const routerRef = useRef(router);
+    useEffect(() => { routerRef.current = router; });
     const [userPhoto, setUserPhoto] = useState('');
     const [displayName, setDisplayName] = useState('');
     const [userLoggedIn, setUserLoggedIn] = useState(false);
@@ -23,8 +27,10 @@ const Layout = ({children}) => {
         const firestore = getFirestore();
         const unsubscribe = onAuthStateChanged(authInstance, async (user) => {
 			if (user && !user.emailVerified) {
-				// Don't interfere with signup flow - let SignUpForm complete its work
-				if (router.pathname === '/signup') {
+				// Don't interfere with signup flow - let SignUpForm complete its work.
+				// Use routerRef (not the stale closure `router`) so we always see the
+				// current pathname even when the user navigated here from another page.
+				if (routerRef.current.pathname === '/signup') {
 					return;
 				}
 

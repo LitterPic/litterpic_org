@@ -12,6 +12,10 @@ const Logobar = () => {
     const [displayName, setDisplayName] = useState('');
     const [unreadNotifications, setUnreadNotifications] = useState(0);
     const router = useRouter();
+    // Keep a ref so the onAuthStateChanged closure always sees the latest pathname
+    // even though the effect only runs once (empty dep array).
+    const routerRef = useRef(router);
+    useEffect(() => { routerRef.current = router; });
     const [showDropdown, setShowDropdown] = useState(false);
     const [isUserDataLoaded, setIsUserDataLoaded] = useState(false);
 
@@ -20,8 +24,10 @@ const Logobar = () => {
 
 		const authUnsubscribe = onAuthStateChanged(auth, async (user) => {
 			if (user && !user.emailVerified) {
-				// Don't interfere with signup flow - let SignUpForm complete its work
-				if (router.pathname === '/signup') {
+				// Don't interfere with signup flow - let SignUpForm complete its work.
+				// Use routerRef (not the stale closure `router`) so we always see the
+				// current pathname even when the user navigated here from another page.
+				if (routerRef.current.pathname === '/signup') {
 					return;
 				}
 
