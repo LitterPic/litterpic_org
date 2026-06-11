@@ -5,9 +5,8 @@ export default async function handler(req, res) {
     try {
         const { email, Custom_Fields } = req.body;
 
-        // Your MailerLite settings
         const API_KEY = process.env.MAILERLITE_API_KEY;
-        const GROUP_ID = process.env.MAILERLITE_GROUP_ID; // Optional: specific group/list ID
+        const GROUP_ID = process.env.MAILERLITE_GROUP_ID;
 
         if (!API_KEY) {
             return res.status(500).json({
@@ -16,32 +15,28 @@ export default async function handler(req, res) {
             });
         }
 
-        // MailerLite API endpoint for adding subscribers (v1 API)
-        const url = 'https://api.mailerlite.com/api/v2/subscribers';
+        // New MailerLite API endpoint (connect.mailerlite.com)
+        const url = 'https://connect.mailerlite.com/api/subscribers';
 
-        // Define the data payload for MailerLite v2 API
         const data = {
             email: email.toLowerCase(),
             fields: {
-                // Map your custom fields to MailerLite fields
                 tag: Custom_Fields?.Tag || 'general'
             },
-            // Optionally add to specific groups
             ...(GROUP_ID && { groups: [GROUP_ID] })
         };
 
-        // Request headers for MailerLite v2 API
         const config = {
             headers: {
-                'X-MailerLite-ApiKey': API_KEY,
-                'Content-Type': 'application/json'
+                'Authorization': `Bearer ${API_KEY}`,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
             },
         };
 
-        // Make the MailerLite API request
         const response = await axios.post(url, data, config);
 
-        // Check the response status
+        // 200 = existing subscriber updated, 201 = new subscriber created
         if (response.status === 200 || response.status === 201) {
             res.status(200).json({
                 success: true,
@@ -56,7 +51,6 @@ export default async function handler(req, res) {
     } catch (error) {
         console.error('MailerLite Subscribe API error:', error);
 
-        // Handle MailerLite specific errors
         let errorMessage = 'Unknown error';
         if (error.response?.data?.message) {
             errorMessage = error.response.data.message;

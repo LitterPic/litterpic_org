@@ -26,7 +26,7 @@ MAILERLITE_GROUP_ID=your_group_id_here  # Optional: specific list/group ID
 
 ## API Endpoints Used
 
-- **Add Subscriber**: `POST https://api.mailerlite.com/api/v2/subscribers`
+- **Add Subscriber**: `POST https://connect.mailerlite.com/api/subscribers`
 - **Documentation**: https://developers.mailerlite.com/docs/
 
 ## Custom Fields Mapping
