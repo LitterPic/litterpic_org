@@ -13,7 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Head from 'next/head';
 
 export default function EditProfilePage() {
-    const { user, loading } = useAuth();  // Added loading check
+    const { user, loading } = useAuth();
     const [displayName, setDisplayName] = useState('');
     const [bio, setBio] = useState('');
     const [organization, setOrganization] = useState('Independent');
@@ -21,9 +21,7 @@ export default function EditProfilePage() {
     const [photoUrl, setPhotoUrl] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
-    const { id } = router.query;  // Get id from route parameter
-    const [showNewOrganizationInput, setShowNewOrganizationInput] = useState(false);
-    const [newOrganization, setNewOrganization] = useState('');
+    const { id } = router.query;
     const [isRedirecting, setIsRedirecting] = useState(false);
 
     // Redirect if not logged in and loading is finished
@@ -47,14 +45,12 @@ export default function EditProfilePage() {
     // Fetch user data and organizations when user and id are available
     useEffect(() => {
         const fetchUserDataAndOrganizations = async () => {
-            if (user && id && user.uid === id) {  // Ensure user ID matches the route parameter
+            if (user && id && user.uid === id) {
                 const usersCollectionRef = collection(db, 'users');
                 const userQuery = query(usersCollectionRef, where('uid', '==', user.uid));
                 const userDocs = await getDocs(userQuery);
 
-                if (userDocs.empty) {
-                    return;
-                }
+                if (userDocs.empty) return;
 
                 const userData = userDocs.docs[0].data();
                 setDisplayName(userData.display_name || '');
@@ -68,8 +64,7 @@ export default function EditProfilePage() {
                     .map((doc) => doc.data().Name)
                     .filter((org) => org && org.trim() !== '');
 
-                let sortedOrganizations = fetchedOrganizations.sort(sortOrganizations);
-                setOrganizations(sortedOrganizations);
+                setOrganizations(fetchedOrganizations.sort(sortOrganizations));
             }
         };
 
@@ -92,33 +87,6 @@ export default function EditProfilePage() {
                 doc.data().uid !== user.uid
             );
         });
-    };
-
-    const handleAddOrganization = async (e) => {
-        e.preventDefault();
-        if (newOrganization.trim() === '') {
-            toast.error('Please enter an organization name.', { autoClose: 2000 });
-            return;
-        }
-
-        const newOrgNameNormalized = newOrganization.trim().toLowerCase();
-        const organizationExists = organizations.some((org) => org.toLowerCase() === newOrgNameNormalized);
-        if (organizationExists) {
-            toast.error('An organization with the same name already exists.', { autoClose: 2000 });
-            setNewOrganization('');
-            return;
-        }
-
-        const newOrgRef = doc(collection(db, 'litterpickingOrganizations'));
-        await setDoc(newOrgRef, { Name: newOrganization });
-
-        let updatedOrganizations = [...organizations, newOrganization].sort(sortOrganizations);
-        setOrganizations(updatedOrganizations);
-        setOrganization(newOrganization);
-        toast.success('Organization added successfully.', { autoClose: 2000 });
-
-        setNewOrganization('');
-        setShowNewOrganizationInput(false);
     };
 
     const DEFAULT_AVATAR = "https://litterpic.org/images/default-avatar.jpg";
@@ -144,7 +112,6 @@ export default function EditProfilePage() {
         try {
             const displayNameTrimmed = displayName.trim();
 
-            // Check if the display name exists (case-insensitive)
             const displayNameExists = await checkDisplayNameExists(displayNameTrimmed);
             if (displayNameExists) {
                 toast.error('Display name already exists. Please choose a different one.', { autoClose: 2000 });
@@ -152,7 +119,6 @@ export default function EditProfilePage() {
                 return;
             }
 
-            // Always use a full absolute URL for Firebase Auth
             const finalPhotoUrl = photoUrl && photoUrl.startsWith('http')
                 ? photoUrl
                 : DEFAULT_AVATAR;
@@ -162,7 +128,6 @@ export default function EditProfilePage() {
                 photoURL: finalPhotoUrl,
             });
 
-            const finalOrganization = showNewOrganizationInput ? newOrganization : organization;
             const userDocRef = doc(db, 'users', auth.currentUser.uid);
 
             await setDoc(
@@ -170,16 +135,15 @@ export default function EditProfilePage() {
                 {
                     bio: bio.trim(),
                     display_name: displayNameTrimmed,
-                    organization: finalOrganization,
+                    organization: organization,
                     photo_url: finalPhotoUrl,
                     first_login: false,
-                    has_visited_profile: true,   // clear the profile-redirect flag at the same time
+                    has_visited_profile: true,
                 },
                 { merge: true }
             );
 
             toast.success('Profile updated successfully.');
-            setShowNewOrganizationInput(false);
             await router.push('/profile');
         } catch (error) {
             console.error('Error updating profile:', error);
@@ -253,7 +217,7 @@ export default function EditProfilePage() {
                             value={displayName}
                             onChange={(e) => setDisplayName(e.target.value)}
                             required
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-600 focus:border-green-600"
+                            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-green-600"
                         />
                     </div>
 
@@ -266,7 +230,7 @@ export default function EditProfilePage() {
                                 const capitalizedText = capitalizeFirstWordOfSentences(e.target.value);
                                 setBio(capitalizedText);
                             }}
-                            className="mt-1 block w-full h-40 rounded-md border-gray-300 shadow-sm focus:ring-green-600 focus:border-green-600"
+                            className="mt-1 block w-full h-40 rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-green-600"
                         ></textarea>
                     </div>
 
@@ -275,45 +239,22 @@ export default function EditProfilePage() {
                         <label className="block text-sm font-medium text-gray-700">Organization</label>
                         <select
                             value={organization}
-                            onChange={(e) => {
-                                setOrganization(e.target.value);
-                                setShowNewOrganizationInput(e.target.value === 'Other');
-                            }}
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-600 focus:border-green-600"
+                            onChange={(e) => setOrganization(e.target.value)}
+                            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-3 shadow-sm focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-green-600 min-h-[48px]"
                         >
                             {organizations.map((org, index) => (
                                 <option key={index} value={org}>
                                     {org}
                                 </option>
                             ))}
-                            <option value="Other">Other</option>
                         </select>
                     </div>
-
-                    {/* New Organization Input */}
-                    {showNewOrganizationInput && (
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700">Enter a New Organization</label>
-                            <input
-                                type="text"
-                                value={newOrganization}
-                                onChange={(e) => setNewOrganization(e.target.value)}
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-600 focus:border-green-600"
-                            />
-                            <button
-                                className="mt-2 px-4 py-2 bg-gradient-to-r from-green-950 to-green-600 text-white rounded-lg shadow-md hover:from-green-600 hover:to-green-950 transition duration-300"
-                                onClick={handleAddOrganization}
-                            >
-                                Add New Organization
-                            </button>
-                        </div>
-                    )}
 
                     {/* Submit Button */}
                     <div>
                         <button
                             type="submit"
-                            disabled={isLoading || showNewOrganizationInput}
+                            disabled={isLoading}
                             className={`w-full py-3 text-white rounded-lg shadow-md ${
                                 isLoading
                                     ? 'bg-gray-400 cursor-not-allowed'
