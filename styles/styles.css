@@ -4402,11 +4402,6 @@ h1.heading-text.profile-heading {
   margin-right: 10px;
 }
 
-a.post-user-name {
-  grid-column: 2;
-  grid-row: 1;
-}
-
 .follow-button {
   grid-column: 1/span 2;
   grid-row: 3;
@@ -4476,7 +4471,7 @@ a.post-user-name {
   display: flex;
   flex-direction: column;
   font-weight: bold;
-  justify-content: flex-end;
+  justify-content: center;
   margin-left: 5px;
   text-decoration: none;
 }
@@ -4486,7 +4481,7 @@ a.post-user-name {
 }
 
 .post-location {
-  align-items: flex-end;
+  align-items: center;
   color: #00f;
   display: flex;
   font-size: 0.75rem;
@@ -4494,6 +4489,13 @@ a.post-user-name {
   margin-right: 10px;
   grid-column: 3;
   grid-row: 1;
+}
+.post-location a {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .post-location :hover {
   color: #015e41;
@@ -6727,11 +6729,6 @@ input::placeholder {
   margin-right: 10px;
 }
 
-a.post-user-name {
-  grid-column: 2;
-  grid-row: 1;
-}
-
 .follow-button {
   grid-column: 1/span 2;
   grid-row: 3;
@@ -6801,7 +6798,7 @@ a.post-user-name {
   display: flex;
   flex-direction: column;
   font-weight: bold;
-  justify-content: flex-end;
+  justify-content: center;
   margin-left: 5px;
   text-decoration: none;
 }
@@ -6811,7 +6808,7 @@ a.post-user-name {
 }
 
 .post-location {
-  align-items: flex-end;
+  align-items: center;
   color: #00f;
   display: flex;
   font-size: 0.75rem;
@@ -6819,6 +6816,13 @@ a.post-user-name {
   margin-right: 10px;
   grid-column: 3;
   grid-row: 1;
+}
+.post-location a {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .post-location :hover {
   color: #015e41;

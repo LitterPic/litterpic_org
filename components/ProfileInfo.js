@@ -1,6 +1,6 @@
 import React from "react";
 
-const ProfileInfo = ({ userOrganization, litterCollected, userBio, memberSince, isAmbassador, ambassadorDate }) => {
+const ProfileInfo = ({ userOrganization, userOrganizationLogo, litterCollected, userBio, memberSince, isAmbassador, ambassadorDate }) => {
     const renderCollected = () => {
         if (userOrganization === 'Blue Ocean Society') {
             return (
@@ -14,27 +14,42 @@ const ProfileInfo = ({ userOrganization, litterCollected, userBio, memberSince, 
     };
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
-            <div>
-                <p className="text-sm text-gray-500 font-semibold">Organization</p>
-                <p className="text-md text-gray-800">{userOrganization || "Independent"}</p>
+        <div className="profile-info mt-10" style={{ rowGap: '1rem' }}>
+            <div className="profile-item" style={{ gridColumn: 1, gridRow: 1 }}>Organization</div>
+            <div className="profile-value" style={{ gridColumn: 2, gridRow: 1, display: 'flex', alignItems: 'center', gap: '0.5rem', margin: 0, padding: 0, paddingLeft: '1rem', paddingTop: '1rem' }}>
+                {userOrganizationLogo && (
+                    <img src={userOrganizationLogo} alt={`${userOrganization} Logo`} style={{ width: '2rem', height: '2rem', objectFit: 'contain' }} />
+                )}
+                <span style={{ color: '#333' }}>{userOrganization || "Independent"}</span>
             </div>
-            <div>
-                <p className="text-sm text-gray-500 font-semibold">Collected</p>
-                <p className="text-md text-gray-800">{renderCollected()}</p>
+
+            <div className="profile-item" style={{ gridColumn: 1, gridRow: 2 }}>Collected</div>
+            <div className="profile-value" style={{ gridColumn: 2, gridRow: 2, margin: 0, padding: 0, paddingLeft: '1rem', paddingTop: '1rem' }}>
+                <span style={{ color: '#333' }}>{renderCollected()}</span>
             </div>
-            <div className="md:col-span-2">
-                <p className="text-sm text-gray-500 font-semibold">Bio</p>
-                <p className="text-md text-gray-800">{userBio || "No Bio Available"}</p>
+
+            <div className="profile-item" style={{ gridColumn: 1, gridRow: 3 }}>Bio</div>
+            <div className="profile-value" style={{ gridColumn: 2, gridRow: 3, margin: 0, padding: 0, paddingLeft: '1rem', paddingTop: '1rem' }}>
+                <span style={{ color: '#333' }}>{userBio || "No Bio Available"}</span>
             </div>
-            <div>
-                <p className="text-sm text-gray-500 font-semibold">Member Since</p>
-                <p className="text-md text-gray-800">{memberSince ? memberSince.toLocaleDateString() : "Not Available"}</p>
+
+            <div className="profile-item" style={{ gridColumn: 1, gridRow: 4 }}>Member Since</div>
+            <div className="profile-value" style={{ gridColumn: 2, gridRow: 4, margin: 0, padding: 0, paddingLeft: '1rem', paddingTop: '1rem' }}>
+                <span style={{ color: '#333' }}>
+                    {memberSince 
+                        ? (typeof memberSince === 'string' 
+                            ? memberSince 
+                            : typeof memberSince.toLocaleDateString === 'function'
+                                ? memberSince.toLocaleDateString()
+                                : "Not Available")
+                        : "Not Available"}
+                </span>
             </div>
+
             {isAmbassador && (
-                <div className="bg-gradient-to-r from-green-950 to-green-700 text-white rounded-lg shadow-md p-4 mt-8 flex items-center gap-3">
-                    <i className="material-icons text-xl">public</i>
-                    <p className="text-md">{`LitterPic Ambassador since ${new Date(ambassadorDate).toLocaleDateString()}`}</p>
+                <div style={{ gridColumn: '1 / span 2', padding: '1rem', marginTop: '2rem', borderRadius: '0.5rem', background: 'linear-gradient(to right, #012a1d, #015e41)', color: 'white', display: 'flex', alignItems: 'center', gap: '0.75rem', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}>
+                    <i className="material-icons" style={{ fontSize: '1.25rem' }}>public</i>
+                    <span style={{ fontSize: '1rem' }}>{`LitterPic Ambassador since ${new Date(ambassadorDate).toLocaleDateString()}`}</span>
                 </div>
             )}
         </div>

@@ -1,7 +1,7 @@
 import React, {useEffect, useState, useRef} from 'react';
 import {useSwipeable} from 'react-swipeable';
 import Link from 'next/link';
-import {doc, getDoc, getFirestore} from 'firebase/firestore';
+import {doc, getDoc, getFirestore, collection, query, where, getDocs} from 'firebase/firestore';
 import NotificationSender from "../utils/notifictionSender";
 
 function Post({post, currentUser}) {
@@ -21,6 +21,8 @@ function Post({post, currentUser}) {
     const [userPhoto, setUserPhoto] = useState('');
     const [isAmbassador, setIsAmbassador] = useState(false);
     const [ambassadorDate, setAmbassadorDate] = useState(null);
+    const [userOrganization, setUserOrganization] = useState('');
+    const [userOrganizationLogo, setUserOrganizationLogo] = useState('');
     const firestore = getFirestore();
 
     // Hide swipe hint after a few seconds
@@ -36,9 +38,9 @@ function Post({post, currentUser}) {
     useEffect(() => {
         const fetchUserInfo = async () => {
             if (post && post.user) {
-                let { display_name, photo_url, uid, ambassador, ambassador_date } = post.user;
+                let { display_name, photo_url, uid, ambassador, ambassador_date, organization } = post.user;
 
-                if (!display_name || !photo_url || ambassador === undefined || !ambassador_date) {
+                if (!display_name || !photo_url || ambassador === undefined || !ambassador_date || !organization) {
                     const userRef = doc(firestore, 'users', uid);
                     const userSnap = await getDoc(userRef);
 
@@ -48,6 +50,7 @@ function Post({post, currentUser}) {
                         photo_url = photo_url || userData.photo_url;
                         ambassador = ambassador === undefined ? userData.ambassador : ambassador;
                         ambassador_date = ambassador_date || userData.ambassador_date;
+                        organization = organization || userData.organization;
                     }
                 }
 
@@ -56,6 +59,17 @@ function Post({post, currentUser}) {
                     photo_url || '/images/default-avatar.jpg'
                 );
                 setIsAmbassador(ambassador || false);
+                setUserOrganization(organization || '');
+
+                if (organization) {
+                    const orgNameToQuery = organization === "Litterpicking Organization" ? "Independent" : organization;
+                    const orgsRef = collection(firestore, 'litterpickingOrganizations');
+                    const q = query(orgsRef, where('Name', '==', orgNameToQuery));
+                    const orgsSnapshot = await getDocs(q);
+                    if (!orgsSnapshot.empty) {
+                        setUserOrganizationLogo(orgsSnapshot.docs[0].data().logoUrl || '');
+                    }
+                }
 
                 if (ambassador && ambassador_date) {
                     const timestamp = ambassador_date;
@@ -329,16 +343,30 @@ function Post({post, currentUser}) {
                     </button>
                 )}
 
-                <Link href={`/profile/${post.user.uid}`} legacyBehavior>
-                    <a className="post-user-name">{userName}</a>
-                </Link>
+                <div className="post-user-info" style={{ gridColumn: 2, gridRow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                    <Link href={`/profile/${post.user.uid}`} legacyBehavior>
+                        <a className="post-user-name">{userName}</a>
+                    </Link>
+                    {userOrganization && (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginLeft: '5px', marginTop: '2px' }}>
+                            {userOrganizationLogo && (
+                                <img
+                                    src={userOrganizationLogo}
+                                    alt={userOrganization}
+                                    style={{ width: '14px', height: '14px', borderRadius: '50%', objectFit: 'cover' }}
+                                />
+                            )}
+                            <span style={{ fontSize: '0.65rem', color: '#666' }}>{userOrganization}</span>
+                        </div>
+                    )}
+                </div>
 
                 <div className="post-location">
                     <a
                         href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(post.location)}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        style={{ padding: '8px 0', display: 'inline-block' }}
+                        style={{ padding: '8px 0' }}
                     >
                         {post.location}
                     </a>

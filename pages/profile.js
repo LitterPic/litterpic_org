@@ -21,6 +21,7 @@ const ProfilePage = () => {
         displayName: '',
         userEmail: '',
         userOrganization: '',
+        userOrganizationLogo: '',
         litterCollected: 0,
         isAmbassador: false,
         ambassadorDate: null,
@@ -130,6 +131,7 @@ const ProfilePage = () => {
                 />
                 <ProfileInfo
                     userOrganization={profileData.userOrganization}
+                    userOrganizationLogo={profileData.userOrganizationLogo}
                     litterCollected={profileData.litterCollected}
                     userBio={profileData.userBio}
                     memberSince={profileData.memberSince}

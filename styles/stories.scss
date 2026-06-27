@@ -649,8 +649,7 @@
 }
 
 a.post-user-name {
-  grid-column: 2;
-  grid-row: 1;
+  // removed grid placement to allow wrapping inside .post-user-info div
 }
 
 .follow-button {
@@ -725,7 +724,7 @@ a.post-user-name {
   display: flex;
   flex-direction: column;
   font-weight: bold;
-  justify-content: flex-end;
+  justify-content: center;
   margin-left: 5px;
   text-decoration: none;
 
@@ -736,7 +735,7 @@ a.post-user-name {
 }
 
 .post-location {
-  align-items: flex-end;
+  align-items: center;
   color: $dark-blue;
   display: flex;
   font-size: .75rem;
@@ -744,6 +743,14 @@ a.post-user-name {
   margin-right: 10px;
   grid-column: 3;
   grid-row: 1;
+
+  a {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 
   :hover {
     color: $litterpic-green;

@@ -1,9 +1,10 @@
 import {db, useAuth} from '../../lib/firebase';
 import React, {useEffect, useState} from 'react';
-import {collection, doc, getDoc, getDocs} from 'firebase/firestore';
+import {collection, doc, getDoc, getDocs, query, where} from 'firebase/firestore';
 import {useRouter} from 'next/router';
 import Head from 'next/head';
 import NotificationSender from "../../utils/notifictionSender";
+import ProfileInfo from "../../components/ProfileInfo";
 
 const UserProfilePage = () => {
     const router = useRouter();
@@ -13,6 +14,7 @@ const UserProfilePage = () => {
     const [userBio, setUserBio] = useState('');
     const [displayName, setDisplayName] = useState('');
     const [userOrganization, setUserOrganization] = useState('');
+    const [userOrganizationLogo, setUserOrganizationLogo] = useState(null);
     const [litterCollected, setLitterCollected] = useState(0);
     const [memberSince, setMemberSince] = useState(null);
     const [isAmbassador, setIsAmbassador] = useState(false);
@@ -53,12 +55,23 @@ const UserProfilePage = () => {
                 if (userDoc.exists()) {
                     const userData = userDoc.data();
                     setProfileUser(userData);
-                    setUserPhoto(userData.photo_url);
-                    setUserBio(userData.bio);
-                    setDisplayName(userData.display_name);
-                    setMemberSince(userData.created_time.toDate().toLocaleDateString());
-                    setUserOrganization(userData.organization === "Litterpicking Organization" ? "Independent" : userData.organization);
+                    setUserPhoto(userData.photo_url || '');
+                    setUserBio(userData.bio || '');
+                    setDisplayName(userData.display_name || '');
+                    setMemberSince(userData.created_time?.toDate() || null);
+
+                    const actualOrg = userData.organization || "Independent";
+                    const mappedOrg = actualOrg === "Litterpicking Organization" ? "Independent" : actualOrg;
+                    setUserOrganization(mappedOrg);
+
                     setLitterCollected((userData.totalWeight || 0).toFixed());
+
+                    const orgsRef = collection(db, 'litterpickingOrganizations');
+                    const q = query(orgsRef, where('Name', '==', mappedOrg));
+                    const orgsSnapshot = await getDocs(q);
+                    if (!orgsSnapshot.empty) {
+                        setUserOrganizationLogo(orgsSnapshot.docs[0].data().logoUrl || null);
+                    }
 
                     if (userData.ambassador) {
                         setIsAmbassador(true);
@@ -123,7 +136,12 @@ const UserProfilePage = () => {
                         </div>
                         <div>
                             <h1 className="text-3xl font-bold text-gray-800">{displayName || "No Display Name"}</h1>
-                            <p className="text-sm text-gray-500 mt-1">{userOrganization || "Independent"}</p>
+                            <div className="flex items-center gap-2 mt-1">
+                                {userOrganizationLogo && (
+                                    <img src={userOrganizationLogo} alt={`${userOrganization} Logo`} className="w-5 h-5 object-contain" />
+                                )}
+                                <span style={{ color: '#333', fontSize: '0.875rem' }}>{userOrganization || "Independent"}</span>
+                            </div>
                         </div>
                     </div>
                     {currentUser && currentUser.uid !== userId && (
@@ -173,20 +191,15 @@ const UserProfilePage = () => {
                 )}
 
                 {/* Profile Info Section */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
-                    <div>
-                        <p className="text-sm text-gray-500 font-semibold">Litter Collected</p>
-                        <p className="text-md text-gray-800">{renderCollected()}</p>
-                    </div>
-                    <div className="md:col-span-2">
-                        <p className="text-sm text-gray-500 font-semibold">Biography</p>
-                        <p className="text-md text-gray-800">{userBio || "No Bio Available"}</p>
-                    </div>
-                    <div>
-                        <p className="text-sm text-gray-500 font-semibold">Member Since</p>
-                        <p className="text-md text-gray-800">{memberSince || "Not Available"}</p>
-                    </div>
-                </div>
+                <ProfileInfo
+                    userOrganization={userOrganization}
+                    userOrganizationLogo={userOrganizationLogo}
+                    litterCollected={litterCollected}
+                    userBio={userBio}
+                    memberSince={memberSince}
+                    isAmbassador={isAmbassador}
+                    ambassadorDate={ambassadorDate}
+                />
             </div>
         </div>
     );

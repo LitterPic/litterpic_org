@@ -11,6 +11,7 @@ import { capitalizeFirstWordOfSentences } from '../../utils/textUtils';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Head from 'next/head';
+import OrganizationSelect from '../../components/OrganizationSelect';
 
 export default function EditProfilePage() {
     const { user, loading } = useAuth();
@@ -61,8 +62,11 @@ export default function EditProfilePage() {
                 const orgsRef = collection(db, 'litterpickingOrganizations');
                 const orgsSnapshot = await getDocs(orgsRef);
                 let fetchedOrganizations = orgsSnapshot.docs
-                    .map((doc) => doc.data().Name)
-                    .filter((org) => org && org.trim() !== '');
+                    .map((doc) => ({
+                        name: doc.data().Name,
+                        logoUrl: doc.data().logoUrl || null
+                    }))
+                    .filter((org) => org.name && org.name.trim() !== '');
 
                 setOrganizations(fetchedOrganizations.sort(sortOrganizations));
             }
@@ -71,7 +75,7 @@ export default function EditProfilePage() {
         fetchUserDataAndOrganizations();
     }, [user, id]);
 
-    const sortOrganizations = (a, b) => a.localeCompare(b);
+    const sortOrganizations = (a, b) => a.name.localeCompare(b.name);
 
     const checkDisplayNameExists = async (displayName) => {
         const usersRef = collection(db, 'users');
@@ -236,18 +240,12 @@ export default function EditProfilePage() {
 
                     {/* Organization */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700">Organization</label>
-                        <select
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Organization</label>
+                        <OrganizationSelect
+                            organizations={organizations}
                             value={organization}
-                            onChange={(e) => setOrganization(e.target.value)}
-                            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-3 shadow-sm focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-green-600 min-h-[48px]"
-                        >
-                            {organizations.map((org, index) => (
-                                <option key={index} value={org}>
-                                    {org}
-                                </option>
-                            ))}
-                        </select>
+                            onChange={(val) => setOrganization(val)}
+                        />
                     </div>
 
                     {/* Submit Button */}
