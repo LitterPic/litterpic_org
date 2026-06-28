@@ -10,6 +10,16 @@ const ReportLeaderboardContainer = () => {
     useEffect(() => {
         const fetchLeaderboard = async () => {
             try {
+                // Fetch organizations first to create a lookup map for logos
+                const orgsSnapshot = await getDocs(collection(db, 'litterpickingOrganizations'));
+                const orgLogos = {};
+                orgsSnapshot.forEach(doc => {
+                    const data = doc.data();
+                    if (data.Name) {
+                        orgLogos[data.Name] = data.logoUrl || null;
+                    }
+                });
+
                 const usersSnapshot = await getDocs(collection(db, 'users'));
                 const userLeaderboardData = [];
                 const orgLeaderboardData = {};
@@ -18,18 +28,21 @@ const ReportLeaderboardContainer = () => {
                     const userName = userDoc.data().display_name;
                     const organization = userDoc.data().organization;
                     const litterWeight = userDoc.data().totalWeight || 0;
+                    const photoUrl = userDoc.data().photo_url || null;
 
                     userLeaderboardData.push({
                         name: userName,
                         organization: organization,
                         litterWeight: litterWeight,
+                        photoUrl: photoUrl,
+                        orgLogoUrl: organization ? (orgLogos[organization] || null) : null
                     });
 
                     if (organization) {
                         if (!orgLeaderboardData[organization]) {
-                            orgLeaderboardData[organization] = 0;
+                            orgLeaderboardData[organization] = { weight: 0, logoUrl: orgLogos[organization] || null };
                         }
-                        orgLeaderboardData[organization] += litterWeight;
+                        orgLeaderboardData[organization].weight += litterWeight;
                     }
                 }
 
@@ -37,9 +50,9 @@ const ReportLeaderboardContainer = () => {
                 setLeaderboard(sortedUserLeaderboard);
 
                 const sortedOrgLeaderboard = Object.entries(orgLeaderboardData)
-                    .sort(([, a], [, b]) => b - a)
+                    .sort(([, a], [, b]) => b.weight - a.weight)
                     .slice(0, 5)
-                    .map(([org, weight]) => ({ organization: org, litterWeight: weight }));
+                    .map(([org, data]) => ({ organization: org, litterWeight: data.weight, orgLogoUrl: data.logoUrl }));
 
                 setOrgLeaderboard(sortedOrgLeaderboard);
 
