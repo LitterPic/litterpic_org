@@ -105,7 +105,7 @@ service cloud.firestore {
 
     // Organizations (read-only for users)
     match /litterpickingOrganizations/{orgId} {
-      allow read: if request.auth != null;
+      allow read: if true;
       allow create, update, delete: if false;
     }
 

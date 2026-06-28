@@ -321,12 +321,56 @@ function Post({post, currentUser}) {
     return (
         <div className="fetch-post">
             <div className="post-username-location">
-                <div className="profile-image">
-                    <img src={userPhoto} alt="Profile"/>
+                <div className="post-header-left">
+                    <div className="post-header-user-row">
+                        <div className="profile-image">
+                            <img src={userPhoto} alt="Profile"/>
+                        </div>
+                        <div className="post-user-details">
+                            <Link href={`/profile/${post.user.uid}`} legacyBehavior>
+                                <a className="post-user-name">{userName}</a>
+                            </Link>
+                            {userOrganization && (
+                                <div className="post-org-badge">
+                                    {userOrganizationLogo && (
+                                        <img
+                                            src={userOrganizationLogo}
+                                            alt={userOrganization}
+                                            className="post-org-logo"
+                                        />
+                                    )}
+                                    <span className="post-org-name">{userOrganization}</span>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                    {isAmbassador && (
+                        <div className="post-ambassador">
+                            <i className="material-icons post-ambassador-icon">public</i>
+                            <span className="post-ambassador-text">{`LitterPic Ambassador since ${new Date(ambassadorDate).toLocaleDateString()}`}</span>
+                        </div>
+                    )}
                 </div>
 
-                {/* Follow Button */}
-                {currentUserUid && post.user.uid !== currentUserUid && (
+                <div className="post-header-right">
+                    {post.location && (
+                        <div className="post-location">
+                            <a
+                                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(post.location)}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                {post.location}
+                            </a>
+                        </div>
+                    )}
+                    <div className="post-time">{formatDate(post.dateCreated)}</div>
+                </div>
+            </div>
+
+            {/* Follow Button */}
+            {currentUserUid && post.user?.uid !== currentUserUid && (
+                <div className="post-follow-row">
                     <button
                         onClick={async () => {
                             if (isFollowing) {
@@ -341,46 +385,8 @@ function Post({post, currentUser}) {
                     >
                         {isFollowing ? `Following ${userName}` : `Follow ${userName}`}
                     </button>
-                )}
-
-                <div className="post-user-info" style={{ gridColumn: 2, gridRow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                    <Link href={`/profile/${post.user.uid}`} legacyBehavior>
-                        <a className="post-user-name">{userName}</a>
-                    </Link>
-                    {userOrganization && (
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginLeft: '5px', marginTop: '2px' }}>
-                            {userOrganizationLogo && (
-                                <img
-                                    src={userOrganizationLogo}
-                                    alt={userOrganization}
-                                    style={{ width: '14px', height: '14px', borderRadius: '50%', objectFit: 'cover' }}
-                                />
-                            )}
-                            <span style={{ fontSize: '0.65rem', color: '#666' }}>{userOrganization}</span>
-                        </div>
-                    )}
                 </div>
-
-                <div className="post-location">
-                    <a
-                        href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(post.location)}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{ padding: '8px 0' }}
-                    >
-                        {post.location}
-                    </a>
-                </div>
-                <div className="post-time">{formatDate(post.dateCreated)}</div>
-                {isAmbassador && (
-                    <div className="post-ambassador">
-                        <i className="material-icons post-ambassador-icon">public</i>
-                        <p className="post-ambassador-text">{`LitterPic Ambassador since ${new Date(
-                            ambassadorDate
-                        ).toLocaleDateString()}`}</p>
-                    </div>
-                )}
-            </div>
+            )}
             <div
                 className="post-carousel"
                 {...handlers}
