@@ -740,7 +740,7 @@ function Stories() {
     }, []);
 
     const fetchAndSetUsers = async (userIds) => {
-        userIds = userIds.filter(Boolean);
+        userIds = [...new Set(userIds.filter(Boolean))];
 
         // Get existing cached users
         const cachedUsers = localStorage.getItem('users');
@@ -756,10 +756,9 @@ function Stories() {
 
         const db = getFirestore();
         const usersData = {};
-        const usersToFetch = userIds.filter(userId => !existingUsers[userId]);
 
-        // Only fetch users we don't already have
-        for (const userId of usersToFetch) {
+        // Fetch fresh data for all users to ensure organization and ambassador status stay synced
+        for (const userId of userIds) {
             try {
                 const userDoc = await getDoc(doc(db, 'users', userId));
 
