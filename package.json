@@ -9,13 +9,11 @@
     "build": "next build",
     "start": "next start",
     "test": "vitest",
-
     "test:e2e": "playwright test",
     "test:e2e:headed": "playwright test --headed",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:debug": "PWDEBUG=1 playwright test",
     "test:e2e:report": "playwright show-report",
-
     "test:e2e:stories": "playwright test --project=setup --project=chromium-auth",
     "test:e2e:notifications": "playwright test --project=setup --project=chromium-notifications",
     "test:e2e:events": "playwright test --project=setup --project=chromium-events",
@@ -39,6 +37,7 @@
     "@ffmpeg/util": "^0.12.2",
     "@react-google-maps/api": "^2.18.1",
     "@sendgrid/mail": "^7.7.0",
+    "@vercel/speed-insights": "^2.0.0",
     "autoprefixer": "^10.4.20",
     "aws-sdk": "^2.1450.0",
     "axios": "^1.8.3",

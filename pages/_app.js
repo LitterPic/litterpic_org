@@ -8,6 +8,7 @@ import { doc, getDoc } from 'firebase/firestore';
 import { useRouter } from 'next/router';
 import { db } from '../lib/firebase';
 import { setGAUserId, clearGAUserId } from '../lib/ga';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const MyApp = ({ Component, pageProps }) => {
     const router = useRouter();
@@ -70,6 +71,7 @@ const MyApp = ({ Component, pageProps }) => {
             <Layout>
                 <Component {...pageProps} />
             </Layout>
+            <SpeedInsights />
         </StoriesProvider>
     );
 };
