@@ -45,13 +45,6 @@ const ProfileInfo = ({ userOrganization, userOrganizationLogo, litterCollected, 
                         : "Not Available"}
                 </span>
             </div>
-
-            {isAmbassador && (
-                <div style={{ gridColumn: '1 / span 2', padding: '1rem', marginTop: '2rem', borderRadius: '0.5rem', background: 'linear-gradient(to right, #012a1d, #015e41)', color: 'white', display: 'flex', alignItems: 'center', gap: '0.75rem', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}>
-                    <i className="material-icons" style={{ fontSize: '1.25rem' }}>public</i>
-                    <span style={{ fontSize: '1rem' }}>{`LitterPic Ambassador since ${new Date(ambassadorDate).toLocaleDateString()}`}</span>
-                </div>
-            )}
         </div>
     );
 };

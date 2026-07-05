@@ -129,6 +129,15 @@ const ProfilePage = () => {
                     following={profileData.following}
                     userId={user.uid}
                 />
+
+                {/* Ambassador Section */}
+                {profileData.isAmbassador && (
+                    <div className="bg-gradient-to-r from-green-950 to-green-700 text-white rounded-lg shadow-md p-4 mt-8 flex items-center gap-3">
+                        <i className="material-icons text-xl">public</i>
+                        <p className="text-md">{`LitterPic Ambassador since ${new Date(profileData.ambassadorDate).toLocaleDateString()}`}</p>
+                    </div>
+                )}
+
                 <ProfileInfo
                     userOrganization={profileData.userOrganization}
                     userOrganizationLogo={profileData.userOrganizationLogo}
