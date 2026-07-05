@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import { db } from '../lib/firebase';
 import { setGAUserId, clearGAUserId } from '../lib/ga';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import { Analytics } from '@vercel/analytics/next';
 
 const MyApp = ({ Component, pageProps }) => {
     const router = useRouter();
@@ -72,6 +73,7 @@ const MyApp = ({ Component, pageProps }) => {
                 <Component {...pageProps} />
             </Layout>
             <SpeedInsights />
+            <Analytics />
         </StoriesProvider>
     );
 };
