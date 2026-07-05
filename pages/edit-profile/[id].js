@@ -194,7 +194,16 @@ export default function EditProfilePage() {
                     <div className="flex items-center">
                         <div className="w-28 h-28 rounded-full overflow-hidden">
                             {photoUrl ? (
-                                <img src={photoUrl} alt="Profile Preview" className="object-cover w-full h-full" />
+                                <img 
+                                    src={photoUrl} 
+                                    alt="Profile Preview" 
+                                    className="object-cover w-full h-full" 
+                                    onError={(e) => {
+                                        if (!e.target.src.endsWith('/images/default-avatar.jpg')) {
+                                            e.target.src = '/images/default-avatar.jpg';
+                                        }
+                                    }}
+                                />
                             ) : (
                                 <div className="bg-gray-200 w-full h-full flex items-center justify-center">
                                     <span className="text-gray-500">No Photo</span>

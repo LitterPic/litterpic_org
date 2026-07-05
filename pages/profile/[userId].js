@@ -85,10 +85,19 @@ const UserProfilePage = () => {
                     }
 
                     const followersSnapshot = await getDocs(collection(db, `followers/${userId}/userFollowers`));
-                    setFollowers(followersSnapshot.size);
-
                     const followingSnapshot = await getDocs(collection(db, `following/${userId}/userFollowing`));
-                    setFollowing(followingSnapshot.size);
+
+                    const countValidUsers = async (snapshot) => {
+                        const checks = snapshot.docs.map(async (docSnapshot) => {
+                            const userDoc = await getDoc(doc(db, `users/${docSnapshot.id}`));
+                            return userDoc.exists() ? 1 : 0;
+                        });
+                        const results = await Promise.all(checks);
+                        return results.reduce((sum, val) => sum + val, 0);
+                    };
+
+                    setFollowers(await countValidUsers(followersSnapshot));
+                    setFollowing(await countValidUsers(followingSnapshot));
                 }
             } catch (error) {
                 console.error('Error retrieving user profile:', error);
@@ -132,6 +141,11 @@ const UserProfilePage = () => {
                                 src={userPhoto || "/images/default-avatar.jpg"}
                                 alt="Profile Picture"
                                 className="object-cover w-full h-full"
+                                onError={(e) => {
+                                    if (!e.target.src.endsWith('/images/default-avatar.jpg')) {
+                                        e.target.src = '/images/default-avatar.jpg';
+                                    }
+                                }}
                             />
                         </div>
                         <div>

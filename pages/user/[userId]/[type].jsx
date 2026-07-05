@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { collection, doc, getDocs, getDoc } from 'firebase/firestore';
 import { db, useAuth } from '../../../lib/firebase';
-import Image from 'next/image';
 
 const FollowersFollowingPage = () => {
     const router = useRouter();
@@ -86,12 +85,15 @@ const FollowersFollowingPage = () => {
                                 {/* Profile Image Section */}
                                 <div className="flex-shrink-0">
                                     <div className="w-20 h-20 rounded-full overflow-hidden flex-shrink-0">
-                                        <Image
+                                        <img
                                             src={user.photo_url || '/images/default-avatar.jpg'}
                                             alt={`${user.display_name}'s profile picture`}
-                                            width={80}
-                                            height={80}
                                             className="object-cover w-full h-full"
+                                            onError={(e) => {
+                                                if (!e.target.src.endsWith('/images/default-avatar.jpg')) {
+                                                    e.target.src = '/images/default-avatar.jpg';
+                                                }
+                                            }}
                                         />
                                     </div>
                                 </div>

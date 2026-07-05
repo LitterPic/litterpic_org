@@ -34,6 +34,26 @@ const DeleteAccountContent = () => {
                 });
                 await Promise.all(deletePostPromises);
 
+                // Clean up follower/following relationships
+                const userFollowingSnapshot = await getDocs(collection(db, `following/${user.uid}/userFollowing`));
+                const removeFollowingPromises = userFollowingSnapshot.docs.map(docSnapshot => {
+                    // Remove current user from the other user's followers list
+                    return deleteDoc(doc(db, `followers/${docSnapshot.id}/userFollowers/${user.uid}`));
+                });
+                await Promise.all(removeFollowingPromises);
+
+                const userFollowersSnapshot = await getDocs(collection(db, `followers/${user.uid}/userFollowers`));
+                const removeFollowersPromises = userFollowersSnapshot.docs.map(docSnapshot => {
+                    // Remove current user from the other user's following list
+                    return deleteDoc(doc(db, `following/${docSnapshot.id}/userFollowing/${user.uid}`));
+                });
+                await Promise.all(removeFollowersPromises);
+
+                // Delete own follower/following docs
+                const deleteOwnFollowing = userFollowingSnapshot.docs.map(docSnapshot => deleteDoc(docSnapshot.ref));
+                const deleteOwnFollowers = userFollowersSnapshot.docs.map(docSnapshot => deleteDoc(docSnapshot.ref));
+                await Promise.all([...deleteOwnFollowing, ...deleteOwnFollowers]);
+
                 // Delete user document
                 const userRef = doc(db, `users/${user.uid}`);
                 await deleteDoc(userRef);

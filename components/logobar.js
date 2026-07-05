@@ -198,7 +198,16 @@ const Logobar = () => {
                     <div className="profile-dropdown">
                         <div className="profile-picture-wrapper">
                             {isUserDataLoaded && (
-                                <img src={userPhoto} alt={displayName} className="profile-picture"/>
+                                <img 
+                                    src={userPhoto || "/images/default-avatar.jpg"} 
+                                    alt={displayName} 
+                                    className="profile-picture"
+                                    onError={(e) => {
+                                        if (!e.target.src.endsWith('/images/default-avatar.jpg')) {
+                                            e.target.src = '/images/default-avatar.jpg';
+                                        }
+                                    }}
+                                />
                             )}
                             <i
                                 className={`material-icons dropdown-icon ${showDropdown ? 'rotate-down' : 'rotate-up'}`}

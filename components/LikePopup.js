@@ -19,6 +19,11 @@ const LikePopup = ({likedUsers}) => {
                                     alt={user?.display_name || "Volunteer"}
                                     className="user-photo"
                                     onLoad={() => setImageLoaded(true)}
+                                    onError={(e) => {
+                                        if (!e.target.src.endsWith('/images/default-avatar.jpg')) {
+                                            e.target.src = '/images/default-avatar.jpg';
+                                        }
+                                    }}
                                 />
                                 {user?.uid ? (
                                     <Link href={`/profile/${user.uid}`} className="user-name">

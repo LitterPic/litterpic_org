@@ -1134,7 +1134,13 @@ const Volunteer = () => {
                                     <tr key={index}>
                                         <td className="volunteer-event-organizer-photo">
                                             <img src={ownerPhotos[event.id] || '/images/default-avatar.jpg'} alt="Owner"
-                                                 width="50"/>
+                                                 width="50"
+                                                 onError={(e) => {
+                                                     if (!e.target.src.endsWith('/images/default-avatar.jpg')) {
+                                                         e.target.src = '/images/default-avatar.jpg';
+                                                     }
+                                                 }}
+                                            />
                                         </td>
                                         <td>{event.event_title}</td>
                                         <td>{event.description}</td>

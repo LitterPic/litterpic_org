@@ -324,7 +324,15 @@ function Post({post, currentUser}) {
                 <div className="post-header-left">
                     <div className="post-header-user-row">
                         <div className="profile-image">
-                            <img src={userPhoto} alt="Profile"/>
+                            <img 
+                                src={userPhoto} 
+                                alt="Profile"
+                                onError={(e) => {
+                                    if (!e.target.src.endsWith('/images/default-avatar.jpg')) {
+                                        e.target.src = '/images/default-avatar.jpg';
+                                    }
+                                }}
+                            />
                         </div>
                         <div className="post-user-details">
                             <Link href={`/profile/${post.user.uid}`} legacyBehavior>

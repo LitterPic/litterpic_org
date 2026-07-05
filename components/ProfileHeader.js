@@ -8,6 +8,11 @@ const ProfileHeader = ({ userPhoto, displayName, userEmail, onEdit }) => (
                     src={userPhoto || "/images/default-avatar.jpg"}
                     alt="Profile Picture"
                     className="object-cover w-full h-full"
+                    onError={(e) => {
+                        if (!e.target.src.endsWith('/images/default-avatar.jpg')) {
+                            e.target.src = '/images/default-avatar.jpg';
+                        }
+                    }}
                 />
             </div>
             <div>
