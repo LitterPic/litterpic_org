@@ -4,16 +4,18 @@ import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import Head from 'next/head';
 import withAuth from '../components/withAuth';
+import { filterMembers, getOrganizationTotalWeight, normalizeOrganization } from '../lib/membersFilters';
 
 const MembersPage = () => {
     const router = useRouter();
-    const { month, year } = router.query;
+    const { month, year, org } = router.query;
     
     const [members, setMembers] = useState([]);
     const [filteredMembers, setFilteredMembers] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [selectedMonth, setSelectedMonth] = useState(month || '');
     const [selectedYear, setSelectedYear] = useState(year || '');
+    const [selectedOrganization, setSelectedOrganization] = useState(org ? normalizeOrganization(org) : '');
     const [showFilters, setShowFilters] = useState(false);
     const [availableYears, setAvailableYears] = useState([]);
     
@@ -38,10 +40,18 @@ const MembersPage = () => {
     }, []);
 
     useEffect(() => {
+        if (typeof org === 'string') {
+            setSelectedOrganization(normalizeOrganization(org));
+        } else if (!org) {
+            setSelectedOrganization('');
+        }
+    }, [org]);
+
+    useEffect(() => {
         if (members.length > 0) {
             applyFilters();
         }
-    }, [members, selectedMonth, selectedYear]);
+    }, [members, selectedMonth, selectedYear, selectedOrganization]);
 
     const fetchMembers = async () => {
         try {
@@ -84,19 +94,11 @@ const MembersPage = () => {
     };
 
     const applyFilters = () => {
-        let filtered = members;
-
-        if (selectedMonth || selectedYear) {
-            filtered = members.filter(member => {
-                const memberYear = member.createdTime.getFullYear().toString();
-                const memberMonth = (member.createdTime.getMonth() + 1).toString().padStart(2, '0');
-                
-                const yearMatch = !selectedYear || memberYear === selectedYear;
-                const monthMatch = !selectedMonth || memberMonth === selectedMonth;
-                
-                return yearMatch && monthMatch;
-            });
-        }
+        const filtered = filterMembers(members, {
+            selectedMonth,
+            selectedYear,
+            selectedOrganization
+        });
 
         setFilteredMembers(filtered);
     };
@@ -104,10 +106,44 @@ const MembersPage = () => {
     const clearFilters = () => {
         setSelectedMonth('');
         setSelectedYear('');
+        setSelectedOrganization('');
         router.push('/members', undefined, { shallow: true });
     };
 
+    const getPageTitle = () => {
+        if (selectedOrganization) {
+            return `Members in ${normalizeOrganization(selectedOrganization)}`;
+        }
+
+        return 'LitterPic Members';
+    };
+
+    const orgTotalWeight = selectedOrganization
+        ? getOrganizationTotalWeight(members, selectedOrganization)
+        : 0;
+
     const getFilterDescription = () => {
+        if (selectedOrganization) {
+            const orgDescription = normalizeOrganization(selectedOrganization);
+            const monthYearDescription = [];
+
+            if (selectedMonth && selectedYear) {
+                const monthName = monthOptions.find(m => m.value === selectedMonth)?.label;
+                monthYearDescription.push(`joined in ${monthName} ${selectedYear}`);
+            } else if (selectedYear) {
+                monthYearDescription.push(`joined in ${selectedYear}`);
+            } else if (selectedMonth) {
+                const monthName = monthOptions.find(m => m.value === selectedMonth)?.label;
+                monthYearDescription.push(`joined in ${monthName} (all years)`);
+            }
+
+            if (monthYearDescription.length > 0) {
+                return `${orgDescription} members ${monthYearDescription[0]}`;
+            }
+
+            return `${orgDescription} members`;
+        }
+
         if (!selectedMonth && !selectedYear) return 'All Members';
         
         if (selectedMonth && selectedYear) {
@@ -141,7 +177,7 @@ const MembersPage = () => {
     return (
         <div>
             <Head>
-                <title>LitterPic Members - Community</title>
+                <title>{getPageTitle()} - Community</title>
                 <meta name="description" content="Browse LitterPic community members and their contributions to environmental cleanup." />
             </Head>
 
@@ -155,11 +191,16 @@ const MembersPage = () => {
                     </button>
                     
                     <div className="members-title-section">
-                        <h1>LitterPic Members</h1>
+                        <h1>{getPageTitle()}</h1>
                         <p className="members-count">
                             {filteredMembers.length} {filteredMembers.length === 1 ? 'member' : 'members'}
                         </p>
-                        <p className="filter-description">{getFilterDescription()}</p>
+                        {selectedOrganization && (
+                            <p className="filter-description">
+                                {`${normalizeOrganization(selectedOrganization)} total: ${orgTotalWeight.toLocaleString()} lbs`}
+                            </p>
+                        )}
+                        {!selectedOrganization && <p className="filter-description">{getFilterDescription()}</p>}
                     </div>
 
                     <button 
@@ -173,6 +214,21 @@ const MembersPage = () => {
                 {showFilters && (
                     <div className="members-filters">
                         <div className="filter-row">
+                            <div className="filter-group">
+                                <label>Organization:</label>
+                                <select
+                                    value={selectedOrganization}
+                                    onChange={(e) => setSelectedOrganization(e.target.value)}
+                                >
+                                    <option value="">All Organizations</option>
+                                    {Array.from(new Set(members.map(member => normalizeOrganization(member.organization || 'Independent')).sort((a, b) => a.localeCompare(b)))).map((organization) => (
+                                        <option key={organization} value={organization}>
+                                            {organization}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+
                             <div className="filter-group">
                                 <label>Year:</label>
                                 <select
@@ -203,7 +259,7 @@ const MembersPage = () => {
                             </div>
                         </div>
 
-                        {(selectedMonth || selectedYear) && (
+                        {(selectedMonth || selectedYear || selectedOrganization) && (
                             <button className="clear-filters-btn" onClick={clearFilters}>
                                 Clear Filters
                             </button>

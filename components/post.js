@@ -4,6 +4,11 @@ import Link from 'next/link';
 import {doc, getDoc, getFirestore, collection, query, where, getDocs} from 'firebase/firestore';
 import NotificationSender from "../utils/notifictionSender";
 
+const getOrgRoute = (organization) => ({
+    pathname: '/members',
+    query: { org: organization || 'Independent' }
+});
+
 function Post({post, currentUser}) {
     const [isFollowing, setIsFollowing] = useState(false);
     const currentUserUid = currentUser ? currentUser.uid : null;
@@ -339,23 +344,25 @@ function Post({post, currentUser}) {
                                 <a className="post-user-name">{userName}</a>
                             </Link>
                             {userOrganization && (
-                                <div className="post-org-badge">
-                                    {userOrganizationLogo && (
-                                        <img
-                                            src={userOrganizationLogo}
-                                            alt={userOrganization}
-                                            className="post-org-logo"
-                                        />
-                                    )}
-                                    <span className="post-org-name">{userOrganization}</span>
-                                </div>
+                                <Link href={getOrgRoute(userOrganization)} legacyBehavior>
+                                    <a className="post-org-badge" aria-label={`View members of ${userOrganization}`}>
+                                        {userOrganizationLogo && (
+                                            <img
+                                                src={userOrganizationLogo}
+                                                alt={userOrganization}
+                                                className="post-org-logo"
+                                            />
+                                        )}
+                                        <span className="post-org-name">{userOrganization}</span>
+                                    </a>
+                                </Link>
                             )}
                         </div>
                     </div>
                     {isAmbassador && (
-                        <div className="post-ambassador">
-                            <i className="material-icons post-ambassador-icon">public</i>
-                            <span className="post-ambassador-text">{`LitterPic Ambassador since ${new Date(ambassadorDate).toLocaleDateString()}`}</span>
+                        <div className="post-ambassador" title={`LitterPic Ambassador since ${new Date(ambassadorDate).toLocaleDateString()}`}>
+                            <i className="material-icons post-ambassador-icon">check_circle</i>
+                            <span className="post-ambassador-text">LitterPic Ambassador</span>
                         </div>
                     )}
                 </div>
@@ -391,7 +398,10 @@ function Post({post, currentUser}) {
                         }}
                         className={`follow-button ${isFollowing ? 'following' : ''}`}
                     >
-                        {isFollowing ? `Following ${userName}` : `Follow ${userName}`}
+                        <span className="follow-button-icon">
+                            {isFollowing ? '✓' : '+'}
+                        </span>
+                        <span>{isFollowing ? 'Following' : 'Follow'}</span>
                     </button>
                 </div>
             )}
