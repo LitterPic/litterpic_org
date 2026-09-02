@@ -55,11 +55,32 @@ export default function SignInActions({
                 await router.push('/');
             }
         } catch (error) {
-            if (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
-                toast.error('Invalid Username or Password');
-            } else {
-                toast.error('Unexpected Error');
-            }
+            console.error('Login failed:', error);
+
+            const errorMessage = (() => {
+                switch (error.code) {
+                    case 'auth/invalid-email':
+                        return 'Please enter a valid email address.';
+                    case 'auth/user-disabled':
+                        return 'This account has been disabled.';
+                    case 'auth/user-not-found':
+                    case 'auth/wrong-password':
+                    case 'auth/invalid-login-credentials':
+                        return 'Invalid email or password.';
+                    case 'auth/too-many-requests':
+                        return 'Too many login attempts. Please wait a moment and try again.';
+                    case 'auth/network-request-failed':
+                        return 'Network error. Please check your connection and try again.';
+                    default:
+                        return error.message || 'Something went wrong. Please try again.';
+                }
+            })();
+
+            toast.error(errorMessage, {
+                icon: '⚠️',
+                closeButton: true,
+                autoClose: 6000,
+            });
         }
     };
 

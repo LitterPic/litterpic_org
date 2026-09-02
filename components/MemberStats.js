@@ -11,6 +11,15 @@ const MemberStats = () => {
     const [filterEnabled, setFilterEnabled] = useState(false);
     const [selectedMonth, setSelectedMonth] = useState('');
     const [selectedYear, setSelectedYear] = useState('');
+    const [sortField, setSortField] = useState('litterCollected');
+    const [sortDirection, setSortDirection] = useState('desc');
+
+    const sortOptions = [
+        { value: 'litterCollected', label: 'Litter Collected' },
+        { value: 'joinedDate', label: 'Joined Date' },
+        { value: 'numPosts', label: 'Number of Posts' },
+        { value: 'name', label: 'Name' }
+    ];
 
     // Get current year and generate year options
     const currentYear = new Date().getFullYear();
@@ -136,10 +145,6 @@ const MemberStats = () => {
         setFilteredMembers(0);
     };
 
-    const handleApplyFilter = () => {
-        fetchFilteredMembers();
-    };
-
     // Auto-apply filter when month or year changes
     useEffect(() => {
         if (selectedMonth || selectedYear) {
@@ -147,9 +152,14 @@ const MemberStats = () => {
         }
     }, [selectedMonth, selectedYear]);
 
+    const isFilterActive = Boolean(selectedMonth || selectedYear);
+
     const handleMemberCountClick = () => {
-        // Navigate to members page with current filters
-        const query = {};
+        const query = {
+            sort: sortField,
+            direction: sortDirection,
+        };
+
         if (selectedMonth) query.month = selectedMonth;
         if (selectedYear) query.year = selectedYear;
 
@@ -193,54 +203,95 @@ const MemberStats = () => {
             </div>
 
             <div className="member-filter-container">
-                <div className="filter-controls">
-                    <div className="filter-inputs">
-                        <div className="input-group">
-                            <label htmlFor="month-select">Month:</label>
-                            <select
-                                id="month-select"
-                                value={selectedMonth}
-                                onChange={(e) => setSelectedMonth(e.target.value)}
+                <div className="member-filter-bar">
+                    <div className="member-filter-header">
+                        <span className="member-filter-label">Sort members</span>
+                        {(isFilterActive || sortField !== 'litterCollected' || sortDirection !== 'desc') && (
+                            <button
+                                type="button"
+                                onClick={resetFilter}
                                 disabled={isLoading}
+                                className="clear-filter-chip"
                             >
-                                <option value="">Select Month</option>
-                                {monthOptions.map(month => (
-                                    <option key={month.value} value={month.value}>
-                                        {month.label}
-                                    </option>
-                                ))}
-                            </select>
+                                Reset
+                            </button>
+                        )}
+                    </div>
+
+                    <div className="member-filter-grid">
+                        <div className="input-group">
+                            <label htmlFor="member-sort-select">Sort by</label>
+                            <div className="select-wrap">
+                                <select
+                                    id="member-sort-select"
+                                    value={sortField}
+                                    onChange={(e) => setSortField(e.target.value)}
+                                    disabled={isLoading}
+                                >
+                                    {sortOptions.map(option => (
+                                        <option key={option.value} value={option.value}>
+                                            {option.label}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
                         </div>
 
                         <div className="input-group">
-                            <label htmlFor="year-select">Year:</label>
-                            <select
-                                id="year-select"
-                                value={selectedYear}
-                                onChange={(e) => setSelectedYear(e.target.value)}
-                                disabled={isLoading}
-                            >
-                                <option value="">Select Year</option>
-                                {yearOptions.map(year => (
-                                    <option key={year} value={year}>
-                                        {year}
-                                    </option>
-                                ))}
-                            </select>
+                            <label htmlFor="member-direction-select">Direction</label>
+                            <div className="select-wrap">
+                                <select
+                                    id="member-direction-select"
+                                    value={sortDirection}
+                                    onChange={(e) => setSortDirection(e.target.value)}
+                                    disabled={isLoading}
+                                >
+                                    <option value="desc">Highest first</option>
+                                    <option value="asc">Lowest first</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
 
-                    {(selectedMonth || selectedYear) && (
-                        <div className="filter-buttons">
-                            <button
-                                onClick={resetFilter}
-                                disabled={isLoading}
-                                className="reset-filter-btn"
-                            >
-                                Clear Filters
-                            </button>
+                    <div className="member-filter-grid secondary-grid">
+                        <div className="input-group">
+                            <label htmlFor="month-select">Joined month</label>
+                            <div className="select-wrap">
+                                <select
+                                    id="month-select"
+                                    value={selectedMonth}
+                                    onChange={(e) => setSelectedMonth(e.target.value)}
+                                    disabled={isLoading}
+                                >
+                                    <option value="">Any month</option>
+                                    {monthOptions.map(month => (
+                                        <option key={month.value} value={month.value}>
+                                            {month.label}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
                         </div>
-                    )}
+
+                        <div className="input-group">
+                            <label htmlFor="year-select">Joined year</label>
+                            <div className="select-wrap">
+                                <select
+                                    id="year-select"
+                                    value={selectedYear}
+                                    onChange={(e) => setSelectedYear(e.target.value)}
+                                    disabled={isLoading}
+                                >
+                                    <option value="">Any year</option>
+                                    {yearOptions.map(year => (
+                                        <option key={year} value={year}>
+                                            {year}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

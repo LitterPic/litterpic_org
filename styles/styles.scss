@@ -156,6 +156,15 @@ textarea {
   width: 80%;
 }
 
+.volunteer-page {
+  padding: 1.25rem 0.75rem 2rem;
+}
+
+.volunteer-content {
+  width: 100%;
+  max-width: 1500px;
+}
+
 // Media Query for Mobile Devices
 @media (max-width: 76.5rem) {
   * {

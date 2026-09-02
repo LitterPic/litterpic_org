@@ -439,7 +439,7 @@ export default function Index() {
                             get
                             inspired by more!
                             <a className=" index-more-stories-button" href="/stories">
-                                <button type=" button">User Stories</button>
+                                <button type=" button">User Posts</button>
                             </a>
                         </h2>
                     </div>

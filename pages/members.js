@@ -4,68 +4,79 @@ import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import Head from 'next/head';
 import withAuth from '../components/withAuth';
-import { filterMembers, getOrganizationTotalWeight, normalizeOrganization } from '../lib/membersFilters';
+import { filterMembers, getMemberFilterStateFromQuery, getMemberSortStateFromQuery, getOrganizationTotalWeight, normalizeOrganization, sortMembers } from '../lib/membersFilters';
 
 const MembersPage = () => {
     const router = useRouter();
-    const { month, year, org } = router.query;
+    const { org, month, year, sort, direction } = router.query;
     
     const [members, setMembers] = useState([]);
     const [filteredMembers, setFilteredMembers] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [selectedMonth, setSelectedMonth] = useState(month || '');
-    const [selectedYear, setSelectedYear] = useState(year || '');
+    const [selectedMonth, setSelectedMonth] = useState('');
+    const [selectedYear, setSelectedYear] = useState('');
     const [selectedOrganization, setSelectedOrganization] = useState(org ? normalizeOrganization(org) : '');
+    const [sortField, setSortField] = useState('litterCollected');
+    const [sortDirection, setSortDirection] = useState('desc');
     const [showFilters, setShowFilters] = useState(false);
-    const [availableYears, setAvailableYears] = useState([]);
-    
-    const monthOptions = [
-        { value: '', label: 'All Months' },
-        { value: '01', label: 'January' },
-        { value: '02', label: 'February' },
-        { value: '03', label: 'March' },
-        { value: '04', label: 'April' },
-        { value: '05', label: 'May' },
-        { value: '06', label: 'June' },
-        { value: '07', label: 'July' },
-        { value: '08', label: 'August' },
-        { value: '09', label: 'September' },
-        { value: '10', label: 'October' },
-        { value: '11', label: 'November' },
-        { value: '12', label: 'December' }
+
+    const sortOptions = [
+        { value: 'litterCollected', label: 'Litter Collected' },
+        { value: 'numPosts', label: 'Number of Posts' },
+        { value: 'joinedDate', label: 'Joined Date' },
+        { value: 'name', label: 'Name' }
     ];
+
 
     useEffect(() => {
         fetchMembers();
     }, []);
 
     useEffect(() => {
-        if (typeof org === 'string') {
-            setSelectedOrganization(normalizeOrganization(org));
-        } else if (!org) {
-            setSelectedOrganization('');
-        }
-    }, [org]);
+        const queryState = getMemberFilterStateFromQuery({ month, year, org });
+        const sortState = getMemberSortStateFromQuery({ sort, direction });
+
+        setSelectedMonth(queryState.selectedMonth);
+        setSelectedYear(queryState.selectedYear);
+        setSelectedOrganization(queryState.selectedOrganization);
+        setSortField(sortState.sortField);
+        setSortDirection(sortState.sortDirection);
+    }, [month, year, org, sort, direction]);
 
     useEffect(() => {
         if (members.length > 0) {
             applyFilters();
         }
-    }, [members, selectedMonth, selectedYear, selectedOrganization]);
+    }, [members, selectedOrganization, selectedMonth, selectedYear, sortField, sortDirection]);
 
     const fetchMembers = async () => {
         try {
             setIsLoading(true);
-            const usersSnapshot = await getDocs(collection(db, 'users'));
+            const [usersSnapshot, postsSnapshot] = await Promise.all([
+                getDocs(collection(db, 'users')),
+                getDocs(collection(db, 'userPosts'))
+            ]);
+
+            const postCountsByUser = {};
+            postsSnapshot.forEach(postDoc => {
+                const postData = postDoc.data();
+                const postUser = postData.postUser;
+                const userId = (postUser && typeof postUser === 'object' && postUser.id)
+                    ? postUser.id
+                    : (postData.userId || postData.user_id || null);
+
+                if (!userId) return;
+                postCountsByUser[userId] = (postCountsByUser[userId] || 0) + 1;
+            });
+
             const membersList = [];
-            const years = new Set();
 
             usersSnapshot.forEach(doc => {
                 const userData = doc.data();
                 if (userData.created_time && userData.display_name && userData.display_name.trim() !== '') {
                     const memberDate = userData.created_time.toDate();
-                    years.add(memberDate.getFullYear());
-                    
+                    const postCount = Number(postCountsByUser[doc.id] ?? userData.numberOfPosts ?? userData.postCount ?? userData.postsCount ?? 0);
+
                     membersList.push({
                         id: doc.id,
                         displayName: userData.display_name || userData.email || 'Unknown User',
@@ -73,19 +84,15 @@ const MembersPage = () => {
                         photoUrl: userData.photo_url || '/images/default-avatar.jpg',
                         organization: userData.organization || 'Independent',
                         createdTime: memberDate,
-                        totalWeight: userData.totalWeight || 0
+                        totalWeight: userData.totalWeight || 0,
+                        postCount
                     });
                 }
             });
 
-            // Sort members alphabetically
             membersList.sort((a, b) => a.displayName.toLowerCase().localeCompare(b.displayName.toLowerCase()));
             
-            // Sort years descending (newest first)
-            const sortedYears = Array.from(years).sort((a, b) => b - a);
-            
             setMembers(membersList);
-            setAvailableYears(sortedYears);
         } catch (error) {
             console.error('Error fetching members:', error);
         } finally {
@@ -100,17 +107,30 @@ const MembersPage = () => {
             selectedOrganization
         });
 
-        setFilteredMembers(filtered);
+        const sorted = sortMembers(filtered, sortField, sortDirection);
+        setFilteredMembers(sorted);
     };
 
     const clearFilters = () => {
         setSelectedMonth('');
         setSelectedYear('');
         setSelectedOrganization('');
-        router.push('/members', undefined, { shallow: true });
+        setSortField('litterCollected');
+        setSortDirection('desc');
+        router.push({ pathname: '/members', query: {} }, undefined, { shallow: true });
     };
 
     const getPageTitle = () => {
+        if (selectedOrganization && selectedMonth && selectedYear) {
+            return `Members in ${normalizeOrganization(selectedOrganization)} · ${selectedMonth}/${selectedYear}`;
+        }
+
+        if (selectedMonth || selectedYear) {
+            const joinedText = selectedMonth ? `Joined in ${selectedMonth}` : 'Joined in';
+            const yearText = selectedYear ? ` ${selectedYear}` : '';
+            return `${joinedText}${yearText}`;
+        }
+
         if (selectedOrganization) {
             return `Members in ${normalizeOrganization(selectedOrganization)}`;
         }
@@ -123,38 +143,27 @@ const MembersPage = () => {
         : 0;
 
     const getFilterDescription = () => {
+        if (selectedOrganization && selectedMonth && selectedYear) {
+            return `${normalizeOrganization(selectedOrganization)} members joined in ${selectedMonth}/${selectedYear}`;
+        }
+
         if (selectedOrganization) {
-            const orgDescription = normalizeOrganization(selectedOrganization);
-            const monthYearDescription = [];
-
-            if (selectedMonth && selectedYear) {
-                const monthName = monthOptions.find(m => m.value === selectedMonth)?.label;
-                monthYearDescription.push(`joined in ${monthName} ${selectedYear}`);
-            } else if (selectedYear) {
-                monthYearDescription.push(`joined in ${selectedYear}`);
-            } else if (selectedMonth) {
-                const monthName = monthOptions.find(m => m.value === selectedMonth)?.label;
-                monthYearDescription.push(`joined in ${monthName} (all years)`);
-            }
-
-            if (monthYearDescription.length > 0) {
-                return `${orgDescription} members ${monthYearDescription[0]}`;
-            }
-
-            return `${orgDescription} members`;
+            return `${normalizeOrganization(selectedOrganization)} members`;
         }
 
-        if (!selectedMonth && !selectedYear) return 'All Members';
-        
         if (selectedMonth && selectedYear) {
-            const monthName = monthOptions.find(m => m.value === selectedMonth)?.label;
-            return `Members joined in ${monthName} ${selectedYear}`;
-        } else if (selectedYear) {
-            return `Members joined in ${selectedYear}`;
-        } else if (selectedMonth) {
-            const monthName = monthOptions.find(m => m.value === selectedMonth)?.label;
-            return `Members joined in ${monthName} (all years)`;
+            return `Members joined in ${selectedMonth}/${selectedYear}`;
         }
+
+        if (selectedMonth) {
+            return `Members joined in month ${selectedMonth}`;
+        }
+
+        if (selectedYear) {
+            return `Members joined in ${selectedYear}`;
+        }
+
+        return 'All Members';
     };
 
     const formatDate = (date) => {
@@ -215,6 +224,31 @@ const MembersPage = () => {
                     <div className="members-filters">
                         <div className="filter-row">
                             <div className="filter-group">
+                                <label>Sort By</label>
+                                <select
+                                    value={sortField}
+                                    onChange={(e) => setSortField(e.target.value)}
+                                >
+                                    {sortOptions.map(option => (
+                                        <option key={option.value} value={option.value}>
+                                            {option.label}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            <div className="filter-group">
+                                <label>Direction</label>
+                                <select
+                                    value={sortDirection}
+                                    onChange={(e) => setSortDirection(e.target.value)}
+                                >
+                                    <option value="asc">Ascending</option>
+                                    <option value="desc">Descending</option>
+                                </select>
+                            </div>
+
+                            <div className="filter-group">
                                 <label>Organization:</label>
                                 <select
                                     value={selectedOrganization}
@@ -229,37 +263,9 @@ const MembersPage = () => {
                                 </select>
                             </div>
 
-                            <div className="filter-group">
-                                <label>Year:</label>
-                                <select
-                                    value={selectedYear}
-                                    onChange={(e) => setSelectedYear(e.target.value)}
-                                >
-                                    <option value="">All Years</option>
-                                    {availableYears.map(year => (
-                                        <option key={year} value={year}>
-                                            {year}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-
-                            <div className="filter-group">
-                                <label>Month:</label>
-                                <select
-                                    value={selectedMonth}
-                                    onChange={(e) => setSelectedMonth(e.target.value)}
-                                >
-                                    {monthOptions.map(month => (
-                                        <option key={month.value} value={month.value}>
-                                            {month.label}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
                         </div>
 
-                        {(selectedMonth || selectedYear || selectedOrganization) && (
+                        {(selectedOrganization || sortField !== 'litterCollected' || sortDirection !== 'desc') && (
                             <button className="clear-filters-btn" onClick={clearFilters}>
                                 Clear Filters
                             </button>
@@ -292,6 +298,9 @@ const MembersPage = () => {
                                         Collected: {member.totalWeight} lbs
                                     </p>
                                 )}
+                                <p className="member-post-count">
+                                    Posts: {member.postCount || 0}
+                                </p>
                             </div>
                             
                             <div className="member-actions">
@@ -309,7 +318,7 @@ const MembersPage = () => {
                 {filteredMembers.length === 0 && (
                     <div className="no-members">
                         <p>No members found for the selected criteria.</p>
-                        {(selectedMonth || selectedYear) && (
+                        {(selectedOrganization || sortField !== 'litterCollected' || sortDirection !== 'desc') && (
                             <button onClick={clearFilters}>Clear filters to see all members</button>
                         )}
                     </div>

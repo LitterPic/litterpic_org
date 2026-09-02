@@ -106,7 +106,7 @@ const Layout = ({children}) => {
             <Logobar/>
             <div className="grid-content">
                 <nav className={`nav-bar ${showNavLinks ? "mobile-nav" : ""}`}>
-                    <div className="nav-links">
+                    <div className={`nav-links ${showNavLinks ? "show-navlinks" : ""}`}>
                         {userLoggedIn && showNavLinks && (
                             <img src={userPhoto} alt={displayName} className="profile-picture"/>
                         )}
@@ -124,7 +124,7 @@ const Layout = ({children}) => {
                             <div onClick={() => handleNavLinkClick("/community_service_hours")}>Community Service</div>
                         </Link>
                         <Link href="/stories" passHref>
-                            <div onClick={() => handleNavLinkClick("/stories")}>User Stories</div>
+                            <div onClick={() => handleNavLinkClick("/stories")}>User Posts</div>
                         </Link>
                         <Link href="/reports" passHref>
                             <div onClick={() => handleNavLinkClick("/reports")}>Litter Stats</div>

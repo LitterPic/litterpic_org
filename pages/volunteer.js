@@ -73,6 +73,105 @@ const EventComponent = ({event}) => {
     );
 };
 
+const formatDateKey = (dateValue) => {
+    const parsed = dateValue instanceof Date ? dateValue : new Date(dateValue);
+    if (!parsed || Number.isNaN(parsed.getTime())) {
+        return null;
+    }
+
+    const year = parsed.getFullYear();
+    const month = String(parsed.getMonth() + 1).padStart(2, '0');
+    const day = String(parsed.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+};
+
+const eventMatchesDate = (event, dateKey) => {
+    if (!dateKey) {
+        return false;
+    }
+
+    const start = event?.start instanceof Date ? event.start : new Date(event?.start);
+    if (Number.isNaN(start.getTime())) {
+        return false;
+    }
+
+    return formatDateKey(start) === dateKey;
+};
+
+const applySelectedDateFilter = (nextDate, eventsList, setSelectedDateCallback, setFilteredEventsCallback) => {
+    const normalizedDate = nextDate || '';
+    setSelectedDateCallback(normalizedDate);
+
+    if (!normalizedDate) {
+        const futureEvents = (eventsList || []).filter(event => {
+            const eventStartDate = new Date(event.start);
+            return eventStartDate >= new Date(new Date().setHours(0, 0, 0, 0));
+        });
+        setFilteredEventsCallback(futureEvents);
+        return;
+    }
+
+    const filtered = (eventsList || []).filter(event => eventMatchesDate(event, normalizedDate));
+    setFilteredEventsCallback(filtered);
+};
+
+const handleDateSelection = (dateValue, eventsList, setSelectedDateCallback, setFilteredEventsCallback) => {
+    if (!dateValue) {
+        applySelectedDateFilter('', eventsList, setSelectedDateCallback, setFilteredEventsCallback);
+        return;
+    }
+
+    const dateKey = formatDateKey(dateValue);
+    if (dateKey) {
+        applySelectedDateFilter(dateKey, eventsList, setSelectedDateCallback, setFilteredEventsCallback);
+    }
+};
+
+const CustomDateCellWrapper = ({children, value, events, onDateSelect, selectedDate}) => {
+    const dateKey = formatDateKey(value);
+    const dayEvents = (events || []).filter((event) => eventMatchesDate(event, dateKey));
+    const isSelected = Boolean(dateKey && selectedDate && dateKey === selectedDate);
+
+    return (
+        <div className={`rbc-date-cell-wrapper ${isSelected ? 'is-selected' : ''}`}>
+            {children}
+            {dayEvents.length > 0 && (
+                <div className="rbc-date-cell-events">
+                    {dayEvents.slice(0, 2).map((event, index) => (
+                        <button
+                            type="button"
+                            key={`${event.id || event.event_title}-${index}`}
+                            className="day-event-pill"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                if (dateKey && onDateSelect) {
+                                    onDateSelect(dateKey);
+                                }
+                            }}
+                        >
+                            {event.event_title}
+                        </button>
+                    ))}
+                    {dayEvents.length > 2 && (
+                        <button
+                            type="button"
+                            className="day-event-pill more-events-pill"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                if (dateKey && onDateSelect) {
+                                    onDateSelect(dateKey);
+                                }
+                            }}
+                        >
+                            +{dayEvents.length - 2}
+                        </button>
+                    )}
+                </div>
+            )}
+        </div>
+    );
+};
+
 const addRsvpDocument = async (eventId, userId, numberAttending, note) => {
     const rsvpCollection = collection(db, "rsvp");
     const newRsvpDocRef = doc(rsvpCollection);
@@ -151,21 +250,23 @@ const Volunteer = () => {
         }))
         .sort((a, b) => a.raw.localeCompare(b.raw));
 
+    const selectedDateLabel = selectedDate
+        ? new Date(`${selectedDate}T00:00:00`).toLocaleDateString('en-US', {
+            weekday: 'short',
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric'
+        })
+        : null;
 
     useEffect(() => {
         const today = new Date();
-        today.setHours(0, 0, 0, 0); // Set today to the start of the day
+        today.setHours(0, 0, 0, 0);
 
         if (selectedDate) {
-            // If a specific date is selected, filter events for that date
-            const filtered = events.filter(event => {
-                const eventStartDate = new Date(event.start);
-                const eventStartDateStr = `${eventStartDate.getFullYear()}-${String(eventStartDate.getMonth() + 1).padStart(2, '0')}-${String(eventStartDate.getDate()).padStart(2, '0')}`;
-                return eventStartDateStr === selectedDate;
-            });
+            const filtered = events.filter(event => eventMatchesDate(event, selectedDate));
             setFilteredEvents(filtered);
         } else {
-            // If no date is selected, show events from today or in the future
             const futureEvents = events.filter(event => {
                 const eventStartDate = new Date(event.start);
                 return eventStartDate >= today;
@@ -386,6 +487,8 @@ const Volunteer = () => {
 
         const dateValue = event.target.date.value;
         const date = moment(dateValue).hours(0).minutes(0).seconds(0).toDate();
+        const endOfEventDate = new Date(date);
+        endOfEventDate.setDate(endOfEventDate.getDate() + 1);
 
         const userRef = doc(db, 'users', user.uid);
 
@@ -400,6 +503,7 @@ const Volunteer = () => {
             owner: userRef,
             rsvps: [],
             time_created: serverTimestamp(),
+            end: endOfEventDate,
         };
 
         try {
@@ -807,23 +911,43 @@ const Volunteer = () => {
             try {
                 const eventCollection = collection(db, "events");
                 const eventSnapshot = await getDocs(eventCollection);
-                let eventList = eventSnapshot.docs.map((doc) => ({
-                    ...doc.data(),
-                    id: doc.id,
-                    start: doc.data().date.toDate(),
-                    end: doc.data().date.toDate()
-                }));
+                let eventList = eventSnapshot.docs
+                    .map((doc) => {
+                        const data = doc.data();
+                        const rawDate = data?.date;
+                        let parsedDate = null;
 
-                eventList = eventList.sort(
-                    (a, b) => a.start.getTime() - b.start.getTime()
-                );
+                        if (rawDate && typeof rawDate.toDate === 'function') {
+                            parsedDate = rawDate.toDate();
+                        } else if (rawDate instanceof Date) {
+                            parsedDate = rawDate;
+                        } else if (rawDate) {
+                            parsedDate = new Date(rawDate);
+                        }
+
+                        if (!parsedDate || Number.isNaN(parsedDate.getTime())) {
+                            return null;
+                        }
+
+                        const endDate = new Date(parsedDate);
+                        endDate.setDate(endDate.getDate() + 1);
+
+                        return {
+                            ...data,
+                            id: doc.id,
+                            start: parsedDate,
+                            end: endDate
+                        };
+                    })
+                    .filter(Boolean)
+                    .sort((a, b) => a.start.getTime() - b.start.getTime());
 
                 setEvents(eventList);
 
                 // Prefetch user data immediately after events are loaded
                 prefetchEventCreators(eventList);
             } catch (error) {
-                console.debug('Error fetching events:', error.code);
+                console.debug('Error fetching events:', error?.code || error);
                 setEvents([]);
             }
         };
@@ -899,7 +1023,17 @@ const Volunteer = () => {
     };
 
     const onEventSelect = (event) => {
-        setSelectedDate(event.start.toISOString().split('T')[0]);
+        const nextDate = event?.start || event?.date;
+        if (nextDate) {
+            handleDateSelection(nextDate, events, setSelectedDate, setFilteredEvents);
+        }
+    };
+
+    const onSelectSlot = (slotInfo) => {
+        const nextDate = slotInfo?.start || slotInfo?.value;
+        if (nextDate) {
+            handleDateSelection(nextDate, events, setSelectedDate, setFilteredEvents);
+        }
     };
 
     const eventStyleGetter = (event, start, end, isSelected) => {
@@ -909,17 +1043,24 @@ const Volunteer = () => {
 
         let style = {
             backgroundColor: isPastEvent ? '#E6E6E6' : '#015e41',
-            borderRadius: '0px',
-            opacity: 0.8,
-            color: isPastEvent ? 'darkgrey' : 'white',
+            borderRadius: '10px',
+            opacity: 1,
+            color: isPastEvent ? '#4a4a4a' : '#ffffff',
             border: '0px',
-            display: 'block'
+            display: 'block',
+            boxShadow: '0 8px 18px rgba(1, 94, 65, 0.16)',
+            padding: '4px 8px',
+            fontWeight: 600
         };
 
         return {
             style: style
         };
     };
+
+    const upcomingEventCount = events.filter(event => new Date(event.start) >= new Date()).length;
+    const locationCount = new Set(events.map(event => event.location).filter(Boolean)).size;
+    const totalRsvpCount = Object.values(rsvps || {}).reduce((sum, count) => sum + (count || 0), 0);
 
     return (
         <div>
@@ -959,32 +1100,57 @@ const Volunteer = () => {
             </Head>
             
 
-            <div className="banner">
-                <img src="/images/volunteer_banner.webp" alt="Banner Image"/>
-            </div>
-
-            <div className="page">
-                <div className="content">
-                    <h1 className="heading-text">Events</h1>
-                    <p className="volunteer-top-paragraph"> LitterPic encourages everyone to play their part in our
-                        Environmental Protection Movement. The only
-                        way we succeed is when the change comes from within, and we want to empower you to take an
-                        active
-                        role. Register for volunteering events to lend your support or create a volunteering event for
-                        your
-                        community. To create a volunteering event, simply log in, and utilize the Create Event button
-                        below!</p>
-                    <div title={!user ? "Please login to create an event" : ""}>
-                        <button className="create-event-button"
-                                onClick={handleCreateEventClick}
-                                disabled={!user}
-                        >
-                            Create Event
-                        </button>
+            <div className="volunteer-hero-shell">
+                <div className="volunteer-hero">
+                    <div className="volunteer-hero-copy">
+                        <span className="volunteer-hero-kicker">Community action</span>
+                        <h1 className="heading-text">Events that turn cleanup into momentum</h1>
+                        <p className="volunteer-top-paragraph">
+                            LitterPic brings neighbors, schools, and community groups together to make cleaner streets,
+                            healthier parks, and a stronger local culture of care. Join an event, host one in your area,
+                            and help turn everyday action into lasting impact.
+                        </p>
+                        <div className="volunteer-cta-row">
+                            <div title={!user ? "Please login to create an event" : ""}>
+                                <button className="create-event-button"
+                                        onClick={handleCreateEventClick}
+                                        disabled={!user}
+                                >
+                                    Create Event
+                                </button>
+                            </div>
+                            <a className="volunteer-secondary-link" href="#events-calendar">
+                                View calendar
+                            </a>
+                        </div>
                     </div>
 
+                    <div className="volunteer-hero-visual">
+                        <img src="/images/Noah_picking_litter.webp" alt="Volunteer picking up litter in a community cleanup"/>
+                    </div>
+                </div>
+            </div>
+
+            <div className="page volunteer-page">
+                <div className="content volunteer-content">
+
                     {showCreateEventForm && (
-                        <div>
+                        <div className="event-form-shell">
+                            <div className="event-form-header">
+                                <div>
+                                    <p className="event-form-kicker">Create an event</p>
+                                    <h2>Plan a community cleanup</h2>
+                                </div>
+                                <button
+                                    type="button"
+                                    className="event-form-close"
+                                    onClick={handleCancelCreateEventClick}
+                                    aria-label="Close event form"
+                                >
+                                    ×
+                                </button>
+                            </div>
+
                             <form onSubmit={handleCreateEventFormSubmit} className="event-form">
                                 <div className="form-row">
                                     <label htmlFor="date">Event Date</label>
@@ -1051,32 +1217,70 @@ const Volunteer = () => {
 
                                 <div className="create-event-buttons">
                                     <button className="event-submit" type="submit">Submit</button>
-                                    <button className="event-submit-cancel"
+                                    <button type="button" className="event-submit-cancel"
                                             onClick={handleCancelCreateEventClick}>Cancel
                                     </button>
                                 </div>
                             </form>
                         </div>
                     )}
-                    <div className="calendar">
-                        <Calendar
-                            localizer={localizer}
-                            events={events}
-                            startAccessor="start"
-                            endAccessor="end"
-                            style={{height: 800}}
-                            onSelectEvent={onEventSelect}
-                            views={['month']}
-                            components={{
-                                event: EventComponent,
-                                toolbar: CustomToolbar,
-                            }}
-                            eventPropGetter={eventStyleGetter}
-                        />
+                    <div id="events-calendar" className="calendar-panel">
+                        <div className="calendar-header-row">
+                            <div>
+                                <p className="calendar-header-kicker">Volunteer calendar</p>
+                                <h2>{selectedDate ? `Events on ${selectedDateLabel}` : 'Upcoming community events'}</h2>
+                            </div>
+                            {selectedDate && (
+                                <button
+                                    type="button"
+                                    className="calendar-clear-filter"
+                                    onClick={() => applySelectedDateFilter('', events, setSelectedDate, setFilteredEvents)}
+                                >
+                                    Show all dates
+                                </button>
+                            )}
+                        </div>
+                        <div className="calendar">
+                            <Calendar
+                                localizer={localizer}
+                                events={events}
+                                startAccessor="start"
+                                endAccessor="end"
+                                style={{height: 800}}
+                                onSelectEvent={onEventSelect}
+                                onSelectSlot={onSelectSlot}
+                                selectable
+                                views={['month']}
+                                components={{
+                                    event: EventComponent,
+                                    toolbar: CustomToolbar,
+                                    dateCellWrapper: (props) => (
+                                        <CustomDateCellWrapper
+                                            {...props}
+                                            events={events}
+                                            selectedDate={selectedDate}
+                                            onDateSelect={(dateKey) => applySelectedDateFilter(dateKey, events, setSelectedDate, setFilteredEvents)}
+                                        />
+                                    ),
+                                }}
+                                eventPropGetter={eventStyleGetter}
+                            />
+                        </div>
                     </div>
 
 
-                    <div>
+                    <div className="table-shell">
+                        <div className="table-toolbar">
+                            <div className="table-toolbar-copy">
+                                <span className="table-toolbar-label">Available events</span>
+                                <strong>{selectedDate ? `Filtered for ${selectedDateLabel}` : 'All upcoming events'}</strong>
+                            </div>
+                            {selectedDate && (
+                                <button type="button" className="table-toolbar-clear" onClick={() => applySelectedDateFilter('', events, setSelectedDate, setFilteredEvents)}>
+                                    Clear filter
+                                </button>
+                            )}
+                        </div>
                         <table className="table">
                             <thead>
                             <tr>

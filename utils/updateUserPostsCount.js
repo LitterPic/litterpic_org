@@ -11,23 +11,36 @@ const db = admin.firestore();
 
 async function updateUserPostCounts() {
     try {
-        // Query all users
-        const usersQuery = db.collection('users');
-        const usersSnapshot = await usersQuery.get();
+        const [usersSnapshot, postsSnapshot] = await Promise.all([
+            db.collection('users').get(),
+            db.collection('userPosts').get()
+        ]);
 
-        for (const userDoc of usersSnapshot.docs) {
-            const userId = userDoc.id;
+        const postCountsByUser = {};
 
-            // Query userPosts to count posts for this user
-            const userPostsQuery = db.collection('userPosts').where('postUser', '==', db.doc('users/' + userId));
-            const userPostsSnapshot = await userPostsQuery.get();
-            const postCount = userPostsSnapshot.docs.length;
+        for (const postDoc of postsSnapshot.docs) {
+            const postData = postDoc.data();
+            const postUser = postData.postUser;
+            const userId = (postUser && typeof postUser === 'object' && postUser.id)
+                ? postUser.id
+                : (postData.userId || postData.user_id || null);
 
-            // Update the numberOfPosts field for the user
-            await db.doc('users/' + userId).update({
-                numberOfPosts: postCount
-            });
+            if (!userId) continue;
+            postCountsByUser[userId] = (postCountsByUser[userId] || 0) + 1;
         }
+
+        const userUpdates = usersSnapshot.docs.map(userDoc => {
+            const userId = userDoc.id;
+            const postCount = postCountsByUser[userId] || 0;
+            return db.doc('users/' + userId).update({
+                numberOfPosts: postCount,
+                postCount,
+                postsCount: postCount
+            });
+        });
+
+        await Promise.all(userUpdates);
+        console.log(`Updated post counts for ${userUpdates.length} users.`);
     } catch (error) {
         console.error('Error updating user post counts:', error);
     }

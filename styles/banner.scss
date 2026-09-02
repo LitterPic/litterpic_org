@@ -6,10 +6,14 @@
   background-position: center;
   background-size: cover;
   height: 18.75rem;
+  overflow: hidden;
   position: relative;
 
   img {
+    display: block;
+    filter: contrast(1.03) saturate(1.04);
     height: 100%;
+    image-rendering: auto;
     object-fit: cover;
     width: 100%;
   }
