@@ -1434,7 +1434,7 @@ function Stories() {
     return (
         <div>
             <Head>
-                <title>LitterPic Inspiring Stories</title>
+                <title>LitterPic User Posts</title>
                 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
                 <meta name="description"
                       content="Join LitterPic in making the world cleaner and safer. Explore inspiring litter collection photos and stories."/>
@@ -1443,7 +1443,7 @@ function Stories() {
                 <link rel="canonical" href="https://litterpic.org/stories"/>
                 <link rel="preconnect" href="https://litterpic.org" />
 
-                <meta property="og:title" content="LitterPic - Inspiring Stories"/>
+                <meta property="og:title" content="LitterPic - User Posts"/>
                 <meta property="og:description"
                       content="Join LitterPic in making the world cleaner and safer. Explore inspiring litter collection photos and stories."/>
                 <meta property="og:image" content="https://litterpic.org/images/litter_pic_logo.png"/>
@@ -1489,13 +1489,17 @@ function Stories() {
                 />
             </div>
 
-            <div className="page">
-                <div className="content">
+            <div className="page stories-page">
+                <div className="content stories-content">
                     <div className="stories-top-bar">
-                        <h1 className="heading-text">User Stories</h1>
+                        <div className="stories-title-block">
+                            <span className="stories-eyebrow">LitterPic community</span>
+                            <h1 className="heading-text">User Posts</h1>
+                            <p className="stories-lead">Explore real cleanup moments from people helping create a cleaner, healthier world.</p>
+                        </div>
                         <div className="stories-top-buttons">
                             <Link href="/createpost">
-                                <button className="create-post-button">Post Your Story</button>
+                                <button className="create-post-button">Share a Post</button>
                             </Link>
                             {process.env.NODE_ENV === 'development' && (
                                 <button
@@ -1513,39 +1517,28 @@ function Stories() {
                             )}
                         </div>
                     </div>
-                    <div className="stories-about-us">
-                        Discover the heartwarming and inspiring stories shared by our dedicated volunteers. Each post is
-                        a testament to the incredible impact they have made in cleaning our planet, one piece of litter
-                        at a time. These stories aren't just about cleaning up; they're about hope, community, and the
-                        power of collective action. By joining our volunteer community, you’re not just picking up
-                        trash; you’re becoming a part of a global movement that cherishes our Earth and works tirelessly
-                        to preserve its beauty for future generations. Your story is unique and valuable – share it with
-                        us and inspire others! Together, we can make a significant difference and create a cleaner,
-                        greener, and more sustainable world. Join LitterPic today and let your journey of positive
-                        change begin!
-                    </div>
-
-                    <div className="search-and-filter">
-                        <img className="search-and-filter-image"
-                             src="/images/litter_on_road.jpeg"
-                             alt="Banner Image"/>
-
+                    <div className="stories-feed-toolbar">
+                        <div className="stories-feed-heading">
+                            <span className="stories-feed-kicker">Community feed</span>
+                            <h2>Recent posts</h2>
+                        </div>
                         <div className="search-and-filter-input-button-container">
                             <div className="search-and-filter-button-container">
                                 <button
-                                    className="show-all-posts-button"
+                                    className={`show-all-posts-button ${!showMyPosts && !selectedUser ? 'is-active' : ''}`}
                                     onClick={handleShowAllPostsButton}>All Posts
                                 </button>
                                 <button
-                                    className="show-my-posts-button"
+                                    className={`show-my-posts-button ${showMyPosts ? 'is-active' : ''}`}
                                     disabled={!user}
                                     onClick={handleMyPostsButton}>My Posts
                                 </button>
 
                                 <select className="post-search-input" value={selectedUser}
+                                        aria-label="Search posts by user"
                                         onChange={(e) => handleUserSelect(e.target.value)}
                                         disabled={isLoadingSearchUsers}>
-                                    <option value="">Search Posts by User</option>
+                                    <option value="">Search by user</option>
                                     {searchUsers.map(user => (
                                         <option key={user.id} value={user.id}>{user.display_name}</option>))}
                                 </select>
