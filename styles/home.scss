@@ -108,6 +108,27 @@ p {
       padding: 0.9rem 1rem;
     }
   }
+
+  .index-column-one-row-one {
+    background: #f3f8f4;
+    border-left: 4px solid $table-highlight-green;
+    border-radius: .75rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1.5rem;
+
+    .index-starting-text {
+      line-height: 1.1;
+      margin-bottom: 1.25rem;
+    }
+
+    p {
+      color: #33483e;
+      line-height: 1.7;
+      margin: 0;
+    }
+  }
 }
 
 .page.home-page {
