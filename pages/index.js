@@ -71,7 +71,6 @@ export default function Index() {
 
     const [recentPosts, setRecentPosts] = useState([]);
     const [images, setImages] = useState([]);
-    const [offsetImages, setOffsetImages] = useState([]);
     const [totalWeight, setTotalWeight] = useState(0);
     const [isDataLoaded, setIsDataLoaded] = useState(false);
 
@@ -134,15 +133,6 @@ export default function Index() {
     useEffect(() => {
         const allImages = recentPosts.flatMap((post) => post.photos);
         setImages(allImages);
-
-        // Create a second array with a different starting point for the bottom carousel
-        if (allImages.length > 0) {
-            // Calculate an offset that's roughly halfway through the array
-            const offset = Math.floor(allImages.length / 2);
-            // Create a new array that starts at the offset and wraps around
-            const offsetArr = [...allImages.slice(offset), ...allImages.slice(0, offset)];
-            setOffsetImages(offsetArr);
-        }
     }, [recentPosts]);
 
     // Prefetch stories data as early as possible (only once)
@@ -358,8 +348,8 @@ export default function Index() {
                 )}
             </div>
 
-            <div className="page">
-                <div className="content">
+            <div className="page home-page">
+                <div className="content home-content">
                     <div className='qr-section top-qr-section'>
                         <div className='app-text'>
                             <div className='head-and-icon'>
@@ -430,21 +420,22 @@ export default function Index() {
                     {/*        win a great gift card! Do Good, Feel Good!</p>*/}
                     {/*</div>*/}
                     {/*<br></br>*/}
-                    <h1 className=" heading-text">Inspire Change</h1>
-                    <div className=" home-carousel-section">
+                    <div className="section-heading">
+                        <span className="section-kicker">Community stories</span>
+                        <h1 className="heading-text">Inspire Change</h1>
+                    </div>
+                    <div className="home-carousel-section">
                         <SimpleCarousel images={images}/>
 
-                        <h2 className=" home-carousel-section-text">Take a look at all of our volunteer's stories
-                            and
-                            get
-                            inspired by more!
+                        <div className="home-carousel-copy">
+                            <h2 className="home-carousel-section-text">Take a look at all of our volunteer's stories
+                                and get inspired by more!
+                            </h2>
                             <a className=" index-more-stories-button" href="/stories">
-                                <button type=" button">User Posts</button>
+                                <button type="button">User Posts</button>
                             </a>
-                        </h2>
+                        </div>
                     </div>
-                    <br/>
-                    <br/>
                     <div className=" index-wrapper">
                         <div className=" index-column-one-row-one">
                             <h1 className=" index-starting-text">Starting with LitterPic is a breeze.</h1>
@@ -500,10 +491,12 @@ export default function Index() {
                             </ul>
                         </div>
                     </div>
-                    <br/>
-                    <div className=" ambassador-heading-text-with-icon">
-                        <h2 className=" heading-text">Become a LitterPic Ambassador</h2>
-                        <div className=" material-icons ambassador-heading-icon">public</div>
+                    <div className="section-heading ambassador-heading-wrap">
+                        <span className="section-kicker">Leadership</span>
+                        <div className=" ambassador-heading-text-with-icon">
+                            <h2 className=" heading-text">Become a LitterPic Ambassador</h2>
+                            <div className=" material-icons ambassador-heading-icon">public</div>
+                        </div>
                     </div>
 
                     <div className=" ambassador-wrapper">
@@ -578,13 +571,7 @@ export default function Index() {
                                 become a symbol of a planet reborn. Remember, every action, no matter how small, ripples
                                 outward. Together, we can make a difference.
                             </p>
-                            <br/>
-                            <div className=" home-bottom-carousel-section">
-                                <SimpleCarousel images={offsetImages}/>
-                            </div>
                         </div>
-                        <br/>
-                        <br/>
                     </div>
                 </div>
             </div>
