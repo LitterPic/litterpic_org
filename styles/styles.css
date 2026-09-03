@@ -1953,21 +1953,21 @@ p .index-inspire-change-text {
   border-bottom: 1px solid rgba(1, 94, 65, 0.1);
   display: flex;
   font-family: Rubik, Times, sans-serif;
-  font-size: 1.05rem;
+  font-size: 1.15rem;
   font-weight: 600;
   justify-content: center;
-  min-height: 4rem;
-  padding: 0.35rem 1rem 0.55rem;
+  min-height: 4.25rem;
+  padding: 0.4rem 1rem 0.6rem;
   width: 100%;
 }
 .nav-bar a,
 .nav-bar .nav-link {
   border-radius: 0.5rem;
   color: #24332d;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   font-weight: 600;
   margin: 0;
-  padding: 0.7rem 0.9rem;
+  padding: 0.75rem 1rem;
   text-decoration: none;
   transition: background-color 0.15s ease, color 0.15s ease;
 }
@@ -1977,7 +1977,7 @@ p .index-inspire-change-text {
   color: #4caf50;
 }
 .nav-bar .nav-link {
-  font-size: 1.1rem;
+  font-size: 1.3rem;
 }
 .nav-bar .nav-links {
   align-items: center;
@@ -3702,21 +3702,21 @@ p .index-inspire-change-text {
   border-bottom: 1px solid rgba(1, 94, 65, 0.1);
   display: flex;
   font-family: Rubik, Times, sans-serif;
-  font-size: 1.05rem;
+  font-size: 1.15rem;
   font-weight: 600;
   justify-content: center;
-  min-height: 4rem;
-  padding: 0.35rem 1rem 0.55rem;
+  min-height: 4.25rem;
+  padding: 0.4rem 1rem 0.6rem;
   width: 100%;
 }
 .nav-bar a,
 .nav-bar .nav-link {
   border-radius: 0.5rem;
   color: #24332d;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   font-weight: 600;
   margin: 0;
-  padding: 0.7rem 0.9rem;
+  padding: 0.75rem 1rem;
   text-decoration: none;
   transition: background-color 0.15s ease, color 0.15s ease;
 }
@@ -3726,7 +3726,7 @@ p .index-inspire-change-text {
   color: #4caf50;
 }
 .nav-bar .nav-link {
-  font-size: 1.1rem;
+  font-size: 1.3rem;
 }
 .nav-bar .nav-links {
   align-items: center;
