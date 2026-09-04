@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 const ProfileInfo = ({ userOrganization, userOrganizationLogo, litterCollected, userBio, memberSince, isAmbassador, ambassadorDate }) => {
     const renderCollected = () => {
@@ -20,7 +21,15 @@ const ProfileInfo = ({ userOrganization, userOrganizationLogo, litterCollected, 
                 {userOrganizationLogo && (
                     <img src={userOrganizationLogo} alt={`${userOrganization} Logo`} style={{ width: '2rem', height: '2rem', objectFit: 'contain' }} />
                 )}
-                <span style={{ color: '#333' }}>{userOrganization || "Independent"}</span>
+                <Link
+                    href={{
+                        pathname: '/members',
+                        query: { org: userOrganization || 'Independent' }
+                    }}
+                    className="profile-organization-link"
+                >
+                    {userOrganization || "Independent"}
+                </Link>
             </div>
 
             <div className="profile-item" style={{ gridColumn: 1, gridRow: 2 }}>Collected</div>

@@ -4038,6 +4038,16 @@ h1.heading-text.profile-heading {
   padding-top: 1rem;
 }
 
+.profile-organization-link {
+  color: #333;
+  font-size: 0.875rem;
+  text-decoration: none;
+}
+.profile-organization-link:hover {
+  color: #015e41;
+  text-decoration: underline;
+}
+
 .profile-value {
   font-size: 1rem;
   justify-content: flex-start;
@@ -6989,6 +6999,16 @@ h1.heading-text.profile-heading {
   font-size: 0.75rem;
   font-weight: bold;
   padding-top: 1rem;
+}
+
+.profile-organization-link {
+  color: #333;
+  font-size: 0.875rem;
+  text-decoration: none;
+}
+.profile-organization-link:hover {
+  color: #015e41;
+  text-decoration: underline;
 }
 
 .profile-value {

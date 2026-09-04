@@ -2,6 +2,7 @@ import {db, useAuth} from '../../lib/firebase';
 import React, {useEffect, useState} from 'react';
 import {collection, doc, getDoc, getDocs, query, where} from 'firebase/firestore';
 import {useRouter} from 'next/router';
+import Link from 'next/link';
 import Head from 'next/head';
 import NotificationSender from "../../utils/notifictionSender";
 import ProfileInfo from "../../components/ProfileInfo";
@@ -154,7 +155,15 @@ const UserProfilePage = () => {
                                 {userOrganizationLogo && (
                                     <img src={userOrganizationLogo} alt={`${userOrganization} Logo`} className="w-5 h-5 object-contain" />
                                 )}
-                                <span style={{ color: '#333', fontSize: '0.875rem' }}>{userOrganization || "Independent"}</span>
+                                <Link
+                                    href={{
+                                        pathname: '/members',
+                                        query: { org: userOrganization || 'Independent' }
+                                    }}
+                                    className="profile-organization-link"
+                                >
+                                    {userOrganization || "Independent"}
+                                </Link>
                             </div>
                         </div>
                     </div>
