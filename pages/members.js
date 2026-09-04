@@ -293,11 +293,9 @@ const MembersPage = () => {
                                 <h3 className="member-name">{member.displayName}</h3>
                                 <p className="member-organization">{member.organization}</p>
                                 <p className="member-joined">Joined: {formatDate(member.createdTime)}</p>
-                                {member.totalWeight > 0 && (
-                                    <p className="member-weight">
-                                        Collected: {member.totalWeight} lbs
-                                    </p>
-                                )}
+                                <p className="member-weight">
+                                    Collected: {member.totalWeight || 0} lbs
+                                </p>
                                 <p className="member-post-count">
                                     Posts: {member.postCount || 0}
                                 </p>
