@@ -122,7 +122,7 @@ const MembersPage = () => {
 
     const getPageTitle = () => {
         if (selectedOrganization && selectedMonth && selectedYear) {
-            return `Members in ${normalizeOrganization(selectedOrganization)} · ${selectedMonth}/${selectedYear}`;
+            return `Members of ${normalizeOrganization(selectedOrganization)} · ${selectedMonth}/${selectedYear}`;
         }
 
         if (selectedMonth || selectedYear) {
@@ -132,7 +132,7 @@ const MembersPage = () => {
         }
 
         if (selectedOrganization) {
-            return `Members in ${normalizeOrganization(selectedOrganization)}`;
+            return `Members of ${normalizeOrganization(selectedOrganization)}`;
         }
 
         return 'LitterPic Members';

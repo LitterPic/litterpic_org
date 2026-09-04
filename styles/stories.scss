@@ -246,8 +246,9 @@
 
 .post > .fetch-post .post-carousel {
   border-radius: .85rem;
-  margin-left: 1rem;
-  width: calc(100% - 2rem);
+  margin-left: auto;
+  margin-right: auto;
+  width: 75%;
 }
 
 .post > .fetch-post .post-description {
@@ -412,25 +413,6 @@
     cursor: default;
     color: #999;
     text-decoration: none;
-
-    &:hover {
-      color: #999;
-    }
-  }
-}
-
-// Comment user styling
-.comment-user {
-  &.clickable {
-    color: $litterpic-green;
-    text-decoration: none;
-    cursor: pointer;
-    font-weight: 600;
-
-    &:hover {
-      color: darken($litterpic-green, 15%);
-      text-decoration: underline;
-    }
   }
 }
 
@@ -603,10 +585,11 @@
   -moz-user-select: none;
   -ms-user-select: none;
 
-  /* Fixed aspect ratio container to prevent layout shifts */
+  /* Follow the active media ratio so portrait and landscape posts do not gain artificial space. */
+  aspect-ratio: var(--media-ratio, 4 / 3);
   width: 100%;
-  height: 0;
-  padding-bottom: 75%; /* 4:3 aspect ratio */
+  height: auto;
+  min-height: 0;
   position: relative;
 
   &:active {
@@ -615,30 +598,25 @@
 
   /* Create a container for the media to allow for smooth transitions */
   .carousel-image-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    align-items: center;
     display: flex;
     justify-content: center;
-    align-items: center;
+    position: relative;
+    width: 100%;
+    height: 100%;
   }
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit
 .carousel-image {
-  max-height: 100%;
-  max-width: 100%;
-  object-fit: contain;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto;
-  transition: opacity 0.3s ease;
   display: block;
+  height: 100%;
+  max-height: none;
+  max-width: none;
+  object-fit: contain;
+  position: static;
+  width: 100%;
+  transition: opacity 0.3s ease;
 }
 
 // Modern dot indicators
@@ -1788,7 +1766,15 @@ a.post-user-name {
   }
 
   .post > .fetch-post .post-carousel {
-    margin-left: .75rem;
-    width: calc(100% - 1.5rem);
+    margin-left: auto;
+    margin-right: auto;
+    width: 75%;
   }
+}
+
+.stories-page .post-carousel .carousel-image {
+  height: 100%;
+  max-height: none;
+  max-width: none;
+  width: 100%;
 }

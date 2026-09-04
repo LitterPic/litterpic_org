@@ -13,6 +13,7 @@ function Post({post, currentUser}) {
     const [isFollowing, setIsFollowing] = useState(false);
     const currentUserUid = currentUser ? currentUser.uid : null;
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [mediaAspectRatio, setMediaAspectRatio] = useState(null);
     const [showSwipeHint, setShowSwipeHint] = useState(true);
     const [touchStart, setTouchStart] = useState(0);
     const [touchEnd, setTouchEnd] = useState(0);
@@ -275,6 +276,20 @@ function Post({post, currentUser}) {
         }
     };
 
+    useEffect(() => {
+        setMediaAspectRatio(null);
+    }, [currentIndex]);
+
+    const handleMediaLoad = (event) => {
+        const media = event.currentTarget;
+        const width = media.naturalWidth || media.videoWidth;
+        const height = media.naturalHeight || media.videoHeight;
+
+        if (width && height) {
+            setMediaAspectRatio(width / height);
+        }
+    };
+
     const renderMedia = (url, index) => {
         return isVideo(url) ? (
             <div className="carousel-image-container">
@@ -282,6 +297,7 @@ function Post({post, currentUser}) {
                     key={index}
                     controls
                     className="carousel-image"
+                    onLoadedMetadata={handleMediaLoad}
                 >
                     <source src={url} type="video/mp4"/>
                     Your browser does not support the video tag.
@@ -294,6 +310,7 @@ function Post({post, currentUser}) {
                     src={url}
                     alt={`Post image ${index + 1}`}
                     className="carousel-image"
+                    onLoad={handleMediaLoad}
                 />
             </div>
         );
@@ -415,7 +432,10 @@ function Post({post, currentUser}) {
                 onMouseMove={handleMouseMove}
                 onMouseUp={handleMouseUp}
                 onMouseLeave={handleMouseLeave}
-                style={isDragging ? { cursor: 'grabbing' } : {}}
+                style={{
+                    ...(mediaAspectRatio ? {'--media-ratio': mediaAspectRatio} : {}),
+                    ...(isDragging ? {cursor: 'grabbing'} : {})
+                }}
             >
                 {renderMedia(post.photos[currentIndex], currentIndex)}
 

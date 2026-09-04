@@ -4464,8 +4464,9 @@ h1.heading-text.profile-heading {
 
 .post > .fetch-post .post-carousel {
   border-radius: 0.85rem;
-  margin-left: 1rem;
-  width: calc(100% - 2rem);
+  margin-left: auto;
+  margin-right: auto;
+  width: 75%;
 }
 
 .post > .fetch-post .post-description {
@@ -4615,20 +4616,6 @@ h1.heading-text.profile-heading {
   cursor: default;
   color: #999;
   text-decoration: none;
-}
-.user-name.disabled:hover {
-  color: #999;
-}
-
-.comment-user.clickable {
-  color: #015e41;
-  text-decoration: none;
-  cursor: pointer;
-  font-weight: 600;
-}
-.comment-user.clickable:hover {
-  color: #00120d;
-  text-decoration: underline;
 }
 
 .comment-user-avatar.clickable {
@@ -4780,10 +4767,11 @@ h1.heading-text.profile-heading {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-  /* Fixed aspect ratio container to prevent layout shifts */
+  /* Follow the active media ratio so portrait and landscape posts do not gain artificial space. */
+  aspect-ratio: var(--media-ratio, 4/3);
   width: 100%;
-  height: 0;
-  padding-bottom: 75%; /* 4:3 aspect ratio */
+  height: auto;
+  min-height: 0;
   position: relative;
   /* Create a container for the media to allow for smooth transitions */
 }
@@ -4791,28 +4779,23 @@ h1.heading-text.profile-heading {
   cursor: grabbing; /* Change cursor when actively swiping */
 }
 .post-carousel .carousel-image-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  align-items: center;
   display: flex;
   justify-content: center;
-  align-items: center;
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
 .carousel-image {
-  max-height: 100%;
-  max-width: 100%;
-  object-fit: contain;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto;
-  transition: opacity 0.3s ease;
   display: block;
+  height: 100%;
+  max-height: none;
+  max-width: none;
+  object-fit: contain;
+  position: static;
+  width: 100%;
+  transition: opacity 0.3s ease;
 }
 
 .carousel-dots {
@@ -5847,10 +5830,18 @@ h1.heading-text.profile-heading {
     padding: 0.85rem 1rem 1rem;
   }
   .post > .fetch-post .post-carousel {
-    margin-left: 0.75rem;
-    width: calc(100% - 1.5rem);
+    margin-left: auto;
+    margin-right: auto;
+    width: 75%;
   }
 }
+.stories-page .post-carousel .carousel-image {
+  height: 100%;
+  max-height: none;
+  max-width: none;
+  width: 100%;
+}
+
 .volunteer-top-paragraph {
   color: rgba(1, 94, 65, 0.82);
   font-size: 1.08rem;
@@ -7645,8 +7636,9 @@ input::placeholder {
 
 .post > .fetch-post .post-carousel {
   border-radius: 0.85rem;
-  margin-left: 1rem;
-  width: calc(100% - 2rem);
+  margin-left: auto;
+  margin-right: auto;
+  width: 75%;
 }
 
 .post > .fetch-post .post-description {
@@ -7796,20 +7788,6 @@ input::placeholder {
   cursor: default;
   color: #999;
   text-decoration: none;
-}
-.user-name.disabled:hover {
-  color: #999;
-}
-
-.comment-user.clickable {
-  color: #015e41;
-  text-decoration: none;
-  cursor: pointer;
-  font-weight: 600;
-}
-.comment-user.clickable:hover {
-  color: #00120d;
-  text-decoration: underline;
 }
 
 .comment-user-avatar.clickable {
@@ -7961,10 +7939,11 @@ input::placeholder {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-  /* Fixed aspect ratio container to prevent layout shifts */
+  /* Follow the active media ratio so portrait and landscape posts do not gain artificial space. */
+  aspect-ratio: var(--media-ratio, 4/3);
   width: 100%;
-  height: 0;
-  padding-bottom: 75%; /* 4:3 aspect ratio */
+  height: auto;
+  min-height: 0;
   position: relative;
   /* Create a container for the media to allow for smooth transitions */
 }
@@ -7972,28 +7951,23 @@ input::placeholder {
   cursor: grabbing; /* Change cursor when actively swiping */
 }
 .post-carousel .carousel-image-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  align-items: center;
   display: flex;
   justify-content: center;
-  align-items: center;
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
 .carousel-image {
-  max-height: 100%;
-  max-width: 100%;
-  object-fit: contain;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto;
-  transition: opacity 0.3s ease;
   display: block;
+  height: 100%;
+  max-height: none;
+  max-width: none;
+  object-fit: contain;
+  position: static;
+  width: 100%;
+  transition: opacity 0.3s ease;
 }
 
 .carousel-dots {
@@ -9028,10 +9002,18 @@ input::placeholder {
     padding: 0.85rem 1rem 1rem;
   }
   .post > .fetch-post .post-carousel {
-    margin-left: 0.75rem;
-    width: calc(100% - 1.5rem);
+    margin-left: auto;
+    margin-right: auto;
+    width: 75%;
   }
 }
+.stories-page .post-carousel .carousel-image {
+  height: 100%;
+  max-height: none;
+  max-width: none;
+  width: 100%;
+}
+
 .ok-button {
   background-color: #015e41;
   border: 0;
