@@ -4431,12 +4431,18 @@ h1.heading-text.profile-heading {
   border-radius: 1rem;
   box-shadow: 0 10px 24px rgba(12, 44, 31, 0.07);
   margin-bottom: 0;
+  overflow: visible;
   position: relative;
   transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 .post:hover {
   box-shadow: 0 14px 30px rgba(12, 44, 31, 0.11);
   transform: translateY(-2px);
+  z-index: 20;
+}
+
+.stories-page .post {
+  overflow: visible;
 }
 
 .post-header {
@@ -7596,12 +7602,18 @@ input::placeholder {
   border-radius: 1rem;
   box-shadow: 0 10px 24px rgba(12, 44, 31, 0.07);
   margin-bottom: 0;
+  overflow: visible;
   position: relative;
   transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 .post:hover {
   box-shadow: 0 14px 30px rgba(12, 44, 31, 0.11);
   transform: translateY(-2px);
+  z-index: 20;
+}
+
+.stories-page .post {
+  overflow: visible;
 }
 
 .post-header {
