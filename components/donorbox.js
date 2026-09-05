@@ -3,6 +3,7 @@ import { trackEvent } from '../lib/ga';
 
 const DonorBox = () => {
     const iframeRef = useRef(null);
+    const donationCompleteRef = useRef(false);
     const [iframeLoaded, setIframeLoaded] = useState(false);
     const [showFallbackLink, setShowFallbackLink] = useState(false);
 
@@ -20,12 +21,19 @@ const DonorBox = () => {
             // Auto-resize the iframe when DonorBox reports a new height
             if (e.data.action === 'resize' && e.data.height) {
                 if (iframeRef.current) {
-                    iframeRef.current.style.height = e.data.height + 'px';
+                    const reportedHeight = donationCompleteRef.current
+                        ? Math.max(e.data.height, 720)
+                        : e.data.height;
+                    iframeRef.current.style.height = reportedHeight + 'px';
                 }
             }
 
             const eventType = e.data.event || '';
             if (eventType.includes('donation_complete') || eventType.includes('donation_submitted')) {
+                donationCompleteRef.current = true;
+                if (iframeRef.current) {
+                    iframeRef.current.style.height = '720px';
+                }
                 trackEvent('donate_completed', {
                     amount: e.data.amount || undefined,
                     currency: e.data.currency || 'USD',
@@ -77,7 +85,7 @@ const DonorBox = () => {
                 allow="payment"
                 seamless="seamless"
                 frameBorder="0"
-                scrolling="no"
+                scrolling="auto"
                 height="900px"
                 width="100%"
                 style={{maxWidth: "100%", maxHeight: "none"}}
