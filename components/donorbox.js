@@ -80,7 +80,7 @@ const DonorBox = () => {
                 scrolling="no"
                 height="900px"
                 width="100%"
-                style={{maxWidth: "100%", minWidth: "100%", maxHeight: "none"}}
+                style={{maxWidth: "100%", maxHeight: "none"}}
                 title="Donation Form"
                 onLoad={() => setIframeLoaded(true)}
             />

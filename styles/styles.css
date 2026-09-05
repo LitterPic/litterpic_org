@@ -741,9 +741,13 @@ input:checked + .custom-checkbox::after {
   border: 1px solid rgba(1, 94, 65, 0.14);
   border-radius: 18px;
   box-shadow: 0 14px 36px rgba(18, 60, 45, 0.1);
+  justify-self: center;
+  max-width: 520px;
+  order: 0;
   padding: 1.25rem;
   position: sticky;
   top: 1.25rem;
+  width: 100%;
 }
 
 .donation-form-heading {
@@ -772,6 +776,8 @@ input:checked + .custom-checkbox::after {
 }
 
 .donation-form-card .donorbox-container {
+  display: flex;
+  justify-content: center;
   margin: 0;
   min-height: 360px;
   padding: 0;
@@ -780,7 +786,9 @@ input:checked + .custom-checkbox::after {
 
 .donation-form-card iframe {
   display: block;
-  width: 100%;
+  margin: 0 auto;
+  min-width: 0;
+  width: min(332px, 100%);
 }
 
 .donation-form-card .donorbox-container:not(.is-loaded) iframe {
@@ -2977,9 +2985,13 @@ p .index-inspire-change-text {
   border: 1px solid rgba(1, 94, 65, 0.14);
   border-radius: 18px;
   box-shadow: 0 14px 36px rgba(18, 60, 45, 0.1);
+  justify-self: center;
+  max-width: 520px;
+  order: 0;
   padding: 1.25rem;
   position: sticky;
   top: 1.25rem;
+  width: 100%;
 }
 
 .donation-form-heading {
@@ -3008,6 +3020,8 @@ p .index-inspire-change-text {
 }
 
 .donation-form-card .donorbox-container {
+  display: flex;
+  justify-content: center;
   margin: 0;
   min-height: 360px;
   padding: 0;
@@ -3016,7 +3030,9 @@ p .index-inspire-change-text {
 
 .donation-form-card iframe {
   display: block;
-  width: 100%;
+  margin: 0 auto;
+  min-width: 0;
+  width: min(332px, 100%);
 }
 
 .donation-form-card .donorbox-container:not(.is-loaded) iframe {

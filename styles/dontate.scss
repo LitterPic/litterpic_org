@@ -193,9 +193,13 @@
   border: 1px solid rgba(1, 94, 65, .14);
   border-radius: 18px;
   box-shadow: 0 14px 36px rgba(18, 60, 45, .1);
+  justify-self: center;
+  max-width: 520px;
+  order: 0;
   padding: 1.25rem;
   position: sticky;
   top: 1.25rem;
+  width: 100%;
 }
 
 .donation-form-heading {
@@ -227,6 +231,8 @@
 }
 
 .donation-form-card .donorbox-container {
+  display: flex;
+  justify-content: center;
   margin: 0;
   min-height: 360px;
   padding: 0;
@@ -235,7 +241,9 @@
 
 .donation-form-card iframe {
   display: block;
-  width: 100%;
+  margin: 0 auto;
+  min-width: 0;
+  width: min(332px, 100%);
 }
 
 .donation-form-card .donorbox-container:not(.is-loaded) iframe {
