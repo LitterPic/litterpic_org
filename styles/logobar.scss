@@ -91,10 +91,39 @@
 }
 
 .donate-button {
+  background-color: $donate-amber;
+  box-sizing: border-box;
+  box-shadow: 0 .25rem .75rem rgba(150, 100, 0, .2);
+  color: $litterpic-green;
+  flex-shrink: 0;
+  font-weight: 700;
+  gap: .35rem;
+  min-height: 2.75rem;
+  min-width: 180px;
   margin-bottom: auto;
   margin-right: 25px;
   margin-top: auto;
-  width: 100px;
+  padding: .5rem .75rem;
+  white-space: nowrap;
+  transition: background-color .3s ease, box-shadow .2s ease, transform .2s ease;
+  width: auto;
+
+  &:hover,
+  &:focus-visible {
+    background-color: $donate-amber-hover;
+    box-shadow: 0 .45rem 1rem rgba(150, 100, 0, .26);
+    color: $litterpic-green;
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.donate-button-icon {
+  font-size: 1.2rem;
+  line-height: 1;
 }
 
 .login-button {
@@ -103,17 +132,39 @@
 
 .profile-picture-wrapper {
   align-items: center;
+  background-color: rgba(1, 94, 65, .05);
+  border: 1px solid rgba(1, 94, 65, .14);
+  border-radius: 999px;
+  cursor: pointer;
   display: flex;
+  gap: .15rem;
+  padding: .2rem .35rem .2rem .2rem;
   position: relative;
+  transition: background-color .2s ease, border-color .2s ease, box-shadow .2s ease;
+
+  &:hover {
+    background-color: rgba(1, 94, 65, .1);
+    border-color: rgba(1, 94, 65, .35);
+    box-shadow: 0 .25rem .75rem rgba(1, 94, 65, .14);
+  }
+
+  &:focus-visible {
+    outline: 3px solid $donate-amber;
+    outline-offset: 3px;
+  }
+}
+
+.profile-dropdown {
+  align-self: center;
 }
 
 .profile-picture {
   border-radius: 50%;
-  border-style: solid;
-  border-width: 1px;
-  height: 50px;
+  border: 2px solid $litterpic-green;
+  box-shadow: 0 2px 8px rgba(1, 94, 65, .2);
+  height: 44px;
   object-fit: cover;
-  width: 50px;
+  width: 44px;
 }
 
 .dropdown-menu {
@@ -159,10 +210,10 @@
   .donate-button {
     font-size: .75rem;
     font-weight: bold;
-    height: 2.25rem;
+    height: 2.5rem;
     margin-bottom: 0;
     margin-top: 0;
-    width: 75px;
+    min-width: 150px;
   }
 
   .logo-bar {
@@ -185,15 +236,44 @@
   .logo-bar-right-content {
     flex-direction: row;
     height: 100%;
-    margin-right: 2rem;
-    padding-left: 30px;
+    margin-right: 0;
+    padding-left: .75rem;
   }
 
   .profile-picture {
-    margin-left: 5.5rem;
+    margin-left: 0;
   }
 
   .profile-dropdown {
+    display: flex;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo-bar .notification-icon {
     display: none;
+  }
+
+  .logo-bar-right-content {
+    gap: .35rem;
+  }
+
+  .donate-button {
+    margin-right: .5rem;
+    min-width: 120px;
+    padding-left: .4rem;
+    padding-right: .4rem;
+  }
+
+  .logo-bar .logo-content img {
+    height: 3rem;
+  }
+
+  .logo-bar .logo-content .logo-text .logo {
+    font-size: 1.1rem;
+  }
+
+  .logo-bar .logo-content .logo-text .tagline {
+    font-size: .7rem;
   }
 }

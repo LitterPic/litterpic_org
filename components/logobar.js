@@ -193,10 +193,17 @@ const Logobar = () => {
                         )}
                     </div>
 
-                    <CustomButton href="/donate">Click to Donate</CustomButton>
+                    <CustomButton href="/donate">Support Cleanups</CustomButton>
 
                     <div className="profile-dropdown">
-                        <div className="profile-picture-wrapper">
+                        <button
+                            type="button"
+                            className="profile-picture-wrapper"
+                            onClick={toggleDropdown}
+                            aria-label={showDropdown ? 'Close profile menu' : 'Open profile menu'}
+                            aria-expanded={showDropdown}
+                            aria-haspopup="menu"
+                        >
                             {isUserDataLoaded && (
                                 <img 
                                     src={userPhoto || "/images/default-avatar.jpg"} 
@@ -211,11 +218,11 @@ const Logobar = () => {
                             )}
                             <i
                                 className={`material-icons dropdown-icon ${showDropdown ? 'rotate-down' : 'rotate-up'}`}
-                                onClick={toggleDropdown}
+                                aria-hidden="true"
                             >
-                                arrow_drop_down
+                                expand_more
                             </i>
-                        </div>
+                        </button>
                         {showDropdown && (
                             <div className="dropdown-menu" ref={dropdownRef}>
                                 <button className="logo-profile-menu-button" onClick={handleProfileClick}>Profile
@@ -227,7 +234,7 @@ const Logobar = () => {
                 </div>
             ) : (
                 <div className="logo-bar-right-content">
-                    <CustomButton href="/donate">Donate</CustomButton>
+                    <CustomButton href="/donate">Support Cleanups</CustomButton>
                     <div className="login-button" onClick={handleLoginClick}>
                         <span>Login / Sign Up</span>
                     </div>

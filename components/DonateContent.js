@@ -2,34 +2,41 @@ import React from "react";
 import DonorBox from "../components/donorbox";
 
 const DonationContent = () => (
-    <div className="content">
-        <h1 className="heading-text">Donate</h1>
+    <div className="content donation-page">
+        <p className="donation-eyebrow">
+            <span className="material-icons" aria-hidden="true">volunteer_activism</span>
+            Your support in action
+        </p>
+        <h1 className="heading-text">Donate to LitterPic</h1>
+        <p className="donation-lead">
+            Help volunteers organize cleanups, access essential supplies, and keep our communities moving toward a cleaner future.
+        </p>
         <div className="donate">
             <div className="donorbox-widget">
                 <div className="donation-use">
-                    <h1 className="donation-text-grid">With your help, we can help with...</h1>
+                    <h2 className="donation-text-grid">Your support goes to work</h2>
 
                     <div className="donate-grid-container">
                         <div className="donate-grid-item">
-                            <div className="donate-icon">🌍</div>
+                            <div className="donate-icon material-icons" aria-hidden="true">event</div>
                             <h3 className="donate-item-title">Community Events</h3>
                             <p>By contributing, you're helping us organize impactful community events and cleanups, uniting individuals in the common goal of keeping our neighborhoods clean and green.</p>
                         </div>
 
                         <div className="donate-grid-item">
-                            <div className="donate-icon">🚀</div>
+                            <div className="donate-icon material-icons" aria-hidden="true">lightbulb</div>
                             <h3 className="donate-item-title">Innovation & Technology</h3>
                             <p>With your donations, we invest in cutting-edge technology and innovative solutions, amplifying our ability to address litter issues efficiently and pave the way for a cleaner future.</p>
                         </div>
 
                         <div className="donate-grid-item">
-                            <div className="donate-icon">📚</div>
+                            <div className="donate-icon material-icons" aria-hidden="true">menu_book</div>
                             <h3 className="donate-item-title">Education & Awareness</h3>
                             <p>Your support helps us create and distribute educational materials, fostering awareness about the consequences of litter and promoting sustainable practices.</p>
                         </div>
 
                         <div className="donate-grid-item">
-                            <div className="donate-icon">🧤</div>
+                            <div className="donate-icon material-icons" aria-hidden="true">cleaning_services</div>
                             <h3 className="donate-item-title">Cleanup Supplies</h3>
                             <p>With your generous donations, we provide essential cleanup supplies like gloves and bags, empowering volunteers to make a tangible impact on our environment.</p>
                         </div>
@@ -38,7 +45,14 @@ const DonationContent = () => (
                     <img className="donate-use-image" src="/images/Donation_Use.png"
                          alt="What we use donations for"/>
                 </div>
-                <div className="donorbox-container">
+                <div className="donation-form-card">
+                    <div className="donation-form-heading">
+                        <span className="material-icons" aria-hidden="true">volunteer_activism</span>
+                        <div>
+                            <h2>Make your gift</h2>
+                            <p>Every contribution helps keep cleanups moving.</p>
+                        </div>
+                    </div>
                     <DonorBox/>
                 </div>
             </div>
