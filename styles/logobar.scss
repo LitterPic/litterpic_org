@@ -156,6 +156,7 @@
 
 .profile-dropdown {
   align-self: center;
+  position: relative;
 }
 
 .profile-picture {
@@ -168,21 +169,66 @@
 }
 
 .dropdown-menu {
+  background-color: $white;
+  border: 1px solid rgba(1, 94, 65, .14);
+  border-radius: 14px;
+  box-shadow: 0 .75rem 2rem rgba(18, 60, 45, .16);
   display: flex;
   flex-direction: column;
-  margin-top: .5rem;
+  gap: .25rem;
+  margin-top: .65rem;
+  min-width: 180px;
+  padding: .4rem;
   position: absolute;
-  right: 2rem;
-  z-index: 1;
+  right: 0;
+  top: 100%;
+  z-index: 10;
 
   button {
-    &:hover {
-      background-color: $white;
-      border: 1px solid;
+    align-items: center;
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    color: #183b30;
+    display: flex;
+    font-size: .9rem;
+    gap: .65rem;
+    justify-content: flex-start;
+    line-height: 1.2;
+    padding: .7rem .75rem;
+    text-align: left;
+    width: 100%;
+
+    &:hover,
+    &:focus-visible {
+      background-color: rgba(1, 94, 65, .08);
+      border-color: rgba(1, 94, 65, .12);
       color: $litterpic-green;
-      font-weight: bold;
     }
 
+    &:focus-visible {
+      outline: 2px solid $donate-amber;
+      outline-offset: -2px;
+    }
+  }
+}
+
+.profile-menu-icon {
+  color: $litterpic-green;
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.signout-profile-menu-button {
+  &:hover,
+  &:focus-visible {
+    background-color: rgba(190, 55, 55, .08);
+    border-color: rgba(190, 55, 55, .12);
+    color: #a33b3b;
+  }
+
+  .profile-menu-icon {
+    color: #a33b3b;
   }
 }
 

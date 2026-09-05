@@ -224,10 +224,15 @@ const Logobar = () => {
                             </i>
                         </button>
                         {showDropdown && (
-                            <div className="dropdown-menu" ref={dropdownRef}>
-                                <button className="logo-profile-menu-button" onClick={handleProfileClick}>Profile
+                            <div className="dropdown-menu" ref={dropdownRef} role="menu">
+                                <button className="logo-profile-menu-button" onClick={handleProfileClick} role="menuitem">
+                                    <span className="material-icons profile-menu-icon" aria-hidden="true">person</span>
+                                    <span>Profile</span>
                                 </button>
-                                <button className="signout-profile-menu-button" onClick={handleSignOut}>Log Out</button>
+                                <button className="signout-profile-menu-button" onClick={handleSignOut} role="menuitem">
+                                    <span className="material-icons profile-menu-icon" aria-hidden="true">logout</span>
+                                    <span>Log Out</span>
+                                </button>
                             </div>
                         )}
                     </div>
