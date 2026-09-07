@@ -309,12 +309,17 @@ function CreatePost() {
                 geoPoint = new GeoPoint(latLng.lat, latLng.lng);
             }
 
+            const userRef = doc(db, `users/${user.uid}`);
+            const userDoc = await getDoc(userRef);
+            const organization = userDoc.data()?.organization || 'Independent';
+
             // Create a new post document in Firestore
             postDocRef = await addDoc(collection(db, 'userPosts'), {
                 postDescription: postDescription,
                 litterWeight: roundedLitterWeight,
                 timePosted: new Date(),
                 postUser: doc(db, `users/${user.uid}`),
+                organization: organization,
                 location: selectedAddress,
                 City: city,
                 Country: country,
@@ -344,9 +349,8 @@ function CreatePost() {
             });
 
             // Update user's totalWeight
-            const userRef = doc(db, `users/${user.uid}`);
-            const userDoc = await getDoc(userRef);
-            const currentUserTotalWeight = userDoc.data().totalWeight || 0;
+            const currentUserDoc = await getDoc(userRef);
+            const currentUserTotalWeight = currentUserDoc.data().totalWeight || 0;
             await updateDoc(userRef, {totalWeight: currentUserTotalWeight + roundedLitterWeight});
 
             await notifyFollowersOfNewPost(postDocRef.id);
