@@ -42,3 +42,4 @@ functions/.runtimeconfig.json
 # Documentation (add manually if needed)
 FIRESTORE_RULES_CHANGES.md
 
+.env*
